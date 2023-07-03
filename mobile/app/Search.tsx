@@ -3,13 +3,13 @@ import { ActivityIndicator, StyleSheet } from "react-native";
 import { View } from "../components/organisms/Themed";
 import SearchBar from "../components/atoms/SearchBar";
 import useDebounce from "../hooks/useDebounce";
-import useSearchBooks from "../hooks/useSearchBooks";
+import useSearchVolumes from "../hooks/useSearchVolumes";
 import SearchResultList from "../components/molecules/SearchResultList";
 
 export default function Search() {
   const [name, setName] = useState("");
   const debouncedName = useDebounce(name, 200);
-  const { data, isLoading, isSuccess } = useSearchBooks(
+  const { data, isLoading, isSuccess } = useSearchVolumes(
     debouncedName,
     !!debouncedName
   );
