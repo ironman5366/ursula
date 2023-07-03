@@ -1,19 +1,17 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, TextInput } from "react-native";
 
-import EditScreenInfo from "../../components/organisms/EditScreenInfo";
-import { Text, View } from "../../components/organisms/Themed";
+import { Text, View, ViewProps } from "../../components/organisms/Themed";
+import SearchBar from "../../components/molecules/SearchBar";
 
-export default function TabOneScreen() {
+const windowHeight = Dimensions.get("window").height;
+
+export default function Index() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}></Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={{ flex: 1 }} />
+      <SearchBar />
+      <View style={{ flex: 5 }} />
+    </SafeAreaView>
   );
 }
 
@@ -21,7 +19,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+  },
+  // The searchbar should be 20% down
+  searchBarContainer: {
+    paddingTop: "10%",
   },
   title: {
     fontSize: 20,
