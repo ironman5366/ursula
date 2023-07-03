@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
+import { View } from "../components/organisms/Themed";
 import SearchBar from "../components/atoms/SearchBar";
 import useDebounce from "../hooks/useDebounce";
 import useSearchBooks from "../hooks/useSearchBooks";
@@ -15,9 +16,11 @@ export default function Search() {
 
   return (
     <View style={styles.container}>
+      <View style={{ flex: 1 }} />
       <SearchBar value={name} onChangeText={setName} />
+      <View style={{ flex: 1 }} />
       <View style={styles.searchResultsContainer}>
-        {isLoading ? (
+        {isLoading && debouncedName ? (
           <ActivityIndicator size={"large"} />
         ) : (
           data && <SearchResultList volumes={data.items} />
@@ -34,6 +37,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   searchResultsContainer: {
-    flex: 10,
+    flex: 20,
   },
 });
