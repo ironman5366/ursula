@@ -6,7 +6,7 @@ export interface IndustryIdentifier {
 export interface VolumeInfo {
   title: string;
   subtitle: string;
-  authors: string[];
+  authors?: string[];
   publisher: string;
   publishedDate: string;
   description: string;
@@ -26,7 +26,7 @@ export interface VolumeInfo {
     containsEpubBubbles: boolean;
     containsImageBubbles: boolean;
   };
-  imageLinks: {
+  imageLinks?: {
     smallThumbnail: string;
     thumbnail: string;
   };

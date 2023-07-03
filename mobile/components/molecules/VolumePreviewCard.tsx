@@ -3,6 +3,7 @@ import { VolumeInfo } from "../../types/Volume";
 import Card from "../atoms/Card";
 import { Image, StyleSheet } from "react-native";
 import { Text, View } from "../organisms/Themed";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export interface VolumePreviewCardProps {
   volumeInfo: VolumeInfo;
@@ -11,23 +12,28 @@ export interface VolumePreviewCardProps {
 export default function VolumePreviewCard({
   volumeInfo,
 }: VolumePreviewCardProps) {
-  const thumbnailLink = volumeInfo.imageLinks.smallThumbnail;
   return (
     <Card style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image
-          style={{
-            height: 50,
-            width: 50,
-          }}
-          source={{
-            uri: thumbnailLink,
-          }}
-        />
+        {volumeInfo.imageLinks ? (
+          <Image
+            style={{
+              height: 50,
+              width: 50,
+            }}
+            source={{
+              uri: volumeInfo.imageLinks.thumbnail,
+            }}
+          />
+        ) : (
+          <Ionicons name={"image"} size={50} />
+        )}
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{volumeInfo.title}</Text>
-        <Text style={styles.subtitle}>{volumeInfo.authors.join(", ")}</Text>
+        {volumeInfo.authors && (
+          <Text style={styles.subtitle}>{volumeInfo.authors.join(", ")}</Text>
+        )}
       </View>
     </Card>
   );
