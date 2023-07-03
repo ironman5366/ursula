@@ -1,20 +1,31 @@
 import React from "react";
-import { TextInput, useColorScheme } from "react-native";
+import { TextInput, useColorScheme, View } from "react-native";
 import { ThemeProps, useThemeColor } from "../organisms/Themed";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SearchBar(
-  props: Omit<React.ComponentProps<typeof TextInput>, "style">
+  props: Omit<React.ComponentProps<typeof TextInput>, "style" | "placeholder">
 ) {
   const tint = useThemeColor("tint");
   return (
-    <TextInput
+    <View
       style={{
         borderColor: tint,
         borderWidth: 3,
-        width: "80%",
         borderRadius: 8,
+        width: "80%",
+        padding: 8,
+        flexDirection: "row",
       }}
-      {...props}
-    ></TextInput>
+    >
+      <Ionicons name={"ios-search"} size={20} color={tint} />
+      <TextInput
+        style={{
+          textAlign: "center",
+        }}
+        placeholder={"Search"}
+        {...props}
+      />
+    </View>
   );
 }
