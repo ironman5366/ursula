@@ -10,7 +10,7 @@ export interface VolumeInfo {
   publisher: string;
   publishedDate: string;
   description: string;
-  industryIdentifiers: IndustryIdentifier[];
+  industryIdentifiers?: IndustryIdentifier[];
   readingModes: {
     text: boolean;
     image: boolean;

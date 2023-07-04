@@ -15,7 +15,7 @@ export default function BookDetail(props: BookDetailProps) {
   const params = useSearchParams();
   const isbn: string = params.isbn as string;
   const { data, isLoading, isSuccess } = useVolume(isbn);
-  console.log("ISBN", isbn);
+
   if (data) {
     return (
       <View style={styles.container}>
