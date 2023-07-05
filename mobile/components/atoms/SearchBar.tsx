@@ -1,6 +1,6 @@
 import React from "react";
-import { TextInput, useColorScheme, View } from "react-native";
-import { ThemeProps, useThemeColor } from "../organisms/Themed";
+import { TextInput, View } from "react-native";
+import { useThemeColor } from "../organisms/Themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SearchBar(

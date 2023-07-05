@@ -1,7 +1,6 @@
 import React from "react";
 import Volume from "../../types/Volume";
 import { FlatList } from "react-native";
-import { Text } from "../organisms/Themed";
 import VolumePreviewCard from "./VolumePreviewCard";
 
 export interface SearchResultListProps {

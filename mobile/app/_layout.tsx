@@ -9,6 +9,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createClient } from "@supabase/supabase-js";
 
 export {
   // Catch any errors thrown by the Layout component.
