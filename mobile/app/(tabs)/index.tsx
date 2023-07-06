@@ -1,18 +1,9 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 
-import { useThemeColor, View } from "../../components/organisms/Themed";
-import useSearchVolumes from "../../hooks/useSearchVolumes";
-import React, { useState } from "react";
-import useDebounce from "../../hooks/useDebounce";
+import { View } from "../../components/organisms/Themed";
+import React from "react";
 import { useNavigation } from "expo-router";
-import { useTheme } from "@react-navigation/native";
 import SearchBar from "../../components/atoms/SearchBar";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { TitleText } from "../../components/atoms/TitleText";
 
 export default function Index() {
