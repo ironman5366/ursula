@@ -2,7 +2,7 @@ import React from "react";
 import Volume from "../types/Volume";
 import { useSearchParams } from "expo-router";
 import useVolume from "../hooks/useVolume";
-import { ActivityIndicator, Image, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { TitleText } from "../components/atoms/TitleText";
 import VolumeImage from "../components/atoms/VolumeImage";
 import { Text } from "../components/organisms/Themed";
@@ -11,7 +11,7 @@ export interface BookDetailProps {
   volume: Volume;
 }
 
-export default function BookDetail(props: BookDetailProps) {
+export default function BookDetail() {
   const params = useSearchParams();
   const isbn: string = params.isbn as string;
   const { data, isLoading, isSuccess } = useVolume(isbn);

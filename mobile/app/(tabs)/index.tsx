@@ -12,10 +12,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1 }} />
-      <TouchableOpacity
-        // @ts-ignore
-        onPress={() => navigation.navigate("Search")}
-      >
+      <TouchableOpacity onPress={() => navigation.navigate("Search")}>
         <View style={styles.searchBarContainer}>
           <SearchBar editable={false} />
         </View>
