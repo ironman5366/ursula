@@ -9,10 +9,6 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createClient } from "@supabase/supabase-js";
-import { SUPABASE_PROJECT_URL } from "../constants/Urls";
-import Constants from "expo-constants";
-
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -22,11 +18,6 @@ export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
 };
-
-const supabase = createClient(
-  SUPABASE_PROJECT_URL,
-  Constants.expoConfig?.extra && Constants.expoConfig.extra.supabaseAnonKey
-);
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
