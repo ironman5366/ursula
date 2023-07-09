@@ -1,6 +1,9 @@
 import * as SecureStore from "expo-secure-store";
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_PROJECT_URL } from "../constants/Urls";
+// We need this polyfill for supabase for now - https://github.com/supabase/supabase/issues/8464
+import "react-native-url-polyfill/auto";
+
 import Constants from "expo-constants";
 
 const ExpoSecureStoreAdapter = {
