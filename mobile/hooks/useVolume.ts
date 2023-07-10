@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import Volume from "../types/Volume";
-import { GOOGLE_BOOKS_API_URL } from "../constants/Urls";
+import { GOOGLE_BOOKS_API_URL } from "../constants";
 import VolumeSearchResponse from "../types/VolumeSearchResponse";
 
 function lookupVolume(isbn: string): Promise<Volume> {

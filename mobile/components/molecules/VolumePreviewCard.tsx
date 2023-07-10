@@ -1,9 +1,8 @@
 import React from "react";
 import { VolumeInfo } from "../../types/Volume";
 import Card from "../atoms/Card";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "../organisms/Themed";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "expo-router";
 import getISBN from "../../utils/getISBN";
 import VolumeImage from "../atoms/VolumeImage";
