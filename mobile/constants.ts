@@ -12,6 +12,8 @@ if (SUPABASE_ANON_KEY === undefined) {
   console.log("Env vars", process.env);
 }
 
+export const RANKINGS_TABLE = "rankings";
+
 export const SUPABASE_PROJECT_URL = "https://edikpsrgwjfzjzhitgjo.supabase.co";
 
 // Theming
