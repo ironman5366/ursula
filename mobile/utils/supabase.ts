@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, User } from "@supabase/supabase-js";
 import { SUPABASE_ANON_KEY, SUPABASE_PROJECT_URL } from "../constants";
+import { Database } from "../types/Database";
 
 // We need this polyfill for supabase for now - https://github.com/supabase/supabase/issues/8464
 import "react-native-url-polyfill/auto";
@@ -17,11 +18,28 @@ const ExpoSecureStoreAdapter = {
   },
 };
 
-export const supabase = createClient(SUPABASE_PROJECT_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: ExpoSecureStoreAdapter,
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-  },
-});
+export function getUser(): Promise<User> {
+  // TODO: should this just be in a higher context? probably
+  return new Promise((resolve, reject) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        resolve(session.user);
+      } else {
+        reject();
+      }
+    });
+  });
+}
+
+export const supabase = createClient<Database>(
+  SUPABASE_PROJECT_URL,
+  SUPABASE_ANON_KEY,
+  {
+    auth: {
+      storage: ExpoSecureStoreAdapter,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+    },
+  }
+);
