@@ -2,6 +2,7 @@ import React from "react";
 import Volume from "../../types/Volume";
 import { FlatList } from "react-native";
 import VolumePreviewCard from "./VolumePreviewCard";
+import { extractISBN } from "../../utils/isbn";
 
 export interface SearchResultListProps {
   volumes: Volume[];
@@ -10,7 +11,7 @@ export interface SearchResultListProps {
 export default function SearchResultList({ volumes }: SearchResultListProps) {
   return (
     <FlatList
-      data={volumes.filter((v) => !!v.volumeInfo.industryIdentifiers)}
+      data={volumes.filter((v) => !!extractISBN(v.volumeInfo))}
       renderItem={(item) => (
         <VolumePreviewCard volumeInfo={item.item.volumeInfo} />
       )}

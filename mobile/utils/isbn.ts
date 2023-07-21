@@ -1,8 +1,8 @@
 import { VolumeInfo } from "../types/Volume";
 
-export default function getISBN(volumeInfo: VolumeInfo): string {
+export function extractISBN(volumeInfo: VolumeInfo): string | null {
   if (!volumeInfo.industryIdentifiers) {
-    throw new Error("Volume didn't have identifier");
+    return null;
   }
 
   const isbn_13 = volumeInfo.industryIdentifiers.find(
@@ -17,5 +17,15 @@ export default function getISBN(volumeInfo: VolumeInfo): string {
   if (isbn_10) {
     return isbn_10.identifier;
   }
+
+  return null;
+}
+
+export function getISBN(volumeInfo: VolumeInfo): string {
+  let isbn = extractISBN(volumeInfo);
+  if (isbn) {
+    return isbn;
+  }
+
   throw new Error("Couldn't find appropriate ISBN on volume");
 }

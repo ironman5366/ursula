@@ -4,7 +4,7 @@ import Card from "../atoms/Card";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "../organisms/Themed";
 import { useNavigation } from "expo-router";
-import getISBN from "../../utils/getISBN";
+import { getISBN } from "../../utils/isbn";
 import VolumeImage from "../atoms/VolumeImage";
 
 export interface VolumePreviewCardProps {

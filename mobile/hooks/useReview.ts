@@ -4,10 +4,11 @@ import { REVIEWS_TABLE } from "../constants";
 
 interface NewRanking {
   isbn: number;
-  prevReviewId: number;
+  prevReviewId: number | null;
 }
 
-function insertRank({ isbn, prevReviewId }: NewRanking): Promise<void> {
+function insertReview({ isbn, prevReviewId }: NewRanking): Promise<void> {
+  console.log("About to review!");
   return new Promise((resolve, reject) => {
     getUser().then((user) => {
       supabase
@@ -17,13 +18,15 @@ function insertRank({ isbn, prevReviewId }: NewRanking): Promise<void> {
           prev_review_id: prevReviewId,
           user_uid: user.id,
         })
-        .then(() => resolve());
+        .then(() => {
+          resolve();
+        });
     });
   });
 }
 
 export default function useReview() {
   return useMutation({
-    mutationFn: insertRank,
+    mutationFn: insertReview,
   });
 }
