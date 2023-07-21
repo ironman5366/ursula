@@ -10,7 +10,7 @@ export interface SearchResultListProps {
 export default function SearchResultList({ volumes }: SearchResultListProps) {
   return (
     <FlatList
-      data={volumes}
+      data={volumes.filter((v) => !!v.volumeInfo.industryIdentifiers)}
       renderItem={(item) => (
         <VolumePreviewCard volumeInfo={item.item.volumeInfo} />
       )}
