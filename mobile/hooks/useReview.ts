@@ -18,7 +18,7 @@ function insertReview({ isbn, prevReviewId }: NewRanking): Promise<void> {
           prev_review_id: prevReviewId,
           user_uid: user.id,
         })
-        .then(() => {
+        .then((data) => {
           resolve();
         });
     });
