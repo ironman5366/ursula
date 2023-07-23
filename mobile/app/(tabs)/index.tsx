@@ -5,9 +5,14 @@ import React from "react";
 import { useNavigation } from "expo-router";
 import SearchBar from "../../components/atoms/SearchBar";
 import { TitleText } from "../../components/atoms/TitleText";
+import useReviews from "../../hooks/useReviews";
+import ISBNPreviewCard from "../../components/molecules/ISBNPreviewCard";
 
 export default function Index() {
   const navigation = useNavigation();
+  const { data: reviews, isLoading } = useReviews();
+
+  console.log("Review data is ", reviews);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -23,6 +28,9 @@ export default function Index() {
       </TouchableOpacity>
       <View style={{ flex: 1 }} />
       <TitleText>Your Books</TitleText>
+      {reviews &&
+        reviews.data &&
+        reviews.data.map((row) => <ISBNPreviewCard isbn={row.Row.isbn} />)}
       <View style={{ flex: 2 }} />
     </SafeAreaView>
   );

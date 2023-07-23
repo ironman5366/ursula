@@ -1,14 +1,14 @@
 import React from "react";
 import { VolumeInfo } from "../../types/Volume";
 import Card from "../atoms/Card";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "../organisms/Themed";
 import { useNavigation } from "expo-router";
 import { getISBN } from "../../utils/isbn";
 import VolumeImage from "../atoms/VolumeImage";
 
 export interface VolumePreviewCardProps {
-  volumeInfo: VolumeInfo;
+  volumeInfo: VolumeInfo | undefined;
 }
 
 export default function VolumePreviewCard({
@@ -17,23 +17,34 @@ export default function VolumePreviewCard({
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() =>
-        // @ts-ignore
-        navigation.navigate("bookDetail", {
-          isbn: getISBN(volumeInfo),
-        })
-      }
+      disabled={!volumeInfo}
+      onPress={() => {
+        if (volumeInfo) {
+          // @ts-ignore
+          navigation.navigate("bookDetail", {
+            isbn: getISBN(volumeInfo),
+          });
+        }
+      }}
     >
       <Card style={styles.container}>
-        <View style={styles.imageContainer}>
-          <VolumeImage volumeInfo={volumeInfo} size={50} />
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{volumeInfo.title}</Text>
-          {volumeInfo.authors && (
-            <Text style={styles.subtitle}>{volumeInfo.authors.join(", ")}</Text>
-          )}
-        </View>
+        {volumeInfo ? (
+          <>
+            <View style={styles.imageContainer}>
+              <VolumeImage volumeInfo={volumeInfo} size={50} />
+            </View>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>{volumeInfo.title}</Text>
+              {volumeInfo.authors && (
+                <Text style={styles.subtitle}>
+                  {volumeInfo.authors.join(", ")}
+                </Text>
+              )}
+            </View>
+          </>
+        ) : (
+          <ActivityIndicator />
+        )}
       </Card>
     </TouchableOpacity>
   );

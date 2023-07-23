@@ -1,6 +1,5 @@
 import React from "react";
-import Volume from "../types/Volume";
-import { useSearchParams } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import useVolume from "../hooks/useVolume";
 import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
 import { TitleText } from "../components/atoms/TitleText";
@@ -9,22 +8,24 @@ import { Text } from "../components/organisms/Themed";
 import useReview from "../hooks/useReview";
 
 export default function BookDetail() {
-  const params = useSearchParams();
+  const params = useLocalSearchParams();
   const isbn: number = Number.parseInt(params.isbn as string);
   const { data, isLoading, isSuccess } = useVolume(isbn);
   const { mutate: review } = useReview();
+  const navigation = useNavigation();
 
   if (data) {
     return (
       <View style={styles.container}>
         <TitleText>{data.volumeInfo.title}</TitleText>
         <VolumeImage volumeInfo={data.volumeInfo} size={250} />
+        <Button title={"Add to your list"} />
         <Button
           title="Review"
           onPress={() =>
-            review({
-              isbn,
-              prevReviewId: null,
+            // @ts-ignore
+            navigation.navigate("Review", {
+              isbn: isbn,
             })
           }
         />
@@ -46,6 +47,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "row",
   },
   subtitle: {},
 });

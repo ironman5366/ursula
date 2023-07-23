@@ -61,6 +61,7 @@ function AuthScreens() {
           title: "Book",
         }}
       />
+      <Stack.Screen name="review" options={{ presentation: "modal" }} />
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
     </Stack>
   );

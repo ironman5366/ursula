@@ -1,16 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../utils/supabase";
 import { REVIEWS_TABLE } from "../constants";
+import { PostgrestResponse } from "@supabase/supabase-js";
+import { Database } from "../types/Database";
 
-function retrieveReviews() {
-  return new Promise((resolve, reject) => {
-    supabase
-      .from(REVIEWS_TABLE)
-      .select()
-      .then((data) => {
-        resolve(data);
-      });
-  });
+async function retrieveReviews(): Promise<
+  PostgrestResponse<Database["public"]["Tables"]["reviews"]>
+> {
+  return supabase.from(REVIEWS_TABLE).select();
 }
 
 export default function useReviews() {
