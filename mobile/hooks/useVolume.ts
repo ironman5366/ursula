@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import Volume from "../types/Volume";
 import { GOOGLE_BOOKS_API_URL } from "../constants";
 import VolumeSearchResponse from "../types/VolumeSearchResponse";
 
-function lookupVolume(isbn: number): Promise<Volume> {
+function lookupVolume(isbn: number | undefined): Promise<Volume> {
   return new Promise((resolve, reject) => {
     fetch(`${GOOGLE_BOOKS_API_URL}?q=isbn:${isbn}`).then((resp) => {
       resp.json().then((data) => {
@@ -19,7 +19,9 @@ function lookupVolume(isbn: number): Promise<Volume> {
   });
 }
 
-export default function useVolume(isbn: number) {
+export default function useVolume(isbn: number | undefined) {
   const queryKey = ["VOLUME_LOOKUP", isbn];
-  return useQuery(queryKey, () => lookupVolume(isbn));
+  return useQuery(queryKey, () => lookupVolume(isbn), {
+    enabled: !!isbn,
+  });
 }

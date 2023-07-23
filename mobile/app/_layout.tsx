@@ -56,12 +56,12 @@ function AuthScreens() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="Search" />
       <Stack.Screen
-        name="bookDetail"
+        name="BookDetail"
         options={{
           title: "Book",
         }}
       />
-      <Stack.Screen name="review" options={{ presentation: "modal" }} />
+      <Stack.Screen name="Review" options={{ presentation: "modal" }} />
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
     </Stack>
   );

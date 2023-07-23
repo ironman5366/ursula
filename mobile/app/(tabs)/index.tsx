@@ -5,7 +5,6 @@ import React from "react";
 import { useNavigation } from "expo-router";
 import SearchBar from "../../components/atoms/SearchBar";
 import { TitleText } from "../../components/atoms/TitleText";
-import useReviews from "../../hooks/useReviews";
 import ISBNPreviewCard from "../../components/molecules/ISBNPreviewCard";
 import useRankedReviews from "../../hooks/useRankedReviews";
 
@@ -30,8 +29,8 @@ export default function Index() {
       {reviews &&
         reviews.data &&
         reviews.data.map((row) => (
-          <View style={styles.reviewedContainer}>
-            <ISBNPreviewCard isbn={row.isbn} key={row.isbn} />
+          <View style={styles.reviewedContainer} key={row.isbn}>
+            <ISBNPreviewCard isbn={row.isbn} />
           </View>
         ))}
       <View style={{ flex: 2 }} />
