@@ -7,12 +7,11 @@ import SearchBar from "../../components/atoms/SearchBar";
 import { TitleText } from "../../components/atoms/TitleText";
 import useReviews from "../../hooks/useReviews";
 import ISBNPreviewCard from "../../components/molecules/ISBNPreviewCard";
+import useRankedReviews from "../../hooks/useRankedReviews";
 
 export default function Index() {
   const navigation = useNavigation();
-  const { data: reviews, isLoading } = useReviews();
-
-  console.log("Review data is ", reviews);
+  const { data: reviews } = useRankedReviews();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,7 +29,11 @@ export default function Index() {
       <TitleText>Your Books</TitleText>
       {reviews &&
         reviews.data &&
-        reviews.data.map((row) => <ISBNPreviewCard isbn={row.Row.isbn} />)}
+        reviews.data.map((row) => (
+          <View style={styles.reviewedContainer}>
+            <ISBNPreviewCard isbn={row.isbn} key={row.isbn} />
+          </View>
+        ))}
       <View style={{ flex: 2 }} />
     </SafeAreaView>
   );
@@ -60,5 +63,8 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: "80%",
+  },
+  reviewedContainer: {
+    height: 200,
   },
 });
