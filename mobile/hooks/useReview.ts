@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getUser, supabase } from "../utils/supabase";
 import { REVIEWS_TABLE } from "../constants";
 
@@ -8,7 +8,6 @@ interface NewRanking {
 }
 
 function insertReview({ isbn, prevReviewId }: NewRanking): Promise<void> {
-  console.log("About to review!");
   return new Promise((resolve, reject) => {
     getUser().then((user) => {
       supabase
@@ -26,7 +25,11 @@ function insertReview({ isbn, prevReviewId }: NewRanking): Promise<void> {
 }
 
 export default function useReview() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: insertReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["REVIEW_LOOKUP"]);
+    },
   });
 }

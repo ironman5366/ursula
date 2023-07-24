@@ -5,7 +5,7 @@ import React from "react";
 import { useNavigation } from "expo-router";
 import SearchBar from "../../components/atoms/SearchBar";
 import { TitleText } from "../../components/atoms/TitleText";
-import ISBNPreviewCard from "../../components/molecules/ISBNPreviewCard";
+import ISBNPreviewCard from "../../components/atoms/ISBNPreviewCard";
 import useRankedReviews from "../../hooks/useRankedReviews";
 
 export default function Index() {
@@ -26,6 +26,9 @@ export default function Index() {
       </TouchableOpacity>
       <View style={{ flex: 1 }} />
       <TitleText>Your Books</TitleText>
+      {
+        // TODO: would be nice to number the books here. Also, fix styling. Also also, use FlatList?
+      }
       {reviews &&
         reviews.data &&
         reviews.data.map((row) => (
