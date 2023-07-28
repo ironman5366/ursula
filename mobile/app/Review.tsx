@@ -1,103 +1,121 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Text, View } from "../components/organisms/Themed";
-import { ActivityIndicator } from "react-native";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 import useRankedReviews from "../hooks/useRankedReviews";
-import useVolume from "../hooks/useVolume";
-import VolumePreviewCard from "../components/molecules/VolumePreviewCard";
-import { ReviewRow } from "../types/derived";
-import useReview from "../hooks/useReview";
+import useISBNParam from "../hooks/useISBNParam";
+import useInsertReview from "../hooks/useInsertReview";
+import { ActivityIndicator, StyleSheet } from "react-native";
+import { View } from "../components/organisms/Themed";
 import ReviewComparison from "../components/organisms/ReviewComparison";
 
 export default function Review() {
   const navigation = useNavigation();
 
-  // Fetch the existing reviews
+  // The book being reviewed
+  const isbn = useISBNParam();
+
+  // All the existing reviews
   const { data } = useRankedReviews();
 
-  // Get the details of the book being reviewed
-  const params = useLocalSearchParams();
-  const isbn: number = Number.parseInt(params.isbn as string);
+  // The mutation that will let us actually add this review to the database when we're done comparing it to other books
+  const { mutate, isLoading, isSuccess, isError, error } = useInsertReview();
 
-  // Prepare to insert the book into the reviews table
-  const { mutate, isSuccess, isLoading: isMutationLoading } = useReview();
   useEffect(() => {
-    // Once the mutation is successful, go home
-    // @ts-ignore
-    navigation.navigate("(tabs)");
+    if (isSuccess) {
+      // @ts-ignore
+      navigation.navigate("(tabs)");
+    }
   }, [isSuccess]);
 
-  // TODO: go through an example of a successful search, once validated
-  // Keep track of the information we need for the binary search - the *comparator* is the book that's currently being
-  // compared to the book being reviewed
-  const [comparatorIdx, setComparatorIdx] = useState<number>();
+  // The state we need to keep track of for the binary search:
+  // 1. The current range of the search. Must be initialized after we fetch the reviews, starts at [0, length - 1]
+  const [comparisonRange, setComparisonRange] = useState<[number, number]>();
+  // 2. The index of the current target of comparison
+  const [comparatorIdx, setComparisonIdx] = useState<number>();
+  // 3. The actual row with the data of the current comparator
   const comparator = useMemo(() => {
-    if (comparatorIdx !== undefined && data?.data) {
+    if (data?.data && comparatorIdx !== undefined) {
       return data.data[comparatorIdx];
     }
-  }, [comparatorIdx, data]);
-  const [comparisonRange, setComparisonRange] = useState<[number, number]>();
-  // Keep track of the most recent base of comparison, in case we have to store it in prevReviewId
-  const [prevComparator, setPrevComparator] = useState<[number, ReviewRow]>();
+  }, [data, comparatorIdx]);
 
+  // Once the existing reviews are done loading, initialize the state
   useEffect(() => {
     if (data?.data) {
-      const midpoint = data.data.length;
-      const idx = Math.floor(midpoint / 2);
-      setComparatorIdx(idx);
-      setComparisonRange([0, data.data.length - 1]);
+      // If there are no previous reviews, insert this!
+      if (data.data.length === 0) {
+        mutate({
+          isbn,
+        });
+      } else {
+        setComparisonRange([0, data.data.length]);
+        const midpoint = Math.floor(data.data.length / 2);
+        setComparisonIdx(midpoint);
+      }
     }
   }, [data]);
 
-  const nextComparator = useCallback(
+  const stateInitialized =
+    comparator !== undefined &&
+    comparatorIdx !== undefined &&
+    data?.data &&
+    comparisonRange;
+
+  // This callback will let us change the comparison when the user clicks on one book or another.
+  // The `comparatorPreferred` boolean toggle indicates whether the book that was chosen is the comparator. When it's
+  // true, we'll go down the list, and when it's false we'll go up for the next comparator
+  const nextBook = useCallback(
     (comparatorPreferred: boolean) => {
-      if (
-        comparatorIdx !== undefined &&
-        comparator &&
-        data?.data &&
-        comparisonRange
-      ) {
-        let range = comparisonRange;
-
+      if (stateInitialized) {
+        let newRange = comparisonRange;
         if (comparatorPreferred) {
-          setComparisonRange((currRange) => [currRange[0], comparatorIdx]);
-          // If the comparator was better than the book being reviewed, the next book up for comparison will be one
-          // *lower* on the user's list
-          const distance = data.data.length - 1 - comparatorIdx;
-
-          // If distance is 0, this was the *end* of the list. prev_review_id is the current comparator, and this is
-          // the worst book on our list :(
-          if (distance === 0) {
-            mutate({
-              prevReviewId: comparator.id,
-              isbn,
-            });
-          } else {
-            // Otherwise, go down further towards the end of the list
-            const midpoint = comparatorIdx + Math.floor(distance / 2);
-            setPrevComparator([comparatorIdx, comparator]);
-            setComparatorIdx(midpoint);
-          }
+          newRange[0] = comparatorIdx;
         } else {
-          // If the comparator was worse than the book being reviewed, look at a book *higher* on the users' list.
-          // distance == comparatorIdx, because it's the distance to 0.
-          const distance = comparatorIdx;
-
-          //
-          if (distance == 0) {
-          }
+          newRange[1] = comparatorIdx;
         }
 
-        setPrevComparator([comparatorIdx, comparator]);
+        const distance = newRange[1] - newRange[0];
+        // If the distance is 0, we're done searching! We can insert a rank
+        if (distance === 0) {
+          // If they said they preferred the comparator to this most recent book, the most recent book needs to have a
+          // prevReviewId of the comparator.
+          if (comparatorPreferred) {
+            mutate({
+              isbn,
+              prev_review_id: comparator.id,
+            });
+          } else {
+            let prevReviewId;
+            if (comparatorIdx === 0) {
+              prevReviewId = null;
+            } else {
+              prevReviewId = data.data[comparatorIdx - 1].id;
+            }
+            // Otherwise, it's the other way around. If it's the other way around,
+            // we have to do two mutations! We not only have to insert this book, we have to update the comparator to
+            // mark this book as it's prevReviewId
+            mutate({
+              isbn,
+              prev_review_id: prevReviewId,
+            });
+          }
+        } else {
+          const midpoint = newRange[0] + Math.floor(distance / 2);
+          setComparisonRange(newRange);
+          setComparisonIdx(midpoint);
+        }
+      } else {
+        // We should never see this
+        throw new Error("Comparison state uninitialized in nextBook");
       }
     },
-    [comparatorIdx]
+    [comparisonRange, comparatorIdx]
   );
 
-  if (!data?.data || isMutationLoading || !comparator) {
+  if (isLoading || !stateInitialized) {
+    console.log("Loading", isLoading, data, comparator, comparatorIdx);
     return (
       <View>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size={"large"} />
       </View>
     );
   }
@@ -105,9 +123,9 @@ export default function Review() {
   return (
     <ReviewComparison
       reviewTargetISBN={isbn}
-      onReviewTargetPressed={() => nextComparator(false)}
+      onReviewTargetPressed={() => nextBook(false)}
       comparatorISBN={comparator.isbn}
-      onComparatorPressed={() => nextComparator(true)}
+      onComparatorPressed={() => nextBook(true)}
     />
   );
 }

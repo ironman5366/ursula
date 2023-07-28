@@ -1,33 +1,29 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ReviewRow, UpdateReview } from "../types/derived";
 import { getUser, supabase } from "../utils/supabase";
 import { REVIEWS_TABLE } from "../constants";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
-interface NewRanking {
-  isbn: number;
-  prevReviewId: number | null;
+interface UpdatePayload extends UpdateReview {
+  id: number;
 }
 
-function insertReview({ isbn, prevReviewId }: NewRanking): Promise<void> {
+export function updateReview({ id, ...rest }: UpdatePayload): Promise<void> {
   return new Promise((resolve, reject) => {
     getUser().then((user) => {
       supabase
         .from(REVIEWS_TABLE)
-        .insert({
-          isbn,
-          prev_review_id: prevReviewId,
-          user_uid: user.id,
-        })
-        .then((data) => {
-          resolve();
-        });
+        .update<UpdateReview>(rest)
+        .eq("id", id)
+        .then(() => resolve());
     });
   });
 }
 
-export default function useReview() {
+export default function useUpdateReview() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: insertReview,
+    mutationFn: updateReview,
     onSuccess: () => {
       queryClient.invalidateQueries(["REVIEW_LOOKUP"]);
     },

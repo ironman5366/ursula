@@ -36,8 +36,9 @@ export default function useRankedReviews() {
 
     const { data, ...dataRest } = reviews;
 
+    const rankedData = data.length === 0 ? [] : rankReviews(data);
     return {
-      data: rankReviews(data),
+      data: rankedData,
       ...dataRest,
     };
   }, [reviews]);

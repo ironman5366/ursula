@@ -1,17 +1,17 @@
 import React from "react";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 import useVolume from "../hooks/useVolume";
 import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
 import { TitleText } from "../components/atoms/TitleText";
 import VolumeImage from "../components/atoms/VolumeImage";
 import { Text } from "../components/organisms/Themed";
-import useReview from "../hooks/useReview";
+import useInsertReview from "../hooks/useInsertReview";
+import useISBNParam from "../hooks/useISBNParam";
 
 export default function BookDetail() {
-  const params = useLocalSearchParams();
-  const isbn: number = Number.parseInt(params.isbn as string);
-  const { data, isLoading, isSuccess } = useVolume(isbn);
-  const { mutate: review } = useReview();
+  const isbn = useISBNParam();
+  const { data } = useVolume(isbn);
+  const { mutate: review } = useInsertReview();
   const navigation = useNavigation();
 
   if (data) {

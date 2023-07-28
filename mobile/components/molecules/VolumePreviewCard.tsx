@@ -24,7 +24,7 @@ export default function VolumePreviewCard({
   const onPressCallback = useCallback(() => {
     if (volumeInfo) {
       // @ts-ignore
-      navigation.navigate("bookDetail", {
+      navigation.navigate("BookDetail", {
         isbn: getISBN(volumeInfo),
       });
     }
