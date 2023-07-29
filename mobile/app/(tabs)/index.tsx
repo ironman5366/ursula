@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   reviewedContainer: {
-    height: 200,
+    flex: 1,
   },
 });

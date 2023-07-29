@@ -3,7 +3,7 @@ import { useNavigation } from "expo-router";
 import useRankedReviews from "../hooks/useRankedReviews";
 import useISBNParam from "../hooks/useISBNParam";
 import useInsertReview from "../hooks/useInsertReview";
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { View } from "../components/organisms/Themed";
 import ReviewComparison from "../components/organisms/ReviewComparison";
 
@@ -47,6 +47,7 @@ export default function Review() {
           isbn,
         });
       } else {
+        // Otherwise, start the binary search through the books
         setComparisonRange([0, data.data.length]);
         const midpoint = Math.floor(data.data.length / 2);
         setComparisonIdx(midpoint);
@@ -72,6 +73,14 @@ export default function Review() {
         } else {
           newRange[1] = comparatorIdx;
         }
+        console.log(
+          "Comparator preferred ",
+          comparatorPreferred,
+          " range going from ",
+          comparisonRange,
+          " to ",
+          newRange
+        );
 
         const distance = newRange[1] - newRange[0];
         // If the distance is 0, we're done searching! We can insert a rank
@@ -96,6 +105,7 @@ export default function Review() {
             mutate({
               isbn,
               prev_review_id: prevReviewId,
+              alter_review_id: comparator.id,
             });
           }
         } else {
