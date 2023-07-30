@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ReviewRow, UpdateReview } from "../types/derived";
+import { UpdateReview } from "../types/derived";
 import { getUser, supabase } from "../utils/supabase";
 import { REVIEWS_TABLE } from "../constants";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 interface UpdatePayload extends UpdateReview {
   id: number;
