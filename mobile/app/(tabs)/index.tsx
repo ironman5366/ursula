@@ -1,6 +1,6 @@
 import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 
-import { View } from "../../components/organisms/Themed";
+import { useThemeColor, View } from "../../components/organisms/Themed";
 import React from "react";
 import { useNavigation } from "expo-router";
 import SearchBar from "../../components/atoms/SearchBar";
@@ -11,7 +11,6 @@ import useRankedReviews from "../../hooks/useRankedReviews";
 export default function Index() {
   const navigation = useNavigation();
   const { data: reviews } = useRankedReviews();
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1 }} />
@@ -68,5 +67,6 @@ const styles = StyleSheet.create({
   },
   reviewedContainer: {
     flex: 1,
+    width: "80%",
   },
 });
