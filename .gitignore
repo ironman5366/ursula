@@ -2,3 +2,4 @@
 .expo
 **/yarn-error.log
 **/.env 
+**/.DS_store
