@@ -1,7 +1,15 @@
 
+CREATE TABLE "public"."authors" (
+    "id" BIGINT NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"(),
+    "name" character varying NOT NULL,
+)
+
 CREATE TABLE "public"."books" (
-    "id": BIGINT NOT NULL
-    -- TODO!
+    "id": BIGINT NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"(),
+    "isbn" character varying NOT NULL,
+    "description" TEXT 
 )
 
 CREATE TABLE "public"."reading_lists" (
