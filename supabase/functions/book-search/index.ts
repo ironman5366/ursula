@@ -14,7 +14,7 @@ interface BookSearchRequest {
 interface BookSearchResponse {}
 
 function searchBooks(name: string): Promise<VolumeSearchResponse> {
-  return searchVolumes()
+  return searchVolumes(name)
 }
 
 serve(async (req) => {
