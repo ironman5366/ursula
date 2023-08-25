@@ -5,7 +5,7 @@ export const GOOGLE_BOOKS_API_URL =
 
 
 
-function searchVolumes(name: string): Promise<VolumeSearchResponse> {
+export function searchVolumes(name: string): Promise<VolumeSearchResponse> {
     return new Promise((resolve, reject) => {
         fetch(`${GOOGLE_BOOKS_API_URL}/?q=${name}`)
         .then((resp) => {

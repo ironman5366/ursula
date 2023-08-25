@@ -4,26 +4,25 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts'
+import { searchVolumes } from "./googleBooks.ts"
+import VolumeSearchResponse from "../types/volumes/VolumeSearchResponse"
 
 interface BookSearchRequest {
   name: string;
 }
 
-interface BookSearchResponse {
-}
+interface BookSearchResponse {}
 
-function searchBooks(name: string): Promise<Book> {
-
+function searchBooks(name: string): Promise<VolumeSearchResponse> {
+  return searchVolumes()
 }
 
 serve(async (req) => {
   const { name } = await req.json() as BookSearchRequest;
-  const data = {
-    message: `Hello ${name}!`,
-  }
+  const volumeResponse = await searchBooks(name);
 
   return new Response(
-    JSON.stringify(data),
+    JSON.stringify(volumeResponse),
     { headers: { "Content-Type": "application/json" } },
   )
 })
