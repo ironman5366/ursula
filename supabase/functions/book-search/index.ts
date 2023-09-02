@@ -5,7 +5,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts'
 import { searchVolumes } from "./googleBooks.ts"
-import VolumeSearchResponse from "../types/volumes/VolumeSearchResponse"
+import VolumeSearchResponse from "./types/VolumeSearchResponse.ts"
+import Book from "./types/Book.ts";
+import loadClient from "./supabase.ts";
+import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
 
 interface BookSearchRequest {
   name: string;
@@ -13,13 +17,47 @@ interface BookSearchRequest {
 
 interface BookSearchResponse {}
 
-function searchBooks(name: string): Promise<VolumeSearchResponse> {
-  return searchVolumes(name)
+function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
+  return new Promise((resolve, reject) => {
+    client.from("search_cache").insert({"name": name}).select().then(({data, error}) => {
+      if (error) reject(error);
+
+      const cacheId = data[0].id;
+      searchVolumes(name).then((volumes: VolumeSearchResponse) => {
+        volumes.items.forEach((volume) => {
+          // TODO: will supa let me do this in one query?
+          client.from("books").insert({
+            "title": volume.volumeInfo.title,
+            "author_name": volume.volumeInfo.authors,
+          })
+          client.from("search_cache_books").insert({
+
+          })
+        })
+      });
+    })
+  })
 }
 
-serve(async (req) => {
+function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
+  /**
+   * Uses searchVolumes to get a list of VolumeSearchResponse objects, then uses the supabase CLI to put them all into the
+   * database
+   */
+  return new Promise((resolve, reject) => {
+    client.from("search_cache").select("id, name").eq("name", name).then((nameQueryResp) => {
+      if (resp.data.length > 0) {
+
+      }
+    })
+  })
+}
+
+serve(async (req: Request) => {
   const { name } = await req.json() as BookSearchRequest;
-  const volumeResponse = await searchBooks(name);
+  const client = loadClient(req);
+
+  const volumeResponse = await searchBooks(client, name);
 
   return new Response(
     JSON.stringify(volumeResponse),

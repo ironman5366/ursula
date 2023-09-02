@@ -25,7 +25,6 @@ export function getUser(): Promise<User> {
       if (session) {
         resolve(session.user);
       } else {
-        reject();
       }
     });
   });

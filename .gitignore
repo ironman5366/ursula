@@ -3,3 +3,5 @@
 **/yarn-error.log
 **/.env 
 **/.DS_store
+**/.vscode
+.database.temp.ts
