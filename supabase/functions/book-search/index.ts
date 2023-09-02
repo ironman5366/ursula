@@ -4,7 +4,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts'
-import { searchVolumes } from "./googleBooks.ts"
+import {extractISBN, searchVolumes} from "./googleBooks.ts"
 import VolumeSearchResponse from "./types/VolumeSearchResponse.ts"
 import Book from "./types/Book.ts";
 import loadClient from "./supabase.ts";
@@ -15,25 +15,47 @@ interface BookSearchRequest {
   name: string;
 }
 
-interface BookSearchResponse {}
-
 function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
   return new Promise((resolve, reject) => {
-    client.from("search_cache").insert({"name": name}).select().then(({data, error}) => {
-      if (error) reject(error);
+    let books: Book[] = [];
+    client.from("search_cache").insert({"name": name}).select("id").then(({data: searchCacheIds, error}) => {
+      if (error) {
+        reject(error)
+      }
 
-      const cacheId = data[0].id;
+      if (searchCacheIds === null) {
+        reject();
+      }
+
+      // I shouldn't have to do this cast - Deno is being weird
+      searchCacheIds = searchCacheIds as {id: number}[];
+      const cacheId: number = searchCacheIds[0].id;
+
       searchVolumes(name).then((volumes: VolumeSearchResponse) => {
         volumes.items.forEach((volume) => {
+          const isbn = extractISBN(volume.volumeInfo);
+            if (isbn === null) {
+                return;
+            }
+
           // TODO: will supa let me do this in one query?
           client.from("books").insert({
-            "title": volume.volumeInfo.title,
-            "author_name": volume.volumeInfo.authors,
-          })
-          client.from("search_cache_books").insert({
-
+            title: volume.volumeInfo.title,
+            author_name: volume.volumeInfo.authors,
+            isbn,
+          }).select("*").then(({data: bookIds, error }) => {
+            if (error || bookIds === null) { 
+              reject(error);
+            }
+            client.from("search_cache_books").insert({
+              "search_cache_id": cacheId,
+              "book_id": (bookIds as Book[])[0].id,
+            }).then(() => {
+              books.push((bookIds as Book[])[0]);
+            })
           })
         })
+        resolve(books)
       });
     })
   })
@@ -45,10 +67,27 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
    * database
    */
   return new Promise((resolve, reject) => {
-    client.from("search_cache").select("id, name").eq("name", name).then((nameQueryResp) => {
-      if (resp.data.length > 0) {
-
+    client.from("search_cache").select("id, name").eq("name", name).then(({ data, error }) => {
+      if (error) reject (error)
+      const resp = data as {id: number, name: string}[];
+      if (resp.length > 0) {
+        client.from("search_cache_books").select("book_id").eq("search_cache_id", resp[0].id).then(({ data: bookIds, error }) => {
+          if (error) reject(error)
+          if (bookIds === null) {
+            reject();
+          }
+          client.from("books").select("*").in("id", (bookIds as {book_id: number}[]).map((bookId) => bookId.book_id)).then(({ data: books, error }) => {
+            if (error) reject(error)
+            if (books === null) {
+              reject();
+            }
+            resolve(books as Book[])
+          })
+        })
       }
+      cacheBooks(client, name).then((books) => {
+        resolve(books)
+      })
     })
   })
 }
