@@ -3,7 +3,6 @@
 // This enables autocomplete, go to definition, etc.
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import * as postgres from 'https://deno.land/x/postgres@v0.14.2/mod.ts'
 import {extractISBN, searchVolumes} from "./googleBooks.ts"
 import VolumeSearchResponse from "./types/VolumeSearchResponse.ts"
 import Book from "./types/Book.ts";
@@ -18,8 +17,9 @@ interface BookSearchRequest {
 function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
   return new Promise((resolve, reject) => {
     let books: Book[] = [];
-    client.from("search_cache").insert({"name": name}).select("id").then(({data: searchCacheIds, error}) => {
+    client.from("search_cache").insert({"query": name}).select("id").then(({data: searchCacheIds, error}) => {
       if (error) {
+        console.error("Search cache insert error ", error)
         reject(error)
       }
 
@@ -48,7 +48,7 @@ function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
               reject(error);
             }
             client.from("search_cache_books").insert({
-              "search_cache_id": cacheId,
+              "cache_id": cacheId,
               "book_id": (bookIds as Book[])[0].id,
             }).then(() => {
               books.push((bookIds as Book[])[0]);
@@ -63,13 +63,18 @@ function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
 
 function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
   /**
-   * Uses searchVolumes to get a list of VolumeSearchResponse objects, then uses the supabase CLI to put them all into the
+   * Uses searchVolumes to get a list of VolumeSearchResponse objects, then uses the supabase SDK to put them all into the
    * database
    */
   return new Promise((resolve, reject) => {
-    client.from("search_cache").select("id, name").eq("name", name).then(({ data, error }) => {
-      if (error) reject (error)
-      const resp = data as {id: number, name: string}[];
+    client.from("search_cache").select("id, query").eq("query", name).then(({ data, error }) => {
+      if (error) {
+        console.debug("rjcting error")
+        reject(error);
+        return;
+      }
+      console.debug("Searched cache ", data, error);
+      const resp = data as {id: number, query: string}[];
       if (resp.length > 0) {
         client.from("search_cache_books").select("book_id").eq("search_cache_id", resp[0].id).then(({ data: bookIds, error }) => {
           if (error) reject(error)
@@ -96,12 +101,18 @@ serve(async (req: Request) => {
   const { name } = await req.json() as BookSearchRequest;
   const client = loadClient(req);
 
-  const volumeResponse = await searchBooks(client, name);
-
-  return new Response(
-    JSON.stringify(volumeResponse),
-    { headers: { "Content-Type": "application/json" } },
-  )
+  console.log("Searching for books with name ", name);
+  try {
+    const volumeResponse = await searchBooks(client, name);
+    console.log(`Found ${volumeResponse.length} books with name ${name}`);
+    return new Response(
+        JSON.stringify(volumeResponse),
+        { headers: { "Content-Type": "application/json" } },
+    )
+  } catch(e) {
+    console.error(e);
+    return new Response("", {status: 500, headers: {"Content-Type": "application/json"}})
+  }
 })
 
 // To invoke:

@@ -39,45 +39,64 @@ export interface Database {
           created_at: string | null
           id: number
           name: string
+          updated_at: string | null
         }
         Insert: {
           created_at?: string | null
-          id: number
+          id?: number
           name: string
+          updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           id?: number
           name?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
       books: {
         Row: {
-          author_name: string | null
+          author_id: number
           created_at: string | null
-          description: string | null
+          google_id: string
           id: number
           isbn: string
-          title: string | null
+          large_thumbnail_url: string
+          small_thumbnail_url: string
+          title: string
+          updated_at: string | null
         }
         Insert: {
-          author_name?: string | null
+          author_id: number
           created_at?: string | null
-          description?: string | null
-          id: number
+          google_id: string
+          id?: number
           isbn: string
-          title?: string | null
+          large_thumbnail_url: string
+          small_thumbnail_url: string
+          title: string
+          updated_at?: string | null
         }
         Update: {
-          author_name?: string | null
+          author_id?: number
           created_at?: string | null
-          description?: string | null
+          google_id?: string
           id?: number
           isbn?: string
-          title?: string | null
+          large_thumbnail_url?: string
+          small_thumbnail_url?: string
+          title?: string
+          updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_author_id"
+            columns: ["author_id"]
+            referencedRelation: "authors"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       profiles: {
         Row: {
@@ -112,63 +131,81 @@ export interface Database {
       }
       reading_lists: {
         Row: {
-          book_id: number | null
+          book_id: number
           created_at: string | null
           id: number
+          updated_at: string | null
           user_uid: string
         }
         Insert: {
-          book_id?: number | null
+          book_id: number
           created_at?: string | null
-          id: number
+          id?: number
+          updated_at?: string | null
           user_uid: string
         }
         Update: {
-          book_id?: number | null
+          book_id?: number
           created_at?: string | null
           id?: number
+          updated_at?: string | null
           user_uid?: string
         }
         Relationships: [
           {
-            foreignKeyName: "fk_reading_lists_book_id"
+            foreignKeyName: "fk_book_id"
             columns: ["book_id"]
             referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user_uid"
+            columns: ["user_uid"]
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
       }
       reviews: {
         Row: {
+          book_id: number
           created_at: string | null
           id: number
-          isbn: number
-          prev_review_id: number | null
+          prev_review_id: number
+          updated_at: string | null
           user_uid: string
         }
         Insert: {
+          book_id: number
           created_at?: string | null
           id?: number
-          isbn: number
-          prev_review_id?: number | null
+          prev_review_id: number
+          updated_at?: string | null
           user_uid: string
         }
         Update: {
+          book_id?: number
           created_at?: string | null
           id?: number
-          isbn?: number
-          prev_review_id?: number | null
+          prev_review_id?: number
+          updated_at?: string | null
           user_uid?: string
         }
         Relationships: [
           {
-            foreignKeyName: "rankings_prev_ranking_id_fkey"
+            foreignKeyName: "fk_book_id"
+            columns: ["book_id"]
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_prev_review_id"
             columns: ["prev_review_id"]
             referencedRelation: "reviews"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "rankings_user_uid_fkey"
+            foreignKeyName: "fk_user_uid"
             columns: ["user_uid"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -180,16 +217,19 @@ export interface Database {
           created_at: string | null
           id: number
           query: string
+          updated_at: string | null
         }
         Insert: {
           created_at?: string | null
-          id: number
+          id?: number
           query: string
+          updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           id?: number
           query?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -197,17 +237,23 @@ export interface Database {
         Row: {
           book_id: number
           cache_id: number
+          created_at: string | null
           id: number
+          updated_at: string | null
         }
         Insert: {
           book_id: number
           cache_id: number
-          id: number
+          created_at?: string | null
+          id?: number
+          updated_at?: string | null
         }
         Update: {
           book_id?: number
           cache_id?: number
+          created_at?: string | null
           id?: number
+          updated_at?: string | null
         }
         Relationships: [
           {
