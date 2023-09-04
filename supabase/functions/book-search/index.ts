@@ -99,7 +99,7 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
 
 serve(async (req: Request) => {
   const { name } = await req.json() as BookSearchRequest;
-  const client = loadClient(req);
+  const client = loadClient();
 
   console.log("Searching for books with name ", name);
   try {
