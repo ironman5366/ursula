@@ -14,6 +14,7 @@ interface BookSearchRequest {
 }
 
 function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
+  console.log("Caching books with name ", client)
   return new Promise((resolve, reject) => {
     let books: Book[] = [];
     client.from("search_cache").insert({ "query": name }).select("id").then(
@@ -21,40 +22,65 @@ function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
         if (error) {
           console.error("Search cache insert error ", error);
           reject(error);
+          return;
         }
 
         if (searchCacheIds === null) {
           reject();
+          return;
         }
 
         // I shouldn't have to do this cast - Deno is being weird
         searchCacheIds = searchCacheIds as { id: number }[];
         const cacheId: number = searchCacheIds[0].id;
 
+        console.log("Doing google books search for volumes")
         searchVolumes(name).then((volumes: VolumeSearchResponse) => {
+          console.log(`Found ${volumes.totalItems} items`)
           volumes.items.forEach((volume) => {
+            console.log("Volume ", volume)
             const isbn = extractISBN(volume.volumeInfo);
+            console.log("Volume ISBN", isbn)
             if (isbn === null) {
               return;
             }
 
             // TODO: will supa let me do this in one query?
-            client.from("books").insert({
-              title: volume.volumeInfo.title,
-              author_name: volume.volumeInfo.authors,
-              isbn,
-            }).select("*").then(({ data: bookIds, error }) => {
-              if (error || bookIds === null) {
+
+            // Get or create an author with this name in the database
+            client.from("authors").upsert({
+                name: volume.volumeInfo.authors?.[0],
+            }).select("id").then(({data: authorIds, error}) => {
+              if (error || authorIds === null) {
                 reject(error);
+                return;
               }
-              client.from("search_cache_books").insert({
-                "cache_id": cacheId,
-                "book_id": (bookIds as Book[])[0].id,
-              }).then(() => {
-                books.push((bookIds as Book[])[0]);
+              const authorId = (authorIds as { id: number }[])[0].id;
+              client.from("books").insert({
+                title: volume.volumeInfo.title,
+                google_id: volume.id,
+                small_thumbnail_url: volume.volumeInfo.imageLinks?.smallThumbnail,
+                large_thumbnail_url: volume.volumeInfo.imageLinks?.thumbnail,
+                author_id: authorId,
+                isbn,
+              }).select("*").then(({ data: bookIds, error }) => {
+                console.log("Did book insert,", bookIds, error);
+                if (error || bookIds === null) {
+                  reject(error);
+                  return;
+                }
+                client.from("search_cache_books").insert({
+                  "cache_id": cacheId,
+                  "book_id": (bookIds as Book[])[0].id,
+                }).then(() => {
+                  books.push((bookIds as Book[])[0]);
+                });
               });
-            });
+            })
+
+
           });
+          console.log(`Resolving with ${books.length} books`)
           resolve(books);
         });
       },
@@ -68,20 +94,24 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
    * database
    */
   return new Promise((resolve, reject) => {
+    // Check whether the search is cached
     client.from("search_cache").select("id, query").eq("query", name).then(
       ({ data, error }) => {
         if (error) {
           reject(error);
           return;
         }
-        console.debug("Searched cache ", data, error);
         const resp = data as { id: number; query: string }[];
         if (resp.length > 0) {
+          // If so, find all the associated books
           client.from("search_cache_books").select("book_id").eq(
-            "search_cache_id",
+            "cache_id",
             resp[0].id,
           ).then(({ data: bookIds, error }) => {
-            if (error) reject(error);
+            if (error) {
+              reject(error);
+              return;
+            }
             if (bookIds === null) {
               reject();
               return;
@@ -92,18 +122,23 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
                 bookId.book_id
               ),
             ).then(({ data: books, error }) => {
-              if (error) reject(error);
+              if (error) {
+                reject(error)
+                return;
+              }
               if (books === null) {
                 reject();
               } else {
                 resolve(books as Book[]);
               }
+              return;
             });
           });
+        } else {
+            cacheBooks(client, name).then((books) => {
+              resolve(books);
+            });
         }
-        cacheBooks(client, name).then((books) => {
-          resolve(books);
-        });
       },
     );
   });
