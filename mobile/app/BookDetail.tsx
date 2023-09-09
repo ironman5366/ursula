@@ -26,8 +26,7 @@ export default function BookDetail() {
             // @ts-ignore
             navigation.navigate("Review", {
               isbn: isbn,
-            })
-          }
+            })}
         />
         <Text>{data.volumeInfo.description}</Text>
       </View>

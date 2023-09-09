@@ -6,13 +6,13 @@ export function extractISBN(volumeInfo: VolumeInfo): string | null {
   }
 
   const isbn_13 = volumeInfo.industryIdentifiers.find(
-    (identifier) => identifier.type === "ISBN_13"
+    (identifier) => identifier.type === "ISBN_13",
   );
   if (isbn_13) {
     return isbn_13.identifier;
   }
   const isbn_10 = volumeInfo.industryIdentifiers.find(
-    (identifier) => identifier.type === "ISBN_10"
+    (identifier) => identifier.type === "ISBN_10",
   );
   if (isbn_10) {
     return isbn_10.identifier;

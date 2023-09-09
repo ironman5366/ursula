@@ -11,7 +11,7 @@ export default function Search() {
   const debouncedName = useDebounce(name, 200);
   const { data, isLoading, isSuccess } = useSearchVolumes(
     debouncedName,
-    !!debouncedName
+    !!debouncedName,
   );
 
   return (
@@ -20,9 +20,7 @@ export default function Search() {
       <SearchBar value={name} onChangeText={setName} />
       <View style={{ flex: 1 }} />
       <View style={styles.searchResultsContainer}>
-        {isLoading && debouncedName ? (
-          <ActivityIndicator size={"large"} />
-        ) : (
+        {isLoading && debouncedName ? <ActivityIndicator size={"large"} /> : (
           data && <SearchResultList volumes={data.items} />
         )}
       </View>

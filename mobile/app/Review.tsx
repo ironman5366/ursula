@@ -55,8 +55,7 @@ export default function Review() {
     }
   }, [data]);
 
-  const stateInitialized =
-    comparator !== undefined &&
+  const stateInitialized = comparator !== undefined &&
     comparatorIdx !== undefined &&
     data?.data &&
     comparisonRange;
@@ -79,7 +78,7 @@ export default function Review() {
           " range going from ",
           comparisonRange,
           " to ",
-          newRange
+          newRange,
         );
 
         const distance = newRange[1] - newRange[0];
@@ -118,7 +117,7 @@ export default function Review() {
         throw new Error("Comparison state uninitialized in nextBook");
       }
     },
-    [comparisonRange, comparatorIdx]
+    [comparisonRange, comparatorIdx],
   );
 
   if (isLoading || !stateInitialized) {

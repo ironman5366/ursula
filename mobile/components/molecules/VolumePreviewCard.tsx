@@ -36,23 +36,23 @@ export default function VolumePreviewCard({
       onPress={onPress || onPressCallback}
     >
       <Card style={styles.container}>
-        {volumeInfo ? (
-          <>
-            <View style={styles.imageContainer}>
-              <VolumeImage volumeInfo={volumeInfo} size={imageSize || 50} />
-            </View>
-            <View style={styles.textContainer}>
-              <Text style={styles.title}>{volumeInfo.title}</Text>
-              {volumeInfo.authors && (
-                <Text style={styles.subtitle}>
-                  {volumeInfo.authors.join(", ")}
-                </Text>
-              )}
-            </View>
-          </>
-        ) : (
-          <ActivityIndicator />
-        )}
+        {volumeInfo
+          ? (
+            <>
+              <View style={styles.imageContainer}>
+                <VolumeImage volumeInfo={volumeInfo} size={imageSize || 50} />
+              </View>
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{volumeInfo.title}</Text>
+                {volumeInfo.authors && (
+                  <Text style={styles.subtitle}>
+                    {volumeInfo.authors.join(", ")}
+                  </Text>
+                )}
+              </View>
+            </>
+          )
+          : <ActivityIndicator />}
       </Card>
     </TouchableOpacity>
   );

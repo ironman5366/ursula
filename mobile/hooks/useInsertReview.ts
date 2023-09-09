@@ -34,8 +34,8 @@ function insertReview({
             } else {
               reject(
                 new Error(
-                  "No data from inserting row, couldn't update corresponding record"
-                )
+                  "No data from inserting row, couldn't update corresponding record",
+                ),
               );
             }
           }
