@@ -30,47 +30,53 @@ function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
 
         // Do a google books search for volumes
         console.log("Doing google books search for volumes");
+        // TODO: this needs to be a promise.all situation
+        const volumePromises: PromiseLike<void>[] = [];
         searchVolumes(name).then((volumes: VolumeSearchResponse) => {
           console.log(`Found ${volumes.totalItems} items`);
           volumes.items.forEach((volume) => {
             console.log("Volume ", volume);
             const isbn = extractISBN(volume.volumeInfo);
-            console.log("Volume ISBN", isbn);
-            if (isbn === null) {
-              return;
-            }
-            client.from("authors").upsert({
-              name: volume.volumeInfo.authors?.[0],
-            }).select("id").then((authorResp) => {
-              const authorId = coerceId(authorResp);
-                if (authorId === null) {
-                  reject(authorResp.error);
-                  return
-                }
-                client.from("books").upsert({
-                  title: volume.volumeInfo.title,
-                  google_id: volume.id,
-                  small_thumbnail_url: volume.volumeInfo.imageLinks
-                      ?.smallThumbnail,
-                  large_thumbnail_url: volume.volumeInfo.imageLinks?.thumbnail,
-                  author_id: authorId,
-                  isbn,
-                }).select("*").then((bookResp) => {
-                  const book: Book | null = coerceSingleResponse(bookResp);
-                    if (book === null) {
-                        reject(bookResp.error);
-                        return;
-                    }
-                    client.from("search_cache_books").insert({
-                        "cache_id": cacheId,
-                        "book_id": book?.id,
-                    }).then(() => {
-                      books.push(book as Book);
-                    })
-                })
-            });
+              if (isbn === null) {
+                return;
+              }
+              volumePromises.push(client.from("authors").upsert({
+                name: volume.volumeInfo.authors?.[0],
+              }).select("id").then((authorResp) => {
+                const authorId = coerceId(authorResp);
+                  if (authorId === null) {
+                    reject(authorResp.error);
+                    return
+                  }
+                  client.from("books").upsert({
+                    title: volume.volumeInfo.title,
+                    google_id: volume.id,
+                    small_thumbnail_url: volume.volumeInfo.imageLinks
+                        ?.smallThumbnail,
+                    large_thumbnail_url: volume.volumeInfo.imageLinks?.thumbnail,
+                    author_id: authorId,
+                    isbn,
+                  }).select("*").then((bookResp) => {
+                    const book: Book | null = coerceSingleResponse(bookResp);
+                      if (book === null) {
+                          reject(bookResp.error);
+                          return;
+                      }
+                      client.from("search_cache_books").insert({
+                          "cache_id": cacheId,
+                          "book_id": book?.id,
+                      }).then(() => {
+                        books.push(book as Book);
+                        console.log("Pushed to books, books is now ", books);
+                      })
+                  })
+              }));
+          });
+          Promise.all(volumePromises).then(() => {
+            console.log("Finished volume search, resolving with", books);
+            resolve(books);
+            return;
           })
-          resolve(books);
         })
     })
   });
@@ -117,6 +123,7 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
               if (books === null) {
                 reject();
               } else {
+                console.log("Got books from cache", books);
                 resolve(books as Book[]);
               }
               return;
@@ -124,6 +131,7 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
           });
         } else {
           cacheBooks(client, name).then((books) => {
+            console.log("Cached books, got back ", books);
             resolve(books);
           });
         }
