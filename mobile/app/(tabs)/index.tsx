@@ -31,7 +31,7 @@ export default function Index() {
       {reviews &&
         reviews.data &&
         reviews.data.map((row) => (
-          <View style={styles.reviewedContainer} key={row.isbn}>
+          <View style={styles.reviewedContainer} key={row.id}>
             <ISBNPreviewCard isbn={row.isbn} />
           </View>
         ))}

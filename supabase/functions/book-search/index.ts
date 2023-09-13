@@ -5,7 +5,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { extractISBN, searchVolumes } from "./googleBooks.ts";
 import VolumeSearchResponse from "./types/VolumeSearchResponse.ts";
-import Book from "./types/Book.ts";
+import Book from "../../../types/Book.ts";
 import loadClient from "./supabase.ts";
 import { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { coerceId, coerceSingleResponse } from "./utils.ts";
@@ -30,7 +30,6 @@ function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
 
       // Do a google books search for volumes
       console.log("Doing google books search for volumes");
-      // TODO: this needs to be a promise.all situation
       const volumePromises: PromiseLike<void>[] = [];
       searchVolumes(name).then((volumes: VolumeSearchResponse) => {
         console.log(`Found ${volumes.totalItems} items`);
