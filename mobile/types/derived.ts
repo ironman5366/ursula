@@ -9,3 +9,7 @@ export type InsertReview = WithoutUser<
 >;
 
 export type UpdateReview = Database["public"]["Tables"]["reviews"]["Update"];
+
+export type Book = Database["public"]["Tables"]["books"]["Row"];
+
+export type Author = Database["public"]["Tables"]["authors"]["Row"];

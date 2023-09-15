@@ -25,6 +25,8 @@ export default function BookPreviewCard({
     }
   }, [book]);
 
+  const { isLoading, data: authors };
+
   return (
     <TouchableOpacity disabled={!book} onPress={onPress || onPressCallback}>
       <Card style={styles.container}>
