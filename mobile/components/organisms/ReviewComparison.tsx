@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View } from "./Themed";
-import ISBNPreviewCard from "../atoms/ISBNPreviewCard";
 
 interface Props {
   reviewTargetISBN: number;

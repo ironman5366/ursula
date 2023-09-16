@@ -1,24 +1,24 @@
 import React from "react";
 import { useNavigation } from "expo-router";
-import useVolume from "../hooks/useVolume";
 import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
 import { TitleText } from "../components/atoms/TitleText";
-import VolumeImage from "../components/atoms/VolumeImage";
+import BookImage from "../components/atoms/BookImage";
 import { Text } from "../components/organisms/Themed";
 import useInsertReview from "../hooks/useInsertReview";
-import useISBNParam from "../hooks/useISBNParam";
+import useIdParam from "../hooks/useIdParam";
+import useBook from "../hooks/useBook";
 
 export default function BookDetail() {
-  const isbn = useISBNParam();
-  const { data } = useVolume(isbn);
+  const id = useIdParam();
+  const { data } = useBook(id);
   const { mutate: review } = useInsertReview();
   const navigation = useNavigation();
 
   if (data) {
     return (
       <View style={styles.container}>
-        <TitleText>{data.volumeInfo.title}</TitleText>
-        <VolumeImage volumeInfo={data.volumeInfo} size={250} />
+        <TitleText>{data.title}</TitleText>
+        <BookImage volumeInfo={data.volumeInfo} size={250} />
         <Button title={"Add to your list"} />
         <Button
           title="Review"

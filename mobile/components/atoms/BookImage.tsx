@@ -1,19 +1,19 @@
 import React from "react";
-import { VolumeInfo } from "../../types/Volume";
 import { Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Book } from "../../types/derived";
 
-export interface VolumeImageProps {
-  volumeInfo: VolumeInfo;
+export interface Props {
+  book: Book;
   size: number;
 }
 
-export default function VolumeImage({ volumeInfo, size }: VolumeImageProps) {
-  if (volumeInfo.imageLinks) {
+export default function BookImage({ book, size }: Props) {
+  if (book.large_thumbnail_url) {
     return (
       <Image
         source={{
-          uri: volumeInfo.imageLinks.thumbnail,
+          uri: book.large_thumbnail_url,
         }}
         style={{
           height: size,

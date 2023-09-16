@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigation } from "expo-router";
 import useRankedReviews from "../hooks/useRankedReviews";
-import useISBNParam from "../hooks/useISBNParam";
+import useIdParam from "../hooks/useIdParam";
 import useInsertReview from "../hooks/useInsertReview";
 import { ActivityIndicator } from "react-native";
 import { View } from "../components/organisms/Themed";
@@ -11,7 +11,7 @@ export default function Review() {
   const navigation = useNavigation();
 
   // The book being reviewed
-  const isbn = useISBNParam();
+  const isbn = useIdParam();
 
   // All the existing reviews
   const { data } = useRankedReviews();

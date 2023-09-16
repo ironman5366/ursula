@@ -2,8 +2,9 @@ import React, { useCallback } from "react";
 import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import Card from "../atoms/Card";
 import { Text, View } from "../organisms/Themed";
-import VolumeImage from "../atoms/VolumeImage";
+import BookImage from "../atoms/BookImage";
 import useBookAuthors from "../../hooks/useBookAuthors";
+import useBook from "../../hooks/useBook";
 import { Book } from "../../types/derived";
 
 export interface BookCardProps {
@@ -18,15 +19,13 @@ export default function BookPreviewCard({
   imageSize,
 }: BookCardProps) {
   const onPressCallback = useCallback(() => {
-    if (book) {
-      // @ts-ignore
-      navigation.navigate("BookDetail", {
-        id: book.id,
-      });
-    }
+    // @ts-ignore
+    navigation.navigate("BookDetail", {
+      id: book.id,
+    });
   }, [book]);
 
-  const { isLoading, data: author } = useBookAuthors({ book });
+  const { data: author } = useBookAuthors({ book });
 
   return (
     <TouchableOpacity disabled={!book} onPress={onPress || onPressCallback}>
@@ -35,7 +34,7 @@ export default function BookPreviewCard({
           ? (
             <>
               <View style={styles.imageContainer}>
-                <VolumeImage volumeInfo={book} size={imageSize || 50} />
+                <BookImage volumeInfo={book} size={imageSize || 50} />
               </View>
               <View style={styles.textContainer}>
                 <Text style={styles.title}>{book.title}</Text>

@@ -11,7 +11,7 @@ export default function SearchResultList({ books }: SearchResultListProps) {
   return (
     <FlatList
       data={books}
-      renderItem={(item) => <BookPreviewCard book={item} />}
+      renderItem={({ item }) => <BookPreviewCard book={item} />}
     />
   );
 }

@@ -1,12 +1,12 @@
 import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 
-import { useThemeColor, View } from "../../components/organisms/Themed";
+import { View } from "../../components/organisms/Themed";
 import React from "react";
 import { useNavigation } from "expo-router";
 import SearchBar from "../../components/atoms/SearchBar";
 import { TitleText } from "../../components/atoms/TitleText";
-import ISBNPreviewCard from "../../components/atoms/ISBNPreviewCard";
 import useRankedReviews from "../../hooks/useRankedReviews";
+import BookPreviewCard from "../../components/molecules/BookPreviewCard";
 
 export default function Index() {
   const navigation = useNavigation();
@@ -32,7 +32,7 @@ export default function Index() {
         reviews.data &&
         reviews.data.map((row) => (
           <View style={styles.reviewedContainer} key={row.id}>
-            <ISBNPreviewCard isbn={row.isbn} />
+            <BookPreviewCard bookId={row.book_id} />
           </View>
         ))}
       <View style={{ flex: 2 }} />
