@@ -1,12 +1,13 @@
 import React, { useCallback } from "react";
-import Book from "../../../types/Book";
 import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import Card from "../atoms/Card";
 import { Text, View } from "../organisms/Themed";
 import VolumeImage from "../atoms/VolumeImage";
+import useBookAuthors from "../../hooks/useBookAuthors";
+import { Book } from "../../types/derived";
 
 export interface BookCardProps {
-  book: Book | undefined;
+  book: Book;
   onPress?: () => void;
   imageSize?: number;
 }
@@ -25,26 +26,24 @@ export default function BookPreviewCard({
     }
   }, [book]);
 
-  const { isLoading, data: authors };
+  const { isLoading, data: author } = useBookAuthors({ book });
 
   return (
     <TouchableOpacity disabled={!book} onPress={onPress || onPressCallback}>
       <Card style={styles.container}>
-        {book ? (
-          <>
-            <View style={styles.imageContainer}>
-              <VolumeImage volumeInfo={book} size={imageSize || 50} />
-            </View>
-            <View style={styles.textContainer}>
-              <Text style={styles.title}>{book.title}</Text>
-              {book.authors && (
-                <Text style={styles.subtitle}>{book.authors.join(", ")}</Text>
-              )}
-            </View>
-          </>
-        ) : (
-          <ActivityIndicator />
-        )}
+        {book
+          ? (
+            <>
+              <View style={styles.imageContainer}>
+                <VolumeImage volumeInfo={book} size={imageSize || 50} />
+              </View>
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{book.title}</Text>
+                {author && <Text style={styles.subtitle}>{author.name}</Text>}
+              </View>
+            </>
+          )
+          : <ActivityIndicator />}
       </Card>
     </TouchableOpacity>
   );

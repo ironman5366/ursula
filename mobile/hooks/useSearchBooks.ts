@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { FUNCTIONS_API_URL, SUPABASE_ANON_KEY } from "../constants";
-import Book from "../../types/Book";
+import { Book } from "../types/derived";
 
 function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
   return new Promise((resolve, reject) => {
@@ -24,9 +24,16 @@ function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
   });
 }
 
-export default function useSearchBooks({ name }: { name: string }) {
+export default function useSearchBooks({
+  name,
+  enabled,
+}: {
+  name: string;
+  enabled: boolean;
+}) {
   return useQuery({
     queryKey: ["SEARCH_BOOKS", name],
     queryFn: () => fetchSearchBooks({ name }),
+    enabled,
   });
 }

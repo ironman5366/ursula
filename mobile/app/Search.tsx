@@ -3,16 +3,16 @@ import { ActivityIndicator, StyleSheet } from "react-native";
 import { View } from "../components/organisms/Themed";
 import SearchBar from "../components/atoms/SearchBar";
 import useDebounce from "../hooks/useDebounce";
-import useSearchVolumes from "../hooks/useSearchVolumes";
+import useSearchBooks from "../hooks/useSearchBooks";
 import SearchResultList from "../components/molecules/SearchResultList";
 
 export default function Search() {
   const [name, setName] = useState("");
   const debouncedName = useDebounce(name, 200);
-  const { data, isLoading, isSuccess } = useSearchVolumes(
-    debouncedName,
-    !!debouncedName,
-  );
+  const { data, isLoading, isSuccess } = useSearchBooks({
+    name: debouncedName,
+    enabled: !!debouncedName,
+  });
 
   return (
     <View style={styles.container}>
@@ -21,7 +21,7 @@ export default function Search() {
       <View style={{ flex: 1 }} />
       <View style={styles.searchResultsContainer}>
         {isLoading && debouncedName ? <ActivityIndicator size={"large"} /> : (
-          data && <SearchResultList volumes={data.items} />
+          data && <SearchResultList books={data} />
         )}
       </View>
     </View>

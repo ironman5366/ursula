@@ -24,7 +24,7 @@ export function queryBookAuthors({ book }: { book: Book }): Promise<Author> {
 
 export default function useBookAuthors({ book }: { book: Book }) {
   return useQuery({
-    queryKey: ["BOOK_AUTHORS", book.id],
+    queryKey: ["BOOK_AUTHORS", book?.id],
     queryFn: () => queryBookAuthors({ book }),
   });
 }

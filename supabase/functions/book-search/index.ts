@@ -40,7 +40,7 @@ function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
             return;
           }
           volumePromises.push(
-              // TODO: this should be for each author
+            // TODO: this should be for each author
             client.from("authors").upsert({
               name: volume.volumeInfo.authors?.[0],
             }).select("id").then((authorResp) => {

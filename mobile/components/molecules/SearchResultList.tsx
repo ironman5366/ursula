@@ -1,20 +1,17 @@
 import React from "react";
-import Volume from "../../types/Volume";
 import { FlatList } from "react-native";
-import VolumePreviewCard from "./VolumePreviewCard";
-import { extractISBN } from "../../utils/isbn";
+import BookPreviewCard from "./BookPreviewCard";
+import { Book } from "../../types/derived";
 
 export interface SearchResultListProps {
-  volumes: Volume[];
+  books: Book[];
 }
 
-export default function SearchResultList({ volumes }: SearchResultListProps) {
+export default function SearchResultList({ books }: SearchResultListProps) {
   return (
     <FlatList
-      data={volumes.filter((v) => !!extractISBN(v.volumeInfo))}
-      renderItem={(item) => (
-        <VolumePreviewCard volumeInfo={item.item.volumeInfo} />
-      )}
+      data={books}
+      renderItem={(item) => <BookPreviewCard book={item} />}
     />
   );
 }
