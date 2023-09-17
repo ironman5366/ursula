@@ -1,17 +1,19 @@
 import React from "react";
 import useBook from "../../hooks/useBook";
-import BookPreviewCard from "../molecules/BookPreviewCard";
+import BookPreviewCard, {
+  BookPreviewCardProps,
+} from "../molecules/BookPreviewCard";
 import { ActivityIndicator } from "react-native";
 
-export interface Props {
+export interface Props extends Omit<BookPreviewCardProps, "book"> {
   bookId: number;
 }
 
-export default function BookIdPreviewCard({ bookId }: Props) {
+export default function BookIdPreviewCard({ bookId, ...rest }: Props) {
   const { data: book } = useBook(bookId);
 
   // TODO: make this less ugly
   return book
-    ? <BookPreviewCard book={book} />
+    ? <BookPreviewCard book={book} {...rest} />
     : <ActivityIndicator size={"small"} />;
 }

@@ -10,7 +10,7 @@ interface NewReview extends InsertReview {
 }
 
 function insertReview({
-  isbn,
+  book_id,
   prev_review_id,
   alter_review_id,
 }: NewReview): Promise<void> {
@@ -19,7 +19,7 @@ function insertReview({
       supabase
         .from(REVIEWS_TABLE)
         .insert({
-          isbn,
+          book_id,
           prev_review_id,
           user_uid: user.id,
         })

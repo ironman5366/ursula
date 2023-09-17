@@ -11,7 +11,7 @@ export default function Review() {
   const navigation = useNavigation();
 
   // The book being reviewed
-  const isbn = useIdParam();
+  const book_id = useIdParam();
 
   // All the existing reviews
   const { data } = useRankedReviews();
@@ -44,7 +44,8 @@ export default function Review() {
       // If there are no previous reviews, insert this!
       if (data.data.length === 0) {
         mutate({
-          isbn,
+          book_id,
+          prev_review_id: null,
         });
       } else {
         // Otherwise, start the binary search through the books
@@ -88,7 +89,7 @@ export default function Review() {
           // prevReviewId of the comparator.
           if (comparatorPreferred) {
             mutate({
-              isbn,
+              book_id,
               prev_review_id: comparator.id,
             });
           } else {
@@ -102,7 +103,7 @@ export default function Review() {
             // we have to do two mutations! We not only have to insert this book, we have to update the comparator to
             // mark this book as it's prevReviewId
             mutate({
-              isbn,
+              book_id,
               prev_review_id: prevReviewId,
               alter_review_id: comparator.id,
             });
@@ -131,9 +132,9 @@ export default function Review() {
 
   return (
     <ReviewComparison
-      reviewTargetISBN={isbn}
+      reviewTargetId={book_id}
       onReviewTargetPressed={() => nextBook(false)}
-      comparatorISBN={comparator.isbn}
+      comparatorId={comparator.book_id}
       onComparatorPressed={() => nextBook(true)}
     />
   );

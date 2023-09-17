@@ -171,7 +171,7 @@ export interface Database {
           book_id: number;
           created_at: string | null;
           id: number;
-          prev_review_id: number;
+          prev_review_id: number | null;
           updated_at: string | null;
           user_uid: string;
         };
@@ -179,7 +179,7 @@ export interface Database {
           book_id: number;
           created_at?: string | null;
           id?: number;
-          prev_review_id: number;
+          prev_review_id?: number | null;
           updated_at?: string | null;
           user_uid: string;
         };
@@ -187,7 +187,7 @@ export interface Database {
           book_id?: number;
           created_at?: string | null;
           id?: number;
-          prev_review_id?: number;
+          prev_review_id?: number | null;
           updated_at?: string | null;
           user_uid?: string;
         };

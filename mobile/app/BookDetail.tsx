@@ -18,17 +18,19 @@ export default function BookDetail() {
     return (
       <View style={styles.container}>
         <TitleText>{data.title}</TitleText>
-        <BookImage volumeInfo={data.volumeInfo} size={250} />
+        <BookImage book={data} size={250} />
         <Button title={"Add to your list"} />
         <Button
           title="Review"
           onPress={() =>
             // @ts-ignore
             navigation.navigate("Review", {
-              isbn: isbn,
+              id,
             })}
         />
-        <Text>{data.volumeInfo.description}</Text>
+        {
+          // TODO: store description in DB, display here
+        }
       </View>
     );
   }

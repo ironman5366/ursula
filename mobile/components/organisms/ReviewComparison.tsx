@@ -1,17 +1,19 @@
 import React from "react";
 import { Text, View } from "./Themed";
+import BookPreviewCard from "../molecules/BookPreviewCard";
+import BookIdPreviewCard from "../atoms/BookIdPreviewCard";
 
 interface Props {
-  reviewTargetISBN: number;
+  reviewTargetId: number;
   onReviewTargetPressed: () => void;
-  comparatorISBN: number;
+  comparatorId: number;
   onComparatorPressed: () => void;
 }
 
 export default function ReviewComparison({
-  reviewTargetISBN,
+  reviewTargetId,
   onReviewTargetPressed,
-  comparatorISBN,
+  comparatorId,
   onComparatorPressed,
 }: Props) {
   return (
@@ -33,13 +35,13 @@ export default function ReviewComparison({
           flex: 2,
         }}
       >
-        <ISBNPreviewCard
-          isbn={reviewTargetISBN}
+        <BookIdPreviewCard
+          bookId={reviewTargetId}
           imageSize={100}
           onPress={onReviewTargetPressed}
         />
-        <ISBNPreviewCard
-          isbn={comparatorISBN}
+        <BookIdPreviewCard
+          bookId={comparatorId}
           imageSize={100}
           onPress={onComparatorPressed}
         />

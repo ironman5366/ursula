@@ -7,7 +7,7 @@ import useBookAuthors from "../../hooks/useBookAuthors";
 import useBook from "../../hooks/useBook";
 import { Book } from "../../types/derived";
 
-export interface BookCardProps {
+export interface BookPreviewCardProps {
   book: Book;
   onPress?: () => void;
   imageSize?: number;
@@ -17,7 +17,7 @@ export default function BookPreviewCard({
   book,
   onPress,
   imageSize,
-}: BookCardProps) {
+}: BookPreviewCardProps) {
   const onPressCallback = useCallback(() => {
     // @ts-ignore
     navigation.navigate("BookDetail", {
@@ -34,7 +34,7 @@ export default function BookPreviewCard({
           ? (
             <>
               <View style={styles.imageContainer}>
-                <BookImage volumeInfo={book} size={imageSize || 50} />
+                <BookImage book={book} size={imageSize || 50} />
               </View>
               <View style={styles.textContainer}>
                 <Text style={styles.title}>{book.title}</Text>
