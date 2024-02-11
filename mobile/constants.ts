@@ -1,9 +1,6 @@
 export const FUNCTIONS_API_URL = process.env
   .EXPO_PUBLIC_FUNCTIONS_API_URL as string;
 
-export const GOOGLE_BOOKS_API_URL =
-  "https://www.googleapis.com/books/v1/volumes";
-
 // Supabase
 
 // The anon key for an app may be public

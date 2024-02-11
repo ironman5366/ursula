@@ -13,6 +13,7 @@ function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
       body: JSON.stringify({ name }),
     })
       .then((resp) => {
+        console.log("Resp data is ", resp.status, resp.body);
         resp
           .json()
           .then((data) => {
