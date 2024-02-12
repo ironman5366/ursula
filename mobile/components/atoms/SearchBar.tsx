@@ -4,7 +4,7 @@ import { useThemeColor } from "../organisms/Themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SearchBar(
-  props: Omit<React.ComponentProps<typeof TextInput>, "style" | "placeholder">,
+  props: Omit<React.ComponentProps<typeof TextInput>, "style" | "placeholder">
 ) {
   const tint = useThemeColor("tint");
   return (
@@ -13,7 +13,7 @@ export default function SearchBar(
         borderColor: tint,
         borderWidth: 3,
         borderRadius: 8,
-        width: "80%",
+        width: "100%",
         padding: 8,
         flexDirection: "row",
       }}
