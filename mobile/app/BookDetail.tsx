@@ -3,21 +3,18 @@ import { useNavigation } from "expo-router";
 import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
 import { TitleText } from "../components/atoms/TitleText";
 import BookImage from "../components/atoms/BookImage";
-import { Text } from "../components/organisms/Themed";
-import useInsertReview from "../hooks/useInsertReview";
 import useIdParam from "../hooks/useIdParam";
 import useBook from "../hooks/useBook";
 
 export default function BookDetail() {
   const id = useIdParam();
   const { data } = useBook(id);
-  const { mutate: review } = useInsertReview();
   const navigation = useNavigation();
 
   if (data) {
     return (
       <View style={styles.container}>
-        <TitleText>{data.title}</TitleText>
+        <TitleText>{data.name}</TitleText>
         <BookImage book={data} size={250} />
         <Button title={"Add to your list"} />
         <Button
