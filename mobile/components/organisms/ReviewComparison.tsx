@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View } from "./Themed";
-import BookPreviewCard from "../molecules/BookPreviewCard";
 import BookIdPreviewCard from "../atoms/BookIdPreviewCard";
 
 interface Props {

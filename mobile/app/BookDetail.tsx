@@ -17,14 +17,7 @@ export default function BookDetail() {
         <TitleText>{data.name}</TitleText>
         <BookImage book={data} size={250} />
         <Button title={"Add to your list"} />
-        <Button
-          title="Review"
-          onPress={() =>
-            // @ts-ignore
-            navigation.navigate("Review", {
-              id,
-            })}
-        />
+        <Button title="Review" onPress={() => {}} />
         {
           // TODO: store description in DB, display here
         }
