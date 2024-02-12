@@ -11,7 +11,7 @@ import { useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../utils/supabase";
-import Login from "./Login";
+import LoginSignup from "./LoginSignup";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -45,7 +45,7 @@ export default function RootLayout() {
 
 const queryClient = new QueryClient();
 
-function AuthScreens() {
+function AuthenticatedStack() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -74,13 +74,15 @@ function RootLayoutNav() {
     });
   }, []);
 
+  console.log(session);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-          {session && session.user ? <AuthScreens /> : <Login />}
+          {session && session.user ? <AuthenticatedStack /> : <LoginSignup />}
         </ThemeProvider>
       </QueryClientProvider>
     </>
