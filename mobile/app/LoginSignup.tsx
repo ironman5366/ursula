@@ -27,25 +27,32 @@ export default function LoginSignup() {
 
   return (
     <View style={styles.container}>
-      <TitleText>Welcome to Ursula</TitleText>
-      <StyledInput placeholder="Email" value={email} onChangeText={setEmail} />
-      <StyledInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <StyledButton
-        title={isLogin ? "Login" : "Sign Up"}
-        onPress={signInWithEmail}
-      />
-      <StyledText>
-        {isLogin ? "Don't have an account?" : "Already have an account?"}
-      </StyledText>
-      <StyledButton
-        title={isLogin ? "Sign Up" : "Login"}
-        onPress={() => setIsLogin(!isLogin)}
-      />
+      <View style={styles.form}>
+        <TitleText>Welcome to Ursula</TitleText>
+        <StyledInput
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          style={styles.input}
+        />
+        <StyledInput
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        <StyledButton
+          title={isLogin ? "Login" : "Sign Up"}
+          onPress={signInWithEmail}
+        />
+        <StyledText>
+          {isLogin ? "Don't have an account?" : "Already have an account?"}
+        </StyledText>
+        <StyledButton
+          title={isLogin ? "Sign Up" : "Login"}
+          onPress={() => setIsLogin(!isLogin)}
+        />
+      </View>
     </View>
   );
 }
@@ -55,5 +62,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  form: {
+    flex: 0.5,
+    justifyContent: "space-evenly",
+  },
+  input: {
+    minWidth: "40%",
   },
 });

@@ -7,10 +7,19 @@ interface Props extends ComponentProps<typeof TextInput> {
   borderColorName?: ThemeColor;
 }
 
-export default function StyledInput({ borderColorName, ...props }: Props) {
+export default function StyledInput({
+  borderColorName,
+  style,
+  ...props
+}: Props) {
   const borderColor = useThemeColor(borderColorName || "tint");
 
-  return <TextInput style={[styles.input, { borderColor }]} {...props} />;
+  return (
+    <TextInput
+      style={[styles.input, { borderColor }, style || {}]}
+      {...props}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
