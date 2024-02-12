@@ -45,7 +45,7 @@ function groupVolumesToBooks(volumes: VolumeSearchResponse): BooksByAuthorKey {
 
     if (existingAuthorBooks) {
       let satisfied = false;
-      for (const title of Object.keys(existingAuthorBooks)) {
+      for (const title of Object.keys(existingAuthorBooks.booksByTitle)) {
         // Find the shorter title
         const shortestLength = Math.min(
           title.length,
@@ -59,8 +59,9 @@ function groupVolumesToBooks(volumes: VolumeSearchResponse): BooksByAuthorKey {
         );
 
         const distance = levenshteinDistance(titleSlice, volumeTitleSlice);
+
         if (distance / shortestLength <= 0.35) {
-          existingAuthorBooks[title].push(volume);
+          booksByAuthorKey[authorKey].booksByTitle[title].push(volume);
           satisfied = true;
           break;
         }
@@ -118,10 +119,18 @@ async function getOrCreateAuthor(
   return data;
 }
 
+async function getOrCreateEdition() {}
+
 async function getOrCreateBooks(supabase: SupabaseClient, name: string) {
   const volumes = await searchVolumes(name);
   const grouped = groupVolumesToBooks(volumes);
-  Object.entries(grouped).forEach(([authorKey, booksByTitle]) => {});
+  Object.entries(grouped).forEach(async ([authorKey, authorBooks]) => {
+    const authorObjs = await Promise.all(
+      authorBooks.authorNames.map((name) => getOrCreateAuthor(supabase, name))
+    );
+
+    Object.entries(authorBooks.booksByTitle).forEach(([title, volumes]) => {});
+  });
 }
 
 async function handler(req: Request): Promise<Response> {

@@ -43,7 +43,7 @@ export type Database = {
         };
         Insert: {
           created_at?: string;
-          id: number;
+          id?: number;
           name: string;
           updated_at?: string;
         };
@@ -55,46 +55,77 @@ export type Database = {
         };
         Relationships: [];
       };
-      books: {
+      book_authors: {
         Row: {
-          author_id: number;
+          author_id: number | null;
+          book_id: number | null;
           created_at: string;
-          description: string;
           id: number;
-          large_thumbnail_url: string;
-          name: string;
-          small_thumbnail_url: string;
           updated_at: string;
         };
         Insert: {
-          author_id: number;
+          author_id?: number | null;
+          book_id?: number | null;
           created_at?: string;
-          description: string;
-          id: number;
-          large_thumbnail_url?: string;
-          name: string;
-          small_thumbnail_url?: string;
+          id?: number;
           updated_at?: string;
         };
         Update: {
-          author_id?: number;
+          author_id?: number | null;
+          book_id?: number | null;
           created_at?: string;
-          description?: string;
           id?: number;
-          large_thumbnail_url?: string;
-          name?: string;
-          small_thumbnail_url?: string;
           updated_at?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "author_id";
+            foreignKeyName: "book_authors_author_id_fkey";
             columns: ["author_id"];
             isOneToOne: false;
             referencedRelation: "authors";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_authors_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
           }
         ];
+      };
+      books: {
+        Row: {
+          author_key: string | null;
+          created_at: string;
+          description: string;
+          id: number;
+          large_thumbnail_url: string | null;
+          name: string;
+          small_thumbnail_url: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          author_key?: string | null;
+          created_at?: string;
+          description: string;
+          id?: number;
+          large_thumbnail_url?: string | null;
+          name: string;
+          small_thumbnail_url?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          author_key?: string | null;
+          created_at?: string;
+          description?: string;
+          id?: number;
+          large_thumbnail_url?: string | null;
+          name?: string;
+          small_thumbnail_url?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
       editions: {
         Row: {
@@ -111,7 +142,7 @@ export type Database = {
           book_id: number;
           created_at?: string;
           google_id: string;
-          id: number;
+          id?: number;
           isbn_10?: string | null;
           isbn_13?: string | null;
           name: string;
@@ -148,7 +179,7 @@ export type Database = {
         Insert: {
           book_id: number;
           created_at?: string;
-          id: number;
+          id?: number;
           updated_at?: string;
           user_id: string;
         };
@@ -187,7 +218,7 @@ export type Database = {
         Insert: {
           book_id: number;
           created_at?: string;
-          id: number;
+          id?: number;
           updated_at?: string;
           user_id: string;
         };
@@ -214,6 +245,60 @@ export type Database = {
             referencedColumns: ["id"];
           }
         ];
+      };
+      search_cache_entries: {
+        Row: {
+          book_id: number | null;
+          created_at: string | null;
+          id: number;
+          query_id: number | null;
+        };
+        Insert: {
+          book_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          query_id?: number | null;
+        };
+        Update: {
+          book_id?: number | null;
+          created_at?: string | null;
+          id?: number;
+          query_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "search_cache_entries_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "search_cache_entries_query_id_fkey";
+            columns: ["query_id"];
+            isOneToOne: false;
+            referencedRelation: "search_cache_queries";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      search_cache_queries: {
+        Row: {
+          created_at: string | null;
+          id: number;
+          query: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: number;
+          query: string;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: number;
+          query?: string;
+        };
+        Relationships: [];
       };
       users: {
         Row: {
