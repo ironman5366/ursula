@@ -1,7 +1,7 @@
 **/.idea
 .expo
 **/yarn-error.log
-**/.env 
+**/.env
 **/.DS_store
 **/.vscode
 .database.temp.ts

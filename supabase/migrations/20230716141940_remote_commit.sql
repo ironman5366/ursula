@@ -1,4 +1,3 @@
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -24,7 +23,8 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
-CREATE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
+-- noqa
+CREATE FUNCTION "public"."handle_new_user"() RETURNS "trigger" -- noqa
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$
 begin
