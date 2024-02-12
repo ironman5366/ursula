@@ -5,7 +5,7 @@ import SearchContainer from "../../components/SearchContainer";
 export default function Index() {
   return (
     <SearchContainer>
-      <Text>Yo yo yo</Text>
+      <Text>TODO: index page here</Text>
     </SearchContainer>
   );
 }

@@ -1,22 +1,54 @@
-import React, { PropsWithChildren } from "react";
-import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import React, { ComponentProps, PropsWithChildren } from "react";
+import {
+  SafeAreaView,
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 import { View } from "./organisms/Themed";
 import SearchBar from "./atoms/SearchBar";
+import { useNavigation } from "expo-router";
 
-export default function SearchContainer({ children }: PropsWithChildren<{}>) {
+function SearchNavigator({
+  children,
+  style,
+}: PropsWithChildren<{ style: StyleProp<ViewStyle> }>) {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      // TODO: can I fix the typechecker with these navigate calls?
+      // @ts-ignore
+      onPress={() => navigation.navigate("Search")}
+    >
+      <View style={style}>{children}</View>
+    </TouchableOpacity>
+  );
+}
+
+type Props =
+  | {
+      editable: false;
+    }
+  | {}
+  | ({
+      editable: true;
+    } & ComponentProps<typeof SearchBar>);
+
+export default function SearchContainer({
+  children,
+  ...props
+}: PropsWithChildren<Props>) {
+  const navigation = useNavigation();
+  const showSearch = "editable" in props && props.editable;
+  const WrapperComp = showSearch ? View : SearchNavigator;
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        // TODO: can I fix the typechecker with these navigate calls?
-        // @ts-ignore
-        onPress={() => navigation.navigate("Search")}
-      >
-        <View style={styles.searchBarContainer}>
-          <SearchBar editable={false} />
-        </View>
-        <View style={styles.children}>{children}</View>
-      </TouchableOpacity>
-      <View style={{ flex: 1 }} />
+      <WrapperComp style={styles.searchBarContainer}>
+        <SearchBar {...props} />
+      </WrapperComp>
+      <View style={styles.children}>{children}</View>
     </SafeAreaView>
   );
 }
@@ -24,9 +56,6 @@ export default function SearchContainer({ children }: PropsWithChildren<{}>) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
   },
   searchBarContainer: {
     flexDirection: "row",
@@ -35,5 +64,8 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
   },
-  children: {},
+  children: {
+    flex: 1,
+    padding: 10,
+  },
 });
