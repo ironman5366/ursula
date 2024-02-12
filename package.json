@@ -1,0 +1,17 @@
+{
+  "name": "ursula",
+  "version": "0.0.1",
+  "private": "true",
+  "repository": "https://github.com/ironman5366/ursula",
+  "scripts": {
+    "write-types": "supabase gen types typescript --linked > shared-types/Database.ts"
+  },
+  "author": "Will Beddow",
+  "license": "ISC",
+  "workspaces": [
+    "supabase",
+    "mobile",
+    "shared-types"
+  ],
+  "packageManager": "npm@10.4.0"
+}

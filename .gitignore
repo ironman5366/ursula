@@ -5,3 +5,5 @@
 **/.DS_store
 **/.vscode
 .database.temp.ts
+.turbo
+**/node_modules

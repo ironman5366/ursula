@@ -1,4 +1,4 @@
-import { Database } from "./Database";
+import { Database } from "@ursula/shared-types/Database";
 
 export type ReviewRow = Database["public"]["Tables"]["reviews"]["Row"];
 

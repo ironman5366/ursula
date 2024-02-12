@@ -1,7 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 import { createClient, User } from "@supabase/supabase-js";
 import { SUPABASE_ANON_KEY, SUPABASE_PROJECT_URL } from "../constants";
-import { Database } from "../types/Database";
+import { Database } from "@ursula/shared-types/Database";
 
 // We need this polyfill for supabase for now - https://github.com/supabase/supabase/issues/8464
 import "react-native-url-polyfill/auto";
@@ -40,5 +40,5 @@ export const supabase = createClient<Database>(
       persistSession: true,
       detectSessionInUrl: true,
     },
-  },
+  }
 );
