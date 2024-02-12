@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList } from "react-native";
 import BookPreviewCard from "./BookPreviewCard";
-import { Book } from "../../types/derived";
+import { Book } from "../../../shared-types/derived";
 
 export interface SearchResultListProps {
   books: Book[];

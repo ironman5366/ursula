@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { FUNCTIONS_API_URL, SUPABASE_ANON_KEY } from "../constants";
-import { Book } from "../types/derived";
+import { Book } from "../../shared-types/derived";
 
 function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
   return new Promise((resolve, reject) => {
