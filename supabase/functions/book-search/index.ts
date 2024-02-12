@@ -19,68 +19,84 @@ function cacheBooks(client: SupabaseClient, name: string): Promise<Book[]> {
     const books: Book[] = [];
     console.log("Caching books with name ", name);
     // Create a new entry in the search cache
-    client.from("search_cache").insert({
-      "query": name,
-    }).select("id").then((cacheInsertResp) => {
-      const cacheId = coerceId(cacheInsertResp);
-      if (cacheId === null) {
-        reject(cacheInsertResp.error);
-        return;
-      }
-
-      // Do a google books search for volumes
-      console.log("Doing google books search for volumes");
-      const volumePromises: PromiseLike<void>[] = [];
-      searchVolumes(name).then((volumes: VolumeSearchResponse) => {
-        console.log(`Found ${volumes.totalItems} items`);
-        volumes.items.forEach((volume) => {
-          console.log("Volume ", volume);
-          const isbn = extractISBN(volume.volumeInfo);
-          if (isbn === null) {
-            return;
-          }
-          volumePromises.push(
-            // TODO: this should be for each author
-            client.from("authors").upsert({
-              name: volume.volumeInfo.authors?.[0],
-            }).select("id").then((authorResp) => {
-              const authorId = coerceId(authorResp);
-              if (authorId === null) {
-                reject(authorResp.error);
-                return;
-              }
-              client.from("books").upsert({
-                title: volume.volumeInfo.title,
-                google_id: volume.id,
-                small_thumbnail_url: volume.volumeInfo.imageLinks
-                  ?.smallThumbnail,
-                large_thumbnail_url: volume.volumeInfo.imageLinks?.thumbnail,
-                author_id: authorId,
-                isbn,
-              }).select("*").then((bookResp) => {
-                const book: Book | null = coerceSingleResponse(bookResp);
-                if (book === null) {
-                  reject(bookResp.error);
-                  return;
-                }
-                client.from("search_cache_books").insert({
-                  "cache_id": cacheId,
-                  "book_id": book?.id,
-                }).then(() => {
-                  books.push(book as Book);
-                  console.log("Pushed to books, books is now ", books);
-                });
-              });
-            }),
-          );
-        });
-        Promise.all(volumePromises).then(() => {
-          console.log("Finished volume search, resolving with", books);
-          resolve(books);
+    client
+      .from("search_cache")
+      .insert({
+        query: name,
+      })
+      .select("id")
+      .then((cacheInsertResp) => {
+        const cacheId = coerceId(cacheInsertResp);
+        if (cacheId === null) {
+          reject(cacheInsertResp.error);
           return;
+        }
+
+        // Do a google books search for volumes
+        console.log("Doing google books search for volumes");
+        const volumePromises: PromiseLike<void>[] = [];
+        searchVolumes(name).then((volumes: VolumeSearchResponse) => {
+          console.log(`Found ${volumes.totalItems} items`);
+          volumes.items.forEach((volume) => {
+            console.log("Volume ", volume);
+            const isbn = extractISBN(volume.volumeInfo);
+            if (isbn === null) {
+              return;
+            }
+            volumePromises.push(
+              // TODO: this should be for each author
+              client
+                .from("authors")
+                .upsert({
+                  name: volume.volumeInfo.authors?.[0],
+                })
+                .select("id")
+                .then((authorResp) => {
+                  const authorId = coerceId(authorResp);
+                  if (authorId === null) {
+                    reject(authorResp.error);
+                    return;
+                  }
+                  client
+                    .from("books")
+                    .upsert({
+                      title: volume.volumeInfo.title,
+                      google_id: volume.id,
+                      small_thumbnail_url:
+                        volume.volumeInfo.imageLinks?.smallThumbnail,
+                      large_thumbnail_url:
+                        volume.volumeInfo.imageLinks?.thumbnail,
+                      author_id: authorId,
+                      isbn,
+                    })
+                    .select("*")
+                    .then((bookResp) => {
+                      const book: Book | null = coerceSingleResponse(bookResp);
+                      if (book === null) {
+                        reject(bookResp.error);
+                        return;
+                      }
+                      client
+                        .from("search_cache_books")
+                        .insert({
+                          cache_id: cacheId,
+                          book_id: book?.id,
+                        })
+                        .then(() => {
+                          books.push(book as Book);
+                          console.log("Pushed to books, books is now ", books);
+                        });
+                    });
+                })
+            );
+          });
+          Promise.all(volumePromises).then(() => {
+            console.log("Finished volume search, resolving with", books);
+            resolve(books);
+            return;
+          });
         });
       });
-    });
   });
 }
 
@@ -91,8 +107,11 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
    */
   return new Promise((resolve, reject) => {
     // Check whether the search is cached
-    client.from("search_cache").select("id, query").eq("query", name).then(
-      ({ data, error }) => {
+    client
+      .from("search_cache")
+      .select("id, query")
+      .eq("query", name)
+      .then(({ data, error }) => {
         if (error) {
           reject(error);
           return;
@@ -100,60 +119,63 @@ function searchBooks(client: SupabaseClient, name: string): Promise<Book[]> {
         const resp = data as { id: number; query: string }[];
         if (resp.length > 0) {
           // If so, find all the associated books
-          client.from("search_cache_books").select("book_id").eq(
-            "cache_id",
-            resp[0].id,
-          ).then(({ data: bookIds, error }) => {
-            if (error) {
-              reject(error);
-              return;
-            }
-            if (bookIds === null) {
-              reject();
-              return;
-            }
-            client.from("books").select("*").in(
-              "id",
-              (bookIds as { book_id: number }[]).map((bookId) =>
-                bookId.book_id
-              ),
-            ).then(({ data: books, error }) => {
+          client
+            .from("search_cache_books")
+            .select("book_id")
+            .eq("cache_id", resp[0].id)
+            .then(({ data: bookIds, error }) => {
               if (error) {
                 reject(error);
                 return;
               }
-              if (books === null) {
+              if (bookIds === null) {
                 reject();
-              } else {
-                console.log("Got books from cache", books);
-                resolve(books as Book[]);
+                return;
               }
-              return;
+              client
+                .from("books")
+                .select("*")
+                .in(
+                  "id",
+                  (bookIds as { book_id: number }[]).map(
+                    (bookId) => bookId.book_id
+                  )
+                )
+                .then(({ data: books, error }) => {
+                  if (error) {
+                    reject(error);
+                    return;
+                  }
+                  if (books === null) {
+                    reject();
+                  } else {
+                    console.log("Got books from cache", books);
+                    resolve(books as Book[]);
+                  }
+                  return;
+                });
             });
-          });
         } else {
           cacheBooks(client, name).then((books) => {
             console.log("Cached books, got back ", books);
             resolve(books);
           });
         }
-      },
-    );
+      });
   });
 }
 
 serve(async (req: Request) => {
-  const { name } = await req.json() as BookSearchRequest;
+  const { name } = (await req.json()) as BookSearchRequest;
   const client = loadClient();
 
   console.log("Searching for books with name ", name);
   try {
     const volumeResponse = await searchBooks(client, name);
     console.log(`Found ${volumeResponse.length} books with name ${name}`);
-    return new Response(
-      JSON.stringify(volumeResponse),
-      { headers: { "Content-Type": "application/json" } },
-    );
+    return new Response(JSON.stringify(volumeResponse), {
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (e) {
     console.error(e);
     return new Response("", {
