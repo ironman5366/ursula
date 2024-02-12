@@ -60,15 +60,6 @@ function AuthenticatedStack() {
   );
 }
 
-function UnauthenticatedStack() {
-  return <Stack screenOptions={{
-    headerShown: false
-  }}>
-    <Stack.Screen name={"LoginSignup"} />
-  </Stack>
-
-}
-
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const [session, setSession] = useState<Session | null>(null);
@@ -83,13 +74,15 @@ function RootLayoutNav() {
     });
   }, []);
 
+  console.log(session);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-          {session && session.user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
+          {session && session.user ? <AuthenticatedStack /> : <LoginSignup />}
         </ThemeProvider>
       </QueryClientProvider>
     </>

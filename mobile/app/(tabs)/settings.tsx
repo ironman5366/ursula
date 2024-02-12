@@ -9,6 +9,7 @@ export default function SettingsScreen() {
       <Button
         title={"Sign Out"}
         onPress={() => {
+          console.log("Signing out...");
           supabase.auth.signOut();
         }}
       />
