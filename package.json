@@ -1,0 +1,15 @@
+{
+  "name": "ursula",
+  "version": "0.0.1",
+  "description": "A WIP book-ranking app. Inspired by Beli's stack-ranking.",
+  "repository": "https://github.com/ironman5366/ursula",
+  "scripts": {
+    "write_types": "./write_types.sh"
+  },
+  "author": "Will Beddow",
+  "license": "ISC",
+  "workspaces": [
+    "supabase",
+    "mobile"
+  ]
+}

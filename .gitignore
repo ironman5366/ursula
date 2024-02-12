@@ -5,3 +5,4 @@
 **/.DS_store
 **/.vscode
 .database.temp.ts
+.turbo
