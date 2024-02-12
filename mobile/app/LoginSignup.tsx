@@ -4,7 +4,9 @@ import { supabase } from "../utils/supabase";
 import { TitleText } from "../components/atoms/TitleText";
 import StyledButton from "../components/atoms/StyledButton";
 import { StyledText } from "../components/atoms/StyledText";
-import StyledInput from "../components/atoms/StyledInput";
+import { AuthError } from "@supabase/supabase-js";
+import EmailInput from "../components/atoms/Emailnput";
+import PasswordInput from "../components/atoms/PasswordInput";
 
 export default function LoginSignup() {
   // Are we in login or signup mode?
@@ -16,10 +18,21 @@ export default function LoginSignup() {
 
   async function signInWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
+
+    let error: AuthError;
+    if (isLogin) {
+      const res = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      error = res.error;
+    } else {
+      const res = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
+      error = res.error;
+    }
 
     if (error) Alert.alert(error.message);
     setLoading(false);
@@ -29,13 +42,13 @@ export default function LoginSignup() {
     <View style={styles.container}>
       <View style={styles.form}>
         <TitleText>Welcome to Ursula</TitleText>
-        <StyledInput
+        <EmailInput
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           style={styles.input}
         />
-        <StyledInput
+        <PasswordInput
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
