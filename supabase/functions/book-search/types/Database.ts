@@ -36,62 +36,53 @@ export type Database = {
     Tables: {
       authors: {
         Row: {
-          created_at: string | null;
+          created_at: string;
           id: number;
           name: string;
-          updated_at: string | null;
+          updated_at: string;
         };
         Insert: {
-          created_at?: string | null;
-          id?: number;
+          created_at?: string;
+          id: number;
           name: string;
-          updated_at?: string | null;
+          updated_at?: string;
         };
         Update: {
-          created_at?: string | null;
+          created_at?: string;
           id?: number;
           name?: string;
-          updated_at?: string | null;
+          updated_at?: string;
         };
         Relationships: [];
       };
       books: {
         Row: {
           author_id: number;
-          created_at: string | null;
-          google_id: string;
+          created_at: string;
+          description: string;
           id: number;
-          isbn: string;
-          large_thumbnail_url: string;
-          small_thumbnail_url: string;
-          title: string;
-          updated_at: string | null;
+          name: string;
+          updated_at: string;
         };
         Insert: {
           author_id: number;
-          created_at?: string | null;
-          google_id: string;
-          id?: number;
-          isbn: string;
-          large_thumbnail_url: string;
-          small_thumbnail_url: string;
-          title: string;
-          updated_at?: string | null;
+          created_at?: string;
+          description: string;
+          id: number;
+          name: string;
+          updated_at?: string;
         };
         Update: {
           author_id?: number;
-          created_at?: string | null;
-          google_id?: string;
+          created_at?: string;
+          description?: string;
           id?: number;
-          isbn?: string;
-          large_thumbnail_url?: string;
-          small_thumbnail_url?: string;
-          title?: string;
-          updated_at?: string | null;
+          name?: string;
+          updated_at?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "fk_author_id";
+            foreignKeyName: "author_id";
             columns: ["author_id"];
             isOneToOne: false;
             referencedRelation: "authors";
@@ -99,11 +90,131 @@ export type Database = {
           },
         ];
       };
-      profiles: {
+      editions: {
+        Row: {
+          book_id: number;
+          created_at: string;
+          google_id: string;
+          id: number;
+          isbn_10: string | null;
+          isbn_13: string | null;
+          name: string;
+          updated_at: string;
+        };
+        Insert: {
+          book_id: number;
+          created_at?: string;
+          google_id: string;
+          id: number;
+          isbn_10?: string | null;
+          isbn_13?: string | null;
+          name: string;
+          updated_at?: string;
+        };
+        Update: {
+          book_id?: number;
+          created_at?: string;
+          google_id?: string;
+          id?: number;
+          isbn_10?: string | null;
+          isbn_13?: string | null;
+          name?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "book_id";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      reading_list_items: {
+        Row: {
+          book_id: number;
+          created_at: string;
+          id: number;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          book_id: number;
+          created_at?: string;
+          id: number;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          book_id?: number;
+          created_at?: string;
+          id?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "book_id";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_id";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      reviews: {
+        Row: {
+          book_id: number;
+          created_at: string;
+          id: number;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          book_id: number;
+          created_at?: string;
+          id: number;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          book_id?: number;
+          created_at?: string;
+          id?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "book_id";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_id";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      users: {
         Row: {
           avatar_url: string | null;
           full_name: string | null;
           id: string;
+          review_ids: number[];
           updated_at: string | null;
           username: string | null;
         };
@@ -111,6 +222,7 @@ export type Database = {
           avatar_url?: string | null;
           full_name?: string | null;
           id: string;
+          review_ids?: number[];
           updated_at?: string | null;
           username?: string | null;
         };
@@ -118,6 +230,7 @@ export type Database = {
           avatar_url?: string | null;
           full_name?: string | null;
           id?: string;
+          review_ids?: number[];
           updated_at?: string | null;
           username?: string | null;
         };
@@ -127,154 +240,6 @@ export type Database = {
             columns: ["id"];
             isOneToOne: true;
             referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      reading_lists: {
-        Row: {
-          book_id: number;
-          created_at: string | null;
-          id: number;
-          updated_at: string | null;
-          user_uid: string;
-        };
-        Insert: {
-          book_id: number;
-          created_at?: string | null;
-          id?: number;
-          updated_at?: string | null;
-          user_uid: string;
-        };
-        Update: {
-          book_id?: number;
-          created_at?: string | null;
-          id?: number;
-          updated_at?: string | null;
-          user_uid?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "fk_book_id";
-            columns: ["book_id"];
-            isOneToOne: false;
-            referencedRelation: "books";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "fk_user_uid";
-            columns: ["user_uid"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      reviews: {
-        Row: {
-          book_id: number;
-          created_at: string | null;
-          id: number;
-          prev_review_id: number | null;
-          updated_at: string | null;
-          user_uid: string;
-        };
-        Insert: {
-          book_id: number;
-          created_at?: string | null;
-          id?: number;
-          prev_review_id?: number | null;
-          updated_at?: string | null;
-          user_uid: string;
-        };
-        Update: {
-          book_id?: number;
-          created_at?: string | null;
-          id?: number;
-          prev_review_id?: number | null;
-          updated_at?: string | null;
-          user_uid?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "fk_book_id";
-            columns: ["book_id"];
-            isOneToOne: false;
-            referencedRelation: "books";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "fk_prev_review_id";
-            columns: ["prev_review_id"];
-            isOneToOne: false;
-            referencedRelation: "reviews";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "fk_user_uid";
-            columns: ["user_uid"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      search_cache: {
-        Row: {
-          created_at: string | null;
-          id: number;
-          query: string;
-          updated_at: string | null;
-        };
-        Insert: {
-          created_at?: string | null;
-          id?: number;
-          query: string;
-          updated_at?: string | null;
-        };
-        Update: {
-          created_at?: string | null;
-          id?: number;
-          query?: string;
-          updated_at?: string | null;
-        };
-        Relationships: [];
-      };
-      search_cache_books: {
-        Row: {
-          book_id: number;
-          cache_id: number;
-          created_at: string | null;
-          id: number;
-          updated_at: string | null;
-        };
-        Insert: {
-          book_id: number;
-          cache_id: number;
-          created_at?: string | null;
-          id?: number;
-          updated_at?: string | null;
-        };
-        Update: {
-          book_id?: number;
-          cache_id?: number;
-          created_at?: string | null;
-          id?: number;
-          updated_at?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "fk_book_id";
-            columns: ["book_id"];
-            isOneToOne: false;
-            referencedRelation: "books";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "fk_cache_id";
-            columns: ["cache_id"];
-            isOneToOne: false;
-            referencedRelation: "search_cache";
             referencedColumns: ["id"];
           },
         ];
