@@ -10,7 +10,8 @@ import {
 } from "https://esm.sh/@supabase/supabase-js";
 
 // Any spam or junk authors we want to ignore. For example 'instaread summaries' just publishes summaries of books.
-const AUTHOR_BLACKLIST = new Set(["instaread summaries"]);
+// Additionally, a book with no author probably isn't what the user is searching for
+const AUTHOR_BLACKLIST = new Set(["instaread summaries", ""]);
 
 type AuthorBooks = {
   authorNames: string[];
@@ -226,9 +227,9 @@ async function getOrCreateAuthorBooks(
 
 async function getOrCreateBooks(
   supabase: SupabaseClient<Database>,
-  name: string
+  query: string
 ) {
-  const volumes = await searchVolumes(name);
+  const volumes = await searchVolumes(query);
   const grouped = groupVolumesToBooks(volumes);
 
   const books: Book[] = (
@@ -239,16 +240,79 @@ async function getOrCreateBooks(
     )
   ).reduce((prev, current) => prev.concat(current), []);
 
+  // Cache the books, inserting the query and the entries in the same transaction
+  const { data: cacheRow, error } = await supabase
+    .from("search_cache_queries")
+    .upsert({ query }, { onConflict: "query" })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Failed to cache the query:", error);
+    throw error;
+  }
+
+  await supabase.from("search_cache_entries").upsert(
+    books.map(
+      (book) => ({
+        query_id: cacheRow.id,
+        book_id: book.id,
+      }),
+      { onConflict: "query_id,book_id" }
+    )
+  );
+
   return books;
+}
+
+const DAY_IN_MS = 1000 * 60 * 60 * 24;
+
+async function getCachedBooks(
+  supabase: SupabaseClient<Database>,
+  query: string
+): Promise<Book[] | null> {
+  const { data: cachedQuery } = await supabase
+    .from("search_cache_queries")
+    .select("*")
+    .eq("query", query)
+    .maybeSingle();
+
+  // Check if the query is in the cache, and fresh
+  if (cachedQuery) {
+    if (cachedQuery.created_at) {
+      const created = new Date(cachedQuery.created_at);
+      const now = new Date();
+
+      // If the query was made less than 24 hours ago, we'll use the cached results
+      if (now.getTime() - created.getTime() < DAY_IN_MS) {
+        const cachedBooksQuery = await supabase
+          .from("search_cache_entries")
+          .select("id, books(*)")
+          .eq("query_id", cachedQuery.id);
+
+        const { data, error } = await cachedBooksQuery;
+
+        if (error) {
+          console.error("Failed to get cached books:", error);
+          throw error;
+        }
+
+        return data.map((entry) => entry.books) as Book[];
+      } else {
+        console.log("Invalidating stale cache for query", query);
+      }
+    }
+  }
+  return null;
 }
 
 async function handler(req: Request): Promise<Response> {
   // Grab the URL params
   const url = new URL(req.url);
-  const name = url.searchParams.get("name");
+  const query = url.searchParams.get("q");
 
-  if (!name) {
-    return new Response(JSON.stringify({ error: "name is required" }), {
+  if (!query) {
+    return new Response(JSON.stringify({ error: "q is required" }), {
       status: 400,
     });
   }
@@ -274,11 +338,19 @@ async function handler(req: Request): Promise<Response> {
     );
   }
 
-  console.log("Searching for books with name", name);
+  console.log("Searching for books with query", query);
+
+  const cachedBooks = await getCachedBooks(supabase, query);
+  if (cachedBooks !== null) {
+    console.log(
+      `Found ${cachedBooks.length} books in the cache for query \"${query}\".`
+    );
+    return new Response(JSON.stringify({ books: cachedBooks }));
+  }
 
   try {
-    const books = await getOrCreateBooks(supabase, name);
-    console.log(`Found ${books.length} books for query \"${name}\".`);
+    const books = await getOrCreateBooks(supabase, query);
+    console.log(`Found ${books.length} books for query \"${query}\".`);
     return new Response(JSON.stringify({ books }));
   } catch (e) {
     console.error(e);
