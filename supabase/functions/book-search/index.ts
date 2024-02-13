@@ -1,4 +1,4 @@
-import { Book, Author } from "@ursula/shared-types/derived.ts";
+import { Book, Author, Edition } from "@ursula/shared-types/derived.ts";
 import { Database } from "@ursula/shared-types/Database.ts";
 import { searchVolumes } from "./googleBooks.ts";
 import VolumeSearchResponse from "./types/VolumeSearchResponse.ts";
@@ -24,8 +24,8 @@ type BooksByAuthorKey = {
  * A heuristic-based approach for grouping a list of volumes into editions and deciding which editions are part of the
  * same book. If the (sorted) author list is an exact string match, we calculate the Levenshtein distance between a slice of the titles.
  * We slice the titles by taking both to be the length of the shorter of the two.
- * If the Levenshtein distance divided by the length of the length of the string is < 25%
- * (read: "if the strings are less than 35% different), we consider the volumes to be part of the same book.
+ * If the Levenshtein distance divided by the length of the length of the string is < 0.35
+ * (read: "if the strings are less than 35% different, we consider the volumes to be part of the same book.")
  * We may eventually want to replace this with a more sophisticated approach, or just farm it out to ChatGPT
  */
 function groupVolumesToBooks(volumes: VolumeSearchResponse): BooksByAuthorKey {
@@ -119,18 +119,106 @@ async function getOrCreateAuthor(
   return data;
 }
 
-async function getOrCreateEdition() {}
+async function getOrCreateEdition(
+  supabase: SupabaseClient<Database>,
+  volume: Volume,
+  book: Book
+): Promise<Edition> {
+  const isbn_13 = volume.volumeInfo.industryIdentifiers?.find(
+    (identifier) => identifier.type === "ISBN_13"
+  );
+  const isbn_10 = volume.volumeInfo.industryIdentifiers?.find(
+    (identifier) => identifier.type === "ISBN_10"
+  );
 
-async function getOrCreateBooks(supabase: SupabaseClient, name: string) {
-  const volumes = await searchVolumes(name);
-  const grouped = groupVolumesToBooks(volumes);
-  Object.entries(grouped).forEach(async ([authorKey, authorBooks]) => {
-    const authorObjs = await Promise.all(
-      authorBooks.authorNames.map((name) => getOrCreateAuthor(supabase, name))
+  const { data, error } = await supabase
+    .from("editions")
+    .upsert({
+      book_id: book.id,
+      volume_id: volume.id,
+      description: volume.volumeInfo.description,
+      name: volume.volumeInfo.title,
+      isbn_10: isbn_10?.identifier,
+      isbn_13: isbn_13?.identifier,
+      google_id: volume.id,
+    })
+    .select()
+    .returns<Edition>();
+
+  if (error) {
+    console.error("Failed to upsert the edition:", error);
+    throw error;
+  }
+
+  return data;
+}
+
+async function getOrCreateAuthorBooks(
+  supabase: SupabaseClient<Database>,
+  authorKey: string,
+  authorBooks: AuthorBooks
+): Promise<Book[]> {
+  const books = [];
+
+  const authorObjs = await Promise.all(
+    authorBooks.authorNames.map((name) => getOrCreateAuthor(supabase, name))
+  );
+
+  for (const [title, volumes] of Object.entries(authorBooks.booksByTitle)) {
+    // Pick the shortest book title for the one that goes into the database.
+    const volumeWithShortestTitle = volumes.reduce((prev, current) =>
+      prev.volumeInfo.title.length < current.volumeInfo.title.length
+        ? prev
+        : current
     );
 
-    Object.entries(authorBooks.booksByTitle).forEach(([title, volumes]) => {});
-  });
+    const { data: book, error } = await supabase
+      .from("books")
+      .upsert({
+        author_key: authorKey,
+        name: volumeWithShortestTitle.volumeInfo.title,
+        description: volumeWithShortestTitle.volumeInfo.description,
+      })
+      .select()
+      .returns<Book>();
+
+    if (error) {
+      console.error("Failed to upsert the book:", error);
+      throw error;
+    }
+
+    // (asynchronously) create authors and editions for the books
+    await Promise.all([
+      ...authorObjs.map((author) =>
+        supabase
+          .from("book_authors")
+          .upsert({ author_id: author.id, book_id: book.id })
+          .select()
+      ),
+      ...volumes.map((volume) => getOrCreateEdition(supabase, volume, book)),
+    ]);
+
+    books.push(book);
+  }
+
+  return [];
+}
+
+async function getOrCreateBooks(
+  supabase: SupabaseClient<Database>,
+  name: string
+) {
+  const volumes = await searchVolumes(name);
+  const grouped = groupVolumesToBooks(volumes);
+  const books: Book[] = (
+    await Promise.all(
+      Object.entries(grouped).map(([authorKey, authorBooks]) =>
+        getOrCreateAuthorBooks(supabase, authorKey, authorBooks)
+      )
+    )
+  ).reduce((prev, current) => prev.concat(current), []);
+
+  return books;
 }
 
 async function handler(req: Request): Promise<Response> {
@@ -145,7 +233,7 @@ async function handler(req: Request): Promise<Response> {
     });
   }
 
-  let supabase: SupabaseClient;
+  let supabase: SupabaseClient<Database>;
   try {
     supabase = createClient<Database>(
       Deno.env.get("SUPABASE_URL") ?? "",
