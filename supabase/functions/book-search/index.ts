@@ -8,6 +8,7 @@ import {
   createClient,
   SupabaseClient,
 } from "https://esm.sh/@supabase/supabase-js";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 
 // Any spam or junk authors we want to ignore. For example 'instaread summaries' just publishes summaries of books.
 // Additionally, a book with no author probably isn't what the user is searching for
@@ -170,12 +171,61 @@ async function getOrCreateEdition(
   return data;
 }
 
+async function uploadToSupabase(
+  supabase: SupabaseClient<Database>,
+  url: string,
+  bucketName: string
+): Promise<string> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+  }
+  console.log("headers are ", response.headers);
+  // Determine the file extension from the content type
+  const contentType = response.headers.get("content-type");
+  if (!contentType) {
+    throw new Error(`Failed to determine content type for ${url}`);
+  }
+  const extension = contentType.split("/")[1];
+  const fileName = `${nanoid()}.${extension}`;
+
+  const blob = await response.blob();
+  const file = new File([blob], fileName, { type: blob.type });
+
+  const { error } = await supabase.storage
+    .from(bucketName)
+    .upload(fileName, file, {
+      cacheControl: "3600",
+      upsert: true,
+    });
+
+  if (error) {
+    throw new Error(`Failed to upload ${fileName}: ${error.message}`);
+  }
+
+  console.log(`${fileName} uploaded successfully.`);
+  return fileName; // Return the storage key
+}
+
 async function getOrCreateAuthorBooks(
   supabase: SupabaseClient<Database>,
   authorKey: string,
   authorBooks: AuthorBooks
 ): Promise<Book[]> {
   const books = [];
+
+  // Create the book_thumbnails bucket if it doesn't already exist
+  const { error: bucketError } = await supabase.storage.createBucket(
+    "book_thumbnails",
+    {
+      public: true,
+    }
+  );
+
+  if (bucketError) {
+    console.error("Failed to create the book_thumbnails bucket:", bucketError);
+    throw bucketError;
+  }
 
   const authorObjs: Author[] = await Promise.all(
     authorBooks.authorNames.map((name) => getOrCreateAuthor(supabase, name))
@@ -189,6 +239,31 @@ async function getOrCreateAuthorBooks(
         : current
     );
 
+    // Download the large and small thumbnail from google, and upload it to the supabase books bucket
+    const largeThumbnailUrl =
+      volumeWithShortestTitle.volumeInfo.imageLinks?.thumbnail;
+    const smallThumbnailUrl =
+      volumeWithShortestTitle.volumeInfo.imageLinks?.smallThumbnail;
+
+    let largeThumbnailKey: string | null = null;
+    let smallThumbnailKey: string | null = null;
+
+    if (largeThumbnailUrl) {
+      largeThumbnailKey = await uploadToSupabase(
+        supabase,
+        largeThumbnailUrl,
+        "book_thumbnails"
+      );
+    }
+
+    if (smallThumbnailUrl) {
+      smallThumbnailKey = await uploadToSupabase(
+        supabase,
+        smallThumbnailUrl,
+        "book_thumbnails"
+      );
+    }
+
     const { data: book, error } = await supabase
       .from("books")
       .upsert(
@@ -196,6 +271,8 @@ async function getOrCreateAuthorBooks(
           author_key: authorKey,
           name: volumeWithShortestTitle.volumeInfo.title,
           description: volumeWithShortestTitle.volumeInfo.description,
+          large_thumbnail_key: largeThumbnailKey,
+          small_thumbnail_key: smallThumbnailKey,
         },
         { onConflict: "name,author_key" }
       )
@@ -321,12 +398,7 @@ async function handler(req: Request): Promise<Response> {
   try {
     supabase = createClient<Database>(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      {
-        global: {
-          headers: { Authorization: req.headers.get("Authorization")! },
-        },
-      }
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
   } catch (e) {
     console.error(e);
