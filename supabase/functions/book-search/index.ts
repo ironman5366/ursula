@@ -214,19 +214,6 @@ async function getOrCreateAuthorBooks(
 ): Promise<Book[]> {
   const books = [];
 
-  // Create the book_thumbnails bucket if it doesn't already exist
-  const { error: bucketError } = await supabase.storage.createBucket(
-    "book_thumbnails",
-    {
-      public: true,
-    }
-  );
-
-  if (bucketError) {
-    console.error("Failed to create the book_thumbnails bucket:", bucketError);
-    throw bucketError;
-  }
-
   const authorObjs: Author[] = await Promise.all(
     authorBooks.authorNames.map((name) => getOrCreateAuthor(supabase, name))
   );
