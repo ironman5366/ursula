@@ -1,12 +1,19 @@
 import { Text, TextProps } from "../organisms/Themed";
-import { StyleSheet } from "react-native";
 
-export function TitleText(props: TextProps) {
-  return <Text {...props} style={[props.style, styles.title]}></Text>;
+interface Props extends TextProps {
+  fontSize?: number;
 }
 
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-  },
-});
+export function TitleText({ fontSize, ...props }: Props) {
+  return (
+    <Text
+      {...props}
+      style={[
+        props.style,
+        {
+          fontSize: fontSize || 24,
+        },
+      ]}
+    ></Text>
+  );
+}

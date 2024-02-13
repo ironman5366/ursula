@@ -17,8 +17,6 @@ export default function BookImage({ book, size }: Props) {
       .from("book_thumbnails")
       .getPublicUrl(book.large_thumbnail_key);
 
-    console.log("publicUrl", publicUrl);
-
     return (
       <Image
         source={{

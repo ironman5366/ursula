@@ -9,7 +9,7 @@ import {
   View as DefaultView,
 } from "react-native";
 
-import { Colors } from "../../constants";
+import { Colors } from "../../theme.ts";
 
 export function useThemeColor(
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
