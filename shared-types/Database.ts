@@ -131,6 +131,7 @@ export type Database = {
         Row: {
           book_id: number;
           created_at: string;
+          description: string | null;
           google_id: string;
           id: number;
           isbn_10: string | null;
@@ -141,6 +142,7 @@ export type Database = {
         Insert: {
           book_id: number;
           created_at?: string;
+          description?: string | null;
           google_id: string;
           id?: number;
           isbn_10?: string | null;
@@ -151,6 +153,7 @@ export type Database = {
         Update: {
           book_id?: number;
           created_at?: string;
+          description?: string | null;
           google_id?: string;
           id?: number;
           isbn_10?: string | null;

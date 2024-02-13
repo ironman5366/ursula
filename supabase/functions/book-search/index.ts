@@ -9,6 +9,9 @@ import {
   SupabaseClient,
 } from "https://esm.sh/@supabase/supabase-js";
 
+// Any spam or junk authors we want to ignore. For example 'instaread summaries' just publishes summaries of books.
+const AUTHOR_BLACKLIST = new Set(["instaread summaries"]);
+
 type AuthorBooks = {
   authorNames: string[];
   booksByTitle: {
@@ -38,6 +41,10 @@ function groupVolumesToBooks(volumes: VolumeSearchResponse): BooksByAuthorKey {
         ?.sort()
         .map((author) => author.toLowerCase())
         .join(", ") ?? "";
+
+    if (AUTHOR_BLACKLIST.has(authorKey)) {
+      continue;
+    }
 
     const authorNames = volume.volumeInfo.authors ?? [];
 
@@ -103,9 +110,14 @@ async function getOrCreateAuthor(
   // Look an author up by name (case-insensitive), in the database, and create them if they don't exist
   const { data, error } = await supabase
     .from("authors")
-    .upsert({ name: name }) // The unique key 'name' is used for conflict detection.
+    .upsert(
+      { name: name },
+      {
+        onConflict: "name",
+      }
+    )
     .select()
-    .single(); // Assuming you want to work with a single author object.
+    .single();
 
   if (error) {
     console.error("Failed to upsert the author:", error);
@@ -133,17 +145,21 @@ async function getOrCreateEdition(
 
   const { data, error } = await supabase
     .from("editions")
-    .upsert({
-      book_id: book.id,
-      volume_id: volume.id,
-      description: volume.volumeInfo.description,
-      name: volume.volumeInfo.title,
-      isbn_10: isbn_10?.identifier,
-      isbn_13: isbn_13?.identifier,
-      google_id: volume.id,
-    })
+    .upsert(
+      {
+        book_id: book.id,
+        description: volume.volumeInfo.description,
+        name: volume.volumeInfo.title,
+        isbn_10: isbn_10?.identifier,
+        isbn_13: isbn_13?.identifier,
+        google_id: volume.id,
+      },
+      {
+        onConflict: "google_id",
+      }
+    )
     .select()
-    .returns<Edition>();
+    .single();
 
   if (error) {
     console.error("Failed to upsert the edition:", error);
@@ -160,11 +176,11 @@ async function getOrCreateAuthorBooks(
 ): Promise<Book[]> {
   const books = [];
 
-  const authorObjs = await Promise.all(
+  const authorObjs: Author[] = await Promise.all(
     authorBooks.authorNames.map((name) => getOrCreateAuthor(supabase, name))
   );
 
-  for (const [title, volumes] of Object.entries(authorBooks.booksByTitle)) {
+  for (const [_title, volumes] of Object.entries(authorBooks.booksByTitle)) {
     // Pick the shortest book title for the one that goes into the database.
     const volumeWithShortestTitle = volumes.reduce((prev, current) =>
       prev.volumeInfo.title.length < current.volumeInfo.title.length
@@ -174,13 +190,16 @@ async function getOrCreateAuthorBooks(
 
     const { data: book, error } = await supabase
       .from("books")
-      .upsert({
-        author_key: authorKey,
-        name: volumeWithShortestTitle.volumeInfo.title,
-        description: volumeWithShortestTitle.volumeInfo.description,
-      })
+      .upsert(
+        {
+          author_key: authorKey,
+          name: volumeWithShortestTitle.volumeInfo.title,
+          description: volumeWithShortestTitle.volumeInfo.description,
+        },
+        { onConflict: "name,author_key" }
+      )
       .select()
-      .returns<Book>();
+      .single();
 
     if (error) {
       console.error("Failed to upsert the book:", error);
@@ -194,6 +213,7 @@ async function getOrCreateAuthorBooks(
           .from("book_authors")
           .upsert({ author_id: author.id, book_id: book.id })
           .select()
+          .single()
       ),
       ...volumes.map((volume) => getOrCreateEdition(supabase, volume, book)),
     ]);
@@ -201,7 +221,7 @@ async function getOrCreateAuthorBooks(
     books.push(book);
   }
 
-  return [];
+  return books;
 }
 
 async function getOrCreateBooks(
@@ -210,6 +230,7 @@ async function getOrCreateBooks(
 ) {
   const volumes = await searchVolumes(name);
   const grouped = groupVolumesToBooks(volumes);
+
   const books: Book[] = (
     await Promise.all(
       Object.entries(grouped).map(([authorKey, authorBooks]) =>
@@ -222,7 +243,6 @@ async function getOrCreateBooks(
 }
 
 async function handler(req: Request): Promise<Response> {
-  console.log("req is ", req);
   // Grab the URL params
   const url = new URL(req.url);
   const name = url.searchParams.get("name");
@@ -258,7 +278,8 @@ async function handler(req: Request): Promise<Response> {
 
   try {
     const books = await getOrCreateBooks(supabase, name);
-    return new Response(JSON.stringify({ name }));
+    console.log(`Found ${books.length} books for query \"${name}\".`);
+    return new Response(JSON.stringify({ books }));
   } catch (e) {
     console.error(e);
     return new Response(
