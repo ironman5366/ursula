@@ -1,6 +1,12 @@
 import React from "react";
 import { useNavigation } from "expo-router";
-import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Button,
+  StyleSheet,
+  View,
+  Text,
+} from "react-native";
 import { TitleText } from "../components/atoms/TitleText";
 import BookImage from "../components/atoms/BookImage";
 import useIdParam from "../hooks/useIdParam";
@@ -8,18 +14,16 @@ import useBook from "../hooks/useBook";
 
 export default function BookDetail() {
   const id = useIdParam();
-  const { data } = useBook(id);
+  const { data: book } = useBook(id);
 
-  if (data) {
+  if (book) {
     return (
       <View style={styles.container}>
-        <TitleText>{data.name}</TitleText>
-        <BookImage book={data} size={250} />
+        <TitleText>{book.name}</TitleText>
+        <BookImage book={book} size={250} />
         <Button title={"Add to your list"} />
         <Button title="Review" onPress={() => {}} />
-        {
-          // TODO: store description in DB, display here
-        }
+        <Text>{book.description}</Text>
       </View>
     );
   }

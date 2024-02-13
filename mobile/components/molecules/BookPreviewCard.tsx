@@ -4,8 +4,8 @@ import Card from "../atoms/Card";
 import { Text, View } from "../organisms/Themed";
 import BookImage from "../atoms/BookImage";
 import useBookAuthors from "../../hooks/useBookAuthors";
-import useBook from "../../hooks/useBook";
 import { Book } from "../../../shared-types/derived";
+import { useNavigation } from "expo-router";
 
 export interface BookPreviewCardProps {
   book: Book;
@@ -18,6 +18,8 @@ export default function BookPreviewCard({
   onPress,
   imageSize,
 }: BookPreviewCardProps) {
+  const navigation = useNavigation();
+
   const onPressCallback = useCallback(() => {
     // @ts-ignore
     navigation.navigate("BookDetail", {
@@ -25,7 +27,7 @@ export default function BookPreviewCard({
     });
   }, [book]);
 
-  const { data: author } = useBookAuthors({ book });
+  const { data: authors } = useBookAuthors({ book });
 
   return (
     <TouchableOpacity disabled={!book} onPress={onPress || onPressCallback}>
@@ -37,7 +39,11 @@ export default function BookPreviewCard({
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.title}>{book.name}</Text>
-              {author && <Text style={styles.subtitle}>{author.name}</Text>}
+              {authors && (
+                <Text style={styles.subtitle}>
+                  {authors.map((author) => author.name).join(", ")}
+                </Text>
+              )}
             </View>
           </>
         ) : (
