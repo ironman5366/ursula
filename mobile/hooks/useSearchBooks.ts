@@ -4,7 +4,7 @@ import { Book } from "../../shared-types/derived";
 
 function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
   return new Promise((resolve, reject) => {
-    fetch(`${FUNCTIONS_API_URL}/functions/v1/book-search/?name=${name}`, {
+    fetch(`${FUNCTIONS_API_URL}/functions/v1/book-search/?q=${name}`, {
       headers: {
         "Content-Type": "application/json",
       },
