@@ -5,16 +5,10 @@ import { TitleText } from "../components/atoms/TitleText";
 import BookImage from "../components/atoms/BookImage";
 import useIdParam from "../hooks/useIdParam";
 import useBook from "../hooks/useBook";
-import { supabase } from "../utils/supabase.ts";
 
 export default function BookDetail() {
   const id = useIdParam();
   const { data } = useBook(id);
-  const navigation = useNavigation();
-  const { data: book } = supabase
-    .from("books")
-    .upsert({ title: data?.name })
-    .select();
 
   if (data) {
     return (

@@ -98,7 +98,7 @@ export type Database = {
         Row: {
           author_key: string | null;
           created_at: string;
-          description: string;
+          description: string | null;
           id: number;
           large_thumbnail_url: string | null;
           name: string;
@@ -108,7 +108,7 @@ export type Database = {
         Insert: {
           author_key?: string | null;
           created_at?: string;
-          description: string;
+          description?: string | null;
           id?: number;
           large_thumbnail_url?: string | null;
           name: string;
@@ -118,7 +118,7 @@ export type Database = {
         Update: {
           author_key?: string | null;
           created_at?: string;
-          description?: string;
+          description?: string | null;
           id?: number;
           large_thumbnail_url?: string | null;
           name?: string;
