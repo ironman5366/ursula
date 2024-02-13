@@ -36,7 +36,7 @@ export default function BookPreviewCard({
               <BookImage book={book} size={imageSize || 50} />
             </View>
             <View style={styles.textContainer}>
-              <Text style={styles.title}>{book.title}</Text>
+              <Text style={styles.title}>{book.name}</Text>
               {author && <Text style={styles.subtitle}>{author.name}</Text>}
             </View>
           </>

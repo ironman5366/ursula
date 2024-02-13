@@ -1,23 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import { FUNCTIONS_API_URL, SUPABASE_ANON_KEY } from "../constants";
+import { FUNCTIONS_API_URL } from "../constants";
 import { Book } from "../../shared-types/derived";
 
 function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
   return new Promise((resolve, reject) => {
-    fetch(`${FUNCTIONS_API_URL}/functions/v1/book-search/`, {
+    fetch(`${FUNCTIONS_API_URL}/functions/v1/book-search/?name=${name}`, {
       headers: {
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
         "Content-Type": "application/json",
       },
-      method: "POST",
-      body: JSON.stringify({ name }),
+      method: "GET",
     })
       .then((resp) => {
-        console.log("Resp data is ", resp.status, resp.body);
         resp
           .json()
-          .then((data) => {
-            resolve(data);
+          .then((data: { books: Book[] }) => {
+            resolve(data.books);
           })
           .catch((err) => reject(err));
       })
