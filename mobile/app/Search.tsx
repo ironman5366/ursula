@@ -27,14 +27,3 @@ export default function Search() {
     </SearchContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-});

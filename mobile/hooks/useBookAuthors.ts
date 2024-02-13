@@ -2,24 +2,17 @@ import { supabase } from "../utils/supabase";
 import { Author, Book } from "../../shared-types/derived";
 import { useQuery } from "@tanstack/react-query";
 
-export function queryBookAuthors({ book }: { book: Book }): Promise<Author> {
-  return new Promise((resolve, reject) => {
-    supabase
-      .from("authors")
-      .select("*")
-      .eq("id", book.author_id)
-      .then((resp) => {
-        if (resp.error) {
-          reject(resp.error);
-          return;
-        }
-        if (resp.data === null) {
-          reject();
-          return;
-        }
-        resolve(resp.data[0] as Author);
-      });
-  });
+async function queryBookAuthors({ book }: { book: Book }): Promise<Author[]> {
+  const { data, error } = await supabase
+    .from("book_authors")
+    .select("authors(*)")
+    .eq("book_id", book.id);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.map((d: any) => d.authors);
 }
 
 export default function useBookAuthors({ book }: { book: Book | undefined }) {
