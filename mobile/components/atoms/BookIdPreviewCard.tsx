@@ -13,7 +13,9 @@ export default function BookIdPreviewCard({ bookId, ...rest }: Props) {
   const { data: book } = useBook(bookId);
 
   // TODO: make this less ugly
-  return book
-    ? <BookPreviewCard book={book} {...rest} />
-    : <ActivityIndicator size={"small"} />;
+  return book ? (
+    <BookPreviewCard book={book} {...rest} />
+  ) : (
+    <ActivityIndicator size={"small"} />
+  );
 }

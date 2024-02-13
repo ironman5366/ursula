@@ -1,15 +1,9 @@
-import { Database } from "@ursula/shared-types/Database";
+import { Database } from "@ursula/shared-types/Database.ts";
 
 export type ReviewRow = Database["public"]["Tables"]["reviews"]["Row"];
-
-type WithoutUser<T> = Omit<T, "user_uid">;
-
-export type InsertReview = WithoutUser<
-  Database["public"]["Tables"]["reviews"]["Insert"]
->;
 
 export type UpdateReview = Database["public"]["Tables"]["reviews"]["Update"];
 
 export type Book = Database["public"]["Tables"]["books"]["Row"];
-
+export type Edition = Database["public"]["Tables"]["editions"]["Row"];
 export type Author = Database["public"]["Tables"]["authors"]["Row"];

@@ -1,5 +1,5 @@
 import { supabase } from "../utils/supabase";
-import { Author, Book } from "../types/derived";
+import { Author, Book } from "../../shared-types/derived";
 import { useQuery } from "@tanstack/react-query";
 
 export function queryBookAuthors({ book }: { book: Book }): Promise<Author> {

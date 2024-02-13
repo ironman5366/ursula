@@ -1,4 +1,3 @@
-
 DROP TABLE "public"."reading_lists";
 DROP TABLE "public"."reviews";
 DROP TABLE "public"."search_cache_books";
@@ -25,7 +24,9 @@ CREATE TABLE "public"."books" (
     "author_id" int NOT NULL,
     "created_at" timestamp with time zone NOT NULL DEFAULT now(),
     "updated_at" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "author_id" FOREIGN KEY ("author_id") REFERENCES "authors"("id") ON DELETE CASCADE
+    CONSTRAINT "author_id" FOREIGN KEY ("author_id") REFERENCES "authors" (
+        "id"
+    ) ON DELETE CASCADE
 );
 
 
@@ -38,7 +39,9 @@ CREATE TABLE "public"."editions" (
     "google_id" text NOT NULL UNIQUE,
     "created_at" timestamp with time zone NOT NULL DEFAULT now(),
     "updated_at" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "book_id" FOREIGN KEY ("book_id") REFERENCES "books"("id") ON DELETE CASCADE
+    CONSTRAINT "book_id" FOREIGN KEY ("book_id") REFERENCES "books" (
+        "id"
+    ) ON DELETE CASCADE
 );
 
 
@@ -48,12 +51,16 @@ CREATE TABLE "public"."reviews" (
     "user_id" uuid NOT NULL,
     "created_at" timestamp with time zone NOT NULL DEFAULT now(),
     "updated_at" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "book_id" FOREIGN KEY ("book_id") REFERENCES "books"("id") ON DELETE CASCADE,
-    CONSTRAINT "user_id" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
+    CONSTRAINT "book_id" FOREIGN KEY ("book_id") REFERENCES "books" (
+        "id"
+    ) ON DELETE CASCADE,
+    CONSTRAINT "user_id" FOREIGN KEY ("user_id") REFERENCES "users" (
+        "id"
+    ) ON DELETE CASCADE
 );
 
--- Alter the users table so that they have an integer array which references review IDs. 
-ALTER TABLE "public"."users" ADD COLUMN "review_ids" integer[] NOT NULL DEFAULT '{}';
+-- Alter the users table so that they have an integer array which references review IDs.
+ALTER TABLE "public"."users" ADD COLUMN "review_ids" integer [] NOT NULL DEFAULT '{}';
 
 CREATE TABLE "public"."reading_list_items" (
     "id" int PRIMARY KEY,
@@ -61,6 +68,10 @@ CREATE TABLE "public"."reading_list_items" (
     "user_id" uuid NOT NULL,
     "created_at" timestamp with time zone NOT NULL DEFAULT now(),
     "updated_at" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "book_id" FOREIGN KEY ("book_id") REFERENCES "books"("id") ON DELETE CASCADE,
-    CONSTRAINT "user_id" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE
+    CONSTRAINT "book_id" FOREIGN KEY ("book_id") REFERENCES "books" (
+        "id"
+    ) ON DELETE CASCADE,
+    CONSTRAINT "user_id" FOREIGN KEY ("user_id") REFERENCES "users" (
+        "id"
+    ) ON DELETE CASCADE
 );

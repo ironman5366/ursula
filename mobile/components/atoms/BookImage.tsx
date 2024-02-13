@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Book } from "../../types/derived";
+import { Book } from "../../../shared-types/derived";
 
 export interface Props {
   book: Book;

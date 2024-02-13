@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UpdateReview } from "../types/derived";
+import { UpdateReview } from "../../shared-types/derived";
 import { getUser, supabase } from "../utils/supabase";
 import { REVIEWS_TABLE } from "../constants";
 

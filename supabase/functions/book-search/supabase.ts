@@ -6,6 +6,6 @@ export default function loadClient() {
     // Supabase API URL - env var exported by default.
     Deno.env.get("SUPABASE_URL") ?? "",
     // Supabase API privileged service KEY - env var exported by default.
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
   );
 }

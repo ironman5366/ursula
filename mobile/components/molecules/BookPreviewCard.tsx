@@ -5,7 +5,7 @@ import { Text, View } from "../organisms/Themed";
 import BookImage from "../atoms/BookImage";
 import useBookAuthors from "../../hooks/useBookAuthors";
 import useBook from "../../hooks/useBook";
-import { Book } from "../../types/derived";
+import { Book } from "../../../shared-types/derived";
 
 export interface BookPreviewCardProps {
   book: Book;
@@ -30,19 +30,19 @@ export default function BookPreviewCard({
   return (
     <TouchableOpacity disabled={!book} onPress={onPress || onPressCallback}>
       <Card style={styles.container}>
-        {book
-          ? (
-            <>
-              <View style={styles.imageContainer}>
-                <BookImage book={book} size={imageSize || 50} />
-              </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.title}>{book.title}</Text>
-                {author && <Text style={styles.subtitle}>{author.name}</Text>}
-              </View>
-            </>
-          )
-          : <ActivityIndicator />}
+        {book ? (
+          <>
+            <View style={styles.imageContainer}>
+              <BookImage book={book} size={imageSize || 50} />
+            </View>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>{book.title}</Text>
+              {author && <Text style={styles.subtitle}>{author.name}</Text>}
+            </View>
+          </>
+        ) : (
+          <ActivityIndicator />
+        )}
       </Card>
     </TouchableOpacity>
   );
