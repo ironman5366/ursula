@@ -16,35 +16,23 @@ export default function BookDetail() {
   const id = useIdParam();
   const { data: book } = useBook(id);
 
-  if (book) {
+  if (!book) {
     return (
-      <View style={styles.container}>
-        <TitleText>{book.name}</TitleText>
-        <BookImage book={book} size={250} />
-        <Button title={"Add to your list"} />
-        <Button title="Review" onPress={() => {}} />
-        <Text>{book.description}</Text>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator />
       </View>
     );
   }
 
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size={"large"} />
-    </View>
-  );
+  return <View style={styles.container}></View>;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
   },
-  buttonContainer: {
+  loadingContainer: {
     flex: 1,
-    flexDirection: "row",
+    alignItems: "center",
   },
-  subtitle: {},
 });

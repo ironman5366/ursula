@@ -276,9 +276,13 @@ async function getOrCreateAuthorBooks(
       ...authorObjs.map((author) =>
         supabase
           .from("book_authors")
-          .upsert({ author_id: author.id, book_id: book.id })
+          .upsert(
+            { author_id: author.id, book_id: book.id },
+            {
+              onConflict: "author_id,book_id",
+            }
+          )
           .select()
-          .single()
       ),
       ...volumes.map((volume) => getOrCreateEdition(supabase, volume, book)),
     ]);
@@ -396,6 +400,14 @@ async function handler(req: Request): Promise<Response> {
       }
     );
   }
+
+  // If the bucket "book_thumbnails" doesn't exist, create it
+  const { error: bucketError } = await supabase.storage.createBucket(
+    "book_thumbnails",
+    {
+      public: true,
+    }
+  );
 
   console.log("Searching for books with query", query);
 
