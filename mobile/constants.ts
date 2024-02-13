@@ -1,20 +1,16 @@
-export const FUNCTIONS_API_URL = process.env
-  .EXPO_PUBLIC_FUNCTIONS_API_URL as string;
-
 // Supabase
 
 // The anon key for an app may be public
 export const SUPABASE_ANON_KEY = process.env
   .EXPO_PUBLIC_SUPABASE_ANON_KEY as string;
 
+export const SUPABASE_PROJECT_URL =
+  process.env.EXPO_PUBLIC_SUPABASE_PROJECT_URL;
+
 if (SUPABASE_ANON_KEY === undefined) {
   console.log("Supabase key is undefined!");
   console.log("Env vars", process.env);
 }
-
-export const REVIEWS_TABLE = "reviews";
-
-export const SUPABASE_PROJECT_URL = "https://edikpsrgwjfzjzhitgjo.supabase.co";
 
 // Theming
 const tintColorLight = "#832232";
