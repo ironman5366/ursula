@@ -2,6 +2,7 @@ import React from "react";
 import { Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Book } from "../../../shared-types/derived";
+import { supabase } from "../../utils/supabase.ts";
 
 export interface Props {
   book: Book;
@@ -9,11 +10,19 @@ export interface Props {
 }
 
 export default function BookImage({ book, size }: Props) {
-  if (book.large_thumbnail_url) {
+  if (book.large_thumbnail_key) {
+    const {
+      data: { publicUrl },
+    } = supabase.storage
+      .from("book_thumbnails")
+      .getPublicUrl(book.large_thumbnail_key);
+
+    console.log("publicUrl", publicUrl);
+
     return (
       <Image
         source={{
-          uri: book.large_thumbnail_url,
+          uri: publicUrl,
         }}
         style={{
           height: size,

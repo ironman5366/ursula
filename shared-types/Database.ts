@@ -100,9 +100,9 @@ export type Database = {
           created_at: string;
           description: string | null;
           id: number;
-          large_thumbnail_url: string | null;
+          large_thumbnail_key: string | null;
           name: string;
-          small_thumbnail_url: string | null;
+          small_thumbnail_key: string | null;
           updated_at: string;
         };
         Insert: {
@@ -110,9 +110,9 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: number;
-          large_thumbnail_url?: string | null;
+          large_thumbnail_key?: string | null;
           name: string;
-          small_thumbnail_url?: string | null;
+          small_thumbnail_key?: string | null;
           updated_at?: string;
         };
         Update: {
@@ -120,9 +120,9 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: number;
-          large_thumbnail_url?: string | null;
+          large_thumbnail_key?: string | null;
           name?: string;
-          small_thumbnail_url?: string | null;
+          small_thumbnail_key?: string | null;
           updated_at?: string;
         };
         Relationships: [];
