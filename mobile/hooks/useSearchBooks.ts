@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { FUNCTIONS_API_URL } from "../constants";
+import { SUPABASE_PROJECT_URL } from "../constants";
 import { Book } from "../../shared-types/derived";
 
 function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
   return new Promise((resolve, reject) => {
-    fetch(`${FUNCTIONS_API_URL}/functions/v1/book-search/?q=${name}`, {
+    fetch(`${SUPABASE_PROJECT_URL}/functions/v1/book-search/?q=${name}`, {
       headers: {
         "Content-Type": "application/json",
       },
