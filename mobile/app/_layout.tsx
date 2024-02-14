@@ -1,9 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from "react";
@@ -12,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../utils/supabase";
 import LoginSignup from "./LoginSignup";
+import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -80,7 +77,7 @@ function RootLayoutNav() {
     <>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
         >
           {session && session.user ? <AuthenticatedStack /> : <LoginSignup />}
         </ThemeProvider>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { ActivityIndicator, StyleSheet, Text } from "react-native";
 import SearchContainer from "../components/SearchContainer";
 import useDebounce from "../hooks/useDebounce.ts";
 import useSearchBooks from "../hooks/useSearchBooks.ts";
@@ -15,24 +15,15 @@ export default function Search() {
     enabled: !!debounced,
   });
 
+  const showLoading = isLoading && !!debounced;
+
   return (
     <SearchContainer
       editable
       onChangeText={(text) => setQuery(text)}
       value={query}
     >
-      <SearchResultList books={data} />
+      {showLoading ? <ActivityIndicator /> : <SearchResultList books={data} />}
     </SearchContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-});

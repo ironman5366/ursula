@@ -1,32 +1,50 @@
 import React from "react";
-import { useNavigation } from "expo-router";
-import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+} from "react-native";
 import { TitleText } from "../components/atoms/TitleText";
 import BookImage from "../components/atoms/BookImage";
 import useIdParam from "../hooks/useIdParam";
 import useBook from "../hooks/useBook";
+import CardButton from "../components/atoms/CardButton.tsx";
 
 export default function BookDetail() {
   const id = useIdParam();
-  const { data } = useBook(id);
+  const { data: book } = useBook(id);
 
-  if (data) {
+  if (!book) {
     return (
-      <View style={styles.container}>
-        <TitleText>{data.name}</TitleText>
-        <BookImage book={data} size={250} />
-        <Button title={"Add to your list"} />
-        <Button title="Review" onPress={() => {}} />
-        {
-          // TODO: store description in DB, display here
-        }
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={"large"} />
+      <View style={styles.header}>
+        <TitleText
+          style={{
+            textAlign: "center",
+          }}
+        >
+          {book.name}
+        </TitleText>
+        <BookImage book={book} size={256} />
+      </View>
+      <View style={styles.buttons}>
+        <CardButton title={"Add to your list"} />
+        <CardButton title={"Review"} />
+      </View>
+      <ScrollView>
+        <View style={styles.meta}>
+          <Text>{book.description}</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -34,13 +52,22 @@ export default function BookDetail() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     padding: 10,
   },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
+  header: {
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
   },
-  subtitle: {},
+  buttons: {
+    flex: 2,
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  meta: {},
+  loadingContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
 });

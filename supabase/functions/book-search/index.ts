@@ -171,7 +171,7 @@ async function getOrCreateEdition(
   return data;
 }
 
-async function uploadToSupabase(
+async function uploadToBucket(
   supabase: SupabaseClient<Database>,
   url: string,
   bucketName: string
@@ -180,7 +180,7 @@ async function uploadToSupabase(
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
   }
-  console.log("headers are ", response.headers);
+
   // Determine the file extension from the content type
   const contentType = response.headers.get("content-type");
   if (!contentType) {
@@ -236,7 +236,7 @@ async function getOrCreateAuthorBooks(
     let smallThumbnailKey: string | null = null;
 
     if (largeThumbnailUrl) {
-      largeThumbnailKey = await uploadToSupabase(
+      largeThumbnailKey = await uploadToBucket(
         supabase,
         largeThumbnailUrl,
         "book_thumbnails"
@@ -244,7 +244,7 @@ async function getOrCreateAuthorBooks(
     }
 
     if (smallThumbnailUrl) {
-      smallThumbnailKey = await uploadToSupabase(
+      smallThumbnailKey = await uploadToBucket(
         supabase,
         smallThumbnailUrl,
         "book_thumbnails"
@@ -276,9 +276,13 @@ async function getOrCreateAuthorBooks(
       ...authorObjs.map((author) =>
         supabase
           .from("book_authors")
-          .upsert({ author_id: author.id, book_id: book.id })
+          .upsert(
+            { author_id: author.id, book_id: book.id },
+            {
+              onConflict: "author_id,book_id",
+            }
+          )
           .select()
-          .single()
       ),
       ...volumes.map((volume) => getOrCreateEdition(supabase, volume, book)),
     ]);
@@ -396,6 +400,11 @@ async function handler(req: Request): Promise<Response> {
       }
     );
   }
+
+  // If the bucket "book_thumbnails" doesn't exist, create it
+  await supabase.storage.createBucket("book_thumbnails", {
+    public: true,
+  });
 
   console.log("Searching for books with query", query);
 

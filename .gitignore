@@ -7,3 +7,4 @@
 .database.temp.ts
 .turbo
 **/node_modules
+**/.env*

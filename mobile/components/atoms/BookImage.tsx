@@ -9,6 +9,8 @@ export interface Props {
   size: number;
 }
 
+const aspectRatio = 0.625;
+
 export default function BookImage({ book, size }: Props) {
   if (book.large_thumbnail_key) {
     const {
@@ -17,8 +19,6 @@ export default function BookImage({ book, size }: Props) {
       .from("book_thumbnails")
       .getPublicUrl(book.large_thumbnail_key);
 
-    console.log("publicUrl", publicUrl);
-
     return (
       <Image
         source={{
@@ -26,7 +26,7 @@ export default function BookImage({ book, size }: Props) {
         }}
         style={{
           height: size,
-          width: size,
+          width: size * aspectRatio,
         }}
       />
     );
