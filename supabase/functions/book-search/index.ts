@@ -402,12 +402,9 @@ async function handler(req: Request): Promise<Response> {
   }
 
   // If the bucket "book_thumbnails" doesn't exist, create it
-  const { error: bucketError } = await supabase.storage.createBucket(
-    "book_thumbnails",
-    {
-      public: true,
-    }
-  );
+  await supabase.storage.createBucket("book_thumbnails", {
+    public: true,
+  });
 
   console.log("Searching for books with query", query);
 
