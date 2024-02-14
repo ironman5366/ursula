@@ -31,10 +31,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="readingList"
+        name="yourBooks"
         options={{
-          title: "Reading List",
-          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          title: "Your Books",
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
       <Tabs.Screen
