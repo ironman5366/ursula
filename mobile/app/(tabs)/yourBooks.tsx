@@ -1,15 +1,42 @@
-import React from "react";
-import { View } from "../../components/organisms/Themed";
-import SearchContainer from "../../components/SearchContainer.tsx";
-import { StyleSheet, useWindowDimensions } from "react-native";
-import { SceneMap, TabView } from "react-native-tab-view";
+import React, { ComponentProps } from "react";
+import { useWindowDimensions } from "react-native";
+import {
+  SceneMap,
+  TabView,
+  TabBar as MaterialTabBar,
+} from "react-native-tab-view";
 import ReadingList from "../../pages/ReadingList.tsx";
 import RankingList from "../../pages/RankingList.tsx";
+import { useThemeColor } from "../../components/organisms/Themed.tsx";
 
 const renderScene = SceneMap({
   readingList: ReadingList,
   rankingList: RankingList,
 });
+
+type TabBarProps = ComponentProps<typeof MaterialTabBar>;
+
+function TabBar(props: TabBarProps) {
+  const backgroundColor = useThemeColor("background");
+  const indicatorColor = useThemeColor("primary");
+  const textColor = useThemeColor("text");
+
+  return (
+    <MaterialTabBar
+      {...props}
+      indicatorStyle={{
+        backgroundColor: indicatorColor,
+      }}
+      labelStyle={{
+        color: textColor,
+        textTransform: "none",
+      }}
+      style={{
+        backgroundColor,
+      }}
+    />
+  );
+}
 
 export default function YourBooks() {
   const layout = useWindowDimensions();
@@ -22,6 +49,7 @@ export default function YourBooks() {
 
   return (
     <TabView
+      renderTabBar={TabBar}
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
