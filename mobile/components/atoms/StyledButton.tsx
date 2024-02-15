@@ -15,6 +15,7 @@ interface StyledButtonProps
   backgroundColor?: ThemeColor;
   title: string;
   style?: StyleProp<ViewStyle>;
+  defaultStyle?: StyleProp<ViewStyle>;
   pressedStyle?: StyleProp<ViewStyle>;
   fontColor?: string;
 }
@@ -22,6 +23,8 @@ interface StyledButtonProps
 export default function StyledButton({
   backgroundColor,
   style,
+  defaultStyle,
+  pressedStyle,
   fontColor,
   ...props
 }: StyledButtonProps) {
@@ -31,14 +34,14 @@ export default function StyledButton({
   return (
     <Pressable
       style={({ pressed }) => {
-        let buttonStyles: StyleProp<ViewStyle> = [styles.container];
+        let buttonStyles: StyleProp<ViewStyle> = [styles.container, style];
 
         if (pressed) {
-          buttonStyles.push(props.pressedStyle, styles.pressed, {
+          buttonStyles.push(pressedStyle, styles.pressed, {
             backgroundColor: pressedColor,
           });
         } else {
-          buttonStyles.push(style, styles.default, {
+          buttonStyles.push(defaultStyle, styles.default, {
             backgroundColor: buttonColor,
           });
         }

@@ -9,6 +9,7 @@ import { Session } from "@supabase/supabase-js";
 import { supabase } from "../utils/supabase";
 import LoginSignup from "./LoginSignup";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
+import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -57,31 +58,27 @@ function AuthenticatedStack() {
   );
 }
 
+function AuthRouter() {
+  const { session } = useSession();
+  if (session && session.user) {
+    return <AuthenticatedStack />;
+  } else {
+    return <LoginSignup />;
+  }
+}
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const [session, setSession] = useState<Session | null>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
-
-  console.log(session);
 
   return (
-    <>
+    <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider
           value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
         >
-          {session && session.user ? <AuthenticatedStack /> : <LoginSignup />}
+          <AuthRouter />
         </ThemeProvider>
       </QueryClientProvider>
-    </>
+    </SessionProvider>
   );
 }
