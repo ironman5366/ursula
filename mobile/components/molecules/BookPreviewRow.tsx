@@ -4,7 +4,7 @@ import { ThemedView } from "../organisms/Themed";
 import BookImage from "../atoms/BookImage";
 import useBookAuthors from "../../hooks/useBookAuthors";
 import { Book } from "../../../shared-types/derived";
-import { Link, useNavigation } from "expo-router";
+import { Link } from "expo-router";
 import { TitleText } from "../atoms/TitleText.tsx";
 import { useTheme } from "@react-navigation/native";
 import { StyledText } from "../atoms/StyledText.tsx";
@@ -15,7 +15,6 @@ interface Props {
 }
 
 export default function BookPreviewRow({ book, imageSize }: Props) {
-  const navigation = useNavigation();
   const theme = useTheme();
 
   const { data: authors } = useBookAuthors({ book });

@@ -1,7 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -37,10 +37,18 @@ export default function RootLayout() {
 
 const queryClient = new QueryClient();
 
+function AuthenticatedStack() {
+  return (
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
+  );
+}
+
 function AuthRouter() {
   const { session } = useSession();
   if (session && session.user) {
-    return <Slot />;
+    return <AuthenticatedStack />;
   } else {
     return <LoginSignup />;
   }
