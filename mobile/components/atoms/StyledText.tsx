@@ -1,4 +1,4 @@
-import { Text as DefaultText } from "react-native/Libraries/Text/Text";
+import { Text as DefaultText } from "react-native";
 import { TextProps, useThemeColor } from "../organisms/Themed.tsx";
 
 export function StyledText(props: TextProps) {

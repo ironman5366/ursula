@@ -41,7 +41,7 @@ function AuthenticatedStack() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="Search" />
+      <Stack.Screen name="SearchRoute" />
       <Stack.Screen
         name="BookDetailRoute"
         options={{

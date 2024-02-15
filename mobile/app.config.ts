@@ -29,6 +29,7 @@ module.exports = {
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
   },
   expo: {
+    scheme: "ursula",
     experiments: {
       typedRoutes: true,
     },

@@ -18,8 +18,7 @@ function SearchNavigator({
   return (
     <TouchableOpacity
       // TODO: can I fix the typechecker with these navigate calls?
-      // @ts-ignore
-      onPress={() => navigation.navigate("Search")}
+      onPress={() => navigation.navigate("SearchRoute")}
     >
       <ThemedView style={style}>{children}</ThemedView>
     </TouchableOpacity>
@@ -39,7 +38,6 @@ export default function SearchContainer({
   children,
   ...props
 }: PropsWithChildren<Props>) {
-  const navigation = useNavigation();
   const showSearch = "editable" in props && props.editable;
   const WrapperComp = showSearch ? ThemedView : SearchNavigator;
 

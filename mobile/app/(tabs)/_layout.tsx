@@ -31,14 +31,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="yourBooks"
+        name="yourBooksRoute"
         options={{
           title: "Your Books",
           tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="settingsRoute"
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => <TabBarIcon name="gear" color={color} />,

@@ -3,7 +3,7 @@ import { Button, StyleSheet } from "react-native";
 import { supabase } from "../utils/supabase.ts";
 import { ThemedView } from "../components/organisms/Themed.tsx";
 
-export default function SettingsScreen() {
+export default function Settings() {
   return (
     <ThemedView style={styles.container}>
       <Button
