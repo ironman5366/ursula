@@ -1,4 +1,4 @@
-import { Text, TextProps } from "../organisms/Themed";
+import { StyledText, TextProps } from "../organisms/Themed";
 
 interface Props extends TextProps {
   fontSize?: number;
@@ -6,7 +6,7 @@ interface Props extends TextProps {
 
 export function TitleText({ fontSize, ...props }: Props) {
   return (
-    <Text
+    <StyledText
       {...props}
       style={[
         props.style,
@@ -14,6 +14,6 @@ export function TitleText({ fontSize, ...props }: Props) {
           fontSize: fontSize || 24,
         },
       ]}
-    ></Text>
+    ></StyledText>
   );
 }

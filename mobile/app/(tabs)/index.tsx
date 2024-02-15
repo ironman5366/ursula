@@ -1,11 +1,6 @@
 import React from "react";
-import { Text } from "react-native";
-import SearchContainer from "../../components/SearchContainer";
+import Home from "../../pages/Home.tsx";
 
 export default function Index() {
-  return (
-    <SearchContainer>
-      <Text>TODO: index page here</Text>
-    </SearchContainer>
-  );
+  return <Home />;
 }

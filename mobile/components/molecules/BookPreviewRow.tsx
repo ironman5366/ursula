@@ -1,12 +1,13 @@
 import React, { useCallback } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { Text, View } from "../organisms/Themed";
+import { ThemedView } from "../organisms/Themed";
 import BookImage from "../atoms/BookImage";
 import useBookAuthors from "../../hooks/useBookAuthors";
 import { Book } from "../../../shared-types/derived";
 import { useNavigation } from "expo-router";
 import { TitleText } from "../atoms/TitleText.tsx";
 import { useTheme } from "@react-navigation/native";
+import { StyledText } from "../atoms/StyledText.tsx";
 
 interface Props {
   book: Book;
@@ -27,7 +28,7 @@ export default function BookPreviewRow({ book, imageSize }: Props) {
 
   return (
     <TouchableOpacity onPress={onPressCallback}>
-      <View
+      <ThemedView
         style={[
           {
             borderWidth: 2,
@@ -37,14 +38,16 @@ export default function BookPreviewRow({ book, imageSize }: Props) {
           styles.container,
         ]}
       >
-        <View style={styles.imageContainer}>
+        <ThemedView style={styles.imageContainer}>
           <BookImage book={book} size={imageSize || 50} />
-        </View>
-        <View style={styles.textContainer}>
+        </ThemedView>
+        <ThemedView style={styles.textContainer}>
           <TitleText fontSize={20}>{book.name}</TitleText>
-          <Text>{authors?.map((author) => author.name).join(", ")}</Text>
-        </View>
-      </View>
+          <StyledText>
+            {authors?.map((author) => author.name).join(", ")}
+          </StyledText>
+        </ThemedView>
+      </ThemedView>
     </TouchableOpacity>
   );
 }

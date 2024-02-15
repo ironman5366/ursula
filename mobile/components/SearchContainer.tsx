@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from "react-native";
-import { View } from "./organisms/Themed";
+import { ThemedView } from "./organisms/Themed";
 import SearchBar from "./atoms/SearchBar";
 import { useNavigation } from "expo-router";
 
@@ -21,7 +21,7 @@ function SearchNavigator({
       // @ts-ignore
       onPress={() => navigation.navigate("Search")}
     >
-      <View style={style}>{children}</View>
+      <ThemedView style={style}>{children}</ThemedView>
     </TouchableOpacity>
   );
 }
@@ -41,14 +41,14 @@ export default function SearchContainer({
 }: PropsWithChildren<Props>) {
   const navigation = useNavigation();
   const showSearch = "editable" in props && props.editable;
-  const WrapperComp = showSearch ? View : SearchNavigator;
+  const WrapperComp = showSearch ? ThemedView : SearchNavigator;
 
   return (
     <SafeAreaView style={styles.container}>
       <WrapperComp style={styles.searchBarContainer}>
         <SearchBar {...props} />
       </WrapperComp>
-      <View style={styles.children}>{children}</View>
+      <ThemedView style={styles.children}>{children}</ThemedView>
     </SafeAreaView>
   );
 }

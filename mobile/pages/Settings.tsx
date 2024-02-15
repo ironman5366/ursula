@@ -1,7 +1,7 @@
+import React from "react";
 import { Button, StyleSheet } from "react-native";
-import { ThemedView } from "../../components/organisms/Themed";
-import SearchContainer from "../../components/SearchContainer";
-import { supabase } from "../../utils/supabase";
+import { supabase } from "../utils/supabase.ts";
+import { ThemedView } from "../components/organisms/Themed.tsx";
 
 export default function SettingsScreen() {
   return (

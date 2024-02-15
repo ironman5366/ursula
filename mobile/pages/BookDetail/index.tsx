@@ -6,12 +6,12 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import { TitleText } from "../components/atoms/TitleText.tsx";
-import BookImage from "../components/atoms/BookImage.tsx";
-import useIdParam from "../hooks/useIdParam.ts";
-import useBook from "../hooks/useBook.ts";
-import CardButton from "../components/atoms/CardButton.tsx";
-import ReadingListButton from "./(bookDetail)/ReadingListButton.tsx";
+import useIdParam from "../../hooks/useIdParam.ts";
+import useBook from "../../hooks/useBook.ts";
+import { TitleText } from "../../components/atoms/TitleText.tsx";
+import BookImage from "../../components/atoms/BookImage.tsx";
+import ReadingListButton from "./ReadingListButton.tsx";
+import CardButton from "../../components/atoms/CardButton.tsx";
 
 export default function BookDetail() {
   const id = useIdParam();

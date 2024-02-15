@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, View } from "./Themed";
+import { StyledText, ThemedView } from "./Themed";
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
-    <View>
-      <Text>Yo yo yo</Text>
-    </View>
+    <ThemedView>
+      <StyledText>Yo yo yo</StyledText>
+    </ThemedView>
   );
 }
 

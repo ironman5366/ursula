@@ -1,5 +1,9 @@
-import { Text, TextProps } from "../organisms/Themed";
+import { Text as DefaultText } from "react-native/Libraries/Text/Text";
+import { TextProps, useThemeColor } from "../organisms/Themed.tsx";
 
 export function StyledText(props: TextProps) {
-  return <Text {...props} style={[props.style, { fontFamily: "SpaceMono" }]} />;
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const color = useThemeColor("text", { light: lightColor, dark: darkColor });
+
+  return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
