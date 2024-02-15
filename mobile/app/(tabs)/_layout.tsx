@@ -1,14 +1,7 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { useColorScheme } from "react-native";
 import { Colors } from "../../theme.ts";
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import TabBarIcon from "../../components/atoms/TabBarIcon.tsx";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -28,14 +21,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="yourBooksRoute"
+        name="yourBooks"
         options={{
           title: "Your Books",
           tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="settingsRoute"
+        name="settings"
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => <TabBarIcon name="gear" color={color} />,

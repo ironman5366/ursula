@@ -10,7 +10,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import useBook from "../../hooks/useBook.ts";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
 import BookImage from "../../components/atoms/BookImage.tsx";
-import ReadingListButton from "../../pages/BookDetail/ReadingListButton.tsx";
+import ReadingListButton from "./ReadingListButton.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
 
 function coerceId(id: string | string[]): number {
@@ -33,32 +33,34 @@ export default function BookDetail() {
   }
 
   return (
-    <View style={styles.container}>
+    <>
       <Stack.Screen
         options={{
           title: book.name,
         }}
       />
-      <View style={styles.header}>
-        <TitleText
-          style={{
-            textAlign: "center",
-          }}
-        >
-          {book.name}
-        </TitleText>
-        <BookImage book={book} size={256} />
-      </View>
-      <View style={styles.buttons}>
-        <ReadingListButton bookId={book.id} />
-        <CardButton title={"Review"} />
-      </View>
-      <ScrollView>
-        <View style={styles.meta}>
-          <Text>{book.description}</Text>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TitleText
+            style={{
+              textAlign: "center",
+            }}
+          >
+            {book.name}
+          </TitleText>
+          <BookImage book={book} size={256} />
         </View>
-      </ScrollView>
-    </View>
+        <View style={styles.buttons}>
+          <ReadingListButton bookId={book.id} />
+          <CardButton title={"Review"} />
+        </View>
+        <ScrollView>
+          <View style={styles.meta}>
+            <Text>{book.description}</Text>
+          </View>
+        </ScrollView>
+      </View>
+    </>
   );
 }
 
