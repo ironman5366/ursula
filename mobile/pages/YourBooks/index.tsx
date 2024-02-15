@@ -5,9 +5,9 @@ import {
   TabView,
   TabBar as MaterialTabBar,
 } from "react-native-tab-view";
-import ReadingList from "../../pages/ReadingList.tsx";
-import RankingList from "../../pages/RankingList.tsx";
 import { useThemeColor } from "../../components/organisms/Themed.tsx";
+import ReadingList from "./ReadingList.tsx";
+import RankingList from "./RankingList.tsx";
 
 const renderScene = SceneMap({
   readingList: ReadingList,

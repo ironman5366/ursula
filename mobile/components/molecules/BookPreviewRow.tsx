@@ -18,8 +18,7 @@ export default function BookPreviewRow({ book, imageSize }: Props) {
   const theme = useTheme();
 
   const onPressCallback = useCallback(() => {
-    // @ts-ignore
-    navigation.navigate("BookDetail", {
+    navigation.navigate("BookDetailRoute", {
       id: book.id,
     });
   }, [book]);

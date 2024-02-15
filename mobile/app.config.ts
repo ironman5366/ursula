@@ -28,4 +28,9 @@ module.exports = {
   extra: {
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
   },
+  expo: {
+    experiments: {
+      typedRoutes: true,
+    },
+  },
 };
