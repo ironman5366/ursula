@@ -13,8 +13,5 @@
     "mobile",
     "shared-types"
   ],
-  "packageManager": "npm@10.4.0",
-  "dependencies": {
-    "constate": "^3.3.2"
-  }
+  "packageManager": "npm@10.4.0"
 }

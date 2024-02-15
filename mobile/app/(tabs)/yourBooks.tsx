@@ -8,6 +8,7 @@ import {
 import ReadingList from "../../pages/ReadingList.tsx";
 import RankingList from "../../pages/RankingList.tsx";
 import { useThemeColor } from "../../components/organisms/Themed.tsx";
+import { Stack } from "expo-router";
 
 const renderScene = SceneMap({
   readingList: ReadingList,
@@ -48,12 +49,20 @@ export default function YourBooks() {
   ]);
 
   return (
-    <TabView
-      renderTabBar={TabBar}
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-    />
+    <>
+      <Stack.Screen
+        options={{
+          title: "Your Books",
+        }}
+      />
+
+      <TabView
+        renderTabBar={TabBar}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+      />
+    </>
   );
 }

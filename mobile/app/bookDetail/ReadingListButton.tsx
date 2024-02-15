@@ -6,7 +6,7 @@ import {
 } from "../../hooks/readingList.ts";
 import CardButton from "../../components/atoms/CardButton.tsx";
 import { ActivityIndicator } from "react-native";
-import { Text } from "../../components/organisms/Themed.tsx";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 interface Props {
   bookId: number;
@@ -35,11 +35,11 @@ export default function ReadingListButton({ bookId }: Props) {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <Text>
+        <StyledText>
           {bookInReadingList
             ? "Remove from Reading List"
             : "Add to Reading List"}
-        </Text>
+        </StyledText>
       )}
     </CardButton>
   );

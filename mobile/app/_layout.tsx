@@ -5,13 +5,9 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import LoginSignup from "./LoginSignup";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
+import LoginSignup from "../pages/LoginSignup.tsx";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,13 +41,7 @@ function AuthenticatedStack() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="Search" />
-      <Stack.Screen
-        name="BookDetail"
-        options={{
-          title: "Book",
-        }}
-      />
+      <Stack.Screen name="bookDetail/[id]" options={{ title: "Book" }} />
     </Stack>
   );
 }
