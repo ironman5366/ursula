@@ -1,8 +1,8 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import useReadingList from "../hooks/useReadingList.ts";
-import { useSession } from "../contexts/SessionContext.ts";
+import { useReadingList } from "../hooks/readingList.ts";
 import BookList from "../components/molecules/BookList.tsx";
+import { useSession } from "../contexts/SessionContext.ts";
 
 export default function ReadingList() {
   const { session } = useSession();

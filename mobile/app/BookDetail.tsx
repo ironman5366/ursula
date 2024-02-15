@@ -11,6 +11,7 @@ import BookImage from "../components/atoms/BookImage";
 import useIdParam from "../hooks/useIdParam";
 import useBook from "../hooks/useBook";
 import CardButton from "../components/atoms/CardButton.tsx";
+import { useBookInReadingList } from "../hooks/readingList.ts";
 
 export default function BookDetail() {
   const id = useIdParam();
