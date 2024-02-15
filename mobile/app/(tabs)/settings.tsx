@@ -1,11 +1,11 @@
+import React from "react";
 import { Button, StyleSheet } from "react-native";
-import { View } from "../../components/organisms/Themed";
-import SearchContainer from "../../components/SearchContainer";
-import { supabase } from "../../utils/supabase";
+import { ThemedView } from "../../components/organisms/Themed.tsx";
+import { supabase } from "../../utils/supabase.ts";
 
-export default function SettingsScreen() {
+export default function Settings() {
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <Button
         title={"Sign Out"}
         onPress={() => {
@@ -13,7 +13,7 @@ export default function SettingsScreen() {
           supabase.auth.signOut();
         }}
       />
-    </View>
+    </ThemedView>
   );
 }
 

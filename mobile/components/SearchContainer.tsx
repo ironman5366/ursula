@@ -1,14 +1,15 @@
 import React, { ComponentProps, PropsWithChildren } from "react";
 import {
+  Pressable,
   SafeAreaView,
   StyleProp,
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
 } from "react-native";
-import { View } from "./organisms/Themed";
+import { ThemedView } from "./organisms/Themed";
 import SearchBar from "./atoms/SearchBar";
-import { useNavigation } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 
 function SearchNavigator({
   children,
@@ -16,13 +17,11 @@ function SearchNavigator({
 }: PropsWithChildren<{ style: StyleProp<ViewStyle> }>) {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity
-      // TODO: can I fix the typechecker with these navigate calls?
-      // @ts-ignore
-      onPress={() => navigation.navigate("Search")}
-    >
-      <View style={style}>{children}</View>
-    </TouchableOpacity>
+    <Link href={"/search"} asChild>
+      <Pressable>
+        <ThemedView style={style}>{children}</ThemedView>
+      </Pressable>
+    </Link>
   );
 }
 
@@ -39,16 +38,15 @@ export default function SearchContainer({
   children,
   ...props
 }: PropsWithChildren<Props>) {
-  const navigation = useNavigation();
   const showSearch = "editable" in props && props.editable;
-  const WrapperComp = showSearch ? View : SearchNavigator;
+  const WrapperComp = showSearch ? ThemedView : SearchNavigator;
 
   return (
     <SafeAreaView style={styles.container}>
       <WrapperComp style={styles.searchBarContainer}>
         <SearchBar {...props} />
       </WrapperComp>
-      <View style={styles.children}>{children}</View>
+      <ThemedView style={styles.children}>{children}</ThemedView>
     </SafeAreaView>
   );
 }

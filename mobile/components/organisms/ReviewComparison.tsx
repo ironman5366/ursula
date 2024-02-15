@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "./Themed";
+import { StyledText, ThemedView } from "./Themed";
 import BookIdPreviewCard from "../atoms/BookIdPreviewCard";
 
 interface Props {
@@ -16,20 +16,20 @@ export default function ReviewComparison({
   onComparatorPressed,
 }: Props) {
   return (
-    <View
+    <ThemedView
       style={{
         flex: 3,
         alignItems: "center",
       }}
     >
-      <Text
+      <StyledText
         style={{
           fontSize: 25,
         }}
       >
         Which book did you prefer?
-      </Text>
-      <View
+      </StyledText>
+      <ThemedView
         style={{
           flex: 2,
         }}
@@ -44,7 +44,7 @@ export default function ReviewComparison({
           imageSize={100}
           onPress={onComparatorPressed}
         />
-      </View>
-    </View>
+      </ThemedView>
+    </ThemedView>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { supabase } from "../utils/supabase";
 import { TitleText } from "../components/atoms/TitleText";
-import StyledButton from "../components/atoms/StyledButton";
+import StyledButton from "../components/organisms/StyledButton.tsx";
 import { StyledText } from "../components/atoms/StyledText";
 import { AuthError } from "@supabase/supabase-js";
 import EmailInput from "../components/atoms/Emailnput";

@@ -3,11 +3,11 @@ import { FlatList } from "react-native";
 import BookPreviewRow from "./BookPreviewRow.tsx";
 import { Book } from "../../../shared-types/derived";
 
-export interface SearchResultListProps {
+interface Props {
   books: Book[];
 }
 
-export default function SearchResultList({ books }: SearchResultListProps) {
+export default function BookList({ books }: Props) {
   return (
     <FlatList
       data={books}

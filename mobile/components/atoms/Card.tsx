@@ -1,9 +1,11 @@
 import React from "react";
-import { View, ViewProps } from "../organisms/Themed";
+import { ThemedView, ViewProps } from "../organisms/Themed";
 import { StyleSheet } from "react-native";
 
 export default function Card(props: ViewProps) {
-  return <View style={[props.style, styles.card]}>{props.children}</View>;
+  return (
+    <ThemedView style={[props.style, styles.card]}>{props.children}</ThemedView>
+  );
 }
 
 const styles = StyleSheet.create({

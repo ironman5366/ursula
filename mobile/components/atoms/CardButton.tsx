@@ -1,5 +1,5 @@
 import React, { ComponentProps } from "react";
-import StyledButton from "./StyledButton.tsx";
+import StyledButton from "../organisms/StyledButton.tsx";
 
 export default function CardButton(props: ComponentProps<typeof StyledButton>) {
   return (
