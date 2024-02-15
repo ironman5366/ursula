@@ -1,24 +1,35 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, ReactNode } from "react";
 import {
-  Button,
   Pressable,
   StyleProp,
   StyleSheet,
   Text,
   ViewStyle,
 } from "react-native";
-import { useThemeColor } from "../organisms/Themed";
-import ThemeColor from "../../types/ThemeColor";
+import { useThemeColor } from "./Themed.tsx";
+import ThemeColor from "../../types/ThemeColor.ts";
 
-interface StyledButtonProps
-  extends Omit<ComponentProps<typeof Pressable>, "children" | "style"> {
-  backgroundColor?: ThemeColor;
-  title: string;
-  style?: StyleProp<ViewStyle>;
-  defaultStyle?: StyleProp<ViewStyle>;
-  pressedStyle?: StyleProp<ViewStyle>;
-  fontColor?: string;
-}
+type ChildrenOrTitle =
+  | {
+      children: ReactNode;
+      title?: never;
+    }
+  | {
+      title: string;
+      children?: never;
+    };
+
+type StyledButtonProps = Omit<
+  ComponentProps<typeof Pressable>,
+  "children" | "style"
+> &
+  ChildrenOrTitle & {
+    backgroundColor?: ThemeColor;
+    style?: StyleProp<ViewStyle>;
+    defaultStyle?: StyleProp<ViewStyle>;
+    pressedStyle?: StyleProp<ViewStyle>;
+    fontColor?: string;
+  };
 
 export default function StyledButton({
   backgroundColor,
@@ -26,6 +37,8 @@ export default function StyledButton({
   defaultStyle,
   pressedStyle,
   fontColor,
+  children,
+  title,
   ...props
 }: StyledButtonProps) {
   const buttonColor = useThemeColor(backgroundColor || "tint");
@@ -49,13 +62,17 @@ export default function StyledButton({
         return buttonStyles;
       }}
     >
-      <Text
-        style={{
-          color: fontColor || "white",
-        }}
-      >
-        {props.title}
-      </Text>
+      {children ? (
+        children
+      ) : (
+        <Text
+          style={{
+            color: fontColor || "white",
+          }}
+        >
+          {title}
+        </Text>
+      )}
     </Pressable>
   );
 }
