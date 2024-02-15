@@ -61,6 +61,7 @@ export default function StyledButton({
 
         return buttonStyles;
       }}
+      {...props}
     >
       {children ? (
         children

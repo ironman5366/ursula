@@ -35,13 +35,19 @@ export function useReadingList(userId: string) {
 }
 
 async function doAddToReadingList(userId: string, bookId: number) {
-  return supabase.from("reading_list_items").upsert(
-    {
-      user_id: userId,
-      book_id: bookId,
-    },
-    { onConflict: "user_id,book_id" }
-  );
+  console.log("adding to reading list", userId, bookId);
+  const { data, error } = await supabase
+    .from("reading_list_items")
+    .upsert(
+      {
+        user_id: userId,
+        book_id: bookId,
+      },
+      { onConflict: "user_id,book_id" }
+    )
+    .select();
+
+  console.log("data", data, "error", error);
 }
 
 export function useAddToReadingList(bookId: number) {
