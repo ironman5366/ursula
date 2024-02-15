@@ -33,5 +33,6 @@ module.exports = {
     experiments: {
       typedRoutes: true,
     },
+    plugins: ["expo-router"],
   },
 };

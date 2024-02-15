@@ -1,13 +1,13 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import LoginSignupRoute from "./LoginSignupRoute.tsx";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
+import LoginSignup from "../pages/LoginSignup.tsx";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,27 +37,12 @@ export default function RootLayout() {
 
 const queryClient = new QueryClient();
 
-function AuthenticatedStack() {
-  return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="SearchRoute" />
-      <Stack.Screen
-        name="BookDetailRoute"
-        options={{
-          title: "Book",
-        }}
-      />
-    </Stack>
-  );
-}
-
 function AuthRouter() {
   const { session } = useSession();
   if (session && session.user) {
-    return <AuthenticatedStack />;
+    return <Slot />;
   } else {
-    return <LoginSignupRoute />;
+    return <LoginSignup />;
   }
 }
 

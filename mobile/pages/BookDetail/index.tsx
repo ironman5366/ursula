@@ -12,10 +12,18 @@ import { TitleText } from "../../components/atoms/TitleText.tsx";
 import BookImage from "../../components/atoms/BookImage.tsx";
 import ReadingListButton from "./ReadingListButton.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
+import { useLocalSearchParams } from "expo-router";
+
+function coerceId(id: string | string[]): number {
+  if (Array.isArray(id)) {
+    return Number.parseInt(id[0]);
+  }
+  return Number.parseInt(id);
+}
 
 export default function BookDetail() {
-  const id = useIdParam();
-  const { data: book } = useBook(id);
+  const { id } = useLocalSearchParams();
+  const { data: book } = useBook(coerceId(id));
 
   if (!book) {
     return (
