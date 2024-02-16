@@ -42,6 +42,8 @@ function AuthenticatedStack() {
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="bookDetail/[id]" options={{ title: "Book" }} />
+      <Stack.Screen name="review/[id]" options={{ title: "Review " }} />
+      <Stack.Screen name="rank/[id]" options={{ title: "Review" }} />
     </Stack>
   );
 }
