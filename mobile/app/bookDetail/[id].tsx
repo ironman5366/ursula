@@ -6,23 +6,17 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack } from "expo-router";
 import useBook from "../../hooks/useBook.ts";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
 import BookImage from "../../components/atoms/BookImage.tsx";
 import ReadingListButton from "./ReadingListButton.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
-
-function coerceId(id: string | string[]): number {
-  if (Array.isArray(id)) {
-    return Number.parseInt(id[0]);
-  }
-  return Number.parseInt(id);
-}
+import useIdParam from "../../hooks/useIdParam.ts";
 
 export default function BookDetail() {
-  const { id } = useLocalSearchParams();
-  const { data: book } = useBook(coerceId(id));
+  const id = useIdParam();
+  const { data: book } = useBook(id);
 
   if (!book) {
     return (

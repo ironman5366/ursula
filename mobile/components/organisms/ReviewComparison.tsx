@@ -1,6 +1,7 @@
 import React from "react";
-import { StyledText, ThemedView } from "./Themed";
+import { ThemedView } from "./Themed";
 import BookIdPreviewCard from "../atoms/BookIdPreviewCard";
+import { StyledText } from "../atoms/StyledText.tsx";
 
 interface Props {
   reviewTargetId: number;

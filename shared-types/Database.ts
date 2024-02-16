@@ -250,6 +250,7 @@ export interface Database {
           book_id: number;
           created_at: string;
           id: number;
+          note: string | null;
           updated_at: string;
           user_id: string;
         };
@@ -257,6 +258,7 @@ export interface Database {
           book_id: number;
           created_at?: string;
           id?: number;
+          note?: string | null;
           updated_at?: string;
           user_id: string;
         };
@@ -264,6 +266,7 @@ export interface Database {
           book_id?: number;
           created_at?: string;
           id?: number;
+          note?: string | null;
           updated_at?: string;
           user_id?: string;
         };
