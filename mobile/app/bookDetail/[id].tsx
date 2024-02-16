@@ -54,12 +54,12 @@ export default function BookDetail() {
           <ReadingListButton bookId={book.id} />
           <CardButton title={"Review"} />
         </View>
-        <ScrollView>
-          <View style={styles.meta}>
-            <Text>{book.description}</Text>
-          </View>
-        </ScrollView>
       </View>
+      <ScrollView style={styles.container}>
+        <View style={styles.meta}>
+          <Text>{book.description}</Text>
+        </View>
+      </ScrollView>
     </>
   );
 }
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttons: {
-    flex: 2,
+    flex: 3,
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",

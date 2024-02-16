@@ -63,9 +63,7 @@ export default function StyledButton({
       }}
       {...props}
     >
-      {children ? (
-        children
-      ) : (
+      {title ? (
         <Text
           style={{
             color: fontColor || "white",
@@ -73,6 +71,8 @@ export default function StyledButton({
         >
           {title}
         </Text>
+      ) : (
+        children
       )}
     </Pressable>
   );
