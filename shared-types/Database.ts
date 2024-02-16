@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export type Database = {
+export interface Database {
   graphql_public: {
     Tables: {
       [_ in never]: never;
@@ -171,6 +171,41 @@ export type Database = {
           }
         ];
       };
+      profiles: {
+        Row: {
+          avatar_url: string | null;
+          created_at: string;
+          full_name: string | null;
+          id: string;
+          review_ids: number[];
+          updated_at: string | null;
+        };
+        Insert: {
+          avatar_url?: string | null;
+          created_at?: string;
+          full_name?: string | null;
+          id: string;
+          review_ids?: number[];
+          updated_at?: string | null;
+        };
+        Update: {
+          avatar_url?: string | null;
+          created_at?: string;
+          full_name?: string | null;
+          id?: string;
+          review_ids?: number[];
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       reading_list_items: {
         Row: {
           book_id: number;
@@ -205,7 +240,7 @@ export type Database = {
             foreignKeyName: "user_id";
             columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "users";
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
@@ -244,7 +279,7 @@ export type Database = {
             foreignKeyName: "user_id";
             columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "users";
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
@@ -306,31 +341,31 @@ export type Database = {
       users: {
         Row: {
           avatar_url: string | null;
+          created_at: string;
           full_name: string | null;
           id: string;
           review_ids: number[];
           updated_at: string | null;
-          username: string | null;
         };
         Insert: {
           avatar_url?: string | null;
+          created_at?: string;
           full_name?: string | null;
           id: string;
           review_ids?: number[];
           updated_at?: string | null;
-          username?: string | null;
         };
         Update: {
           avatar_url?: string | null;
+          created_at?: string;
           full_name?: string | null;
           id?: string;
           review_ids?: number[];
           updated_at?: string | null;
-          username?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey";
+            foreignKeyName: "users_id_fkey";
             columns: ["id"];
             isOneToOne: true;
             referencedRelation: "users";
@@ -531,7 +566,7 @@ export type Database = {
       [_ in never]: never;
     };
   };
-};
+}
 
 export type Tables<
   PublicTableNameOrOptions extends

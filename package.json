@@ -4,7 +4,7 @@
   "private": "true",
   "repository": "https://github.com/ironman5366/ursula",
   "scripts": {
-    "write-types": "supabase gen types typescript --linked > shared-types/Database.ts"
+    "write-types": "supabase gen types typescript --local > shared-types/Database.ts"
   },
   "author": "Will Beddow",
   "license": "ISC",
