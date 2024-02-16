@@ -14,10 +14,8 @@ CREATE POLICY "Users can update own profile."
 ON profiles FOR UPDATE
 USING (auth.uid() = id);
 
-DROP FUNCTION IF EXISTS handle_new_user ();
-
 -- inserts a row into public.profiles
-CREATE FUNCTION public.handle_new_user()
+CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger
 LANGUAGE plpgsql
 SECURITY DEFINER SET search_path = public
@@ -30,6 +28,6 @@ end;
 $$;
 
 -- trigger the function every time a user is created
-CREATE TRIGGER on_auth_user_created
+CREATE OR REPLACE TRIGGER on_auth_user_created
 AFTER INSERT ON "auth"."users"
 FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
