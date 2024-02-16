@@ -6,7 +6,6 @@ import {
 } from "../../hooks/readingList.ts";
 import CardButton from "../../components/atoms/CardButton.tsx";
 import { ActivityIndicator } from "react-native";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 interface Props {
   bookId: number;

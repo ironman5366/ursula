@@ -100,6 +100,6 @@ export function useBookInReadingList(bookId: number) {
 
   return useQuery({
     queryFn: () => fetchBookInReadingList(session.user.id, bookId),
-    queryKey: ["BOOK_IN_READING_LIST", session.user.id, bookId],
+    queryKey: ["READING_LIST", session.user.id, bookId],
   });
 }
