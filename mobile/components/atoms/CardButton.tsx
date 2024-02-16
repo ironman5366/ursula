@@ -1,10 +1,11 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, forwardRef } from "react";
 import StyledButton from "../organisms/StyledButton.tsx";
 
-export default function CardButton(props: ComponentProps<typeof StyledButton>) {
+function CardButton(props: ComponentProps<typeof StyledButton>, ref) {
   return (
     <StyledButton
       {...props}
+      ref={ref}
       style={{
         flex: 1,
         margin: 10,
@@ -14,3 +15,5 @@ export default function CardButton(props: ComponentProps<typeof StyledButton>) {
     />
   );
 }
+
+export default forwardRef(CardButton);
