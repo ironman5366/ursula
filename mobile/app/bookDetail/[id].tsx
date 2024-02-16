@@ -6,7 +6,7 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import useBook from "../../hooks/useBook.ts";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
 import BookImage from "../../components/atoms/BookImage.tsx";
@@ -46,7 +46,9 @@ export default function BookDetail() {
         </View>
         <View style={styles.buttons}>
           <ReadingListButton bookId={book.id} />
-          <CardButton title={"Review"} />
+          <Link href={`/review/${book.id}/`} asChild>
+            <CardButton title={"Review"} />
+          </Link>
         </View>
       </View>
       <ScrollView style={styles.container}>

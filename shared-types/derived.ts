@@ -6,3 +6,4 @@ export type Author = Database["public"]["Tables"]["authors"]["Row"];
 export type ReadingListItem =
   Database["public"]["Tables"]["reading_list_items"]["Row"];
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+export type Review = Database["public"]["Tables"]["reviews"]["Row"];
