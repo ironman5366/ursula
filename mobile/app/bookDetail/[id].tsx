@@ -6,30 +6,21 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Link, Stack } from "expo-router";
 import useBook from "../../hooks/useBook.ts";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
 import BookImage from "../../components/atoms/BookImage.tsx";
 import ReadingListButton from "./ReadingListButton.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
-
-function coerceId(id: string | string[]): number {
-  if (Array.isArray(id)) {
-    return Number.parseInt(id[0]);
-  }
-  return Number.parseInt(id);
-}
+import useIdParam from "../../hooks/useIdParam.ts";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 
 export default function BookDetail() {
-  const { id } = useLocalSearchParams();
-  const { data: book } = useBook(coerceId(id));
+  const id = useIdParam();
+  const { data: book } = useBook(id);
 
   if (!book) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -52,14 +43,16 @@ export default function BookDetail() {
         </View>
         <View style={styles.buttons}>
           <ReadingListButton bookId={book.id} />
-          <CardButton title={"Review"} />
+          <Link href={`/review/${book.id}/`} asChild>
+            <CardButton title={"Review"} />
+          </Link>
         </View>
-        <ScrollView>
-          <View style={styles.meta}>
-            <Text>{book.description}</Text>
-          </View>
-        </ScrollView>
       </View>
+      <ScrollView style={styles.container}>
+        <View style={styles.meta}>
+          <Text>{book.description}</Text>
+        </View>
+      </ScrollView>
     </>
   );
 }
@@ -75,14 +68,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttons: {
-    flex: 2,
+    flex: 3,
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
   meta: {},
-  loadingContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
 });

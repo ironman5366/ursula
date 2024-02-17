@@ -1,4 +1,4 @@
-import React, { ComponentProps, ReactNode } from "react";
+import React, { ComponentProps, ReactNode, forwardRef } from "react";
 import {
   Pressable,
   StyleProp,
@@ -31,21 +31,25 @@ type StyledButtonProps = Omit<
     fontColor?: string;
   };
 
-export default function StyledButton({
-  backgroundColor,
-  style,
-  defaultStyle,
-  pressedStyle,
-  fontColor,
-  children,
-  title,
-  ...props
-}: StyledButtonProps) {
+function StyledButton(
+  {
+    backgroundColor,
+    style,
+    defaultStyle,
+    pressedStyle,
+    fontColor,
+    children,
+    title,
+    ...props
+  }: StyledButtonProps,
+  ref
+) {
   const buttonColor = useThemeColor(backgroundColor || "tint");
   const pressedColor = useThemeColor(backgroundColor || "primary");
 
   return (
     <Pressable
+      ref={ref}
       style={({ pressed }) => {
         let buttonStyles: StyleProp<ViewStyle> = [styles.container, style];
 
@@ -63,9 +67,7 @@ export default function StyledButton({
       }}
       {...props}
     >
-      {children ? (
-        children
-      ) : (
+      {title ? (
         <Text
           style={{
             color: fontColor || "white",
@@ -73,6 +75,8 @@ export default function StyledButton({
         >
           {title}
         </Text>
+      ) : (
+        children
       )}
     </Pressable>
   );
@@ -86,3 +90,5 @@ const styles = StyleSheet.create({
   pressed: {},
   default: {},
 });
+
+export default forwardRef(StyledButton);
