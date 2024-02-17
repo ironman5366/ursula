@@ -1,7 +1,9 @@
 import { supabase } from "../utils/supabase.ts";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
-import { Review } from "@ursula/shared-types/derived.ts";
+import { Profile, Review } from "@ursula/shared-types/derived.ts";
+import useProfile from "./useProfile.ts";
+import ReviewWithBook from "../types/ReviewWithBook.ts";
 
 interface CreateReviewParams {
   userId: string;
@@ -46,4 +48,33 @@ export function useCreateReview() {
         userId: session.user.id,
       }),
   });
+}
+
+async function fetchReviews(profile: Profile): Promise<ReviewWithBook[]> {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*, books(*)")
+    .in("id", profile.review_ids);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.map(({ books: book, ...review }) => ({
+    review,
+    book,
+  }));
+}
+
+export function useReviews(userId: string) {
+  const { data: profile, ...rest } = useProfile(userId);
+  return useQuery({
+    enabled: !!profile,
+    queryFn: () => fetchReviews(profile),
+  });
+}
+
+export function useCurrentUserReviews() {
+  const { session } = useSession();
+  return useReviews(session.user.id);
 }
