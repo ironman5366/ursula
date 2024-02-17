@@ -4,6 +4,9 @@ import { Book, Profile } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import useBinarySearch from "../../hooks/useBinarySearch.ts";
 import { useUpdateProfile } from "../../hooks/profile.ts";
+import { router } from "expo-router";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import RankComparison from "./RankComparison.tsx";
 
 interface Props {
   profile: Profile;
@@ -31,11 +34,26 @@ export default function BinaryRank({
     }
   }, [finished]);
 
-  // TODO: on success, navigate back to "your books"
   useEffect(() => {
     if (isSuccess) {
+      router.replace("/yourBooks");
     }
-  }, []);
+  }, [isSuccess]);
+
+  // If we're finished, we're just waiting for the update to the profile, and
+  // we'll be redirected after
+  if (finished) {
+    return <LoadingScreen />;
+  }
+
+  return (
+    <RankComparison
+      reviewTarget={reviewTarget.book}
+      onReviewTargetPressed={left}
+      comparator={curr.book}
+      onComparatorPressed={right}
+    />
+  );
 }
 
 const styles = StyleSheet.create({

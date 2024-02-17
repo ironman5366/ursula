@@ -1,19 +1,20 @@
 import React from "react";
-import { ThemedView } from "./Themed";
-import BookIdPreviewCard from "../atoms/BookIdPreviewCard";
-import { StyledText } from "../atoms/StyledText.tsx";
+import { ThemedView } from "../../components/organisms/Themed.tsx";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
+import { Book } from "@ursula/shared-types/derived.ts";
+import BookPreviewRow from "../../components/molecules/BookPreviewRow.tsx";
 
 interface Props {
-  reviewTargetId: number;
+  reviewTarget: Book;
   onReviewTargetPressed: () => void;
-  comparatorId: number;
+  comparator: Book;
   onComparatorPressed: () => void;
 }
 
-export default function ReviewComparison({
-  reviewTargetId,
+export default function RankComparison({
+  reviewTarget,
   onReviewTargetPressed,
-  comparatorId,
+  comparator,
   onComparatorPressed,
 }: Props) {
   return (
@@ -35,13 +36,13 @@ export default function ReviewComparison({
           flex: 2,
         }}
       >
-        <BookIdPreviewCard
-          bookId={reviewTargetId}
+        <BookPreviewRow
+          book={reviewTarget}
           imageSize={100}
           onPress={onReviewTargetPressed}
         />
-        <BookIdPreviewCard
-          bookId={comparatorId}
+        <BookPreviewRow
+          book={comparator}
           imageSize={100}
           onPress={onComparatorPressed}
         />

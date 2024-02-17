@@ -2,8 +2,8 @@ import { supabase } from "../utils/supabase.ts";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
-import useProfile from "./useProfile.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
+import { useProfile } from "./profile.ts";
 
 interface CreateReviewParams {
   userId: string;
