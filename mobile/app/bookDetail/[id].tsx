@@ -13,17 +13,14 @@ import BookImage from "../../components/atoms/BookImage.tsx";
 import ReadingListButton from "./ReadingListButton.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
 import useIdParam from "../../hooks/useIdParam.ts";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 
 export default function BookDetail() {
   const id = useIdParam();
   const { data: book } = useBook(id);
 
   if (!book) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -77,8 +74,4 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   meta: {},
-  loadingContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
 });

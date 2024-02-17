@@ -7,6 +7,7 @@ import { useCreateReview } from "../../hooks/reviews.ts";
 import { router, Stack } from "expo-router";
 import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 
 export default function Review() {
   const id = useIdParam();
@@ -21,11 +22,7 @@ export default function Review() {
   }, [data]);
 
   if (!book) {
-    return (
-      <ThemedView style={styles.container}>
-        <ActivityIndicator />
-      </ThemedView>
-    );
+    return <LoadingScreen />;
   }
 
   return (
