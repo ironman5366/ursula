@@ -1,5 +1,5 @@
 import { supabase } from "../utils/supabase.ts";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
@@ -40,6 +40,7 @@ async function createReview({
 
 export function useCreateReview() {
   const { session } = useSession();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (vars: Omit<CreateReviewParams, "userId">) =>
@@ -47,6 +48,9 @@ export function useCreateReview() {
         ...vars,
         userId: session.user.id,
       }),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["REVIEW", data.id], data);
+    },
   });
 }
 
@@ -60,10 +64,13 @@ async function fetchReviews(profile: Profile): Promise<ReviewWithBook[]> {
     throw error;
   }
 
-  return data.map(({ books: book, ...review }) => ({
-    review,
-    book,
-  }));
+  const orderedReviewsWithBooks: ReviewWithBook[] = [];
+  for (const reviewId of profile.review_ids) {
+    const { books: book, ...review } = data.find((r) => r.id === reviewId);
+    orderedReviewsWithBooks.push({ review, book });
+  }
+
+  return orderedReviewsWithBooks;
 }
 
 export function useReviews(userId: string) {
@@ -77,4 +84,31 @@ export function useReviews(userId: string) {
 export function useCurrentUserReviews() {
   const { session } = useSession();
   return useReviews(session.user.id);
+}
+
+async function fetchReview(reviewId: number): Promise<ReviewWithBook> {
+  const {
+    data: { books: book, ...review },
+    error,
+  } = await supabase
+    .from("reviews, books(*)")
+    .select()
+    .eq("id", reviewId)
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return {
+    book,
+    review,
+  };
+}
+
+export function useReview(reviewId: number) {
+  return useQuery({
+    queryKey: ["REVIEW", reviewId],
+    queryFn: () => fetchReview(reviewId),
+  });
 }

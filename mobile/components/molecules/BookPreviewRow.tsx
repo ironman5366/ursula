@@ -1,4 +1,4 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, forwardRef } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { ThemedView } from "../organisms/Themed";
 import BookImage from "../atoms/BookImage";
@@ -14,13 +14,13 @@ interface Props {
   onPress?: ComponentProps<typeof Pressable>["onPress"];
 }
 
-export default function BookPreviewRow({ book, imageSize, onPress }: Props) {
+function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
   const theme = useTheme();
 
   const { data: authors } = useBookAuthors({ book });
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} ref={ref}>
       <ThemedView
         style={[
           {
@@ -61,3 +61,5 @@ const styles = StyleSheet.create({
     flex: 4,
   },
 });
+
+export default forwardRef(BookPreviewRow);
