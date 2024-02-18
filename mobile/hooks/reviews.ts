@@ -91,8 +91,8 @@ async function fetchReview(reviewId: number): Promise<ReviewWithBook> {
     data: { books: book, ...review },
     error,
   } = await supabase
-    .from("reviews, books(*)")
-    .select()
+    .from("reviews")
+    .select("*, books(*)")
     .eq("id", reviewId)
     .single();
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Stack } from "expo-router";
 import useIdParam from "../../hooks/useIdParam.ts";
 import useBook from "../../hooks/useBook.ts";
@@ -19,22 +19,25 @@ export default function Rank() {
     return <LoadingScreen />;
   }
 
-  return (
-    <>
-      <Stack.Screen
-        options={{
-          title: `Review ${review.book.name}`,
-        }}
-      />
-      <ThemedView style={styles.container}>
-        <BinaryRank
-          profile={profile}
-          reviewTarget={review}
-          existingReviews={existingReviews}
+  if (existingReviews.length === 0) {
+  } else {
+    return (
+      <>
+        <Stack.Screen
+          options={{
+            title: `Review ${review.book.name}`,
+          }}
         />
-      </ThemedView>
-    </>
-  );
+        <ThemedView style={styles.container}>
+          <BinaryRank
+            profile={profile}
+            reviewTarget={review}
+            existingReviews={existingReviews}
+          />
+        </ThemedView>
+      </>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
