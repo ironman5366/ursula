@@ -78,6 +78,7 @@ export function useReviews(userId: string) {
   return useQuery({
     enabled: !!profile,
     queryFn: () => fetchReviews(profile),
+    queryKey: ["REVIEWS", userId],
   });
 }
 
@@ -91,14 +92,16 @@ async function fetchReview(reviewId: number): Promise<ReviewWithBook> {
     data: { books: book, ...review },
     error,
   } = await supabase
-    .from("reviews, books(*)")
-    .select()
+    .from("reviews")
+    .select("*, books(*)")
     .eq("id", reviewId)
     .single();
 
   if (error) {
     throw error;
   }
+
+  console.log("returning single review ", { book, review });
 
   return {
     book,

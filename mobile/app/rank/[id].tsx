@@ -1,7 +1,5 @@
-import React, { useMemo } from "react";
-import { Stack } from "expo-router";
+import React, { useEffect } from "react";
 import useIdParam from "../../hooks/useIdParam.ts";
-import useBook from "../../hooks/useBook.ts";
 import { StyleSheet } from "react-native";
 import { ThemedView } from "../../components/organisms/Themed.tsx";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
@@ -15,17 +13,14 @@ export default function Rank() {
   const { data: profile } = useCurrentProfile();
   const { data: existingReviews } = useCurrentUserReviews();
 
-  if (!(profile && existingReviews)) {
+  if (!(profile && existingReviews && review)) {
     return <LoadingScreen />;
   }
 
+  console.log("review (target) is ", review);
+
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: `Review ${review.book.name}`,
-        }}
-      />
       <ThemedView style={styles.container}>
         <BinaryRank
           profile={profile}
