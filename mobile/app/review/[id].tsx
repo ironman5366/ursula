@@ -18,7 +18,7 @@ export default function Review() {
   useEffect(() => {
     if (data) {
       // Nota bene that this is a *review* id, not a book id
-      router.replace(`/rank/${data.id}/`);
+      router.replace(`/rank/${data.review.id}/`);
     }
   }, [data]);
 

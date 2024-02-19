@@ -21,8 +21,11 @@ async function createReview({
   userId,
   bookId,
   note,
-}: CreateReviewParams): Promise<Review> {
-  const { data, error } = await supabase
+}: CreateReviewParams): Promise<ReviewWithBook> {
+  const {
+    data: { books: book, ...review },
+    error,
+  } = await supabase
     .from("reviews")
     .upsert(
       {
@@ -34,14 +37,17 @@ async function createReview({
         onConflict: "user_id, book_id",
       }
     )
-    .select()
+    .select("*, books(*)")
     .single();
 
   if (error) {
     throw error;
   }
 
-  return data;
+  return {
+    book,
+    review,
+  };
 }
 
 export function useCreateReview() {
@@ -55,7 +61,7 @@ export function useCreateReview() {
         userId: session.user.id,
       }),
     onSuccess: (data) => {
-      queryClient.setQueryData(["REVIEW", data.id], data);
+      queryClient.setQueryData(["REVIEW", data.review.id], data);
     },
   });
 }
@@ -107,8 +113,6 @@ async function fetchReview(reviewId: number): Promise<ReviewWithBook> {
     throw error;
   }
 
-  console.log("returning single review ", { book, review });
-
   return {
     book,
     review,
@@ -152,10 +156,11 @@ export function useRank(
         if (rankIdx > profile.review_ids.indexOf(reviewId)) {
           rankIdx--;
         }
+      } else {
+        newReviews = profile.review_ids;
       }
 
       newReviews.splice(rankIdx, 0, reviewId);
-
       await Promise.all([
         profileMutation.mutateAsync({
           review_ids: newReviews,
