@@ -1,7 +1,6 @@
 import React from "react";
 import useBookAuthors from "../../hooks/useBookAuthors.ts";
 import { StyledText } from "./StyledText.tsx";
-import { ActivityIndicator } from "react-native";
 
 interface Props {
   bookId: number;
