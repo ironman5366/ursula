@@ -6,7 +6,7 @@ import {
   TabBar as MaterialTabBar,
 } from "react-native-tab-view";
 import ReadingList from "../../pages/ReadingList.tsx";
-import RankingList from "../../pages/RankingList.tsx";
+import RankingList from "../../pages/RankingList";
 import { useThemeColor } from "../../components/organisms/Themed.tsx";
 import { Stack } from "expo-router";
 

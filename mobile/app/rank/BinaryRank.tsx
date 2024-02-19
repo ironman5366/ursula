@@ -24,6 +24,7 @@ function BinaryRankInner({
   useEffect(() => {
     // Insert the book at currIdx
     if (finished) {
+      console.log("ranking because finished");
       rank(currIdx);
     }
   }, [finished]);
@@ -48,6 +49,7 @@ export default function BinaryRank({ profile, ...props }: Props) {
   const { mutate, isSuccess, isLoading } = useUpdateProfile();
 
   const rank = (rankIdx: number) => {
+    console.log("ranking ", rankIdx);
     const newReviews = [...profile.review_ids];
     newReviews.splice(rankIdx, 0, props.reviewTarget.review.id);
     // Update the profile
@@ -62,6 +64,7 @@ export default function BinaryRank({ profile, ...props }: Props) {
 
   useEffect(() => {
     if (props.existingReviews.length === 0) {
+      console.log("ranking bc", props.existingReviews);
       rank(0);
     }
   }, [props.existingReviews]);
