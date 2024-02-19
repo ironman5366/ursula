@@ -1,6 +1,5 @@
 import React from "react";
 import { ThemedView } from "../../components/organisms/Themed.tsx";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
 import { Book } from "@ursula/shared-types/derived.ts";
 import BookPreviewRow from "../../components/molecules/BookPreviewRow.tsx";
 import { Pressable, StyleSheet } from "react-native";

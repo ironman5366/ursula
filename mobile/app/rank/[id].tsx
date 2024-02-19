@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useIdParam from "../../hooks/useIdParam.ts";
 import { StyleSheet } from "react-native";
 import { ThemedView } from "../../components/organisms/Themed.tsx";
@@ -13,9 +13,11 @@ export default function Rank() {
   const { data: profile } = useCurrentProfile();
   const { data: existingReviews } = useCurrentUserReviews();
 
-  if (!(profile && existingReviews)) {
+  if (!(profile && existingReviews && review)) {
     return <LoadingScreen />;
   }
+
+  console.log("review (target) is ", review);
 
   return (
     <>
