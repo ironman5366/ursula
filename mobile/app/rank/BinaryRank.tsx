@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet } from "react-native";
-import { Book, Profile } from "@ursula/shared-types/derived.ts";
+import { Profile } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import useBinarySearch from "../../hooks/useBinarySearch.ts";
 import { useUpdateProfile } from "../../hooks/profile.ts";
@@ -14,31 +13,20 @@ interface Props {
   existingReviews: ReviewWithBook[];
 }
 
-export default function BinaryRank({
+function BinaryRankInner({
   reviewTarget,
   existingReviews,
-  profile,
-}: Props) {
+  rank,
+}: Omit<Props, "profile"> & { rank: (rankIdx: number) => void }) {
   const { curr, right, left, finished, currIdx } =
     useBinarySearch(existingReviews);
-  const { mutate, isSuccess } = useUpdateProfile();
 
   useEffect(() => {
     // Insert the book at currIdx
     if (finished) {
-      const newReviews = [...profile.review_ids];
-      newReviews.splice(currIdx, 0, reviewTarget.review.id);
-      // Update the profile
-      mutate({ review_ids: newReviews });
-      //
+      rank(currIdx);
     }
   }, [finished]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      router.replace("/yourBooks");
-    }
-  }, [isSuccess]);
 
   // If we're finished, we're just waiting for the update to the profile, and
   // we'll be redirected after
@@ -56,8 +44,35 @@ export default function BinaryRank({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+export default function BinaryRank({ profile, ...props }: Props) {
+  const { mutate, isSuccess, isLoading } = useUpdateProfile();
+
+  const rank = (rankIdx: number) => {
+    const newReviews = [...profile.review_ids];
+    newReviews.splice(rankIdx, 0, props.reviewTarget.review.id);
+    // Update the profile
+    mutate({ review_ids: newReviews });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.replace("/yourBooks");
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (props.existingReviews.length === 0) {
+      rank(0);
+    }
+  }, [props.existingReviews]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (props.existingReviews.length === 0) {
+    return <LoadingScreen />;
+  } else {
+    return <BinaryRankInner rank={rank} {...props} />;
+  }
+}

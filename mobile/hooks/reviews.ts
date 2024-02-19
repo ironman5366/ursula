@@ -78,6 +78,7 @@ export function useReviews(userId: string) {
   return useQuery({
     enabled: !!profile,
     queryFn: () => fetchReviews(profile),
+    queryKey: ["REVIEWS", userId],
   });
 }
 
