@@ -1,7 +1,5 @@
-import React, { useEffect, useMemo } from "react";
-import { Stack } from "expo-router";
+import React from "react";
 import useIdParam from "../../hooks/useIdParam.ts";
-import useBook from "../../hooks/useBook.ts";
 import { StyleSheet } from "react-native";
 import { ThemedView } from "../../components/organisms/Themed.tsx";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
@@ -20,24 +18,20 @@ export default function Rank() {
   }
 
   if (existingReviews.length === 0) {
-  } else {
-    return (
-      <>
-        <Stack.Screen
-          options={{
-            title: `Review ${review.book.name}`,
-          }}
-        />
-        <ThemedView style={styles.container}>
-          <BinaryRank
-            profile={profile}
-            reviewTarget={review}
-            existingReviews={existingReviews}
-          />
-        </ThemedView>
-      </>
-    );
+    return <LoadingScreen />;
   }
+
+  return (
+    <>
+      <ThemedView style={styles.container}>
+        <BinaryRank
+          profile={profile}
+          reviewTarget={review}
+          existingReviews={existingReviews}
+        />
+      </ThemedView>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
