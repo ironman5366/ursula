@@ -29,7 +29,10 @@ export function useCurrentProfile() {
   return useProfile(session.user.id);
 }
 
-async function updateProfile(profileId: string, profile: Partial<Profile>) {
+export async function updateProfile(
+  profileId: string,
+  profile: Partial<Profile>
+) {
   const { data, error } = await supabase
     .from("profiles")
     .update(profile)
@@ -56,3 +59,5 @@ export function useUpdateProfile() {
     },
   });
 }
+
+export function removeFromReadingList() {}

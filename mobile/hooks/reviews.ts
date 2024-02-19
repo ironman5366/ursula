@@ -1,9 +1,15 @@
 import { supabase } from "../utils/supabase.ts";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
-import { useProfile } from "./profile.ts";
+import { useCurrentProfile, useProfile, useUpdateProfile } from "./profile.ts";
+import { useRemoveFromReadingList } from "./readingList.ts";
 
 interface CreateReviewParams {
   userId: string;
@@ -113,5 +119,50 @@ export function useReview(reviewId: number) {
   return useQuery({
     queryKey: ["REVIEW", reviewId],
     queryFn: () => fetchReview(reviewId),
+  });
+}
+
+interface RankMutationVariables {
+  profile: Profile;
+  review: Review;
+  rankIdx: number;
+}
+
+export function useRank(
+  // The user may wish to redirect on success, give them the option
+  options?: Omit<
+    UseMutationOptions<void, any, RankMutationVariables, any>,
+    "mutationFn"
+  >
+) {
+  // A "rank" mutation is actually a combination of two mutations: one to update the profile with the new review ID,
+  // and one to remove the book from the reading list
+  const profileMutation = useUpdateProfile();
+  const readingListMutation = useRemoveFromReadingList();
+
+  return useMutation({
+    mutationFn: async ({ profile, review, rankIdx }: RankMutationVariables) => {
+      const reviewId = review.id;
+      let newReviews;
+
+      // If this review is already in the profile, remove it, and decrement
+      // rankIdx to make up for the change
+      if (profile.review_ids.includes(reviewId)) {
+        newReviews = profile.review_ids.filter((id) => id !== reviewId);
+        if (rankIdx > profile.review_ids.indexOf(reviewId)) {
+          rankIdx--;
+        }
+      }
+
+      newReviews.splice(rankIdx, 0, reviewId);
+
+      await Promise.all([
+        profileMutation.mutateAsync({
+          review_ids: newReviews,
+        }),
+        readingListMutation.mutateAsync(review.book_id),
+      ]);
+    },
+    ...options,
   });
 }

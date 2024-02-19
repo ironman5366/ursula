@@ -15,9 +15,9 @@ export default function ReadingListButton({ bookId }: Props) {
   const { data: bookInReadingList, isLoading: isFetchLoading } =
     useBookInReadingList(bookId);
   const { mutate: removeFromReadingList, isLoading: isRemoveLoading } =
-    useRemoveFromReadingList(bookId);
+    useRemoveFromReadingList();
   const { mutate: addToReadingList, isLoading: isAddLoading } =
-    useAddToReadingList(bookId);
+    useAddToReadingList();
 
   const isLoading = isFetchLoading || isRemoveLoading || isAddLoading;
 
