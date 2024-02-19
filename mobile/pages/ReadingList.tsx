@@ -23,5 +23,6 @@ export default function ReadingList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
   },
 });

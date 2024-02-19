@@ -1,4 +1,4 @@
-import React, { ComponentProps, PropsWithChildren, useEffect } from "react";
+import React from "react";
 import useIdParam from "../../hooks/useIdParam.ts";
 import { StyleSheet } from "react-native";
 import { ThemedView } from "../../components/organisms/Themed.tsx";

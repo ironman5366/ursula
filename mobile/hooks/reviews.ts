@@ -101,6 +101,8 @@ async function fetchReview(reviewId: number): Promise<ReviewWithBook> {
     throw error;
   }
 
+  console.log("returning single review ", { book, review });
+
   return {
     book,
     review,

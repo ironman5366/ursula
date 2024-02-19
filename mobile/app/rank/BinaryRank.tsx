@@ -35,6 +35,8 @@ function BinaryRankInner({
     return <LoadingScreen />;
   }
 
+  console.log("Returning rank comparison with ", reviewTarget, curr);
+
   return (
     <RankComparison
       reviewTarget={reviewTarget.book}
