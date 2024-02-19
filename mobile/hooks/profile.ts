@@ -59,5 +59,3 @@ export function useUpdateProfile() {
     },
   });
 }
-
-export function removeFromReadingList() {}

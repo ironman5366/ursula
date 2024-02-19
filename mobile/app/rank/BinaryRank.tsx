@@ -18,7 +18,7 @@ export default function BinaryRank({
   existingReviews,
   profile,
 }: Props) {
-  const { curr, right, left, finished, currIdx } =
+  const { curr, right, left, finished, currIdx, empty } =
     useBinarySearch(existingReviews);
   const { mutate: rank } = useRank({
     onSuccess: () => {
@@ -29,7 +29,6 @@ export default function BinaryRank({
   useEffect(() => {
     // Insert the book at currIdx
     if (finished) {
-      console.log("ranking because finished");
       rank({
         review: reviewTarget.review,
         rankIdx: currIdx,
@@ -38,13 +37,21 @@ export default function BinaryRank({
     }
   }, [finished]);
 
+  useEffect(() => {
+    if (empty) {
+      rank({
+        review: reviewTarget.review,
+        rankIdx: 0,
+        profile,
+      });
+    }
+  }, [empty]);
+
   // If we're finished, we're just waiting for the update to the profile, and
   // we'll be redirected after
-  if (finished) {
+  if (finished || empty) {
     return <LoadingScreen />;
   }
-
-  console.log("Returning rank comparison with ", reviewTarget, curr);
 
   return (
     <RankComparison
