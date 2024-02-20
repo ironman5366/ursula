@@ -21,8 +21,14 @@ export default function useBinarySearch<T>(items: T[]) {
   return {
     currIdx: midpoint,
     curr,
-    right: () => !finished && setRange([midpoint + 1, end]),
-    left: () => !finished && setRange([start, midpoint - 1]),
+    right: () => {
+      const newStart = Math.min(midpoint + 1, end);
+      !finished && setRange([newStart, end]);
+    },
+    left: () => {
+      const newEnd = Math.max(midpoint - 1, end);
+      !finished && setRange([start, Math.min(start, newEnd)]);
+    },
     finished,
     empty: false,
   };
