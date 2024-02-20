@@ -10,7 +10,7 @@ import { useCurrentUserReviews, useReview } from "../../hooks/reviews.ts";
 export default function Rank() {
   const id = useIdParam();
   const { data: review } = useReview(id);
-  const { data: profile, status } = useCurrentProfile();
+  const { data: profile } = useCurrentProfile();
   const { data: existingReviews } = useCurrentUserReviews();
 
   if (!(profile && existingReviews && review)) {

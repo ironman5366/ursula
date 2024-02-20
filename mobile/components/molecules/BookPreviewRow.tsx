@@ -17,6 +17,8 @@ interface Props {
 function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
   const theme = useTheme();
 
+  const imageHeight = imageSize || 50;
+
   return (
     <Pressable onPress={onPress} ref={ref}>
       <ThemedView
@@ -27,10 +29,13 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
             borderColor: theme.colors.primary,
           },
           styles.container,
+          {
+            minHeight: imageHeight + 10,
+          },
         ]}
       >
         <ThemedView style={styles.imageContainer}>
-          <BookImage book={book} size={imageSize || 50} />
+          <BookImage book={book} size={imageHeight} />
         </ThemedView>
         <ThemedView style={styles.textContainer}>
           <TitleText fontSize={20}>{book.name}</TitleText>

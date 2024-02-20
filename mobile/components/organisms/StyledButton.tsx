@@ -19,11 +19,14 @@ type ChildrenOrTitle =
       children?: never;
     };
 
+export type ButtonVariant = "filled" | "outline";
+
 type StyledButtonProps = Omit<
   ComponentProps<typeof Pressable>,
   "children" | "style"
 > &
   ChildrenOrTitle & {
+    variant?: ButtonVariant;
     backgroundColor?: ThemeColor;
     style?: StyleProp<ViewStyle>;
     defaultStyle?: StyleProp<ViewStyle>;
@@ -40,18 +43,33 @@ function StyledButton(
     fontColor,
     children,
     title,
+    variant,
     ...props
   }: StyledButtonProps,
   ref
 ) {
-  const buttonColor = useThemeColor(backgroundColor || "tint");
-  const pressedColor = useThemeColor(backgroundColor || "primary");
+  let fillColor: ThemeColor = "primary";
+
+  if (variant) {
+    fillColor = variant === "filled" ? "primary" : "background";
+  }
+
+  const buttonColor = useThemeColor(backgroundColor || fillColor);
+  const pressedColor = useThemeColor(backgroundColor || fillColor);
+  const borderColor = useThemeColor("primary");
 
   return (
     <Pressable
       ref={ref}
       style={({ pressed }) => {
-        let buttonStyles: StyleProp<ViewStyle> = [styles.container, style];
+        let buttonStyles: StyleProp<ViewStyle> = [
+          styles.container,
+          {
+            borderColor,
+            borderWidth: 2,
+          },
+          style,
+        ];
 
         if (pressed) {
           buttonStyles.push(pressedStyle, styles.pressed, {
