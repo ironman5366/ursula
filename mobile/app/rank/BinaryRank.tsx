@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import useBinarySearch from "../../hooks/useBinarySearch.ts";
-import { useUpdateProfile } from "../../hooks/profile.ts";
 import { router } from "expo-router";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import RankComparison from "./RankComparison.tsx";
+import { useRank } from "../../hooks/reviews.ts";
 
 interface Props {
   profile: Profile;
@@ -13,29 +13,45 @@ interface Props {
   existingReviews: ReviewWithBook[];
 }
 
-function BinaryRankInner({
+export default function BinaryRank({
   reviewTarget,
   existingReviews,
-  rank,
-}: Omit<Props, "profile"> & { rank: (rankIdx: number) => void }) {
-  const { curr, right, left, finished, currIdx } =
+  profile,
+}: Props) {
+  const { curr, right, left, finished, currIdx, empty } =
     useBinarySearch(existingReviews);
+  const { mutate: rank } = useRank({
+    onSuccess: () => {
+      router.replace("/yourBooks");
+    },
+  });
 
   useEffect(() => {
     // Insert the book at currIdx
     if (finished) {
-      console.log("ranking because finished");
-      rank(currIdx);
+      rank({
+        review: reviewTarget.review,
+        rankIdx: currIdx,
+        profile,
+      });
     }
   }, [finished]);
 
+  useEffect(() => {
+    if (empty) {
+      rank({
+        review: reviewTarget.review,
+        rankIdx: 0,
+        profile,
+      });
+    }
+  }, [empty]);
+
   // If we're finished, we're just waiting for the update to the profile, and
   // we'll be redirected after
-  if (finished) {
+  if (finished || empty) {
     return <LoadingScreen />;
   }
-
-  console.log("Returning rank comparison with ", reviewTarget, curr);
 
   return (
     <RankComparison
@@ -45,39 +61,4 @@ function BinaryRankInner({
       onComparatorPressed={right}
     />
   );
-}
-
-export default function BinaryRank({ profile, ...props }: Props) {
-  const { mutate, isSuccess, isLoading } = useUpdateProfile();
-
-  const rank = (rankIdx: number) => {
-    console.log("ranking ", rankIdx);
-    const newReviews = [...profile.review_ids];
-    newReviews.splice(rankIdx, 0, props.reviewTarget.review.id);
-    // Update the profile
-    mutate({ review_ids: newReviews });
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      router.replace("/yourBooks");
-    }
-  }, [isSuccess]);
-
-  useEffect(() => {
-    if (props.existingReviews.length === 0) {
-      console.log("ranking bc", props.existingReviews);
-      rank(0);
-    }
-  }, [props.existingReviews]);
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (props.existingReviews.length === 0) {
-    return <LoadingScreen />;
-  } else {
-    return <BinaryRankInner rank={rank} {...props} />;
-  }
 }

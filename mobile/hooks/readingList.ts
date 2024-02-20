@@ -50,7 +50,7 @@ async function doAddToReadingList(userId: string, bookId: number) {
   console.log("data", data, "error", error);
 }
 
-export function useAddToReadingList(bookId: number) {
+export function useAddToReadingList() {
   const { session } = useSession();
   const client = useQueryClient();
 
@@ -69,7 +69,7 @@ async function doRemoveFromReadingList(userId: string, bookId: number) {
     .eq("book_id", bookId);
 }
 
-export function useRemoveFromReadingList(bookId: number) {
+export function useRemoveFromReadingList() {
   const { session } = useSession();
   const client = useQueryClient();
 

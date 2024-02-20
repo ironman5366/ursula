@@ -1,8 +1,10 @@
 import React from "react";
 import { ThemedView } from "../../components/organisms/Themed.tsx";
 import { Book } from "@ursula/shared-types/derived.ts";
-import BookPreviewRow from "../../components/molecules/BookPreviewRow.tsx";
-import { Pressable, StyleSheet } from "react-native";
+import { Button, Pressable, StyleSheet } from "react-native";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
+import CardButton from "../../components/atoms/CardButton.tsx";
+import BookImage from "../../components/atoms/BookImage.tsx";
 
 interface Props {
   reviewTarget: Book;
@@ -11,13 +13,18 @@ interface Props {
   onComparatorPressed: () => void;
 }
 
-function BookButton({ book, onPress }: { book: Book; onPress: () => void }) {
+function BookComparisonCard({
+  book,
+  onPress,
+}: {
+  book: Book;
+  onPress: () => void;
+}) {
   return (
-    <ThemedView style={styles.bookButton}>
-      <Pressable onPress={onPress}>
-        <BookPreviewRow book={book} />
-      </Pressable>
-    </ThemedView>
+    <CardButton backgroundColor="background" onPress={onPress}>
+      <StyledText>{book.name}</StyledText>
+      <BookImage book={book} size={128} />
+    </CardButton>
   );
 }
 
@@ -29,9 +36,13 @@ export default function RankComparison({
 }: Props) {
   return (
     <ThemedView style={styles.container}>
-      <ThemedView style={styles.buttonRow}>
-        <BookButton book={reviewTarget} onPress={onReviewTargetPressed} />
-        <BookButton book={comparator} onPress={onComparatorPressed} />
+      <StyledText>Which book did you prefer?</StyledText>
+      <ThemedView style={styles.bookRow}>
+        <BookComparisonCard
+          book={reviewTarget}
+          onPress={onReviewTargetPressed}
+        />
+        <BookComparisonCard book={comparator} onPress={onComparatorPressed} />
       </ThemedView>
     </ThemedView>
   );
@@ -40,13 +51,11 @@ export default function RankComparison({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
   },
-  buttonRow: {
-    flex: 2,
+  bookRow: {
+    flex: 0.3,
     flexDirection: "row",
-    padding: 10,
-  },
-  bookButton: {
-    flex: 1,
+    justifyContent: "space-evenly",
   },
 });
