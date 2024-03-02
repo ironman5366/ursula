@@ -21,20 +21,6 @@ export default function RankingList() {
           )}
         />
       </StyledView>
-      <StyledView
-        style={{
-          flex: 0.1,
-          paddingHorizontal: 50,
-          justifyContent: "center",
-        }}
-      >
-        <StyledButton
-          title={"Rank Another"}
-          style={{
-            alignItems: "center",
-          }}
-        />
-      </StyledView>
     </StyledView>
   );
 }
