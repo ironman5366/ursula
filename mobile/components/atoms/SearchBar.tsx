@@ -9,17 +9,17 @@ interface SearchBarProps
     React.ComponentProps<typeof TextInput>,
     "style" | "placeholder" | "onChange" | "onChangeText" | "value"
   > {
-  value: string;
+  value?: string;
   // Must provide onChangeText, can't use onChange
-  onChangeText: (text: string) => void;
+  onChangeText?: (text: string) => void;
 }
 
-export default function SearchBar({
-  onChangeText,
-  value,
-  ...props
-}: SearchBarProps) {
+export default function SearchBar(props: SearchBarProps) {
   const tint = useThemeColor("tint");
+
+  const value = props.value || "";
+  const onChangeText = props.onChangeText || (() => {});
+
   return (
     <View
       style={{
