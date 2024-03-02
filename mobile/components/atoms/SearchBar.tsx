@@ -23,6 +23,7 @@ export default function SearchBar(
         style={{
           textAlign: "center",
         }}
+        caretHidden={false}
         placeholder={"Search"}
         {...props}
       />

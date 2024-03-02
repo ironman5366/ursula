@@ -28,7 +28,11 @@ export default function Search() {
           title: "Search",
         }}
       />
-      {showLoading ? <ActivityIndicator /> : <BookList books={data} />}
+      {showLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <BookList books={data} replace={true} />
+      )}
     </SearchContainer>
   );
 }
