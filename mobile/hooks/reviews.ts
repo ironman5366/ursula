@@ -4,6 +4,7 @@ import {
   UseMutationOptions,
   useQuery,
   useQueryClient,
+  UseQueryOptions,
 } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
@@ -66,30 +67,49 @@ export function useCreateReview() {
   });
 }
 
-async function fetchReviews(profile: Profile): Promise<ReviewWithBook[]> {
+async function fetchReviewIds(reviewIds: number[]): Promise<ReviewWithBook[]> {
   const { data, error } = await supabase
     .from("reviews")
     .select("*, books(*)")
-    .in("id", profile.review_ids);
+    .in("id", reviewIds);
 
   if (error) {
     throw error;
   }
 
-  const orderedReviewsWithBooks: ReviewWithBook[] = [];
-  for (const reviewId of profile.review_ids) {
-    const { books: book, ...review } = data.find((r) => r.id === reviewId);
-    orderedReviewsWithBooks.push({ review, book });
-  }
+  return data.map(({ books: book, ...review }) => ({ review, book }));
+}
 
-  return orderedReviewsWithBooks;
+function useReviewData(reviewIds: number[], enabled: boolean) {
+  // sort the review IDs so we get a consistent query key
+  const sortedIds = reviewIds.sort();
+  return useQuery({
+    queryFn: () => fetchReviewIds(sortedIds),
+    queryKey: ["REVIEW_DATA", sortedIds],
+    enabled,
+  });
+}
+
+function orderReviews(profile: Profile, reviews: ReviewWithBook[]) {
+  console.log("ordering reviews by", profile.review_ids);
+  return profile.review_ids.map((id) =>
+    reviews.find((r) => r.review.id === id)
+  );
 }
 
 export function useReviews(userId: string) {
-  const { data: profile, ...rest } = useProfile(userId);
+  const { data: profile } = useProfile(userId);
+  console.log("profile reviewIds are", profile?.review_ids);
+  const { data: reviewData } = useReviewData(
+    profile?.review_ids || [],
+    !!profile
+  );
+
   return useQuery({
-    enabled: !!profile,
-    queryFn: () => fetchReviews(profile),
+    queryFn: () => {
+      return orderReviews(profile, reviewData);
+    },
+    enabled: !!profile && !!reviewData,
     queryKey: ["REVIEWS", userId],
   });
 }
