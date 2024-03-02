@@ -8,13 +8,12 @@ import {
 } from "react-native";
 import { StyledView } from "../organisms/StyledView.tsx";
 import SearchBar from "../atoms/SearchBar.tsx";
-import { Link, useNavigation } from "expo-router";
+import { Link } from "expo-router";
 
 function SearchNavigator({
   children,
   style,
 }: PropsWithChildren<{ style: StyleProp<ViewStyle> }>) {
-  const navigation = useNavigation();
   return (
     <Link href={"/search"} asChild>
       <Pressable>

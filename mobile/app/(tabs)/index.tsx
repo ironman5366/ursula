@@ -6,7 +6,7 @@ import TabBarIcon from "../../components/atoms/TabBarIcon.tsx";
 
 export default function Home() {
   return (
-    <SearchContainer>
+    <SearchContainer editable={false}>
       <Tabs.Screen
         options={{
           title: "Ursula",
