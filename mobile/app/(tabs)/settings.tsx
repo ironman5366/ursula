@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text } from "react-native";
-import { ThemedView } from "../../components/organisms/Themed.tsx";
+import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 import { supabase } from "../../utils/supabase.ts";
 import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,15 +13,13 @@ function DebugPanel() {
   return (
     <>
       <TitleText>Debug Utils</TitleText>
-      <StyledButton>
-        <Button
-          title={"Clear Query Cache"}
-          onPress={async () => {
-            await queryClient.invalidateQueries();
-            Alert.alert("Cache cleared");
-          }}
-        />
-      </StyledButton>
+      <StyledButton
+        title={"Clear Query Cache"}
+        onPress={async () => {
+          await queryClient.invalidateQueries();
+          Alert.alert("Cache cleared");
+        }}
+      />
       <StyledButton
         title={"Dump Cache"}
         onPress={() => {
@@ -35,8 +33,8 @@ function DebugPanel() {
 
 export default function Settings() {
   return (
-    <ThemedView style={styles.container}>
-      <Button
+    <StyledView style={styles.container}>
+      <StyledButton
         title={"Sign Out"}
         onPress={() => {
           console.log("Signing out...");
@@ -44,7 +42,7 @@ export default function Settings() {
         }}
       />
       {process.env.NODE_ENV !== "production" && <DebugPanel />}
-    </ThemedView>
+    </StyledView>
   );
 }
 
@@ -52,5 +50,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    justifyContent: "space-evenly",
   },
 });

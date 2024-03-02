@@ -1,7 +1,7 @@
 import { Text as DefaultText } from "react-native";
-import { TextProps, useThemeColor } from "../organisms/Themed.tsx";
+import { useThemeColor, StyledTextProps } from "../../theme.ts";
 
-export function StyledText(props: TextProps) {
+export function StyledText(props: StyledTextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor("text", { light: lightColor, dark: darkColor });
 

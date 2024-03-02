@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ActivityIndicator, StyleSheet, Text } from "react-native";
-import SearchContainer from "../components/SearchContainer";
+import SearchContainer from "../components/containers/SearchContainer.tsx";
 import useDebounce from "../hooks/useDebounce.ts";
 import useSearchBooks from "../hooks/useSearchBooks.ts";
 import BookList from "../components/molecules/BookList.tsx";
@@ -28,7 +28,11 @@ export default function Search() {
           title: "Search",
         }}
       />
-      {showLoading ? <ActivityIndicator /> : <BookList books={data} />}
+      {showLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <BookList books={data} replace={true} />
+      )}
     </SearchContainer>
   );
 }

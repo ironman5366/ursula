@@ -7,8 +7,9 @@ import {
 } from "react-native-tab-view";
 import ReadingList from "../../pages/ReadingList.tsx";
 import RankingList from "../../pages/RankingList";
-import { useThemeColor } from "../../components/organisms/Themed.tsx";
 import { Stack } from "expo-router";
+import { useThemeColor } from "../../theme.ts";
+import SearchContainer from "../../components/containers/SearchContainer.tsx";
 
 const renderScene = SceneMap({
   readingList: ReadingList,
@@ -55,14 +56,16 @@ export default function YourBooks() {
           title: "Your Books",
         }}
       />
-
-      <TabView
-        renderTabBar={TabBar}
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{ width: layout.width }}
-      />
+      <SearchContainer>
+        <TabView
+          tabBarPosition={"bottom"}
+          renderTabBar={TabBar}
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{ width: layout.width }}
+        />
+      </SearchContainer>
     </>
   );
 }

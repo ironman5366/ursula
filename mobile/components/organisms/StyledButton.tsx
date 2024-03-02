@@ -6,8 +6,8 @@ import {
   Text,
   ViewStyle,
 } from "react-native";
-import { useThemeColor } from "./Themed.tsx";
 import ThemeColor from "../../types/ThemeColor.ts";
+import { useThemeColor } from "../../theme.ts";
 
 type ChildrenOrTitle =
   | {

@@ -1,10 +1,10 @@
 import React from "react";
-import { ThemedView } from "../../components/organisms/Themed.tsx";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { Button, Pressable, StyleSheet } from "react-native";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
 import BookImage from "../../components/atoms/BookImage.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 
 interface Props {
   reviewTarget: Book;
@@ -35,16 +35,16 @@ export default function RankComparison({
   onComparatorPressed,
 }: Props) {
   return (
-    <ThemedView style={styles.container}>
+    <StyledView style={styles.container}>
       <StyledText>Which book did you prefer?</StyledText>
-      <ThemedView style={styles.bookRow}>
+      <StyledView style={styles.bookRow}>
         <BookComparisonCard
           book={reviewTarget}
           onPress={onReviewTargetPressed}
         />
         <BookComparisonCard book={comparator} onPress={onComparatorPressed} />
-      </ThemedView>
-    </ThemedView>
+      </StyledView>
+    </StyledView>
   );
 }
 

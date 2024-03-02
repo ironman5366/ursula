@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, TextInput, View } from "react-native";
 import { supabase } from "../utils/supabase";
 import { TitleText } from "../components/atoms/TitleText";
 import StyledButton from "../components/organisms/StyledButton.tsx";
@@ -7,6 +7,9 @@ import { StyledText } from "../components/atoms/StyledText";
 import { AuthError } from "@supabase/supabase-js";
 import EmailInput from "../components/atoms/Emailnput";
 import PasswordInput from "../components/atoms/PasswordInput";
+import StyledInput from "../components/atoms/StyledInput.tsx";
+import LoadingScreen from "../components/atoms/LoadingScreen.tsx";
+import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 
 export default function LoginSignup() {
   // Are we in login or signup mode?
@@ -38,35 +41,41 @@ export default function LoginSignup() {
     setLoading(false);
   }
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.form}>
-        <TitleText>Welcome to Ursula</TitleText>
-        <EmailInput
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          style={styles.input}
-        />
-        <PasswordInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <StyledButton
-          title={isLogin ? "Login" : "Sign Up"}
-          onPress={signInWithEmail}
-        />
-        <StyledText>
-          {isLogin ? "Don't have an account?" : "Already have an account?"}
-        </StyledText>
-        <StyledButton
-          title={isLogin ? "Sign Up" : "Login"}
-          onPress={() => setIsLogin(!isLogin)}
-        />
+    <DismissKeyboardContainer>
+      <View style={styles.container}>
+        <View style={styles.form}>
+          <TitleText>Welcome to Ursula</TitleText>
+          <EmailInput
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            style={styles.input}
+          />
+          <PasswordInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <StyledButton
+            title={isLogin ? "Login" : "Sign Up"}
+            onPress={signInWithEmail}
+          />
+          <StyledText>
+            {isLogin ? "Don't have an account?" : "Already have an account?"}
+          </StyledText>
+          <StyledButton
+            title={isLogin ? "Sign Up" : "Login"}
+            onPress={() => setIsLogin(!isLogin)}
+          />
+        </View>
       </View>
-    </View>
+    </DismissKeyboardContainer>
   );
 }
 

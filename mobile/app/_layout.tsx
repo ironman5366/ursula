@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
 import LoginSignup from "../pages/LoginSignup.tsx";
+import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -66,7 +67,9 @@ function RootLayoutNav() {
         <ThemeProvider
           value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
         >
-          <AuthRouter />
+          <DismissKeyboardContainer>
+            <AuthRouter />
+          </DismissKeyboardContainer>
         </ThemeProvider>
       </QueryClientProvider>
     </SessionProvider>
