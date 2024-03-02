@@ -1,7 +1,7 @@
 import React, { ComponentProps, forwardRef } from "react";
 import { TextInput, StyleSheet } from "react-native";
 import ThemeColor from "../../types/ThemeColor";
-import { useThemeColor } from "../organisms/Themed";
+import { useThemeColor } from "../../theme.ts";
 
 interface Props extends ComponentProps<typeof TextInput> {
   borderColorName?: ThemeColor;

@@ -7,8 +7,8 @@ import {
 } from "react-native-tab-view";
 import ReadingList from "../../pages/ReadingList.tsx";
 import RankingList from "../../pages/RankingList";
-import { useThemeColor } from "../../components/organisms/Themed.tsx";
 import { Stack } from "expo-router";
+import { useThemeColor } from "../../theme.ts";
 
 const renderScene = SceneMap({
   readingList: ReadingList,

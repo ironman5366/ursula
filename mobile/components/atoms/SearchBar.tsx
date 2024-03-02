@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput, View } from "react-native";
-import { useThemeColor } from "../organisms/Themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useThemeColor } from "../../theme.ts";
 
 export default function SearchBar(
   props: Omit<React.ComponentProps<typeof TextInput>, "style" | "placeholder">

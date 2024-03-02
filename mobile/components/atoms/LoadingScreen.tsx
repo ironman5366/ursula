@@ -1,12 +1,12 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
-import { ThemedView } from "../organisms/Themed.tsx";
+import { StyledView } from "../organisms/StyledView.tsx";
 
 export default function LoadingScreen() {
   return (
-    <ThemedView style={styles.container}>
+    <StyledView style={styles.container}>
       <ActivityIndicator />
-    </ThemedView>
+    </StyledView>
   );
 }
 

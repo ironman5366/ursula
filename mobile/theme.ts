@@ -3,6 +3,7 @@ import { Theme } from "@react-navigation/native";
 import { Text as DefaultText } from "react-native/Libraries/Text/Text";
 import { View as DefaultView } from "react-native/Libraries/Components/View/View";
 import { ThemeProps } from "./components/organisms/StyledView.tsx";
+import { useColorScheme } from "react-native";
 
 const tintColorLight = "#832232";
 const tintColorDark = "#CE8964";
@@ -44,3 +45,17 @@ export const LIGHT_THEME: Theme = {
 
 export type StyledTextProps = ThemeProps & DefaultText["props"];
 export type StyledViewProps = ThemeProps & DefaultView["props"];
+
+export function useThemeColor(
+  colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
+  props: { light?: string; dark?: string } = {}
+) {
+  const theme = useColorScheme() ?? "light";
+  const colorFromProps = props[theme];
+
+  if (colorFromProps) {
+    return colorFromProps;
+  } else {
+    return Colors[theme][colorName];
+  }
+}
