@@ -1,19 +1,26 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, forwardRef } from "react";
 import StyledInput from "./StyledInput";
 
 type Props = Omit<
   ComponentProps<typeof StyledInput>,
-  "autoCapitalize" | "autoComplete" | "keyboardType" | "textContentType"
+  | "autoCapitalize"
+  | "autoComplete"
+  | "keyboardType"
+  | "textContentType"
+  | "autoCorrect"
 >;
 
-export default function EmailInput(props: Props) {
+function EmailInput(props: Props, ref) {
   return (
     <StyledInput
       {...props}
+      ref={ref}
+      autoCorrect={false}
       autoCapitalize="none"
       autoComplete="email"
-      keyboardType="email-address"
       textContentType="emailAddress"
     />
   );
 }
+
+export default forwardRef(EmailInput);

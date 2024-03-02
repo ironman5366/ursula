@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, TextInput, View } from "react-native";
 import { supabase } from "../utils/supabase";
 import { TitleText } from "../components/atoms/TitleText";
 import StyledButton from "../components/organisms/StyledButton.tsx";
@@ -7,6 +7,8 @@ import { StyledText } from "../components/atoms/StyledText";
 import { AuthError } from "@supabase/supabase-js";
 import EmailInput from "../components/atoms/Emailnput";
 import PasswordInput from "../components/atoms/PasswordInput";
+import StyledInput from "../components/atoms/StyledInput.tsx";
+import LoadingScreen from "../components/atoms/LoadingScreen.tsx";
 
 export default function LoginSignup() {
   // Are we in login or signup mode?
@@ -36,6 +38,10 @@ export default function LoginSignup() {
 
     if (error) Alert.alert(error.message);
     setLoading(false);
+  }
+
+  if (loading) {
+    return <LoadingScreen />;
   }
 
   return (
