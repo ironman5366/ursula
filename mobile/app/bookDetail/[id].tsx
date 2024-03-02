@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
+    minHeight: "10%",
   },
   meta: {},
 });

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // This helps with type sharing between the deno code and the rest of the app
     "allowImportingTsExtensions": true
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }
