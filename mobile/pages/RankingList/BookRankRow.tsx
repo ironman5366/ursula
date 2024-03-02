@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { ThemedView } from "../../components/organisms/Themed.tsx";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import BookPreviewRow from "../../components/molecules/BookPreviewRow.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 
 interface Props {
   review: ReviewWithBook;
@@ -12,8 +12,8 @@ interface Props {
 
 export default function BookRankRow({ rank, review }: Props) {
   return (
-    <ThemedView style={styles.container}>
-      <ThemedView style={styles.number}>
+    <StyledView style={styles.container}>
+      <StyledView style={styles.number}>
         <StyledText
           style={{
             fontWeight: "600",
@@ -21,11 +21,11 @@ export default function BookRankRow({ rank, review }: Props) {
         >
           # {rank}
         </StyledText>
-      </ThemedView>
-      <ThemedView style={styles.preview}>
+      </StyledView>
+      <StyledView style={styles.preview}>
         <BookPreviewRow book={review.book} />
-      </ThemedView>
-    </ThemedView>
+      </StyledView>
+    </StyledView>
   );
 }
 

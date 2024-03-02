@@ -1,12 +1,12 @@
 import React, { ComponentProps, forwardRef } from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { ThemedView } from "../organisms/Themed";
 import BookImage from "../atoms/BookImage";
 import { Book } from "../../../shared-types/derived";
 import { TitleText } from "../atoms/TitleText.tsx";
 import { useTheme } from "@react-navigation/native";
 import { StyledText } from "../atoms/StyledText.tsx";
 import BookAuthors from "../atoms/BookAuthors.tsx";
+import { StyledView } from "../organisms/StyledView.tsx";
 
 interface Props {
   book: Book;
@@ -21,7 +21,7 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
 
   return (
     <Pressable onPress={onPress} ref={ref}>
-      <ThemedView
+      <StyledView
         style={[
           {
             borderWidth: 2,
@@ -34,14 +34,14 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
           },
         ]}
       >
-        <ThemedView style={styles.imageContainer}>
+        <StyledView style={styles.imageContainer}>
           <BookImage book={book} size={imageHeight} />
-        </ThemedView>
-        <ThemedView style={styles.textContainer}>
+        </StyledView>
+        <StyledView style={styles.textContainer}>
           <TitleText fontSize={20}>{book.name}</TitleText>
           <BookAuthors bookId={book.id} />
-        </ThemedView>
-      </ThemedView>
+        </StyledView>
+      </StyledView>
     </Pressable>
   );
 }
