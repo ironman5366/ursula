@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Button, StyleSheet, Text } from "react-native";
-import { ThemedView } from "../../components/organisms/Themed.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 import { supabase } from "../../utils/supabase.ts";
 import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,7 +35,7 @@ function DebugPanel() {
 
 export default function Settings() {
   return (
-    <ThemedView style={styles.container}>
+    <StyledView style={styles.container}>
       <Button
         title={"Sign Out"}
         onPress={() => {
@@ -44,7 +44,7 @@ export default function Settings() {
         }}
       />
       {process.env.NODE_ENV !== "production" && <DebugPanel />}
-    </ThemedView>
+    </StyledView>
   );
 }
 

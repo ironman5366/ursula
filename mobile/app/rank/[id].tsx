@@ -1,11 +1,11 @@
 import React from "react";
 import useIdParam from "../../hooks/useIdParam.ts";
 import { StyleSheet } from "react-native";
-import { ThemedView } from "../../components/organisms/Themed.tsx";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import BinaryRank from "./BinaryRank.tsx";
 import { useCurrentProfile } from "../../hooks/profile.ts";
 import { useCurrentUserReviews, useReview } from "../../hooks/reviews.ts";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 
 export default function Rank() {
   const id = useIdParam();
@@ -19,13 +19,13 @@ export default function Rank() {
 
   return (
     <>
-      <ThemedView style={styles.container}>
+      <StyledView style={styles.container}>
         <BinaryRank
           profile={profile}
           reviewTarget={review}
           existingReviews={existingReviews}
         />
-      </ThemedView>
+      </StyledView>
     </>
   );
 }

@@ -1,7 +1,7 @@
-import { TextProps } from "../organisms/Themed";
 import { StyledText } from "./StyledText.tsx";
+import { StyledTextProps } from "../../theme.ts";
 
-interface Props extends TextProps {
+interface Props extends StyledTextProps {
   fontSize?: number;
 }
 

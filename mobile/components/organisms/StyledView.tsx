@@ -9,7 +9,7 @@ import {
   View as DefaultView,
 } from "react-native";
 
-import { Colors } from "../../theme.ts";
+import { Colors, StyledViewProps } from "../../theme.ts";
 
 export function useThemeColor(
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
@@ -30,10 +30,7 @@ export type ThemeProps = {
   darkColor?: string;
 };
 
-export type TextProps = ThemeProps & DefaultText["props"];
-export type ViewProps = ThemeProps & DefaultView["props"];
-
-export function ThemedView(props: ViewProps) {
+export function StyledView(props: StyledViewProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor("background", {
     light: lightColor,

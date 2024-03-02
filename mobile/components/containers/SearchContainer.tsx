@@ -4,11 +4,10 @@ import {
   SafeAreaView,
   StyleProp,
   StyleSheet,
-  TouchableOpacity,
   ViewStyle,
 } from "react-native";
-import { ThemedView } from "./organisms/Themed";
-import SearchBar from "./atoms/SearchBar";
+import { StyledView } from "../organisms/StyledView.tsx";
+import SearchBar from "../atoms/SearchBar.tsx";
 import { Link, useNavigation } from "expo-router";
 
 function SearchNavigator({
@@ -19,7 +18,7 @@ function SearchNavigator({
   return (
     <Link href={"/search"} asChild>
       <Pressable>
-        <ThemedView style={style}>{children}</ThemedView>
+        <StyledView style={style}>{children}</StyledView>
       </Pressable>
     </Link>
   );
@@ -39,14 +38,14 @@ export default function SearchContainer({
   ...props
 }: PropsWithChildren<Props>) {
   const showSearch = "editable" in props && props.editable;
-  const WrapperComp = showSearch ? ThemedView : SearchNavigator;
+  const WrapperComp = showSearch ? StyledView : SearchNavigator;
 
   return (
     <SafeAreaView style={styles.container}>
       <WrapperComp style={styles.searchBarContainer}>
         <SearchBar {...props} />
       </WrapperComp>
-      <ThemedView style={styles.children}>{children}</ThemedView>
+      <StyledView style={styles.children}>{children}</StyledView>
     </SafeAreaView>
   );
 }
