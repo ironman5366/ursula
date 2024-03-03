@@ -1,16 +1,14 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { useCurrentUserReviews } from "../../hooks/reviews.ts";
+import { useCurrentUserReviews, useReviews } from "../../hooks/reviews.ts";
 import BookRankRow from "./BookRankRow.tsx";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { useUpdateProfile } from "../../hooks/profile.ts";
 
 export default function RankingList() {
-  const { data } = useCurrentUserReviews();
+  const reviews = useCurrentUserReviews();
   const { mutate: updateProfile } = useUpdateProfile();
-
-  const reviews = data || [];
 
   return (
     <StyledView style={styles.container}>
@@ -28,9 +26,8 @@ export default function RankingList() {
           }}
           onDragEnd={({ data }) => {
             const orderedReviewIds = data.map((review) => review.review.id);
-            console.log("updating ranks with ", orderedReviewIds);
             updateProfile({
-              review_ids: orderedReviewIds,
+              review_ids: [...orderedReviewIds],
             });
           }}
         />

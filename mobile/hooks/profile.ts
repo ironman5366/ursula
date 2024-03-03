@@ -56,15 +56,14 @@ export function useUpdateProfile() {
       // Optimistic update
       queryClient.setQueryData(
         ["PROFILE", session.user.id],
-        (oldProfile: Profile) => ({
-          ...oldProfile,
-          ...profile,
-        })
+        (oldProfile: Profile) => {
+          return { ...oldProfile, ...profile };
+        }
       );
     },
     mutationFn: (profile: Partial<Profile>) =>
       updateProfile(session.user.id, profile),
-    onSuccess: (updatedProfile) => {
+    onSuccess: async (updatedProfile) => {
       queryClient.setQueryData(["PROFILE", session.user.id], updatedProfile);
     },
   });

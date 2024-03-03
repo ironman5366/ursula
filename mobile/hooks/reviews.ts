@@ -4,12 +4,11 @@ import {
   UseMutationOptions,
   useQuery,
   useQueryClient,
-  UseQueryOptions,
 } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
-import { useCurrentProfile, useProfile, useUpdateProfile } from "./profile.ts";
+import { useProfile, useUpdateProfile } from "./profile.ts";
 import { useRemoveFromReadingList } from "./readingList.ts";
 
 interface CreateReviewParams {
@@ -82,7 +81,7 @@ async function fetchReviewIds(reviewIds: number[]): Promise<ReviewWithBook[]> {
 
 function useReviewData(reviewIds: number[], enabled: boolean) {
   // sort the review IDs so we get a consistent query key
-  const sortedIds = reviewIds.sort();
+  const sortedIds = [...reviewIds].sort();
   return useQuery({
     queryFn: () => fetchReviewIds(sortedIds),
     queryKey: ["REVIEW_DATA", sortedIds],
@@ -91,7 +90,6 @@ function useReviewData(reviewIds: number[], enabled: boolean) {
 }
 
 function orderReviews(profile: Profile, reviews: ReviewWithBook[]) {
-  console.log("ordering reviews by", profile.review_ids);
   return profile.review_ids.map((id) =>
     reviews.find((r) => r.review.id === id)
   );
@@ -99,19 +97,12 @@ function orderReviews(profile: Profile, reviews: ReviewWithBook[]) {
 
 export function useReviews(userId: string) {
   const { data: profile } = useProfile(userId);
-  console.log("profile reviewIds are", profile?.review_ids);
   const { data: reviewData } = useReviewData(
     profile?.review_ids || [],
     !!profile
   );
 
-  return useQuery({
-    queryFn: () => {
-      return orderReviews(profile, reviewData);
-    },
-    enabled: !!profile && !!reviewData,
-    queryKey: ["REVIEWS", userId],
-  });
+  return profile && reviewData ? orderReviews(profile, reviewData) : [];
 }
 
 export function useCurrentUserReviews() {
