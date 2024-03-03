@@ -1,10 +1,5 @@
 import { supabase } from "../utils/supabase.ts";
-import {
-  useMutation,
-  UseMutationOptions,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
@@ -153,17 +148,12 @@ interface RankMutationVariables {
   rankIdx: number;
 }
 
-export function useRank(
-  // The user may wish to redirect on success, give them the option
-  options?: Omit<
-    UseMutationOptions<void, any, RankMutationVariables, any>,
-    "mutationFn"
-  >
-) {
+export function useRank() {
   // A "rank" mutation is actually a combination of two mutations: one to update the profile with the new review ID,
   // and one to remove the book from the reading list
   const profileMutation = useUpdateProfile();
   const readingListMutation = useRemoveFromReadingList();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ profile, review, rankIdx }: RankMutationVariables) => {
@@ -188,8 +178,12 @@ export function useRank(
         }),
         readingListMutation.mutateAsync(review.book_id),
       ]);
+
+      return profile.id;
     },
-    ...options,
+    onSuccess: async (profileId) => {
+      await queryClient.invalidateQueries(["BOOK_REVIEW", profileId]);
+    },
   });
 }
 
