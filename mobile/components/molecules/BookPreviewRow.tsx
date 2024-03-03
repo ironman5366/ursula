@@ -4,7 +4,6 @@ import BookImage from "../atoms/BookImage";
 import { Book } from "../../../shared-types/derived";
 import { TitleText } from "../atoms/TitleText.tsx";
 import { useTheme } from "@react-navigation/native";
-import { StyledText } from "../atoms/StyledText.tsx";
 import BookAuthors from "../atoms/BookAuthors.tsx";
 import { StyledView } from "../organisms/StyledView.tsx";
 

@@ -43,6 +43,7 @@ export default function ReadingListButton({ bookId }: Props) {
           addToReadingList(bookId);
         }
       }}
+      disabled={isLoading}
       {...buttonProps}
     />
   );

@@ -8,7 +8,7 @@ import {
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
-import { useProfile, useUpdateProfile } from "./profile.ts";
+import { useCurrentProfile, useProfile, useUpdateProfile } from "./profile.ts";
 import { useRemoveFromReadingList } from "./readingList.ts";
 
 interface CreateReviewParams {
@@ -193,6 +193,32 @@ export function useRank(
   });
 }
 
+async function deleteReview(reviewId: number) {
+  const { error } = await supabase.from("reviews").delete().eq("id", reviewId);
+  if (error) {
+    throw error;
+  }
+}
+
+interface UnrankVariables {
+  profile: Profile;
+  reviewId: number;
+}
+
+export function useUnrank() {
+  // Remove a review from a user's review_ids and delete the review object
+  const profileMutation = useUpdateProfile();
+
+  return useMutation({
+    mutationFn: async ({ profile, reviewId }: UnrankVariables) => {
+      await profileMutation.mutateAsync({
+        review_ids: profile.review_ids.filter((id) => id !== reviewId),
+      });
+      await deleteReview(reviewId);
+    },
+  });
+}
+
 async function fetchBookReview(
   bookId: number,
   userId: string
@@ -218,19 +244,7 @@ export function useBookReview(bookId: number, userId: string) {
   });
 }
 
-export function useBookIsReviewed(bookId: number) {
+export function useUserBookReview(bookId: number) {
   const { session } = useSession();
-  const { data: review, ...rest } = useBookReview(bookId, session.user.id);
-  return {
-    ...rest,
-    isReviewed: !!review,
-  };
-}
-
-export function useRemoveReview(bookId: number) {
-  // Update the profile to remove the review ID from review_ids, and delete the review from the database.
-  // Do this in sequence, so that if the profile update fails, the review is not deleted.
-  const profileMutation = useUpdateProfile();
-  const queryClient = useQueryClient();
-  const { session } = useSession();
+  return useBookReview(bookId, session.user.id);
 }
