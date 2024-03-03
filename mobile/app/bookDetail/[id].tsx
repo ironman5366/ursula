@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Link, Stack } from "expo-router";
 import useBook from "../../hooks/useBook.ts";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
@@ -14,6 +8,7 @@ import ReadingListButton from "./ReadingListButton.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
 import useIdParam from "../../hooks/useIdParam.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import ReviewButton from "./ReviewButton.tsx";
 
 export default function BookDetail() {
   const id = useIdParam();
@@ -43,9 +38,7 @@ export default function BookDetail() {
         </View>
         <View style={styles.buttons}>
           <ReadingListButton bookId={book.id} />
-          <Link href={`/review/${book.id}/`} asChild>
-            <CardButton title={"Review"} />
-          </Link>
+          <ReviewButton bookId={book.id} />
         </View>
       </View>
       <ScrollView style={styles.container}>
@@ -72,6 +65,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
+    minHeight: "10%",
   },
   meta: {},
 });

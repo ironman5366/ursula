@@ -1,35 +1,51 @@
 import { useState } from "react";
 
-export default function useBinarySearch<T>(items: T[]) {
-  const [[start, end], setRange] = useState([0, items.length - 1]);
+interface BinarySearchResults<T> {
+  currIdx: number;
+  curr: T;
 
-  if (items.length === 0) {
-    return {
-      empty: true,
-      finished: true,
-      curr: null,
-      currIdx: 0,
-      right: () => {},
-      left: () => {},
-    };
-  }
+  right: () => void;
+  left: () => void;
+}
+
+interface BinarySearchParams<T> {
+  items: T[];
+  onFinished: (idx: number) => void;
+}
+
+export default function useBinarySearch<T>({
+  items,
+  onFinished,
+}: BinarySearchParams<T>): BinarySearchResults<T> {
+  const [[start, end], setRange] = useState([0, items.length - 1]);
 
   const midpoint = Math.floor((start + end) / 2);
   const curr = items[midpoint];
-  const finished = start === end;
+  const last = start === end;
 
-  return {
-    currIdx: midpoint,
-    curr,
-    right: () => {
-      const newStart = Math.min(midpoint + 1, end);
-      !finished && setRange([newStart, end]);
-    },
-    left: () => {
-      const newEnd = Math.max(midpoint - 1, end);
-      !finished && setRange([start, Math.min(start, newEnd)]);
-    },
-    finished,
-    empty: false,
-  };
+  if (last) {
+    return {
+      currIdx: midpoint,
+      curr,
+      right: () => {
+        onFinished(midpoint + 1);
+      },
+      left: () => {
+        onFinished(midpoint);
+      },
+    };
+  } else {
+    return {
+      currIdx: midpoint,
+      curr,
+      right: () => {
+        const newStart = Math.min(midpoint + 1, end);
+        setRange([newStart, end]);
+      },
+      left: () => {
+        const newEnd = Math.max(midpoint - 1, end);
+        setRange([start, Math.min(start, newEnd)]);
+      },
+    };
+  }
 }

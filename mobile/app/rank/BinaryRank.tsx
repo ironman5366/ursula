@@ -18,38 +18,28 @@ export default function BinaryRank({
   existingReviews,
   profile,
 }: Props) {
-  const { curr, right, left, finished, currIdx, empty } =
-    useBinarySearch(existingReviews);
-  const { mutate: rank } = useRank({
-    onSuccess: () => {
-      router.replace("/yourBooks");
+  const { mutate: rank, isSuccess, isLoading } = useRank();
+
+  const { curr, left, right } = useBinarySearch({
+    items: existingReviews,
+    onFinished: (idx: number) => {
+      rank({
+        review: reviewTarget.review,
+        rankIdx: idx,
+        profile,
+      });
     },
   });
 
   useEffect(() => {
-    // Insert the book at currIdx
-    if (finished) {
-      rank({
-        review: reviewTarget.review,
-        rankIdx: currIdx,
-        profile,
-      });
+    if (isSuccess) {
+      router.replace("/yourBooks");
     }
-  }, [finished]);
-
-  useEffect(() => {
-    if (empty) {
-      rank({
-        review: reviewTarget.review,
-        rankIdx: 0,
-        profile,
-      });
-    }
-  }, [empty]);
+  }, [isSuccess]);
 
   // If we're finished, we're just waiting for the update to the profile, and
   // we'll be redirected after
-  if (finished || empty) {
+  if (isLoading) {
     return <LoadingScreen />;
   }
 

@@ -52,9 +52,18 @@ export function useUpdateProfile() {
   // The user can only update their current profile, so we don't need to pass in a profileId
   const { session } = useSession();
   return useMutation({
+    onMutate: (profile: Partial<Profile>) => {
+      // Optimistic update
+      queryClient.setQueryData(
+        ["PROFILE", session.user.id],
+        (oldProfile: Profile) => {
+          return { ...oldProfile, ...profile };
+        }
+      );
+    },
     mutationFn: (profile: Partial<Profile>) =>
       updateProfile(session.user.id, profile),
-    onSuccess: (updatedProfile) => {
+    onSuccess: async (updatedProfile) => {
       queryClient.setQueryData(["PROFILE", session.user.id], updatedProfile);
     },
   });

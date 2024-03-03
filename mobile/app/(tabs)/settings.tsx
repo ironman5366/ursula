@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text } from "react-native";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import { supabase } from "../../utils/supabase.ts";
 import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
+import { useCurrentProfile, useProfile } from "../../hooks/profile.ts";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 function DebugPanel() {
   const queryClient = useQueryClient();
@@ -21,9 +23,11 @@ function DebugPanel() {
         }}
       />
       <StyledButton
-        title={"Dump Cache"}
+        title={"Dump Profile Cache"}
         onPress={() => {
-          setDumpedCache(JSON.stringify(queryClient.getQueryCache(), null, 2));
+          const profileCache = queryClient.getQueriesData(["PROFILE"]);
+          console.log(profileCache);
+          setDumpedCache(JSON.stringify(profileCache, null, 2));
         }}
       />
       {dumpedCache && <Text>{dumpedCache}</Text>}
@@ -32,8 +36,13 @@ function DebugPanel() {
 }
 
 export default function Settings() {
+  const { data: profile } = useCurrentProfile();
+
   return (
     <StyledView style={styles.container}>
+      {profile && (
+        <StyledText>You're logged in as {profile.full_name}</StyledText>
+      )}
       <StyledButton
         title={"Sign Out"}
         onPress={() => {

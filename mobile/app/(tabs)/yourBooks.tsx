@@ -63,7 +63,7 @@ export default function YourBooks() {
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
+          initialLayout={{ height: 10 }}
         />
       </SearchContainer>
     </>

@@ -37,13 +37,13 @@ export default function ReadingListButton({ bookId }: Props) {
   return (
     <CardButton
       onPress={() => {
-        console.log("Doing reading list action", bookId);
         if (bookInReadingList) {
           removeFromReadingList(bookId);
         } else {
           addToReadingList(bookId);
         }
       }}
+      disabled={isLoading}
       {...buttonProps}
     />
   );
