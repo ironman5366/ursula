@@ -2,9 +2,9 @@ import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
-import BookPreviewRow from "../../components/molecules/BookPreviewRow.tsx";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import BookPreviewLink from "../../components/atoms/BookPreviewLink.tsx";
 
 interface Props {
   review: ReviewWithBook;
@@ -25,7 +25,7 @@ export default function BookRankRow({ rank, review, drag }: Props) {
         </StyledText>
       </StyledView>
       <StyledView style={styles.preview}>
-        <BookPreviewRow book={review.book} />
+        <BookPreviewLink book={review.book} />
       </StyledView>
       <StyledView style={styles.dragHandle}>
         <Pressable onLongPress={drag}>

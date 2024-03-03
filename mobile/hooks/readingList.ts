@@ -35,7 +35,6 @@ export function useReadingList(userId: string) {
 }
 
 async function doAddToReadingList(userId: string, bookId: number) {
-  console.log("adding to reading list", userId, bookId);
   const { data, error } = await supabase
     .from("reading_list_items")
     .upsert(
@@ -46,8 +45,6 @@ async function doAddToReadingList(userId: string, bookId: number) {
       { onConflict: "user_id,book_id" }
     )
     .select();
-
-  console.log("data", data, "error", error);
 }
 
 export function useAddToReadingList() {

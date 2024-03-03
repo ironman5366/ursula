@@ -14,9 +14,27 @@ export default function useBinarySearch<T>(items: T[]) {
     };
   }
 
+  console.log(
+    "items",
+    items.map((i) => i.book.name!)
+  );
+
   const midpoint = Math.floor((start + end) / 2);
   const curr = items[midpoint];
   const finished = start === end;
+
+  console.log(
+    "midpoint",
+    midpoint,
+    "start",
+    start,
+    "end",
+    end,
+    "finished",
+    finished,
+    "items.length",
+    items.length
+  );
 
   return {
     currIdx: midpoint,

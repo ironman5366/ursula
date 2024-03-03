@@ -29,6 +29,7 @@ export default function BinaryRank({
   useEffect(() => {
     // Insert the book at currIdx
     if (finished) {
+      console.log("ranking bc finished");
       rank({
         review: reviewTarget.review,
         rankIdx: currIdx,
@@ -39,6 +40,7 @@ export default function BinaryRank({
 
   useEffect(() => {
     if (empty) {
+      console.log("ranking bc empty");
       rank({
         review: reviewTarget.review,
         rankIdx: 0,

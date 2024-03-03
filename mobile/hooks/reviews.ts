@@ -102,7 +102,17 @@ export function useReviews(userId: string) {
     !!profile
   );
 
-  return profile && reviewData ? orderReviews(profile, reviewData) : [];
+  if (profile && reviewData) {
+    return {
+      data: orderReviews(profile, reviewData),
+      isLoading: false,
+    };
+  } else {
+    return {
+      data: undefined,
+      isLoading: true,
+    };
+  }
 }
 
 export function useCurrentUserReviews() {
@@ -181,4 +191,46 @@ export function useRank(
     },
     ...options,
   });
+}
+
+async function fetchBookReview(
+  bookId: number,
+  userId: string
+): Promise<Review | null> {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("book_id", bookId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export function useBookReview(bookId: number, userId: string) {
+  return useQuery({
+    queryKey: ["BOOK_REVIEW", bookId, userId],
+    queryFn: () => fetchBookReview(bookId, userId),
+  });
+}
+
+export function useBookIsReviewed(bookId: number) {
+  const { session } = useSession();
+  const { data: review, ...rest } = useBookReview(bookId, session.user.id);
+  return {
+    ...rest,
+    isReviewed: !!review,
+  };
+}
+
+export function useRemoveReview(bookId: number) {
+  // Update the profile to remove the review ID from review_ids, and delete the review from the database.
+  // Do this in sequence, so that if the profile update fails, the review is not deleted.
+  const profileMutation = useUpdateProfile();
+  const queryClient = useQueryClient();
+  const { session } = useSession();
 }

@@ -1,14 +1,19 @@
 import React from "react";
-import { StyleSheet, useWindowDimensions } from "react-native";
-import { useCurrentUserReviews, useReviews } from "../../hooks/reviews.ts";
+import { StyleSheet } from "react-native";
+import { useCurrentUserReviews } from "../../hooks/reviews.ts";
 import BookRankRow from "./BookRankRow.tsx";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { useUpdateProfile } from "../../hooks/profile.ts";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 
 export default function RankingList() {
-  const reviews = useCurrentUserReviews();
+  const { data: reviews, isLoading } = useCurrentUserReviews();
   const { mutate: updateProfile } = useUpdateProfile();
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <StyledView style={styles.container}>
