@@ -15,7 +15,7 @@ export default function ReviewButton({ bookId }: Props) {
   const { data: profile } = useCurrentProfile();
   const { mutate: unrank, isLoading: isUnranking } = useUnrank();
 
-  const isLoading = !profile || !isReviewLoading || isUnranking;
+  const isLoading = !profile || isReviewLoading || isUnranking;
 
   let buttonProps;
   if (isLoading) {
@@ -24,7 +24,7 @@ export default function ReviewButton({ bookId }: Props) {
     };
   } else {
     buttonProps = {
-      title: review ? "Remove from your rankings" : "Review",
+      title: review ? "Remove from your reviews" : "Review",
     };
   }
 

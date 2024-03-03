@@ -8,6 +8,7 @@ import ReadingListButton from "./ReadingListButton.tsx";
 import CardButton from "../../components/atoms/CardButton.tsx";
 import useIdParam from "../../hooks/useIdParam.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import ReviewButton from "./ReviewButton.tsx";
 
 export default function BookDetail() {
   const id = useIdParam();
@@ -37,9 +38,7 @@ export default function BookDetail() {
         </View>
         <View style={styles.buttons}>
           <ReadingListButton bookId={book.id} />
-          <Link href={`/review/${book.id}/`} asChild>
-            <CardButton title={"Review"} />
-          </Link>
+          <ReviewButton bookId={book.id} />
         </View>
       </View>
       <ScrollView style={styles.container}>

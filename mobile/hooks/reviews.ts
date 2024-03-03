@@ -8,7 +8,7 @@ import {
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile, Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
-import { useCurrentProfile, useProfile, useUpdateProfile } from "./profile.ts";
+import { useProfile, useUpdateProfile } from "./profile.ts";
 import { useRemoveFromReadingList } from "./readingList.ts";
 
 interface CreateReviewParams {
@@ -208,13 +208,18 @@ interface UnrankVariables {
 export function useUnrank() {
   // Remove a review from a user's review_ids and delete the review object
   const profileMutation = useUpdateProfile();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ profile, reviewId }: UnrankVariables) => {
       await profileMutation.mutateAsync({
-        review_ids: profile.review_ids.filter((id) => id !== reviewId),
+        review_ids: [...profile.review_ids.filter((id) => id !== reviewId)],
       });
       await deleteReview(reviewId);
+      return profile;
+    },
+    onSuccess: async (profile) => {
+      await queryClient.invalidateQueries(["BOOK_REVIEW", profile.id]);
     },
   });
 }
@@ -239,7 +244,7 @@ async function fetchBookReview(
 
 export function useBookReview(bookId: number, userId: string) {
   return useQuery({
-    queryKey: ["BOOK_REVIEW", bookId, userId],
+    queryKey: ["BOOK_REVIEW", userId, bookId],
     queryFn: () => fetchBookReview(bookId, userId),
   });
 }
