@@ -30,9 +30,21 @@ module.exports = {
   },
   expo: {
     scheme: "ursula",
+    slug: "ursula",
     experiments: {
       typedRoutes: true,
     },
+    android: {
+      package: "com.willbeddow.ursula",
+    },
+    ios: {
+      bundleIdentifier: "com.willbeddow.ursula",
+    },
     plugins: ["expo-router"],
+    extra: {
+      eas: {
+        projectId: "ac90d169-a022-4526-95a5-95e58f0151a4",
+      },
+    },
   },
 };

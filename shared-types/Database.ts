@@ -127,6 +127,45 @@ export interface Database {
         };
         Relationships: [];
       };
+      currently_reading_items: {
+        Row: {
+          book_id: number;
+          created_at: string;
+          id: number;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          book_id: number;
+          created_at?: string;
+          id?: number;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          book_id?: number;
+          created_at?: string;
+          id?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "currently_reading_items_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "currently_reading_items_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       editions: {
         Row: {
           book_id: number;
