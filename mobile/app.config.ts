@@ -31,6 +31,7 @@ module.exports = {
   expo: {
     scheme: "ursula",
     slug: "ursula",
+    name: "Ursula",
     experiments: {
       typedRoutes: true,
     },

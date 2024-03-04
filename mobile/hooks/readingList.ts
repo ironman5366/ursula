@@ -35,7 +35,7 @@ export function useReadingList(userId: string) {
 }
 
 async function doAddToReadingList(userId: string, bookId: number) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("reading_list_items")
     .upsert(
       {
@@ -45,6 +45,10 @@ async function doAddToReadingList(userId: string, bookId: number) {
       { onConflict: "user_id,book_id" }
     )
     .select();
+
+  if (error) {
+    throw error;
+  }
 }
 
 export function useAddToReadingList() {

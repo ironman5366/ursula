@@ -1,9 +1,10 @@
-CREATE TABLE IF NOT EXISTS currently_reading_items (
-    id serial PRIMARY KEY,
-    user_id "uuid" NOT NULL,
-    book_id integer NOT NULL,
-    created_at timestamp NOT NULL DEFAULT NOW(),
-    updated_at timestamp NOT NULL DEFAULT NOW(),
-    CONSTRAINT currently_reading_items_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT currently_reading_items_book_id_fkey FOREIGN KEY (book_id) REFERENCES books (id)
+CREATE TABLE activities (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    activity_type VARCHAR NOT NULL,
+    book_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    CONSTRAINT fk_user_activities_user_id FOREIGN KEY (user_id) REFERENCES profiles (id),
+    CONSTRAINT fk_user_activities_book_id FOREIGN KEY (book_id) REFERENCES books (id)
 );
