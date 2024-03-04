@@ -1,9 +1,9 @@
 module.exports = {
   name: "ursula",
   slug: "ursula",
-  version: "1.0.0",
+  version: "1.0.1",
   orientation: "portrait",
-  icon: "./assets/images/logo.png",
+  icon: "./assets/images/logo-192.png",
   scheme: "ursula",
   userInterfaceStyle: "automatic",
   splash: {
