@@ -5,6 +5,7 @@ import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import BookPreviewLink from "../../components/atoms/BookPreviewLink.tsx";
+import { useThemeColor } from "../../theme.ts";
 
 interface Props {
   review: ReviewWithBook;
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export default function BookRankRow({ rank, review, drag }: Props) {
+  const color = useThemeColor("text");
+
   return (
     <StyledView style={styles.container}>
       <StyledView style={styles.number}>
@@ -29,7 +32,7 @@ export default function BookRankRow({ rank, review, drag }: Props) {
       </StyledView>
       <StyledView style={styles.dragHandle}>
         <Pressable onLongPress={drag}>
-          <Ionicons name={"list-outline"} size={30} />
+          <Ionicons name={"list-outline"} size={30} color={color} />
         </Pressable>
       </StyledView>
     </StyledView>
