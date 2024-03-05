@@ -56,7 +56,7 @@ export default function YourBooks() {
           title: "Your Books",
         }}
       />
-      <SearchContainer>
+      <SearchContainer editable={false}>
         <TabView
           tabBarPosition={"bottom"}
           renderTabBar={TabBar}
