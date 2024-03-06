@@ -8,7 +8,7 @@ module.exports = {
     scheme: "ursula",
     userInterfaceStyle: "automatic",
     splash: {
-      image: "./assets/images/logo.png",
+      image: "./assets/images/logo_cutout.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff",
     },
