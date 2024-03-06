@@ -9,6 +9,7 @@ import CardButton from "../../components/atoms/CardButton.tsx";
 import useIdParam from "../../hooks/useIdParam.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import ReviewButton from "./ReviewButton.tsx";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 export default function BookDetail() {
   const id = useIdParam();
@@ -42,9 +43,7 @@ export default function BookDetail() {
         </View>
       </View>
       <ScrollView style={styles.container}>
-        <View style={styles.meta}>
-          <Text>{book.description}</Text>
-        </View>
+        <StyledText>{book.description}</StyledText>
       </ScrollView>
     </>
   );

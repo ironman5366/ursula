@@ -3,6 +3,7 @@ import { TextInput, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useThemeColor } from "../../theme.ts";
 import StyledButton from "../organisms/StyledButton.tsx";
+import { StyledView } from "../organisms/StyledView.tsx";
 
 interface SearchBarProps
   extends Omit<
@@ -16,6 +17,7 @@ interface SearchBarProps
 
 export default function SearchBar(props: SearchBarProps) {
   const tint = useThemeColor("tint");
+  const textColor = useThemeColor("text");
 
   const value = props.value || "";
   const onChangeText = props.onChangeText || (() => {});
@@ -42,10 +44,16 @@ export default function SearchBar(props: SearchBarProps) {
             padding: 8,
           }}
         >
-          <Ionicons name={"ios-search"} size={20} color={tint} />
+          <Ionicons
+            name={"ios-search"}
+            size={20}
+            color={tint}
+            style={{ flex: 0.1 }}
+          />
           <TextInput
             style={{
-              textAlign: "center",
+              color: textColor,
+              flex: 0.9,
             }}
             caretHidden={false}
             placeholder={"Search"}

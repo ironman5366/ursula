@@ -43,8 +43,8 @@ export default function useBinarySearch<T>({
         setRange([newStart, end]);
       },
       left: () => {
-        const newEnd = Math.max(midpoint - 1, end);
-        setRange([start, Math.min(start, newEnd)]);
+        const newEnd = Math.max(midpoint - 1, start);
+        setRange([start, newEnd]);
       },
     };
   }
