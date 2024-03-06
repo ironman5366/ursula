@@ -9,11 +9,12 @@ interface Props extends ComponentProps<typeof TextInput> {
 
 function StyledInput({ borderColorName, style, ...props }: Props, ref) {
   const borderColor = useThemeColor(borderColorName || "tint");
+  const color = useThemeColor("text");
 
   return (
     <TextInput
       ref={ref}
-      style={[styles.input, { borderColor }, style || {}]}
+      style={[styles.input, { borderColor, color }, style || {}]}
       {...props}
     />
   );
