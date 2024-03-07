@@ -8,17 +8,19 @@ module.exports = {
     scheme: "ursula",
     userInterfaceStyle: "automatic",
     splash: {
-      image: "./assets/images/logo.png",
+      image: "./assets/images/logo_cutout.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff",
     },
     assetBundlePatterns: ["**/*"],
     ios: {
+      buildNumber: "2",
       icon: "./assets/images/logo-192.png",
       bundleIdentifier: "com.willbeddow.ursula",
       supportsTablet: true,
     },
     android: {
+      package: "com.willbeddow.ursula",
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff",
