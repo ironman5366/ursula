@@ -42,7 +42,7 @@ export default function SearchContainer({
   return (
     <SafeAreaView style={styles.container}>
       <WrapperComp style={styles.searchBarContainer}>
-        <SearchBar {...props} />
+        <SearchBar editable={showSearch} {...props} />
       </WrapperComp>
       <StyledView style={styles.children}>{children}</StyledView>
     </SafeAreaView>
