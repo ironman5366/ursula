@@ -20,6 +20,7 @@ module.exports = {
       supportsTablet: true,
     },
     android: {
+      package: "com.willbeddow.ursula",
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff",
