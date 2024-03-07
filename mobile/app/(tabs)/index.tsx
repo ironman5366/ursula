@@ -14,7 +14,7 @@ export default function Home() {
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
-      <Text>TODO: home here</Text>
+      <Text>TODO: home heresuck my toe</Text>
     </SearchContainer>
   );
 }
