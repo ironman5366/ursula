@@ -10,10 +10,13 @@ import useIdParam from "../../hooks/useIdParam.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import ReviewButton from "./ReviewButton.tsx";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
+import useBookAuthors from "../../hooks/useBookAuthors.ts";
 
 export default function BookDetail() {
   const id = useIdParam();
   const { data: book } = useBook(id);
+  const { data: authors, isLoading: isAuthorsLoading } = useBookAuthors(id);
 
   if (!book) {
     return <LoadingScreen />;
@@ -26,33 +29,46 @@ export default function BookDetail() {
           title: book.name,
         }}
       />
-      <View style={styles.container}>
+      <StyledView style={styles.container}>
         <View style={styles.header}>
+          <BookImage book={book} size={256} />
           <TitleText
+            fontSize={20}
             style={{
               textAlign: "center",
             }}
           >
             {book.name}
           </TitleText>
-          <BookImage book={book} size={256} />
+          <StyledText>
+            {isAuthorsLoading
+              ? "Loading..."
+              : authors?.map((a) => a.name).join(", ")}
+          </StyledText>
         </View>
         <View style={styles.buttons}>
           <ReadingListButton bookId={book.id} />
           <ReviewButton bookId={book.id} />
         </View>
-      </View>
-      <ScrollView style={styles.container}>
-        <StyledText>{book.description}</StyledText>
-      </ScrollView>
+        <ScrollView>
+          <StyledText>{book.description}</StyledText>
+        </ScrollView>
+      </StyledView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  bookContainer: {
+    flex: 2,
+    padding: 10,
+  },
   container: {
     flex: 1,
     padding: 10,
+  },
+  descriptionContainer: {
+    flex: 1,
   },
   header: {
     justifyContent: "center",
@@ -60,11 +76,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttons: {
-    flex: 3,
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
-    minHeight: "10%",
   },
   meta: {},
 });

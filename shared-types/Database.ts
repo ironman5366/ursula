@@ -34,6 +34,38 @@ export interface Database {
   };
   public: {
     Tables: {
+      activities: {
+        Row: {
+          activity_data: Json;
+          activity_type: string;
+          created_at: string;
+          id: number;
+          user_id: string;
+        };
+        Insert: {
+          activity_data: Json;
+          activity_type: string;
+          created_at?: string;
+          id?: number;
+          user_id: string;
+        };
+        Update: {
+          activity_data?: Json;
+          activity_type?: string;
+          created_at?: string;
+          id?: number;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_activities_user_id";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       authors: {
         Row: {
           created_at: string;
@@ -132,36 +164,33 @@ export interface Database {
           book_id: number;
           created_at: string;
           id: number;
-          updated_at: string;
           user_id: string;
         };
         Insert: {
           book_id: number;
           created_at?: string;
           id?: number;
-          updated_at?: string;
           user_id: string;
         };
         Update: {
           book_id?: number;
           created_at?: string;
           id?: number;
-          updated_at?: string;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "currently_reading_items_book_id_fkey";
+            foreignKeyName: "fk_currently_reading_items_book_id";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "currently_reading_items_user_id_fkey";
+            foreignKeyName: "fk_currently_reading_items_user_id";
             columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "users";
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
@@ -210,6 +239,42 @@ export interface Database {
           }
         ];
       };
+      follows: {
+        Row: {
+          created_at: string;
+          followee_id: string;
+          follower_id: string;
+          id: number;
+        };
+        Insert: {
+          created_at?: string;
+          followee_id: string;
+          follower_id: string;
+          id?: number;
+        };
+        Update: {
+          created_at?: string;
+          followee_id?: string;
+          follower_id?: string;
+          id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "fk_follows_followee_id";
+            columns: ["followee_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "fk_follows_follower_id";
+            columns: ["follower_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -250,6 +315,7 @@ export interface Database {
           book_id: number;
           created_at: string;
           id: number;
+          list_id: number | null;
           updated_at: string;
           user_id: string;
         };
@@ -257,6 +323,7 @@ export interface Database {
           book_id: number;
           created_at?: string;
           id?: number;
+          list_id?: number | null;
           updated_at?: string;
           user_id: string;
         };
@@ -264,6 +331,7 @@ export interface Database {
           book_id?: number;
           created_at?: string;
           id?: number;
+          list_id?: number | null;
           updated_at?: string;
           user_id?: string;
         };
@@ -276,8 +344,90 @@ export interface Database {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "reading_list_items_list_id_fkey";
+            columns: ["list_id"];
+            isOneToOne: false;
+            referencedRelation: "reading_lists";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "user_id";
             columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      reading_lists: {
+        Row: {
+          created_at: string;
+          id: number;
+          name: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          name: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          name?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "fk_reading_lists_user_id";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      recommendations: {
+        Row: {
+          book_id: number;
+          created_at: string;
+          id: number;
+          recomendee_id: string;
+          recomender_id: string;
+        };
+        Insert: {
+          book_id: number;
+          created_at?: string;
+          id?: number;
+          recomendee_id: string;
+          recomender_id: string;
+        };
+        Update: {
+          book_id?: number;
+          created_at?: string;
+          id?: number;
+          recomendee_id?: string;
+          recomender_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "fk_recommendations_book_id";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "fk_recommendations_recomendee_id";
+            columns: ["recomendee_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "fk_recommendations_recomender_id";
+            columns: ["recomender_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];

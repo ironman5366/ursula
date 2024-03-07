@@ -5,9 +5,7 @@
   "scripts": {
     "start:local": "./expo_start_with_env.sh local",
     "start:dev": "./expo_start_with_env.sh dev",
-    "test": "jest --watchAll",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "test": "jest --watchAll"
   },
   "jest": {
     "preset": "jest-expo"
