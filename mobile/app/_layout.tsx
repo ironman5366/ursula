@@ -9,6 +9,7 @@ import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
 import LoginSignup from "../pages/LoginSignup.tsx";
 import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
+import { PostHogProvider } from "posthog-react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -51,6 +52,7 @@ function AuthenticatedStack() {
 
 function AuthRouter() {
   const { session } = useSession();
+
   if (session && session.user) {
     return <AuthenticatedStack />;
   } else {
@@ -62,16 +64,23 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
-        >
-          <DismissKeyboardContainer>
-            <AuthRouter />
-          </DismissKeyboardContainer>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </SessionProvider>
+    <PostHogProvider
+      apiKey="phc_4vhYsmmnKCTg1HT1HwcLHv2jAtsh9aIe3YmvRejScPN"
+      options={{
+        host: "https://app.posthog.com",
+      }}
+    >
+      <SessionProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
+          >
+            <DismissKeyboardContainer>
+              <AuthRouter />
+            </DismissKeyboardContainer>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </SessionProvider>
+    </PostHogProvider>
   );
 }

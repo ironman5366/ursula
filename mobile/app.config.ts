@@ -33,7 +33,7 @@ module.exports = {
     experiments: {
       typedRoutes: true,
     },
-    plugins: ["expo-router"],
+    plugins: ["expo-router", "expo-localization"],
     extra: {
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       eas: {
