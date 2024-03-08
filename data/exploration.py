@@ -8,8 +8,8 @@ import json
 
 load_dotenv()
 
-DATA_DIR = Path(os.environ["OL_DATA_DUMP_PATH"])
-assert DATA_DIR.exists(), f"Open library data directory {DATA_DIR} does not exist"
+DATA_FILE = Path(os.environ["OL_DATA_DUMP_PATH"])
+assert DATA_FILE.exists(), f"Open library data file {DATA_FILE} does not exist"
 
 POSTGRES_CONN_URL = os.environ["POSTGRES_CONN_URL"]
 
@@ -18,10 +18,9 @@ all_types = ['/type/language', '/type/edition', '/type/user', '/type/author', '/
 examples_by_type = {}
 
 def main():
-    in_file = DATA_DIR / "ol_dump_2024-02-29.txt.gz"
-    print(f"Loading {in_file}")
+    print(f"Loading {DATA_FILE}")
     total = 0
-    with gzip.open(os.path.join(in_file)) as fin:
+    with gzip.open(os.path.join(DATA_FILE)) as fin:
         for line in tqdm(fin):
             l = line.decode("utf-8").split("\t")
             line_type = l[0]
