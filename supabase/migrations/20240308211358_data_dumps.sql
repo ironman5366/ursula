@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS ol_books (
     description TEXT
 );
 
-CREATE TABLE IF NOT EXISTS ol_book_editions (
+CREATE TABLE IF NOT EXISTS ol_editions (
     id SERIAL PRIMARY KEY,
     ol_id VARCHAR(255) NOT NULL UNIQUE,
     book_id INTEGER REFERENCES ol_books (id) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS ol_book_editions (
 CREATE TABLE IF NOT EXISTS ol_book_excerpts (
     id SERIAL PRIMARY KEY,
     book_id INTEGER REFERENCES ol_books (id) NOT NULL,
-    edition_id INTEGER REFERENCES ol_book_editions (id),
+    edition_id INTEGER REFERENCES ol_editions (id),
     is_first_sentence BOOLEAN NOT NULL,
     excerpt TEXT NOT NULL
 );

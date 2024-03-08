@@ -41,5 +41,19 @@ def main():
         examples_file.write(json.dumps(examples_by_type, indent=4, sort_keys=True))
 
 
+def find_book_and_editions(book_id):
+    """
+    See how a book and its editions are laid out within the data file
+    """
+    print(f"Loading {DATA_FILE}")
+    total = 0
+    with gzip.open(os.path.join(DATA_FILE)) as fin:
+        for line in tqdm(fin):
+            l = line.decode("utf-8").split("\t")
+            line_type = l[0]
+            line_data = l[-1]
+            if line_type == "/type/book/":
+                pass
+
 if __name__ == "__main__":
     main()
