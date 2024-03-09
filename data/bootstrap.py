@@ -11,6 +11,7 @@ from tqdm import tqdm
 import datetime
 import json
 from dateutil.parser import parse, ParserError
+import csv
 
 load_dotenv()
 
@@ -18,14 +19,34 @@ DATA_FILE = Path(os.environ["OL_DATA_DUMP_PATH"])
 assert DATA_FILE.exists(), f"Open library data directory {DATA_FILE} does not exist"
 
 POSTGRES_CONN_URL = os.environ["POSTGRES_CONN_URL"]
-BATCH_SIZE = 1000
+BATCH_SIZE = 5000
+QUEUE_MAX_SIZE = BATCH_SIZE * 10
 
 
 def get_db_conn():
     return psycopg.connect(POSTGRES_CONN_URL)
 
+class Insertable(BaseModel):
+    def get_values(self):
+        """
+        Return values ready for postgres csv insertion - iterate through model fields, format arrays as {{}} instead of []
+        """
 
-class Book(BaseModel):
+        formatted_vals = []
+        for field in self.model_fields:
+            val = getattr(self, field)
+
+            if isinstance(val, list):
+                inner_vals = list(map(json.dumps, val))
+                formatted_vals.append("{{" + ",".join(inner_vals) + "}}")
+            else:
+                formatted_vals.append(val)
+
+        return formatted_vals
+
+
+
+class Book(Insertable):
     id: int
     ol_id: str
     title: str
@@ -35,7 +56,7 @@ class Book(BaseModel):
     subtitle: str | None
     description: str | None
 
-class Edition(BaseModel):
+class Edition(Insertable):
     id: int
     ol_id: str
     book_id: int
@@ -61,7 +82,9 @@ class TableManager:
                  task_group: asyncio.TaskGroup):
 
         self.table_name = table_name
-        self.queue = asyncio.Queue()
+        self.queue = asyncio.Queue(
+            maxsize=QUEUE_MAX_SIZE
+        )
 
         self._lock = asyncio.Lock()
         self._curr_id = 0
@@ -106,10 +129,15 @@ class TableManager:
             print(f"Writing batch of {len(batch)} for {self.table_name}...")
             curr = conn.cursor()
 
-            with curr.copy(f"COPY {self.table_name}(f({', '.join(columns)})) FROM STDIN (format csv") as copy:
+            with curr.copy(f"COPY {self.table_name}({', '.join(columns)}) FROM STDIN (format csv)") as copy:
+                writer = csv.writer(copy, quoting=csv.QUOTE_MINIMAL)
+
                 for row in batch:
-                    values = [getattr(row, col) for col in columns]
-                    copy.write(values)
+                    writer.writerow(row.get_values())
+
+            conn.commit()
+
+            print(f"Finished writing batch for {self.table_name}...")
 
 
 def first_or_none(line, val):
@@ -150,7 +178,11 @@ async def main():
                 if line_type == "/type/work":
                     books += 1
                     line_data = json.loads(line_segments[-1])
-                    book_ol_id = line_data["key"]
+
+                    if "title" not in line_data:
+                        continue
+
+                    book_ol_id = line_data["key"].split("/works/")[1]
                     book_id = await book_manager.get_id(book_ol_id)
                     book = Book(
                         id=book_id,
@@ -162,7 +194,8 @@ async def main():
                         subtitle=line_data.get("subtitle"),
                         description=extract_text(line_data, "description")
                     )
-                    book_manager.queue.put_nowait(book)
+                    await book_manager.queue.put(book)
+
                 elif line_type == "/type/edition":
                     editions += 1
 
@@ -173,7 +206,7 @@ async def main():
                     if "title" not in line_data:
                         continue
 
-                    edition_ol_id = line_data["key"]
+                    edition_ol_id = line_data["key"].split("/books/")[1]
                     work_id = line_data["works"][0]["key"]
 
                     publish_date_raw = line_data.get("publish_date")
@@ -183,8 +216,6 @@ async def main():
                             publish_date = parse(publish_date_raw).isoformat()
                         except ParserError:
                             date_parse_errors += 1
-
-
 
                     edition_id = await edition_manager.get_id(edition_ol_id)
                     book_id = await book_manager.get_id(work_id)
@@ -204,13 +235,9 @@ async def main():
                         lc_classifications=line_data.get("lc_classifications"),
                         series=first_or_none(line_data, "series")
                     )
-                    edition_manager.queue.put_nowait(edition)
+                    await edition_manager.queue.put(edition)
                 else:
                     pass
-
-                if total_records >= 500 * 1000:
-                    print(f"Processed {total_records} records, {books} books, {editions} editions stopping here to check the vibes")
-                    break
 
     print(f"Shutting down")
     shutdown_event.set()

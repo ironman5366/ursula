@@ -1,29 +1,29 @@
 CREATE TABLE IF NOT EXISTS ol_books (
     id SERIAL PRIMARY KEY,
     ol_id VARCHAR(255) NOT NULL UNIQUE,
-    title VARCHAR(255) NOT NULL,
+    title TEXT NOT NULL,
     alternate_titles TEXT [],
-    dewey_numbers VARCHAR(255) [],
-    lc_classifications VARCHAR(255) [],
-    subtitle VARCHAR(255),
+    dewey_numbers TEXT [],
+    lc_classifications TEXT [],
+    subtitle TEXT,
     description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS ol_editions (
     id SERIAL PRIMARY KEY,
     ol_id VARCHAR(255) NOT NULL UNIQUE,
-    book_id INTEGER REFERENCES ol_books (id) NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    subtitle VARCHAR(255),
+    book_id INTEGER,
+    title TEXT NOT NULL,
+    subtitle TEXT,
     alternate_titles TEXT [],
-    publish_places VARCHAR(255) [],
+    publish_places TEXT [],
     number_of_pages INTEGER,
     publish_date DATE,
     covers INTEGER [],
     isbn_10 VARCHAR(255),
     isbn_13 VARCHAR(255),
-    lc_classifications VARCHAR(255) [],
-    series VARCHAR(255)
+    lc_classifications TEXT [],
+    series TEXT
 );
 
 
