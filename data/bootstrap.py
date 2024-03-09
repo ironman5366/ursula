@@ -10,6 +10,7 @@ import gzip
 from tqdm import tqdm
 import datetime
 import json
+from dateutil.parser import parse, ParserError
 
 load_dotenv()
 
@@ -24,14 +25,7 @@ def get_db_conn():
     return psycopg.connect(POSTGRES_CONN_URL)
 
 
-class Insertable(BaseModel):
-    columns: list[str]
-
-    def get_values(self):
-        return [getattr(self, col) for col in self.columns]
-
-
-class Book(Insertable):
+class Book(BaseModel):
     id: int
     ol_id: str
     title: str
@@ -41,8 +35,7 @@ class Book(Insertable):
     subtitle: str | None
     description: str | None
 
-
-class Edition(Insertable):
+class Edition(BaseModel):
     id: int
     ol_id: str
     book_id: int
@@ -60,22 +53,6 @@ class Edition(Insertable):
     lc_classifications: list[str] | None
     series: str | None
 
-    columns = [
-        "ol_id",
-        "book_id",
-        "title",
-        "subtitle",
-        "alternate_titles",
-        "publish_places",
-        "number_of_pages",
-        "publish_date",
-        "isbn_10",
-        "isbn_13",
-        "lc_classifications",
-        "series",
-    ]
-
-
 class TableManager:
 
     def __init__(self,
@@ -92,7 +69,7 @@ class TableManager:
         self._shutdown_event = shutdown_event
         self._id_cache: dict[str, int] = {}
 
-    def get_id(self, key: str):
+    async def get_id(self, key: str):
         if key in self._id_cache:
             return self._id_cache[key]
 
@@ -106,7 +83,7 @@ class TableManager:
         while len(batch) < BATCH_SIZE:
             try:
                 batch.append(self.queue.get_nowait())
-            except queue.Empty:
+            except asyncio.QueueEmpty:
                 break
 
         return batch
@@ -115,25 +92,43 @@ class TableManager:
         print(f"In worker for {self.table_name}")
         conn = get_db_conn()
 
-        print(f"Disabling referential integrity on {self.table_name}")
-        conn.execute(f"ALTER TABLE {self.table_name} DISABLE TRIGGER ALL")
-
         while not self._shutdown_event.is_set():
+            print(f"Trying to take batch for {self.table_name}...")
             batch = self._take_batch()
-            columns = batch[0].columns
+            if not batch:
+                print(f"No batch, sleeping")
+                await asyncio.sleep(1)
+                continue
+
+            # Get the field names from pydantic on batch[0]
+            columns = list(batch[0].model_fields.keys())
 
             print(f"Writing batch of {len(batch)} for {self.table_name}...")
             curr = conn.cursor()
 
             with curr.copy(f"COPY {self.table_name}(f({', '.join(columns)})) FROM STDIN (format csv") as copy:
                 for row in batch:
-                    copy.write(row.get_value())
-
-        print(f"Re-enabling referential integrity on {self.table_name}")
-        conn.execute(f"ALTER TABLE {self.table_name} ENABLE TRIGGER ALL")
+                    values = [getattr(row, col) for col in columns]
+                    copy.write(values)
 
 
-def main():
+def first_or_none(line, val):
+    if val in line and line[val]:
+        return line[val][0]
+    return None
+
+def extract_text(line, val):
+    if val in line and line[val]:
+        if isinstance(val, str):
+            return val
+        elif isinstance(val, dict):
+            return val["value"]
+        else:
+            raise ValueError(f"Unexpected type {type(val)}, {val}")
+
+    return None
+
+async def main():
     shutdown_event = asyncio.Event()
     async with asyncio.TaskGroup() as task_group:
         book_manager = TableManager("ol_books", shutdown_event, task_group)
@@ -144,6 +139,8 @@ def main():
         total_records = 0
         books = 0
         editions = 0
+        date_parse_errors = 0
+
         with gzip.open(DATA_FILE) as in_file:
             for raw_line in tqdm(in_file):
                 line_segments = raw_line.decode("utf-8").split("\t")
@@ -152,18 +149,18 @@ def main():
 
                 if line_type == "/type/work":
                     books += 1
-
                     line_data = json.loads(line_segments[-1])
                     book_ol_id = line_data["key"]
+                    book_id = await book_manager.get_id(book_ol_id)
                     book = Book(
-                        id=book_manager.get_id(book_ol_id),
+                        id=book_id,
                         ol_id=book_ol_id,
                         title=line_data["title"],
                         alternate_titles=line_data.get("alternate_titles"),
                         dewey_numbers=line_data.get("dewey_decimal_class"),
                         lc_classifications=line_data.get("lc_classifications"),
                         subtitle=line_data.get("subtitle"),
-                        description=line_data.get("description"),
+                        description=extract_text(line_data, "description")
                     )
                     book_manager.queue.put_nowait(book)
                 elif line_type == "/type/edition":
@@ -173,51 +170,52 @@ def main():
                     if "works" not in line_data or len(line_data["works"]) == 0:
                         continue
 
+                    if "title" not in line_data:
+                        continue
+
                     edition_ol_id = line_data["key"]
                     work_id = line_data["works"][0]["key"]
 
                     publish_date_raw = line_data.get("publish_date")
                     publish_date = None
-
                     if publish_date_raw:
-                        # Try a few iso formats for parsing publish date
-                        formats = ["%Y-%m-%d", "%Y-%m", "%Y"]
-                        for fmt in formats:
-                            try:
-                                publish_date = datetime.datetime.strptime(publish_date_raw, fmt)
-                                break
-                            except ValueError:
-                                pass
+                        try:
+                            publish_date = parse(publish_date_raw).isoformat()
+                        except ParserError:
+                            date_parse_errors += 1
 
-                        if not publish_date:
-                            print(f"Couldn't parse publish date {publish_date_raw} for {edition_ol_id}")
+
+
+                    edition_id = await edition_manager.get_id(edition_ol_id)
+                    book_id = await book_manager.get_id(work_id)
 
                     edition = Edition(
-                        id=edition_manager.get_id(edition_ol_id),
+                        id=edition_id,
                         ol_id=edition_ol_id,
-                        book_id=book_manager.get_id(work_id),
+                        book_id=book_id,
                         title=line_data["title"],
                         subtitle=line_data.get("subtitle"),
                         alternate_titles=line_data.get("alternate_titles"),
                         publish_places=line_data.get("publish_places"),
                         number_of_pages=line_data.get("number_of_pages"),
                         publish_date=publish_date,
-                        isbn_10=line_data.get("isbn_10"),
-                        isbn_13=line_data.get("isbn_13"),
+                        isbn_10=first_or_none(line_data, "isbn_10"),
+                        isbn_13=first_or_none(line_data, "isbn_13"),
                         lc_classifications=line_data.get("lc_classifications"),
-                        series=line_data.get("series"),
+                        series=first_or_none(line_data, "series")
                     )
                     edition_manager.queue.put_nowait(edition)
+                else:
+                    pass
 
-
-
-                if total_records >= 20 * 1000:
+                if total_records >= 500 * 1000:
                     print(f"Processed {total_records} records, {books} books, {editions} editions stopping here to check the vibes")
+                    break
 
-        print(f"Shutting down")
-        shutdown_event.set()
+    print(f"Shutting down")
+    shutdown_event.set()
 
 
 
 if __name__ == "__main__":
-    main()
+   asyncio.run(main())

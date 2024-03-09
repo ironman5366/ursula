@@ -8,6 +8,7 @@ python-dotenv = "*"
 tqdm = "*"
 psycopg = {extras = ["binary"], version = "*"}
 pydantic = "*"
+python-dateutil = "*"
 
 [dev-packages]
 
