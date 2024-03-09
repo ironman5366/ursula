@@ -1,0 +1,1617 @@
+{
+  "/type/about": [
+    "/type/about",
+    "/about.en",
+    "62",
+    "2024-01-26T19:28:19.744630",
+    {
+      "body": {
+        "type": "/type/text",
+        "value": "<div class=\"contentHalf\">\r\n\r\n        <p>One web page for every book ever published.  It's a lofty, but achievable, goal.</p>\r\n\r\n        <p>To build it, we need hundreds of millions of book records, a wiki interface, and people who are willing to contribute their time, effort to building the catalog.</p>\r\n\r\n        <p>To date, we have gathered over 20 million records from a variety of large catalogs as well as single contributions, with more on the way.</p>\r\n\r\n        <p>We have a small team of fantastic programmers who have accomplished a lot, but we can't do it alone!  This is an Open project - the software is open, the data is open, the documentation is open, and we welcome your knowledge and effort. If you see a typo, or want to write a widget, that would be super.</p>\r\n\r\n        <p><i>Open Library is a project of the non-profit <a href=\"http://www.archive.org/\">Internet Archive</a>, and has been funded in part by a grant from the <a href=\"http://www.library.ca.gov/\">California State Library</a> and the Kahle/Austin Foundation.</i></p>\r\n\r\n    </div>\r\n\r\n    <div class=\"contentSpacer\"></div>\r\n\r\n    <div class=\"contentQuarter\">\r\n\r\n        <h3>For more information<h3>\r\n\r\n        <div class=\"small sansserif\">\r\n            <ul>\r\n            <li><a href=\"http://blog.openlibrary.org\">Visit the Blog</a></li>\r\n            <li><a href=\"/help/faq\">Read our FAQ</a></li>\r\n            <li><a href=\"/about/people\">The Team</a></li>\r\n            <li><a href=\"/contact\">Contact Us</a></li>\r\n            <li>Please, please... <a href=\"/about/donate\">donate</a>?</li>\r\n            <li><a href=\"/developers\">Developer Center</a></li>\r\n            <li><a href=\"/about/tech\">About the technology</a></li>\r\n            <li><a href=\"/about/lib\">About the librarianship</a></li>\r\n            <li><a href=\"/developers/licensing\">Licensing</a></li>\r\n            <li><a href=\"/about/calendar\">Open Library Events Calendar</a></li>\r\n            </ul>\r\n        </div>\r\n\r\n        <h3>Join our mailing lists</h3>\r\n\r\n        <div class=\"small sansserif\">\r\n            <ul>\r\n            <li><a href=\"http://mail.archive.org/cgi-bin/mailman/listinfo/ol-discuss\">General discussion</a></li>\r\n            <li><a href=\"http://mail.archive.org/cgi-bin/mailman/listinfo/ol-lib\">Librarianship</a></li>\r\n            <li><a href=\"http://mail.archive.org/cgi-bin/mailman/listinfo/ol-tech\">Tech</a></li>\r\n            </ul>\r\n        </div>\r\n\r\n    </div>\r\n\r\n    <div class=\"contentSpacer\"></div>\r\n\r\n    <div class=\"contentQuarter\">\r\n\r\n        <h3>Open Library on Flickr</h3>\r\n\r\n        <!-- Start of Flickr Badge -->\r\n<style type=\"text/css\">\r\n#flickr_badge_source_txt {padding:0; font: 11px Arial, Helvetica, Sans serif; color:#666666;}\r\n#flickr_badge_icon {display:block !important; margin:0 !important; border: 1px solid rgb(0, 0, 0) !important;}\r\n#flickr_icon_td {padding:0 5px 0 0 !important;}\r\n.flickr_badge_image {text-align:center !important;}\r\n.flickr_badge_image img {border: 1px solid black !important;}\r\n#flickr_www {display:block; padding:0 10px 0 10px !important; font: 11px Arial, Helvetica, Sans serif !important; color:#3993ff !important;}\r\n#flickr_badge_uber_wrapper a:hover,\r\n#flickr_badge_uber_wrapper a:link,\r\n#flickr_badge_uber_wrapper a:active,\r\n#flickr_badge_uber_wrapper a:visited {text-decoration:none !important; background:inherit !important;color:#3993ff;}\r\n#flickr_badge_wrapper {margin:0 auto;text-align:center;}\r\n#flickr_badge_source {padding:0 !important; font: 11px Arial, Helvetica, Sans serif !important; color:#666666 !important;}\r\n</style>\r\n        <table id=\"flickr_badge_uber_wrapper\">\r\n            <tr>\r\n                <td><a href=\"http://www.flickr.com\" id=\"flickr_www\">www.<strong style=\"color:#3993ff\">flick<span style=\"color:#ff1c92\">r</span></strong>.com</a>\r\n\r\n                    <table id=\"flickr_badge_wrapper\">\r\n                        <script type=\"text/javascript\" src=\"http://www.flickr.com/badge_code_v2.gne?count=3&display=random&size=t&layout=v&source=user&user=41108298%40N06\"></script>\r\n                    </table>\r\n               </td>\r\n           </tr>\r\n        </table>\r\n        <!-- End of Flickr Badge -->\r\n    </div>"
+      },
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-04-09T11:27:56.797248"
+      },
+      "intro": "One web page for every book ever published.  It's a lofty but achievable goal.\r\n\r\nTo build Open Library, we need hundreds of millions of book records, a wiki interface, and lots of people who are willing to contribute their time and effort to building the site.\r\n\r\nTo date, we have gathered over 20 million records from a variety of large catalogs as well as single contributions, with more on the way. \r\n\r\nOpen Library is an open project: the software is open, the data are open, the documentation is open, and we welcome your contribution. Whether you fix a typo, add a book, or write a widget--it's all welcome. We have a small team of fantastic programmers who have accomplished a lot, but we can't do it alone!\r\n\r\n<em>Open Library is a project of the non-profit <a href=\"http://www.archive.org\" rel=\"nofollow\">Internet Archive</a>, and has been funded in part by a grant from the <a href=\"http://www.library.ca.gov\" rel=\"nofollow\">California State Library</a> and the Kahle/Austin Foundation.</em>\r\n\r\n<h2>Vision</h2>\r\n\r\nThe ultimate goal of the Open Library is to make all the published works of humankind available to everyone in the world. While large in scope and ambition, this goal is within our grasp. Achieving it will require the participation of librarians, authors, government officials and technologists.\r\n\r\nImagine what a comprehensive, open library could be! A talented math whiz who lives in a rural community can explore the works of high math. An elderly person can have a large print edition of any book ever published. An innovative young scholar can publish a book directly to this great library on [subjects](https://openlibrary.org/subjects) that might not otherwise make it through the long and difficult publication process.\r\n\r\nHow can you help? Improve the records we have for the books you love \u2013 every record is fully editable by clicking the \u201cedit\u201d button on the page. If we don't have a record for a book, you can [create one](https://openlibrary.org/books/add). If you're a library with digitized resources, tell us where they are and we'll point people to them.\r\n\r\nOur hope is that libraries and individual book readers will join this project and together we can build towards universal access to all knowledge.",
+      "key": "/about.en",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2024-01-26T19:28:19.744630"
+      },
+      "latest_revision": 62,
+      "links": "<ul>\r\n    <li><a href=\"https://blog.openlibrary.org\" rel=\"nofollow\">Visit the Blog</a></li>\r\n    <li><a href=\"/help/faq\">Read our FAQ</a></li>\r\n    <li><a href=\"/contact\">Contact Us</a></li>\r\n    <li><a href=\"https://archive.org/donate/\">Make a Donation</a></li>\r\n    <li><a href=\"/about/people\">The Team</a></li>\r\n    <li><a href=\"/developers\">Developer Center</a></li>\r\n    <li><a href=\"/developers/licensing\">Licensing</a></li>\r\n    <li><a href=\"/about/tech\">About the technology</a></li>\r\n    <li><a href=\"/about/lib\">About the librarianship</a></li>\r\n    <li>We're having a <a href=\"/bookdrive\">Book Drive</a>!</li>\r\n</ul>",
+      "m": "edit",
+      "mailing": "<ul>\r\n    <li><a href=\"http://mail.archive.org/cgi-bin/mailman/listinfo/ol-discuss\" rel=\"nofollow\">General discussion</a></li>\r\n    <li><a href=\"http://mail.archive.org/cgi-bin/mailman/listinfo/ol-lib\" rel=\"nofollow\">Librarianship</a></li>\r\n    <li><a href=\"http://mail.archive.org/cgi-bin/mailman/listinfo/ol-tech\" rel=\"nofollow\">Tech</a></li>\r\n</ul>",
+      "permission": {
+        "key": "/permission/restricted"
+      },
+      "revision": 62,
+      "title": "About Us",
+      "title2": "About Us",
+      "type": {
+        "key": "/type/about"
+      }
+    }
+  ],
+  "/type/author": [
+    "/type/author",
+    "/authors/OL10000031A",
+    "1",
+    "2021-12-26T21:22:34.663256",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2021-12-26T21:22:34.663256"
+      },
+      "key": "/authors/OL10000031A",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2021-12-26T21:22:34.663256"
+      },
+      "latest_revision": 1,
+      "name": "Trevor T. Tramp",
+      "revision": 1,
+      "source_records": ["bwb:9788490156612"],
+      "type": {
+        "key": "/type/author"
+      }
+    }
+  ],
+  "/type/backreference": [
+    "/type/backreference",
+    "/type/scan_location/available_books",
+    "2",
+    "2008-06-09T13:33:51.468186",
+    {
+      "expected_type": {
+        "key": "/type/scan_record"
+      },
+      "key": "/type/scan_location/available_books",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2008-06-09T13:33:51.468186"
+      },
+      "name": "available_books",
+      "property_name": "locations",
+      "revision": 2,
+      "type": {
+        "key": "/type/backreference"
+      }
+    }
+  ],
+  "/type/collection": [
+    "/type/collection",
+    "/books/OL20194595M",
+    "4",
+    "2010-04-29T18:11:15.689424",
+    {
+      "authors": [
+        {
+          "key": "/authors/OL779982A"
+        }
+      ],
+      "contributions": ["Cauchy, Augustin Louis, Baron, 1789-1857."],
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-10-26T06:29:24.867362"
+      },
+      "key": "/books/OL20194595M",
+      "languages": [
+        {
+          "key": "/languages/fre"
+        }
+      ],
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2010-04-29T18:11:15.689424"
+      },
+      "latest_revision": 4,
+      "lc_classifications": ["QA303 M69"],
+      "publish_date": "1861",
+      "publish_places": ["Paris"],
+      "publishers": ["Mallet-Bachelier"],
+      "revision": 4,
+      "source_records": [
+        "marc:marc_university_of_toronto/uoft.marc:2133980206:688"
+      ],
+      "subjects": ["Calculus"],
+      "table_of_contents": [
+        {
+          "class": "section"
+        }
+      ],
+      "title": "Le\u00e7ons de calcul diff\u00e9rentiel et de calcul int\u00e9gral, r\u00e9dig\u00e9es d'apr\u00e8s les m\u00e9thodes et les ouvrages publi\u00e9s ou in\u00e9dits de A.L. Cauchy.",
+      "type": {
+        "key": "/type/collection"
+      },
+      "works": [
+        {
+          "key": "/works/OL4144501W"
+        }
+      ]
+    }
+  ],
+  "/type/delete": [
+    "/type/delete",
+    "/authors/OL11585894A",
+    "2",
+    "2023-01-10T23:01:14.373172",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2022-12-09T18:36:01.852298"
+      },
+      "key": "/authors/OL11585894A",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2023-01-10T23:01:14.373172"
+      },
+      "latest_revision": 2,
+      "revision": 2,
+      "type": {
+        "key": "/type/delete"
+      }
+    }
+  ],
+  "/type/doc": [
+    "/type/doc",
+    "/books/OL4696644M",
+    "3",
+    "2009-12-23T23:22:36.030713",
+    {
+      "by_statement": "Jaime Toro Calder, editor.",
+      "contributions": [
+        "Toro Calder, Jaime.",
+        "Puerto Rico. University. Social Science Research Center."
+      ],
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-04-01T03:28:50.625462"
+      },
+      "dewey_decimal_class": ["364/.97295"],
+      "key": "/books/OL4696644M",
+      "languages": [
+        {
+          "key": "/languages/spa"
+        }
+      ],
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-12-23T23:22:36.030713"
+      },
+      "latest_revision": 3,
+      "lc_classifications": ["HV6873 .F86"],
+      "lccn": ["77623823"],
+      "notes": {
+        "type": "/type/text",
+        "value": "Spanish or English.\r\nIncludes bibliographies and indexes."
+      },
+      "number_of_pages": 221,
+      "pagination": "xii, 221 p. ;",
+      "publish_country": "pr ",
+      "publish_date": "1976",
+      "publish_places": ["[Ri\u0301o Piedras]"],
+      "publishers": [
+        "Universidad de Puerto Rico, Recinto de Ri\u0301o Piedras, Centro de Investigaciones Sociales"
+      ],
+      "revision": 3,
+      "subject_place": ["Puerto Rico."],
+      "subjects": [
+        "Crime -- Puerto Rico.",
+        "Criminal justice, Administration of -- Puerto Rico.",
+        "Juvenile delinquency -- Puerto Rico."
+      ],
+      "subtitle": "\"edicio\u0301n conmemorativa de 30 an\u0303os de servicios a la investigacio\u0301n cienti\u0301fico social en Puerto Rico,\" 1945-1975",
+      "table_of_contents": [
+        {
+          "class": "section",
+          "title": "Lo\u0301pez-Rey y Arrojo, M. Fundamentos sociolo\u0301gicos y criminolo\u0301gicos de la reforma penal en Puerto Rico.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Toro Calder, J. La prevencio\u0301n del crimen y su relacio\u0301n con los derechos humanos a la luz de la criminologi\u0301a contempora\u0301nea. El estado de los servicios en el campo de la criminologi\u0301a en Puerto Rico.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Vales, P. A. El impacto de la libertad bajo palabra en la rehabilitacio\u0301n de confinados y las caracteri\u0301sticas sociales de los confinados, asociados con el e\u0301xito o fracaso en el disfrute de la misma.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Toro Calder, J. Algunos hallazgos de un estudio sobre la delincuencia juvenil en Puerto Rico.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Ramos, M. O. de. Estudio socio-ecolo\u0301gico de la desercio\u0301n escolar y la delincuencia juvenil en Puerto Rico.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Ferracuti, F., Dinitz, S. and Acosta de Brenes, E. Seleccio\u0301n especial, Chapter nine: \"Overview of the results,\" en Delinquents and no delinquents in the Puerto Rican slum culture.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Palau de Lo\u0301pez, A. Crisis de un enfoque teo\u0301rico sobre la delincuencia juvenil.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Toro Calder, J. Apuntes sobre criminologi\u0301a cariben\u0303a: Puerto Rico, 1975.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Wallace, S. E. Patterns of violence in San Juan.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Toro Calder, J., Ceden\u0303o, C. y Reckless, W. C. A Comparative study of Puerto Rican attitudes toward the legal system dealing with crime.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Ferracuti, F. y Rizzo, G. B. Signos sobresalientes de homosexualidad de una poblacio\u0301n penitenciaria femenina, obtenida mediante la aplicacio\u0301n de te\u0301cnicas de proyeccio\u0301n.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "title": "Ferracuti, F. Estudio cli\u0301nico sobre el incesto en Puerto Rico.",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "section",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        }
+      ],
+      "title": "Fundamentos para una sociologi\u0301a penal en Puerto Rico",
+      "type": {
+        "key": "/type/doc"
+      }
+    }
+  ],
+  "/type/edition": [
+    "/type/edition",
+    "/books/OL10000080M",
+    "2",
+    "2010-03-12T00:00:48.298004",
+    {
+      "authors": [
+        {
+          "key": "/authors/OL46053A"
+        }
+      ],
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-04-30T09:38:13.731961"
+      },
+      "isbn_10": ["0107717638"],
+      "isbn_13": ["9780107717636"],
+      "key": "/books/OL10000080M",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2010-03-12T00:00:48.298004"
+      },
+      "latest_revision": 2,
+      "number_of_pages": 8,
+      "physical_format": "Paperback",
+      "publish_date": "April 8, 1999",
+      "publishers": ["Stationery Office Books"],
+      "revision": 2,
+      "subjects": ["Central government", "United Kingdom, Great Britain"],
+      "title": "Index to the House of Lords Parliamentary Debates",
+      "type": {
+        "key": "/type/edition"
+      },
+      "works": [
+        {
+          "key": "/works/OL14903346W"
+        }
+      ]
+    }
+  ],
+  "/type/home": [
+    "/type/home",
+    "/index.es",
+    "8",
+    "2009-03-19T13:04:14.753703",
+    {
+      "body": {
+        "type": "/type/text",
+        "value": "Una p\u00e1gina web para cada uno de los libros. ([M\u00e1s...](/about))"
+      },
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-05-01T18:18:16.402242"
+      },
+      "key": "/index.es",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-03-19T13:04:14.753703"
+      },
+      "latest_revision": 8,
+      "news": {
+        "type": "/type/text",
+        "value": "Biblioteca de Actualizaci\u00f3n Abrir<br />\r\n\r\n<br />Biblioteca Abierta ha actualizado a los nuevos programas inform\u00e1ticos. Las mejoras incluyen URLs legible, m\u00e1s por defecto las im\u00e1genes de la cubierta, un tipo de sistema mejorado y m\u00e1s API para desarrolladores, incluyendo la <a href=\"http://openlibrary.org/dev/docs/restful_api\">descanso API.</a> M\u00e1s informaci\u00f3n mejoras est\u00e1n viniendo pronto - consulte nuestra <a href=\"http://blog.openlibrary.org/\">blog</a> para las actualizaciones."
+      },
+      "revision": 8,
+      "stats": {
+        "type": "/type/text",
+        "value": "{{BookCount(\"con %s libros\", \"incluidos los %s con texto completo\")}}"
+      },
+      "title": "Biblioteca Abierta",
+      "type": {
+        "key": "/type/home"
+      }
+    }
+  ],
+  "/type/i18n": [
+    "/type/i18n",
+    "/i18n/account/register/strings.te",
+    "1",
+    "2009-08-19T01:26:47.454080",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2009-08-19T01:26:47.454080"
+      },
+      "key": "/i18n/account/register/strings.te",
+      "lang": "te",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-08-19T01:26:47.454080"
+      },
+      "latest_revision": 1,
+      "ns": "/account/register",
+      "revision": 1,
+      "string_confirm_password": "\u0c38\u0c02\u0c15\u0c47\u0c24\u0c2a\u0c26\u0c3e\u0c28\u0c4d\u0c28\u0c3f \u0c28\u0c3f\u0c30\u0c4d\u0c27\u0c3e\u0c30\u0c3f\u0c02\u0c1a\u0c02\u0c21\u0c3f",
+      "string_create_new_account": "\u0c15\u0c4a\u0c24\u0c4d\u0c24 \u0c16\u0c3e\u0c24\u0c3e\u0c28\u0c3f \u0c38\u0c43\u0c37\u0c4d\u0c1f\u0c3f\u0c02\u0c1a\u0c02\u0c21\u0c3f",
+      "string_display_name": "\u0c1a\u0c42\u0c2a\u0c3f\u0c02\u0c1a\u0c47 \u0c2a\u0c47\u0c30\u0c41",
+      "string_email": "\u0c08-\u0c2e\u0c46\u0c2f\u0c3f\u0c32\u0c4d",
+      "string_password": "\u0c38\u0c02\u0c15\u0c47\u0c24\u0c2a\u0c26\u0c02",
+      "string_passwords_did_not_match": "\u0c38\u0c02\u0c15\u0c47\u0c24\u0c2a\u0c26\u0c3e\u0c32\u0c41 \u0c38\u0c30\u0c3f\u0c2a\u0c4b\u0c32\u0c32\u0c47\u0c26\u0c41",
+      "string_register": "\u0c28\u0c2e\u0c4b\u0c26\u0c35\u0c4d\u0c35\u0c02\u0c21\u0c3f",
+      "string_register_help": "\u0c2e\u0c40\u0c30\u0c41 \u0c17\u0c41\u0c30\u0c4d\u0c24\u0c41\u0c02\u0c21\u0c47 \u0c35\u0c3e\u0c21\u0c41\u0c15\u0c30\u0c3f\u0c2a\u0c47\u0c30\u0c41\u0c28\u0c3f \u0c2e\u0c30\u0c3f\u0c2f\u0c41 \u0c38\u0c02\u0c15\u0c47\u0c24\u0c2a\u0c26\u0c3e\u0c28\u0c4d\u0c28\u0c3f \u0c0e\u0c02\u0c1a\u0c41\u0c15\u0c4b\u0c02\u0c21\u0c3f. \u0c35\u0c3e\u0c21\u0c41\u0c15\u0c30\u0c3f\u0c2a\u0c47\u0c30\u0c42 \u0c2e\u0c30\u0c3f\u0c2f\u0c41 \u0c38\u0c02\u0c15\u0c47\u0c24\u0c2a\u0c26\u0c2e\u0c42 \u0c30\u0c46\u0c02\u0c21\u0c42 \u0c15\u0c28\u0c40\u0c38\u0c02 3 \u0c05\u0c15\u0c4d\u0c37\u0c30\u0c3e\u0c32 \u0c2a\u0c4a\u0c21\u0c35\u0c41\u0c02\u0c21\u0c3e\u0c32\u0c3f.",
+      "string_register_help_title": "\u0c16\u0c3e\u0c24\u0c3e\u0c28\u0c3f \u0c38\u0c43\u0c37\u0c4d\u0c1f\u0c3f\u0c02\u0c1a\u0c41\u0c15\u0c4b\u0c35\u0c21\u0c02 \u0c1a\u0c3e\u0c32\u0c3e \u0c24\u0c47\u0c32\u0c3f\u0c15.",
+      "string_username": "\u0c35\u0c3e\u0c21\u0c41\u0c15\u0c30\u0c3f\u0c2a\u0c47\u0c30\u0c41",
+      "string_username_already_exists": "\u0c35\u0c3e\u0c21\u0c41\u0c15\u0c30\u0c3f\u0c2a\u0c47\u0c30\u0c41 \u0c07\u0c2a\u0c4d\u0c2a\u0c1f\u0c3f\u0c15\u0c47 \u0c09\u0c02\u0c26\u0c3f",
+      "type": {
+        "key": "/type/i18n"
+      }
+    }
+  ],
+  "/type/i18n_page": [
+    "/type/i18n_page",
+    "/help/faq/troubleshooting",
+    "55",
+    "2021-06-18T14:59:47.667529",
+    {
+      "body": {
+        "type": "/type/text",
+        "value": "<h3>Current Issues</h3>\r\n\r\n\r\n<h3>Signing Up</h3>\r\n<ul>\r\n<li><a href=\"#recaptcha\">I can't see the two words I need to type, or the message \"Input error, Invalid referrer\" appears and I can't sign up.</a></li>\r\n<li><a href=\"#username\">The sign-up page is saying that every username is taken. How is that possible?</a></li>\r\n<li><a href=\"#email\">I did not receive the verification email.</a></li>\r\n<li><a href=\"#email-typo\">I did not receive the verification email because I mistyped my email address when I signed up.</a></li>\r\n</ul>\r\n<h3>Account Management</h3>\r\n<ul>\r\n<li><a href=\"#deleteaccount\">How to delete your account</a></li>\r\n</ul>\r\n\r\n\r\n\r\n<h3>Borrowing/Returning Books and Adobe Software</h3>\r\n<ul>\r\n<li><a href=\"#links\">I am trying to read or download a book but I click on the links and nothing happens.</a></li>\r\n<li><a href=\"#adobeid\">I am being asked for my Adobe ID and I'm not sure how to get one</a>.</li>\r\n<li><a href=\"#adobeid2\">I can't move my book from one device to another.</a></li>\r\n<li><a href=\"#deletion\">I deleted my ebook from Adobe Digital Editions instead of returning it. How can I return it?</a></li>\r\n<li><a href=\"#adobe-error-1\">What if I get an Adobe error 'Document is not licensed for this device type'?</a></li>\r\n<li><a href=\"#adobe-error-2\">What if I get an \"Unable to Return\" error with the code E_BAD_LOAN_ID?</a></li>\r\n<li><a href=\"#adobe-error-3\">I get an Adobe error that says E_ADEPT_IO, or E_ADEPT_DATABASE, or some other Adobe DRM Error?<a></li>\r\n<li><a href=\"#adobe-error-4\">I get an Adobe error that says E_AUTH_BAD_DEVICE_KEY_OR_PKCS12?<a></li>\r\n<li><a href=\"#overdrive\">I checked a book out using Overdrive Media Console or Bluefire and returned it but the book is still on my loans page.</a></li>\r\n<li><a href=\"#return\">I checked out a book, but I want it in a different format. Can I do that?</a></li>\r\n\r\n</ul>\r\n\r\n<h3>Reading Books</h3>\r\n<ul>\r\n<li><a href=\"#badscan\">There is something wrong with some of the pages in a book I was reading. Who do I tell?</a></li>\r\n<li><a href=\"#blank\">I am trying to read a book using the BookBrowser but all I am seeing is blank pages.</a></li>\r\n<li><a href=\"#wrongbook\">I tried to read a book on Open Library but the book that opened in the BookReader is the wrong book.</a></li>\r\n</ul>\r\n\r\n<h3>Editing Books</h3>\r\n<ul>\r\n<li><a href=\"#author-unknown\">I've added a book but the record says \"author unknown.\" I know I added the author. What's going on?</a></li>\r\n<li><a href=\"#delete-book\">I made a duplicate record by mistake. How can I delete it?</a></li>\r\n</ul>\r\n<li><a href=\"https://openlibrary.org/help/faq\">Back to main FAQ page</a></li>\r\n</ul>\r\n\r\n<h3 class=\"Question\" id=\"recaptcha\">I can't see the recaptcha. </h3>\r\n\r\nSometimes when people are referred to Open Library from other sites they come from a referral address that the recaptcha doesn't recognize and the images are blank. Try signing up directly from our signup page.\r\n\r\n[https://openlibrary.org/account/create][1]\r\n\r\nAdditionally if there are problems during your signup \u2014your chosen username is taken for example\u2014 the recaptcha changes and you have to start form the beginning. We are working on this but for now, if this happens, please start over again.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n\r\n<h3 class=\"Question\" id=\"username\">Why is every username taken?</h3>\r\n\r\nThere is a problem with how our signup page works with some browsers where once you get a \"username taken\" message, it doesn't clear up if you try again and you can't sign up. Try starting over at the beginning sign-up page\r\n\r\n[https://openlibrary.org/account/create][2]\r\n\r\nin order to clear the error and try again.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"email\">I didn't receive the verification email.</h3>\r\n\r\nCheck your inbox and spam folder for an email from *noreply@openlibrary.org* with the subject line **Welcome to Open Library** The email should arrive within a few minutes but can sometimes take longer. If you can not find the email, contact us and we can resend the verification email.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"email-typo\">I didn't receive the verification email because I mistyped my email address.</h3>\r\n\r\nYou can sign up to Open Library again with the proper email address or contact us with both the mistyped email address and the correct email address you would like to replace it with and we can make the change and send you a new verification email.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"deleteaccount\">How do I delete my account?</h3>\r\n\r\nTo delete your account:\r\n1. Go to \"Settings\" under your account dropdown menu\r\n2. click \"Update Email Address\"\r\n2. Enter your password and click the \"Change Account Settings\" button\r\n3. Click the \"Delete Account\" button\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"links\">I am trying to download a book but I click on the links and nothing happens.</h3>\r\n\r\nIf you are using Internet Explorer 10 you may have to enable compatibility mode in order to use some of the functions of Open Library. [Here is a link on Microsoft's site explaining how to enable compatibility mode][3]. [Here is a simple graphical explanation][4].\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n\r\n<h3 class=\"Question\" id=\"adobeid\">I am being asked for my Adobe ID and I'm not sure how to get one.</h3>\r\n\r\nThere is a link to go to the Adobe website to sign up for an Adobe ID on the page asking you for a login. If you can not see that link or the page has disappeared, [you can go to this page on the Adobe website][5] and click the \"Don't have an Adobe ID?\" link to set one up.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"adobeid2\">I can't move my book from one device to another.</h3>\r\n\r\nAdobe only allows registered users to *copy* purchased books from one device to another. Unfortunately they do not allow the same options for borrowed books. \r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"deletion\">I deleted my ebook instead of returning it.</h3>\r\n\r\nBooks will automatically be returned to Open Library at the end of the two week loan period. If you are not sure what you have checked out, you can check [your loans page][6].\r\n\r\n<h3 class=\"Question\" id=\"adobe-error-1\">I get an Adobe error \"Document is not licensed for this device type\"?</h3>\r\n\r\nThis seems to be fixed by deactivating Adobe Digital Editions (via control-shift-d) and then restarting the application, then reactivating with your Adobe username and password, and then retrying.  It seems to work if you borrow a different book, and may require time for the Archive's Adobe server to forget about the book that showed the problem in the first place.\r\n\r\n<a href=\"#top\">Top</a>\r\n<h3 class=\"Question\" id=\"adobe-error-2\">I get an \"Unable to Return\" error with the code E_BAD_LOAN_ID?</h3>\r\n\r\nWe are not totally certain why users are getting this error message but the <acronym=\"adobe digital editions\">ADE</acronym> forums seem to think it's related to ADE 2.0. [Please see this forum posting][7] for information on how to revert to an earlier version of ADE and contact us with more information if you are having this problem.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n\r\n<h3 class=\"Question\" id=\"adobe-error-3\">\r\nWhat if I get an Adobe error that says E_ADEPT_IO, or E_ADEPT_DATABASE, or some other Adobe DRM Error?</h3>\r\n\r\nThese errors mean your computer is not letting the .acsm file connect to the server to authenticate and deliver your book. They can happen for a number of different reasons. Here are some things to investigate.\r\n <ul><li>   Are you behind a restrictive firewall?\r\n    <li>Do you have fairly high security settings on your computer?\r\n    <li>Can you add our server to the list of sites your browser or operating system trusts?\r\n    <li>Can you right-click on URLLink.acsm, choose \"Properties,\" and unblock the file?\r\n<li>are you running the latest version of Digital Editions? \r\n<li>Did you recently change your system clock?</ul>\r\n\r\nHere is <a href=\"http://helpx.adobe.com/digital-editions/kb/error-drm-error-activate-access.html\">information from Adobe's help pages</a> on ways to troubleshoot the error. Here is a page from Hoover Library that discusses <a href=\"http://www.hooverlibrary.org/faq/error-io-error-network-request\">how to clean out a previous download and start fresh</a>.\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"adobe-error-4\"><li><a href=\"#adobe-error-4\">I get an Adobe error that says E_AUTH_BAD_DEVICE_KEY_OR_PKCS12?<a></li></h3>\r\n\r\n<a href=\"https://forums.adobe.com/message/8721914#8721914\">This post on the Adobe Forums</a> discusses ways of fixing that problem.\r\n\r\n<h3 class=\"Question\" id=\"overdrive\">I am trying to return an item early using Overdrive Media Console and the book will not return.</h3>\r\n\r\nCurrently books checked out via Overdrive Media Console can not be returned early. If you need to have a book returned to free up one of your loan slots, please contact us.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"return\">I want to check out the book I have in a different format. Can I do that?</h3>\r\n\r\nSometimes. To do this you have to return the book and check it out again; there is no other way to \"swap\" one format for another. Books checked out via Adobe Digital Editions can be returned early. Books checked out using other ebook readers can not.\r\n\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"badscan\">What do I do if I find a scanning error?</h3>\r\n\r\nWhile some of the items in Open Library are scanned by us, others are scanned by various other projects. \r\n<ul>\r\n<li>If the item is from Google Books <a href=\"http://support.google.com/books/bin/request.py?contact_type=eb_bookerror\">you can report a scanning error here</a>.</li>\r\n<li>For items with minor errors, you can note this in the item's Open Library record. Just click EDIT and add the information in the Edition Notes field.\r\n<li>For items with major errors, please let us know via the Contact Form which you can access by clicking the \"Report A Problem\" link at the bottom of the item's page.</li>\r\n</ul>\r\n\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n\r\n<h3 class=\"Question\" id=\"blank\">I am trying to read a book using the BookBrowser but all I am seeing is blank pages.</h3>\r\n\r\nThis may happen when people have tried to read a book that is not available in BookBrowser format. Sometimes this happens by following a malformed link. Go to the book's record page ([here is an example][8]) and make sure there is an eBook version of the book available to borrow. You may also be accidentally trying to read a book that is only available to the print disabled. [You can see this set of frequently asked questions for more about this program][9]. \r\n\r\nIf you can not view the book **and** you can't use the pull-down menu in the upper right corner under your username, you may have to turn on Compatibility mode in Internet Explorer. [Here is more information about how to turn on Compatibility Mode][10].\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n\r\n<h3 class=\"Question\" id=\"wrongbook\">I clicked through to read a book from the item's record page and the book that opened in the BookBrowser was the wrong book</h3>\r\n\r\nSometimes the items in Open Library may have bad metadata. Usually this happens because we made a link between an Internet Archive item and an Open Library record and that linkage was incorrect. You can let us know when you find instances of this, or if you are confident that you understand the problem, you can remove the Open Library/Internet Archive link and fix the problem.\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"author-unknown\">I've added a book but the record says \"author unknown.\" I know I added the author. What's going on?</h3>\r\n\r\nWhen you type in an author's name in the author box, you *must* wait for a drop down menu to appear. Our database checks to see if we already have the author you've entered in our database. The list will contain authors with the same (or similar) name to the one you've typed in. Once the drop down appears, you *must* click on an author name, even if there is only one. If you do not click on an author name, none will be entered and the record, once saved, will list no author, only \"author unknown.\"\r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n<h3 class=\"Question\" id=\"delete-book\">I made a duplicate record by mistake. How can I delete it?</h3>\r\n\r\nYou cannot delete records. Click on the \"Report A Problem\" link at the bottom of any page and send us a message with the link or OL identifier. Please be very careful in suggesting deletions. We only want to delete works that are exactly duplicated elsewhere in Open Library. \r\n\r\n<a href=\"#top\">Top</a>\r\n\r\n\r\n  [1]: https://openlibrary.org/account/create\r\n  [2]: https://openlibrary.org/account/create\r\n  [3]: http://windows.microsoft.com/en-us/internet-explorer/use-compatibility-view#ie=ie-10\r\n  [4]: http://technology.pitt.edu/help/help-index/ie10-compatview.html\r\n  [5]: https://helpx.adobe.com/x-productkb/global/adobe-id-account-change.html\r\n  [6]: https://openlibrary.org/account/loans\r\n  [7]: http://forums.adobe.com/thread/1095580\r\n  [8]: https://openlibrary.org/works/OL3362702W/Pablo_Picasso\r\n  [9]: https://openlibrary.org/help/faq/accessing\r\n  [10]: http://windows.microsoft.com/en-us/internet-explorer/use-compatibility-view#ie=ie-10"
+      },
+      "created": {
+        "type": "/type/datetime",
+        "value": "2013-03-04T02:02:07.770258"
+      },
+      "has_fulltext": "true",
+      "key": "/help/faq/troubleshooting",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2021-06-18T14:59:47.667529"
+      },
+      "latest_revision": 55,
+      "m": "edit",
+      "revision": 55,
+      "title": "Troubleshooting",
+      "type": {
+        "key": "/type/i18n_page"
+      }
+    }
+  ],
+  "/type/language": [
+    "/type/language",
+    "/languages/ind",
+    "4",
+    "2022-04-27T00:10:25.639758",
+    {
+      "code": "ind",
+      "comment": "initial import",
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-04-04T15:49:50.080837"
+      },
+      "identifiers": {
+        "iso_639_1": ["id"],
+        "wikidata": ["Q9240"]
+      },
+      "key": "/languages/ind",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2022-04-27T00:10:25.639758"
+      },
+      "latest_revision": 4,
+      "name": "Indonesian",
+      "name_translated": {
+        "ace": ["basa Ind\u00f4n\u00e8sia"],
+        "aeb-arab": [
+          "\u0627\u0644\u0625\u0646\u062f\u0648\u0646\u064a\u0633\u064a"
+        ],
+        "af": ["Indonesies"],
+        "am": ["\u12a2\u1295\u12f6\u1294\u12e5\u129b"],
+        "an": ["Idioma indonesio"],
+        "ar": [
+          "\u0627\u0644\u0625\u0646\u062f\u0648\u0646\u064a\u0633\u064a\u0629"
+        ],
+        "arz": [
+          "\u0627\u0644\u0627\u0646\u062f\u0648\u0646\u064a\u0633\u064a\u0647"
+        ],
+        "ast": ["indonesiu"],
+        "az": ["\u0130ndoneziya dili"],
+        "azb": [
+          "\u0627\u0646\u062f\u0648\u0646\u0632\u06cc \u062f\u06cc\u0644\u06cc"
+        ],
+        "ba": [
+          "\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f \u0442\u0435\u043b\u0435"
+        ],
+        "ban": ["Basa Indon\u00e9sia"],
+        "ban-bali": [
+          "\u1b2a\u1b31\u1b07\u1b26\u1b44\u1b24\u1b40\u1b26\u1b3e\u1b32\u1b36\u1b2c"
+        ],
+        "bcl": ["Bahasa Indonesia"],
+        "be": [
+          "\u0456\u043d\u0434\u0430\u043d\u0435\u0437\u0456\u0439\u0441\u043a\u0430\u044f \u043c\u043e\u0432\u0430"
+        ],
+        "be-tarask": [
+          "\u0406\u043d\u0434\u0430\u043d\u044d\u0437\u0456\u0439\u0441\u043a\u0430\u044f \u043c\u043e\u0432\u0430"
+        ],
+        "bg": [
+          "\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u0439\u0441\u043a\u0438 \u0435\u0437\u0438\u043a"
+        ],
+        "bho": [
+          "\u0907\u0902\u0921\u094b\u0928\u0947\u0936\u093f\u092f\u093e\u0908 \u092d\u093e\u0937\u093e"
+        ],
+        "bjn": ["Indon\u00e9sia"],
+        "bn": [
+          "\u0987\u09a8\u09cd\u09a6\u09cb\u09a8\u09c7\u09b6\u09c0\u09af\u09bc \u09ad\u09be\u09b7\u09be"
+        ],
+        "br": ["indonezeg"],
+        "bs": ["Bahasa Indonezijski jezik"],
+        "bug": ["Indonesia"],
+        "ca": ["indonesi"],
+        "cdo": ["\u00c9ng-n\u00e0\u0324-ng\u1e73\u0304"],
+        "ce": [
+          "\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u0445\u043e\u0439\u043d \u043c\u043e\u0442\u0442"
+        ],
+        "ceb": ["Inindonesyo"],
+        "ckb": [
+          "\u0632\u0645\u0627\u0646\u06cc \u0626\u06cc\u0646\u062f\u06c6\u0646\u06cc\u0632\u06cc"
+        ],
+        "co": ["indunesianu"],
+        "crh": ["\u0130ndoneziya tili"],
+        "cs": ["indon\u00e9\u0161tina"],
+        "cy": ["Indoneseg"],
+        "da": ["indonesisk"],
+        "de": ["Indonesisch"],
+        "diq": ["\u0130ndonezki"],
+        "el": [
+          "\u0399\u03bd\u03b4\u03bf\u03bd\u03b7\u03c3\u03b9\u03b1\u03ba\u03ac"
+        ],
+        "en": ["Indonesian"],
+        "en-ca": ["Indonesian"],
+        "en-gb": ["Indonesian"],
+        "eo": ["indonezia lingvo"],
+        "es": ["indonesio"],
+        "et": ["indoneesia keel"],
+        "eu": ["Indonesiera"],
+        "fa": [
+          "\u0632\u0628\u0627\u0646 \u0627\u0646\u062f\u0648\u0646\u0632\u06cc\u0627\u06cc\u06cc"
+        ],
+        "fi": ["indonesia"],
+        "fr": ["indon\u00e9sien"],
+        "frr": ["Indoneesk"],
+        "ga": ["An Indin\u00e9isis"],
+        "gd": ["Innd-Innsis"],
+        "gl": ["lingua indonesia"],
+        "hak": ["Yin-n\u00ec-ng\u00ee"],
+        "he": ["\u05d0\u05d9\u05e0\u05d3\u05d5\u05e0\u05d6\u05d9\u05ea"],
+        "hi": [
+          "\u0907\u0902\u0921\u094b\u0928\u0947\u0936\u093f\u092f\u093e\u0908 \u092d\u093e\u0937\u093e"
+        ],
+        "hif": ["Indonesian bhasa"],
+        "hr": ["Indonezijski jezik"],
+        "hsb": ["indone\u0161\u0107ina"],
+        "hu": ["indon\u00e9z"],
+        "hy": [
+          "\u056b\u0576\u0564\u0578\u0576\u0565\u0566\u0565\u0580\u0565\u0576"
+        ],
+        "ia": ["Lingua indonesian"],
+        "id": ["Indonesia"],
+        "ilo": ["Indones"],
+        "io": ["Indoneziana linguo"],
+        "is": ["Ind\u00f3nes\u00edska"],
+        "it": ["indonesiano"],
+        "ja": ["\u30a4\u30f3\u30c9\u30cd\u30b7\u30a2\u8a9e"],
+        "jv": ["Indon\u00e9sia"],
+        "ka": [
+          "\u10d8\u10dc\u10d3\u10dd\u10dc\u10d4\u10d6\u10d8\u10e3\u10e0\u10d8 \u10d4\u10dc\u10d0"
+        ],
+        "kab": ["Tandunizit"],
+        "kk": [
+          "\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f \u0442\u0456\u043b\u0456"
+        ],
+        "kl": ["Indonesiamiutut"],
+        "km": [
+          "\u1797\u17b6\u179f\u17b6\u17a5\u178e\u17d2\u178c\u17bc\u1793\u17c1\u179f\u17ca\u17b8"
+        ],
+        "kn": [
+          "\u0c87\u0c82\u0ca1\u0cca\u0ca8\u0cc7\u0cb7\u0ccd\u0caf \u0cad\u0cbe\u0cb7\u0cc6"
+        ],
+        "ko": ["\uc778\ub3c4\ub124\uc2dc\uc544\uc5b4"],
+        "ku": ["\u00cendonez\u00ee"],
+        "kv": [
+          "\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f \u043a\u044b\u0432"
+        ],
+        "kw": ["Indonesek"],
+        "la": ["lingua Indonesia"],
+        "lfn": ["indonesian"],
+        "lij": ["Lengua indonexiann-a"],
+        "lt": ["Indonezie\u010di\u0173 kalba"],
+        "lv": ["indon\u0113zie\u0161u valoda"],
+        "mai": [
+          "\u0907\u0928\u094d\u0921\u094b\u0928\u0947\u0936\u093f\u092f\u0928 \u092d\u093e\u0937\u093e"
+        ],
+        "map-bms": ["Basa Indonesia"],
+        "mg": ["Fiteny indoneziana"],
+        "mhr": [
+          "\u0438\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u0439\u044b\u0441\u0435 \u0439\u044b\u043b\u043c\u0435"
+        ],
+        "mi": ["Reo Initon\u012bhia"],
+        "min": ["Bahaso Indonesia"],
+        "mk": [
+          "\u0438\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u0441\u043a\u0438 \u0458\u0430\u0437\u0438\u043a"
+        ],
+        "ml": [
+          "\u0d07\u0d28\u0d4d\u0d24\u0d4b\u0d28\u0d47\u0d37\u0d4d\u0d2f\u0d7b \u0d2d\u0d3e\u0d37"
+        ],
+        "mni": [
+          "\uabcf\uabdf\uabd7\uabe3\uabc5\uabe6\uabc1\uabe4\uabcc\uabe5\uabdf \uabc2\uabe3\uabdf"
+        ],
+        "mr": [
+          "\u092c\u0939\u093e\u0938\u093e \u0907\u0902\u0921\u094b\u0928\u0947\u0936\u093f\u092f\u093e"
+        ],
+        "ms": ["bahasa Indonesia"],
+        "ms-arab": [
+          "\u0628\u0647\u0627\u0633 \u0627\u064a\u0646\u062f\u0648\u0646\u064a\u0633\u064a\u0627"
+        ],
+        "mt": ["Indone\u017cjan"],
+        "nan": ["\u00ccn-n\u00ee-g\u00ed"],
+        "nb": ["indonesisk"],
+        "ne": [
+          "\u0907\u0923\u094d\u0921\u094b\u0928\u0947\u0936\u093f\u092f\u093e\u0908 \u092d\u093e\u0937\u093e"
+        ],
+        "nia": ["Li Indonesia"],
+        "nl": ["Indonesisch"],
+        "nn": ["indonesisk"],
+        "oc": ["Bahasa Indonesia"],
+        "os": [
+          "\u0438\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u0430\u0433 \u00e6\u0432\u0437\u0430\u0433"
+        ],
+        "pa": [
+          "\u0a07\u0a70\u0a21\u0a4b\u0a28\u0a47\u0a38\u0a3c\u0a40 \u0a2c\u0a4b\u0a32\u0a40"
+        ],
+        "pl": ["j\u0119zyk indonezyjski"],
+        "pms": ["Lenga Indonesian"],
+        "pnb": ["\u0627\u0646\u0688\u0648\u0646\u06cc\u0634\u06cc"],
+        "ps": [
+          "\u0627\u0646\u062f\u0648\u0646\u06cc\u0632\u06cc\u0627\u06cc\u064a \u0698\u0628\u0647"
+        ],
+        "pt": ["l\u00edngua indon\u00e9sia"],
+        "pt-br": ["l\u00edngua indon\u00e9sia"],
+        "qu": ["Indunisya simi"],
+        "ro": ["Limba indonezian\u0103"],
+        "ru": [
+          "\u0438\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u0439\u0441\u043a\u0438\u0439 \u044f\u0437\u044b\u043a"
+        ],
+        "sa": [
+          "\u092c\u0939\u093e\u0938\u093e \u0907\u0902\u0921\u094b\u0928\u0947\u0936\u093f\u092f\u093e"
+        ],
+        "sah": [
+          "\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f \u0442\u044b\u043b\u0430"
+        ],
+        "sat": [
+          "\u1c64\u1c71\u1c6b\u1c73\u1c71\u1c6e\u1c65\u1c64\u1c6d\u1c5f\u1c71 \u1c6f\u1c5f\u1c79\u1c68\u1c65\u1c64"
+        ],
+        "sc": ["indunesianu"],
+        "scn": ["innunisianu"],
+        "sco": ["Indonesian leid"],
+        "se": ["indonesiagiella"],
+        "sh": ["Indone\u017eanski jezik"],
+        "si": [
+          "\u0d89\u0db1\u0dca\u0daf\u0dd4\u0db1\u0dd3\u0dc3\u0dd2\u0dba\u0dcf\u0db1\u0dd4 \u0db7\u0dcf\u0dc2\u0dcf\u0dc0"
+        ],
+        "sk": ["indon\u00e9z\u0161tina"],
+        "sl": ["indonezij\u0161\u010dina"],
+        "sm": ["Fa'aInitonesia"],
+        "sq": ["Gjuha indoneziane"],
+        "sr": [
+          "\u0438\u043d\u0434\u043e\u043d\u0435\u0436\u0430\u043d\u0441\u043a\u0438 \u0458\u0435\u0437\u0438\u043a"
+        ],
+        "su": ["Indon\u00e9sia"],
+        "sv": ["indonesiska"],
+        "sw": ["Kiindonesia"],
+        "szl": ["Ind\u014dnezyjsk\u014f g\u014fdka"],
+        "ta": [
+          "\u0b87\u0ba8\u0bcd\u0ba4\u0bcb\u0ba9\u0bc7\u0b9a\u0bbf\u0baf\u0bae\u0bcd"
+        ],
+        "te": [
+          "\u0c07\u0c02\u0c21\u0c4b\u0c28\u0c47\u0c37\u0c3f\u0c2f\u0c3e \u0c2d\u0c3e\u0c37"
+        ],
+        "tg": [
+          "\u0417\u0430\u0431\u043e\u043d\u0438 \u0438\u043d\u0434\u043e\u043d\u0435\u0437\u04e3"
+        ],
+        "th": [
+          "\u0e20\u0e32\u0e29\u0e32\u0e2d\u0e34\u0e19\u0e42\u0e14\u0e19\u0e35\u0e40\u0e0b\u0e35\u0e22"
+        ],
+        "tk": ["Indonezi\u00fda dilleri"],
+        "tl": ["Wikang Indones"],
+        "tr": ["Endonezce"],
+        "tt": [
+          "\u0438\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f \u0442\u0435\u043b\u0435"
+        ],
+        "tt-cyrl": [
+          "\u0438\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f \u0442\u0435\u043b\u0435"
+        ],
+        "ug": [
+          "\u06be\u0649\u0646\u062f\u0648\u0646\u06d0\u0632\u0649\u064a\u06d5 \u062a\u0649\u0644\u0649"
+        ],
+        "uk": [
+          "\u0456\u043d\u0434\u043e\u043d\u0435\u0437\u0456\u0439\u0441\u044c\u043a\u0430 \u043c\u043e\u0432\u0430"
+        ],
+        "ur": [
+          "\u0627\u0646\u0688\u0648\u0646\u06cc\u0634\u06cc\u0627\u0626\u06cc \u0632\u0628\u0627\u0646"
+        ],
+        "uz": ["Indonez tili"],
+        "vec": ["indonezian"],
+        "vi": ["ti\u1ebfng Indonesia"],
+        "vo": ["Lind\u00e4na-Se\u00e4nu\u00e4nasp\u00fck"],
+        "vro": ["Indoneesi\u00e4 kiil"],
+        "wa": ["Indonezyin"],
+        "war": ["Indonesyo"],
+        "wuu": ["\u5370\u5ea6\u5c3c\u897f\u4e9a\u8bed"],
+        "xmf": [
+          "\u10d8\u10dc\u10d3\u10dd\u10dc\u10d4\u10d6\u10d8\u10e3\u10e0\u10d8 \u10dc\u10d8\u10dc\u10d0"
+        ],
+        "yue": ["\u5370\u5c3c\u6587"],
+        "za": ["Vah Yindunizsihya"],
+        "zh": ["\u5370\u5ea6\u5c3c\u897f\u4e9e\u8a9e"],
+        "zh-hans": ["\u5370\u5ea6\u5c3c\u897f\u4e9a\u8bed"],
+        "zh-hant": ["\u5370\u5c3c\u8a9e"],
+        "zh-hk": ["\u5370\u5c3c\u8a9e"],
+        "zh-tw": ["\u5370\u5c3c\u8a9e"],
+        "zu": ["Isi-Indonesia"]
+      },
+      "revision": 4,
+      "type": {
+        "key": "/type/language"
+      }
+    }
+  ],
+  "/type/library": [
+    "/type/library",
+    "/libraries/dare_county_libraries",
+    "1",
+    "2013-03-28T23:29:39.997215",
+    {
+      "addresses": {
+        "type": "/type/text",
+        "value": "Manteo Library|P.o. Box 100|Manteo|NC|27954|USA|252-743-2372|http://www.earlibrary.org|35.908226,-75.67573"
+      },
+      "contact_email": "jmay2000@embarqmail.com",
+      "contact_person": "John May",
+      "contact_title": "Retired",
+      "country": "United States of America",
+      "created": {
+        "type": "/type/datetime",
+        "value": "2013-03-28T23:29:39.997215"
+      },
+      "key": "/libraries/dare_county_libraries",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2013-03-28T23:29:39.997215"
+      },
+      "latest_revision": 1,
+      "name": "Dare County Libraries",
+      "registered_on": {
+        "type": "/type/datetime",
+        "value": "2012-07-04T18:55:46.902033"
+      },
+      "revision": 1,
+      "status": "approved",
+      "telephone": "22-441-9619",
+      "title": "Dare County Libraries",
+      "type": {
+        "key": "/type/library"
+      },
+      "website": "http://www.earlbirary.org"
+    }
+  ],
+  "/type/list": [
+    "/type/list",
+    "/people/03e687fa/lists/OL38599L",
+    "85",
+    "2024-01-12T15:57:22.355178",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2013-08-05T14:00:33.908744"
+      },
+      "key": "/people/03e687fa/lists/OL38599L",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2024-01-12T15:57:22.355178"
+      },
+      "latest_revision": 85,
+      "name": "Childhood",
+      "revision": 85,
+      "seeds": [
+        {
+          "key": "/works/OL2482781W"
+        },
+        {
+          "key": "/works/OL2482838W"
+        },
+        {
+          "key": "/works/OL3933742W"
+        },
+        {
+          "key": "/works/OL2482841W"
+        },
+        {
+          "key": "/works/OL3933147W"
+        },
+        {
+          "key": "/works/OL7261362W"
+        },
+        {
+          "key": "/works/OL7261361W"
+        },
+        {
+          "key": "/works/OL11591846W"
+        },
+        {
+          "key": "/works/OL8405308W"
+        },
+        {
+          "key": "/books/OL8305058M"
+        },
+        {
+          "key": "/works/OL15047189W"
+        },
+        {
+          "key": "/works/OL156659W"
+        },
+        {
+          "key": "/books/OL6092626M"
+        },
+        {
+          "key": "/works/OL8075095W"
+        },
+        {
+          "key": "/works/OL7344722W"
+        },
+        {
+          "key": "/works/OL7344720W"
+        },
+        {
+          "key": "/books/OL5774415M"
+        },
+        {
+          "key": "/works/OL7344718W"
+        },
+        {
+          "key": "/works/OL6570041W"
+        },
+        {
+          "key": "/works/OL6570037W"
+        },
+        {
+          "key": "/works/OL8075098W"
+        },
+        {
+          "key": "/works/OL8075099W"
+        },
+        {
+          "key": "/works/OL5581709W"
+        },
+        {
+          "key": "/works/OL2482968W"
+        },
+        {
+          "key": "/works/OL15133126W"
+        },
+        {
+          "key": "/works/OL15149285W"
+        },
+        {
+          "key": "/works/OL15410745W"
+        },
+        {
+          "key": "/works/OL15558076W"
+        },
+        {
+          "key": "/works/OL15436315W"
+        },
+        {
+          "key": "/works/OL16035366W"
+        },
+        {
+          "key": "/works/OL6570008W"
+        },
+        {
+          "key": "/works/OL6570011W"
+        },
+        {
+          "key": "/works/OL6570012W"
+        },
+        {
+          "key": "/works/OL6570010W"
+        },
+        {
+          "key": "/works/OL3933163W"
+        },
+        {
+          "key": "/works/OL8405300W"
+        },
+        {
+          "key": "/books/OL7970450M"
+        }
+      ],
+      "type": {
+        "key": "/type/list"
+      }
+    }
+  ],
+  "/type/local_id": [
+    "/type/local_id",
+    "/local_ids/mgc",
+    "2",
+    "2019-12-12T00:59:15.595198",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2019-12-09T00:06:01.488760"
+      },
+      "id_location": "976$a",
+      "key": "/local_ids/mgc",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2019-12-12T00:59:15.595198"
+      },
+      "latest_revision": 2,
+      "name": "Marygrove College",
+      "revision": 2,
+      "source_ocaid": "marc_marygrove",
+      "type": {
+        "key": "/type/local_id"
+      },
+      "urn_prefix": "mgc"
+    }
+  ],
+  "/type/macro": [
+    "/type/macro",
+    "/upstream/macros/NavigationDev",
+    "14",
+    "2010-03-10T22:21:19.774548",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2010-03-10T21:55:59.951739"
+      },
+      "description": "Developer Pages subnav",
+      "key": "/upstream/macros/NavigationDev",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2010-03-10T22:21:19.774548"
+      },
+      "latest_revision": 14,
+      "macro": {
+        "type": "/type/text",
+        "value": "$def with (page)\r\n\r\n$if page.key in [\"/developers\",\"/data\",\"/developers/api\",\"/developers/licensing\",\"/developers/ol\"]:\r\n    <div class=\"subNav\">\r\n        <ul class=\"collapse\">\r\n            <li><a href=\"/developers\" rel=\"nofollow\">Developers</a></li>\r\n            <li>|</li>\r\n            <li><a href=\"/developers/api\" rel=\"nofollow\">API</a></li>\r\n            <li>|</li>\r\n            <li><a href=\"/data\" rel=\"nofollow\">Data</a></li>\r\n            <li>|</li>\r\n            <li><a href=\"/developers/licensing\">Licensing</a></li>\r\n            <li>&bull;</li>\r\n            <li><a href=\"http://bugs.launchpad.net/openlibrary\" rel=\"nofollow\">Bugs</a></li>\r\n            <li>|</li>\r\n            <li><a href=\"http://github.com/openlibrary\" rel=\"nofollow\">Source Code</a></li>\r\n            <li>|</li>\r\n            <li><a href=\"/developers/ol\">OL Development</a></li>\r\n        </ul>\r\n    </div>"
+      },
+      "revision": 14,
+      "type": {
+        "key": "/type/macro"
+      }
+    }
+  ],
+  "/type/object": [
+    "/type/object",
+    "/config/author",
+    "11",
+    "2023-01-03T21:44:48.433012",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2021-05-06T22:11:18.795025"
+      },
+      "identifiers": [
+        {
+          "label": "Amazon ID",
+          "name": "amazon",
+          "notes": "Should be something like B000AQ0842",
+          "url": "https://www.amazon.com/-/e/@@@",
+          "website": "https://www.amazon.com"
+        },
+        {
+          "label": "GoodReads",
+          "name": "goodreads",
+          "notes": "Should be a number",
+          "url": "https://www.goodreads.com/author/show/@@@"
+        },
+        {
+          "label": "ISNI",
+          "name": "isni",
+          "notes": "",
+          "url": "https://isni.org/isni/@@@",
+          "website": "https://isni.org/"
+        },
+        {
+          "label": "LibraryThing",
+          "name": "librarything",
+          "notes": "Should be something like kingstephen-1",
+          "url": "https://www.librarything.com/author/@@@"
+        },
+        {
+          "label": "LibriVox",
+          "name": "librivox",
+          "notes": "Should be a number",
+          "url": "https://librivox.org/author/@@@",
+          "website": "https://librivox.org"
+        },
+        {
+          "label": "Project Gutenberg",
+          "name": "project_gutenberg",
+          "notes": "Should be a number",
+          "url": "https://www.gutenberg.org/ebooks/author/@@@",
+          "website": "https://www.gutenberg.org"
+        },
+        {
+          "label": "Storygraph",
+          "name": "storygraph",
+          "notes": "eg 50b7fbd9-84ac-450d-b2ed-78c861d4ef00",
+          "url": "https://app.thestorygraph.com/authors/@@@",
+          "website": "https://www.thestorygraph.com/"
+        },
+        {
+          "label": "VIAF",
+          "name": "viaf",
+          "notes": "",
+          "url": "https://viaf.org/viaf/@@@",
+          "website": "https://viaf.org"
+        },
+        {
+          "label": "Wikidata",
+          "name": "wikidata",
+          "notes": "",
+          "url": "https://www.wikidata.org/wiki/@@@",
+          "website": "https://wikidata.org"
+        },
+        {
+          "label": "YouTube",
+          "name": "youtube",
+          "notes": "Link to the author's official YouTube channel",
+          "url": "https://www.youtube.com/@@@",
+          "website": "https://www.youtube.com"
+        }
+      ],
+      "key": "/config/author",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2023-01-03T21:44:48.433012"
+      },
+      "latest_revision": 11,
+      "revision": 11,
+      "type": {
+        "key": "/type/object"
+      }
+    }
+  ],
+  "/type/page": [
+    "/type/page",
+    "/dev/docs/data/PSU",
+    "1",
+    "2008-04-11T05:04:57.254797",
+    {
+      "body": {
+        "type": "/type/text",
+        "value": "wiki-beta:/1/pharos/onix/psu\r\n\r\nData is in Excel format. 1798 records. 24 columns:\r\n\r\n* Title\r\n* Subtitle\r\n* TL Author\r\n* Trim Size\r\n* Publisher\r\n* Edition\r\n* Author 1\r\n* Author 2\r\n* Auhtor 3\r\n* Author 4\r\n* Cloth ISBN 10\r\n* Cloth ISBN 13\r\n* Paperback ISBN 10\r\n* Paperback ISBN 13\r\n* Estimated Page Count\r\n* Actual Page Count\r\n* Publish Date\r\n* BISAC 1\r\n* BISAC 2\r\n* BISAC 3\r\n* BISAC 4\r\n* BISAC 5\r\n* Cover Copy\r\n* Author Bio\r\n"
+      },
+      "key": "/dev/docs/data/PSU",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2008-04-11T05:04:57.254797"
+      },
+      "revision": 1,
+      "title": "Penn State University Press",
+      "type": {
+        "key": "/type/page"
+      }
+    }
+  ],
+  "/type/permission": [
+    "/type/permission",
+    "/permission/curators",
+    "2",
+    "2021-06-01T20:30:43.977071",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2021-06-01T20:30:28.469635"
+      },
+      "key": "/permission/curators",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2021-06-01T20:30:43.977071"
+      },
+      "latest_revision": 2,
+      "m": "edit",
+      "readers": [
+        {
+          "key": "/usergroup/everyone"
+        }
+      ],
+      "revision": 2,
+      "type": {
+        "key": "/type/permission"
+      },
+      "writers": [
+        {
+          "key": "/usergroup/curators"
+        },
+        {
+          "key": "/usergroup/librarians"
+        },
+        {
+          "key": "/usergroup/admin"
+        }
+      ]
+    }
+  ],
+  "/type/place": [
+    "/type/place",
+    "/subjects/places/Bordeaux",
+    "1",
+    "2009-10-16T10:26:15.467596",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2009-10-16T10:26:15.467596"
+      },
+      "demonym": ["Bordelais"],
+      "key": "/subjects/places/Bordeaux",
+      "kind": "city",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-10-16T10:26:15.467596"
+      },
+      "latest_revision": 1,
+      "latitude": 44.838611,
+      "longitude": -0.578333,
+      "marc_names": ["France -- Bordeaux", "Bordeaux (France)"],
+      "name": "Bordeaux",
+      "revision": 1,
+      "type": {
+        "key": "/type/place"
+      }
+    }
+  ],
+  "/type/rawtext": [
+    "/type/rawtext",
+    "/upstream/js/jquery.others.js",
+    "2",
+    "2010-05-06T22:58:57.285813",
+    {
+      "body": {
+        "type": "/type/text",
+        "value": "// FIX IE FADE PROBLEMS\r\n// COURTESY: Ben Novakovic http://blog.bmn.name/2008/03/jquery-fadeinfadeout-ie-cleartype-glitch/\r\n(function($) {\r\n\t$.fn.customFadeIn = function(speed, callback) {\r\n\t\t$(this).fadeIn(speed, function() {\r\n\t\t\tif(jQuery.browser.msie)\r\n\t\t\t\t$(this).get(0).style.removeAttribute('filter');\r\n\t\t\tif(callback != undefined)\r\n\t\t\t\tcallback();\r\n\t\t});\r\n\t};\r\n\t$.fn.customFadeOut = function(speed, callback) {\r\n\t\t$(this).fadeOut(speed, function() {\r\n\t\t\tif(jQuery.browser.msie)\r\n\t\t\t\t$(this).get(0).style.removeAttribute('filter');\r\n\t\t\tif(callback != undefined)\r\n\t\t\t\tcallback();\r\n\t\t});\r\n\t};\r\n\t$.fn.CustomFadeTo = function(options) {\r\n\t\tif (options)\r\n\t\t\t$(this)\r\n\t\t\t\t.show()\r\n\t\t\t\t.each(function() {\r\n\t\t\t\t\tif (jQuery.browser.msie) {\r\n\t\t\t\t\t\t$(this).attr('oBgColor', $(this).css('background-color'));\r\n\t\t\t\t\t\t$(this).css({ 'background-color': (options.bgColor ? options.bgColor : '#fff') })\r\n\t\t\t\t\t}\r\n\t\t\t\t})\r\n\t\t\t\t.fadeTo(options.speed, options.opacity, function() {\r\n\t\t\t\t\tif (jQuery.browser.msie) {\r\n\t\t\t\t\t\tif (options.opacity == 0 || options.opacity == 1) {\r\n\t\t\t\t\t\t\t$(this).css({ 'background-color': $(this).attr('oBgColor') }).removeAttr('oBgColor');\r\n\t\t\t\t\t\t\t$(this).get(0).style.removeAttribute('filter');\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t\tif (options.callback != undefined) options.callback();\r\n\t\t\t\t});\r\n\t};\r\n})(jQuery);\r\n// ADD FADE TOGGLE\r\n// COURTESY: Karl Swedberg http://www.learningjquery.com/2006/09/slicker-show-and-hide\r\njQuery.fn.fadeToggle = function(speed, easing, callback) { \r\n    return this.animate({opacity: 'toggle'}, speed, easing, callback); \r\n};\r\n// ADD TEXT TOGGLE \r\njQuery.fn.toggleText = function(a, b) {\r\n\treturn this.each(function() {\r\n\t\tjQuery(this).text(jQuery(this).text() == a ? b : a);\r\n\t});\r\n};\r\nfunction bookCovers(){\r\n$.fn.fixBroken=function(){return this.each(function(){$(this).error(function(){$(this).parent().parent().hide();$(this).parent().parent().next(\".SRPCoverBlank\").show();});});};\r\n};"
+      },
+      "content_type": "text/javascript",
+      "created": {
+        "type": "/type/datetime",
+        "value": "2010-01-07T16:46:05.788712"
+      },
+      "key": "/upstream/js/jquery.others.js",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2010-05-06T22:58:57.285813"
+      },
+      "latest_revision": 2,
+      "revision": 2,
+      "type": {
+        "key": "/type/rawtext"
+      }
+    }
+  ],
+  "/type/redirect": [
+    "/type/redirect",
+    "/authors/OL10035157A",
+    "2",
+    "2022-10-14T00:41:36.490342",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2021-12-28T11:10:59.492552"
+      },
+      "key": "/authors/OL10035157A",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2022-10-14T00:41:36.490342"
+      },
+      "latest_revision": 2,
+      "location": "/authors/OL7737529A",
+      "revision": 2,
+      "type": {
+        "key": "/type/redirect"
+      }
+    }
+  ],
+  "/type/scan_location": [
+    "/type/scan_location",
+    "/books/OL957975M",
+    "2",
+    "2009-06-17T06:17:43.310218",
+    {
+      "by_statement": "[bie\u0302n soa\u0323n, Tri\u0323nh Tro\u0323ng Quy\u0301 ... et al. ; bie\u0302n ta\u0323\u0302p, Tri\u0323nh Tro\u0323ng Quy\u0301, Vu\u0303 \u0110i\u0300nh Ti\u0301ch].",
+      "contributions": [
+        "Tri\u0323nh, Tro\u0323ng Quy\u0301.",
+        "Vu\u0303, \u0110i\u0300nh Ti\u0301ch.",
+        "Vietnam. U\u0309y ban ke\u0301\u0302 hoa\u0323ch nha\u0300 n\u01b0\u01a1\u0301c."
+      ],
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-04-01T03:28:50.625462"
+      },
+      "key": "/books/OL957975M",
+      "languages": [
+        {
+          "key": "/languages/vie"
+        }
+      ],
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-06-17T06:17:43.310218"
+      },
+      "latest_revision": 2,
+      "lc_classifications": ["HD69.C6 P49 1991"],
+      "lccn": ["95944109"],
+      "number_of_pages": "127",
+      "pagination": "127 p. :",
+      "publish_country": "vm ",
+      "publish_date": "1991",
+      "publish_places": ["[Ha\u0300 No\u0323\u0302i?]"],
+      "publishers": [
+        "Ta\u0323p chi\u0301 kinh te\u0301\u0302 va\u0300 d\u01b0\u0323 ba\u0301o, U\u0309y ban ke\u0301\u0302 hoa\u0323ch nha\u0300 n\u01b0\u01a1\u0301c"
+      ],
+      "revision": 2,
+      "series": [
+        "Tu\u0309 sa\u0301ch nghie\u0323\u0302p vu\u0323 ke\u0301\u0302 hoa\u0323ch va\u0300 qua\u0309n ly\u0301"
+      ],
+      "subjects": [
+        "Industrial management.",
+        "Product management.",
+        "Quality of products."
+      ],
+      "table_of_contents": [
+        {
+          "class": "section"
+        }
+      ],
+      "title": "Ph\u01b0\u01a1ng pha\u0301p xa\u0302y d\u01b0\u0323ng \u0111i\u0323nh m\u01b0\u0301c kinh te\u0301\u0302-ky\u0303 thua\u0323\u0302t \u01a1\u0309 xi\u0301 nghie\u0323\u0302p",
+      "type": {
+        "key": "/type/scan_location"
+      }
+    }
+  ],
+  "/type/scan_record": [
+    "/type/scan_record",
+    "/books/OL6130494M/Better_landscaping_for_your_home",
+    "1",
+    "2009-11-25T22:36:59.894660",
+    {
+      "body": "[url=http://s5olgti08bwcmcgn.com/]7vx59miicuh1eahm[/url]\r\n[link=http://mg2sgyzrn2vco1pf.com/]zt4oqtrpnhzulli0[/link]\r\n<a href=http://879wo4lb3htbi07e.com/>hzy7ap5uk1k20356</a>\r\nhttp://9txrzx4jxh0o3ukb.com/",
+      "created": {
+        "type": "/type/datetime",
+        "value": "2009-11-25T22:36:59.894660"
+      },
+      "key": "/books/OL6130494M/Better_landscaping_for_your_home",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-11-25T22:36:59.894660"
+      },
+      "latest_revision": 1,
+      "revision": 1,
+      "title": "Geralyn Guerrero",
+      "type": {
+        "key": "/type/scan_record"
+      }
+    }
+  ],
+  "/type/series": [
+    "/type/series",
+    "/books/OL2146809M",
+    "3",
+    "2009-08-24T16:24:28.235789",
+    {
+      "authors": [
+        {
+          "key": "/authors/OL977917A"
+        }
+      ],
+      "by_statement": "Ruy Christovam Wachowicz.",
+      "contributions": ["emanuele dos santos"],
+      "coverimage": "/static/images/book.trans.gif",
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-04-01T03:28:50.625462"
+      },
+      "dewey_decimal_class": ["981/.62"],
+      "key": "/books/OL2146809M",
+      "languages": [
+        {
+          "key": "/languages/por"
+        }
+      ],
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-08-24T16:24:28.235789"
+      },
+      "latest_revision": 3,
+      "lc_classifications": ["F2596 .W1715 1982"],
+      "lccn": ["88415602"],
+      "notes": "Bibliography: p. 184-186.",
+      "number_of_pages": "206",
+      "pagination": "206 p. :",
+      "publish_country": "bl ",
+      "publish_date": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,2",
+      "publish_places": ["Curitiba"],
+      "publishers": ["[s.n.]"],
+      "revision": 3,
+      "subject_place": ["Parana\u0301 (Brazil : State)"],
+      "subjects": ["Parana\u0301 (Brazil : State) -- History."],
+      "subtitle": "histo\u0301ria do oeste paranaense",
+      "table_of_contents": [
+        {
+          "class": "section"
+        }
+      ],
+      "title": "Obrageros, mensus e colonos",
+      "title_prefix": "abrageros",
+      "type": {
+        "key": "/type/series"
+      }
+    }
+  ],
+  "/type/subject": [
+    "/type/subject",
+    "/subjects/1st",
+    "1",
+    "2009-10-26T19:52:08.271807",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2009-10-26T19:52:08.271807"
+      },
+      "key": "/subjects/1st",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-10-26T19:52:08.271807"
+      },
+      "latest_revision": 1,
+      "name": "1st",
+      "revision": 1,
+      "type": {
+        "key": "/type/subject"
+      }
+    }
+  ],
+  "/type/tag": [
+    "/type/tag",
+    "/tags/OL33T",
+    "1",
+    "2023-12-03T13:23:28.949545",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2023-12-03T13:23:28.949545"
+      },
+      "key": "/tags/OL33T",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2023-12-03T13:23:28.949545"
+      },
+      "latest_revision": 1,
+      "name": "Manga",
+      "revision": 1,
+      "tag_description": "Japanese comics drawn in a specific style.",
+      "tag_type": "subject",
+      "type": {
+        "key": "/type/tag"
+      }
+    }
+  ],
+  "/type/template": [
+    "/type/template",
+    "/upstream/templates/i18n.tmpl",
+    "3",
+    "2010-08-09T21:11:59.596394",
+    {
+      "body": {
+        "type": "/type/text",
+        "value": "$def with (namespace, lang, page)\r\n\r\n$ lang = page.key.split('.')[-1]\r\n$ namespace = find_i18n_namespace(page.key)\r\n\r\n<script type=\"text/javascript\">\r\nfunction change_ns(ns) {\r\n\tdocument.forms['i18n']['ns'].value = ns;\r\n\tdocument.forms['i18n'].submit();\r\n}\r\n\r\nfunction changelang() {\r\n    var lang = \\$(\"#id_lang\").attr('value');\r\n\twindow.location.href = \"/i18n$namespace/strings.\" + lang + \"?m=edit\";\r\n}\r\n\r\nfunction add_key() {\r\n\tvar key = document.getElementById(\"newkey\").value;\r\n\tvar table = document.getElementById(\"strings_table\");\r\n\tvar row = table.insertRow(table.rows.length);\r\n\tvar cell1 = row.insertCell(0);\r\n\tvar cell2 = row.insertCell(1);\r\n\tcell1.innerHTML = key;\r\n        cell2.innerHTML = '<input type=\"text\" name=\"string_' + key + '\" value=\"\"/>';\r\n        \\$(\"table#strings_table tr:last td:first\").attr(\"class\", \"formheader\")\r\n\treturn false;\r\n}\r\n\r\n</script>\r\n\r\n\r\n\r\n<form method=\"POST\">\r\n\r\n$var title: Editing $page.key\r\n\r\n<div id=\"contentHead\">\r\n    <div class=\"head\">\r\n        $:macros.SeeLanguage()\r\n        <span class=\"tools\">Editing</span>\r\n        <h1>$page.key</h1>\r\n    </div>\r\n</div>\r\n\r\n<div id=\"contentBody\">\r\n$:macros.TypeChanger(page.type)\r\n$ xnamespace = namespace or \"/\"\r\n\r\n$for ns in _.get_namespaces():\r\n    $if ns == xnamespace:\r\n        $(ns or \"root\")\r\n    $else:\r\n        <a href=\"/i18n$ns/strings.$lang?m=edit\" >$ns</a>     \r\n    $(_.get_count(ns, lang))/$_.get_count(ns)\r\n\r\n    <table id=\"strings_table\">\r\n    $for key in _.getkeys(namespace, lang):\r\n        <tr>\r\n            <td class=\"formheader-i18n\">$key</td>\r\n            <td width=\"100%\" style=\"padding-left: 20px\"><input type=\"text\" name=\"string_$key\" value=\"$page.get('string_' + key, '')\" style=\"width: 100%\" /></td>\r\n        </tr>\r\n    </table>\r\n\r\n        $_.get('/type/i18n', 'add_new_key') <input type=\"text\" name=\"_newkey\" id=\"newkey\"/>\r\n        <button type=\"button\" onclick=\"add_key()\" name=\"_addkey\" value=\"$_.get('/type/i18n', 'add')\" />Add</button>\r\n\r\n      $:macros.EditButtons()\r\n    \r\n\r\nLanguage: $:Dropdown('lang', _.get_languages(), onchange=\"changelang();\", id=\"id_lang\", value=lang).render()\r\n\r\n<input type=\"hidden\" name=\"ns\" value=\"$namespace\">\r\n\r\n\r\n\r\n</div>\r\n\r\n</form>"
+      },
+      "created": {
+        "type": "/type/datetime",
+        "value": "2009-10-29T20:09:11.984574"
+      },
+      "key": "/upstream/templates/i18n.tmpl",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2010-08-09T21:11:59.596394"
+      },
+      "latest_revision": 3,
+      "plugin": "upstream",
+      "revision": 3,
+      "type": {
+        "key": "/type/template"
+      }
+    }
+  ],
+  "/type/type": [
+    "/type/type",
+    "/type/datetime",
+    "3",
+    "2009-03-16T06:21:53.030443",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-03-19T16:44:20.354477"
+      },
+      "description": {
+        "type": "/type/text",
+        "value": "Type to store datetimes from 4713 BC to 5874897 AD with 1 millisecond resolution."
+      },
+      "key": "/type/datetime",
+      "kind": "primitive",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-03-16T06:21:53.030443"
+      },
+      "latest_revision": 3,
+      "name": "Datetime",
+      "revision": 3,
+      "type": {
+        "key": "/type/type"
+      }
+    }
+  ],
+  "/type/uri": [
+    "/type/uri",
+    "/books/OL14754523M",
+    "3",
+    "2009-09-04T11:35:29.025371",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-09-14T11:36:45.865144"
+      },
+      "key": "/books/OL14754523M",
+      "languages": [
+        {
+          "key": "/languages/rum"
+        }
+      ],
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-09-04T11:35:29.025371"
+      },
+      "latest_revision": 3,
+      "number_of_pages": "181",
+      "pagination": "181 p.",
+      "publish_country": "rm ",
+      "publish_date": "1984",
+      "publish_places": ["Bucharest"],
+      "publishers": ["Ion Creanga"],
+      "revision": 3,
+      "series": ["Biblioteca pentru to\u021bi copiii -- 79"],
+      "table_of_contents": [
+        {
+          "class": "part"
+        }
+      ],
+      "title": "Balade populare rom\u00e2ne\u0219ti.",
+      "type": {
+        "key": "/type/uri"
+      }
+    }
+  ],
+  "/type/user": [
+    "/type/user",
+    "/books/OL23137921M",
+    "9",
+    "2009-12-15T08:23:27.906112",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2009-04-16T16:00:49.898154"
+      },
+      "key": "/books/OL23137921M",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2009-12-15T08:23:27.906112"
+      },
+      "latest_revision": 9,
+      "revision": 9,
+      "table_of_contents": [
+        {
+          "class": "section",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "part",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "part",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        },
+        {
+          "class": "part",
+          "type": {
+            "key": "/type/toc_item"
+          }
+        }
+      ],
+      "type": {
+        "key": "/type/user"
+      },
+      "works": [
+        {
+          "key": "/works/OL13756975W"
+        }
+      ]
+    }
+  ],
+  "/type/usergroup": [
+    "/type/usergroup",
+    "/usergroup/demo",
+    "3",
+    "2010-10-21T02:42:22.744482",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2010-10-20T20:49:06.043441"
+      },
+      "description": "Demo for Books in Browsers",
+      "key": "/usergroup/demo",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2010-10-21T02:42:22.744482"
+      },
+      "latest_revision": 3,
+      "members": [
+        {
+          "key": "/people/brewsterk"
+        },
+        {
+          "key": "/people/mang"
+        },
+        {
+          "key": "/people/rajk"
+        },
+        {
+          "key": "/people/alexisr"
+        }
+      ],
+      "revision": 3,
+      "type": {
+        "key": "/type/usergroup"
+      }
+    }
+  ],
+  "/type/volume": [
+    "/type/volume",
+    "/books/OL13445246M/v6",
+    "1",
+    "2008-11-17T20:02:43.074113",
+    {
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-11-17T20:02:43.074113"
+      },
+      "edition": {
+        "key": "/books/OL13445246M"
+      },
+      "ia_id": "allgemeineskns51ml",
+      "key": "/books/OL13445246M/v6",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2008-11-17T20:02:43.074113"
+      },
+      "revision": 1,
+      "type": {
+        "key": "/type/volume"
+      },
+      "volume_number": 6
+    }
+  ],
+  "/type/work": [
+    "/type/work",
+    "/works/OL10000559W",
+    "3",
+    "2010-04-28T06:54:19.472104",
+    {
+      "authors": [
+        {
+          "author": {
+            "key": "/authors/OL3965610A"
+          },
+          "type": "/type/author_role"
+        }
+      ],
+      "covers": [3141060],
+      "created": {
+        "type": "/type/datetime",
+        "value": "2009-12-11T01:57:19.964652"
+      },
+      "key": "/works/OL10000559W",
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2010-04-28T06:54:19.472104"
+      },
+      "latest_revision": 3,
+      "revision": 3,
+      "title": "Veill\u00e9es bretonnes",
+      "type": {
+        "key": "/type/work"
+      }
+    }
+  ]
+}
