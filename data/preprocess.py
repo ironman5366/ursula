@@ -7,7 +7,6 @@
 # with some tech debt from my hubris :).
 
 import os
-import traceback
 import typing
 from pathlib import Path
 from dotenv import load_dotenv
@@ -103,7 +102,7 @@ class TableManager:
         self.out_file_path = out_file_path
         self._curr_id = 0
         self._id_cache: dict[str, int] = {}
-        self._key_cache = {}
+        self.key_cache = {}
         self._is_first = True
 
     def __enter__(self):
@@ -131,11 +130,6 @@ class TableManager:
 
         self.writer.writerow(line.get_values())
 
-    def write_if_not_exists(self, line: Writeable, key):
-        if key not in self._key_cache:
-            self.write(line)
-            self._key_cache[key] = True
-
 
 def first_or_none(line, val):
     if val in line and line[val]:
@@ -155,8 +149,17 @@ def extract_text(line, val):
 
     return None
 
+def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject_type: str, subject_manager: TableManager, book_subject_manager: TableManager, **kwargs):
+    if not subjects_list:
+        return
 
-def process_book_line(line_data, book_manager, subject_manager, **kwargs) -> tuple[bool, bool]:
+    for subject_raw in subjects_list:
+        # Check whether the subject manager already has this subject
+        if subject_raw in subject_manager.key_cache:
+            pass
+
+
+def process_book_line(line_data, book_manager, **kwargs) -> tuple[bool, bool]:
     if "title" not in line_data:
         return False, False
 
@@ -174,21 +177,7 @@ def process_book_line(line_data, book_manager, subject_manager, **kwargs) -> tup
     )
     book_manager.write(book)
 
-    subjects = []
-
-    if "subjects" in line_data:
-        for subject_raw in line_data["subjects"]:
-            subject = Subject(
-                id=subject_manager.get_id(subject_raw["key"]),
-                name=subject_raw["name"],
-                subject_type=subject_raw["type"]
-            )
-            subjects.append(subject)
-
-
-
-    for subject in subjects:
-        subject_manager.write(subject)
+    # TODO: handle subjects here
 
 
     return True, False
