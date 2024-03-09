@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS ol_books (
     dewey_numbers TEXT [],
     lc_classifications TEXT [],
     subtitle TEXT,
-    description TEXT
+    description TEXT,
+    covers INTEGER [],
 );
 
 CREATE TABLE IF NOT EXISTS ol_editions (

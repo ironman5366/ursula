@@ -7,6 +7,7 @@
 # with some tech debt from my hubris :).
 
 import os
+import traceback
 import typing
 from pathlib import Path
 from dotenv import load_dotenv
@@ -17,6 +18,8 @@ from tqdm import tqdm
 import json
 from dateutil.parser import parse, ParserError
 import csv
+import traceback
+from collections import defaultdict
 
 load_dotenv()
 
@@ -100,6 +103,7 @@ class TableManager:
         self.out_file_path = out_file_path
         self._curr_id = 0
         self._id_cache: dict[str, int] = {}
+        self._key_cache = {}
         self._is_first = True
 
     def __enter__(self):
@@ -127,6 +131,11 @@ class TableManager:
 
         self.writer.writerow(line.get_values())
 
+    def write_if_not_exists(self, line: Writeable, key):
+        if key not in self._key_cache:
+            self.write(line)
+            self._key_cache[key] = True
+
 
 def first_or_none(line, val):
     if val in line and line[val]:
@@ -147,9 +156,7 @@ def extract_text(line, val):
     return None
 
 
-def process_book_line(line_data, managers: dict[str, TableManager]) -> tuple[bool, bool]:
-    book_manager = managers["/type/work"]
-
+def process_book_line(line_data, book_manager, subject_manager, **kwargs) -> tuple[bool, bool]:
     if "title" not in line_data:
         return False, False
 
@@ -166,13 +173,38 @@ def process_book_line(line_data, managers: dict[str, TableManager]) -> tuple[boo
         description=extract_text(line_data, "description")
     )
     book_manager.write(book)
+
+    subjects = []
+
+    if "subjects" in line_data:
+        for subject_raw in line_data["subjects"]:
+            subject = Subject(
+                id=subject_manager.get_id(subject_raw["key"]),
+                name=subject_raw["name"],
+                subject_type=subject_raw["type"]
+            )
+            subjects.append(subject)
+
+
+
+    for subject in subjects:
+        subject_manager.write(subject)
+
+
     return True, False
 
 
-def process_edition_line(line_data, managers: dict[str, TableManager]) -> tuple[bool, bool]:
-    edition_manager = managers["/type/edition"]
-    book_manager = managers["/type/work"]
+def parse_publish_date(publish_date_raw: str) -> str | None:
+    if publish_date_raw:
+        try:
+            publish_date = parse(publish_date_raw)
+            return publish_date.strftime("%Y-%m-%d")
+        except (ParserError, OverflowError):
+            return None
+    return None
 
+
+def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> tuple[bool, bool]:
     if "works" not in line_data or len(line_data["works"]) == 0:
         return False, False
 
@@ -185,14 +217,8 @@ def process_edition_line(line_data, managers: dict[str, TableManager]) -> tuple[
     publish_date_raw = line_data.get("publish_date")
     publish_date = None
     if publish_date_raw:
-        try:
-            publish_date = parse(publish_date_raw).isoformat()
-        except ParserError:
-            return False, True
-        # Really bushwhacking here lol
-        except OverflowError:
-            print(f"WTF we got an overflow error from the parser for the publish date: {publish_date_raw}")
-            return False, True
+        publish_date = parse_publish_date(publish_date_raw)
+
 
     edition_id = edition_manager.get_id(edition_ol_id)
     book_id = book_manager.get_id(work_id)
@@ -231,47 +257,51 @@ def main():
     print(f"Loading {DATA_FILE}")
 
     total = 0
-    total_by_type = {}
-    included_by_type = {}
+    total_by_type = defaultdict(int)
+    included_by_type = defaultdict(int)
     errors = 0
 
     with gzip.open(DATA_FILE) as in_file:
         with TableManager(DATA_OUT_DIR / "ol_books.csv") as book_manager:
             with TableManager(DATA_OUT_DIR / "ol_editions.csv") as edition_manager:
                 with TableManager(DATA_OUT_DIR / "ol_subjects.csv") as subject_manager:
-                    type_managers = {
-                        "/type/work": book_manager,
-                        "/type/edition": edition_manager,
-                    }
+                    with TableManager(DATA_OUT_DIR / "ol_book_subjects.csv") as book_subject_manager:
+                        type_processors = {
+                            "/type/work": process_book_line,
+                            "/type/edition": process_edition_line,
+                        }
 
-                    type_processors = {
-                        "/type/work": process_book_line,
-                        "/type/edition": process_edition_line,
-                    }
+                        # We expect this to have ~100 million lines
+                        for raw_line in tqdm(in_file, total=(100 * 1000 * 1000)):
+                            try:
+                                total += 1
+                                line = raw_line.decode("utf-8").split("\t")
+                                line_type = line[0]
+                                total_by_type[line_type] += 1
 
-                    # We expect this to have ~100 million lines
-                    for raw_line in tqdm(in_file, total=(100 * 1000 * 1000)):
-                        try:
-                            total += 1
-                            line = raw_line.decode("utf-8").split("\t")
-                            line_type = line[0]
-                            total_by_type[line_type] += 1
+                                if line_type in type_processors:
+                                    line_data = json.loads(line[-1])
 
-                            if line_type in type_processors:
-                                line_data = json.loads(line[-1])
+                                    included, was_error = type_processors[line_type](line_data,
+                                                                                     book_manager=book_manager,
+                                                                                     edition_manager=edition_manager,
+                                                                                     subject_manager=subject_manager,
+                                                                                     book_subject_manager=book_subject_manager)
+                                    if was_error:
+                                        errors += 1
 
-                                included, was_error = type_processors[line_type](line_data, type_managers)
-                                if was_error:
-                                    errors += 1
+                                    if included:
+                                        included_by_type[line_type] += 1
+                            except Exception as e:
+                                print(f"Unhandled exception {e}, processing line {line}")
+                                print(e.args)
+                                traceback.print_exception(e)
+                                errors += 1
 
-                                if included:
-                                    included_by_type[line_type] += 1
-                        except Exception as e:
-                            print(f"Unhandled exception {e}, processing line {line}")
-                            print(e.args), e.with_traceback()
-                            errors += 1
+                            if total > 1000 * 1000:
+                                break
 
-    print(f"Finished preprocessing queues - total records: {total}, errors: {errors}")
+    print(f"Finished preprocessing - total records: {total}, errors: {errors}")
     with open("statistics.json", 'w') as stats_file:
         stats_file.write(json.dumps({
             "total": "total",
