@@ -73,6 +73,7 @@ class Edition(Writeable):
     ol_id: str
     book_id: int
     title: str
+    covers: list[int] | None
     subtitle: str | None
     alternate_titles: list[str] | None
     publish_places: list[str] | None
@@ -99,7 +100,7 @@ class TableManager:
     def __enter__(self):
         self.out_file = open(self.out_file_path, "w", encoding="utf-8")
         self.writer = csv.writer(
-            self.out_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL
+            self.out_file, quoting=csv.QUOTE_MINIMAL
         )
         return self
 
@@ -200,6 +201,15 @@ def main():
                     edition_id = edition_manager.get_id(edition_ol_id)
                     book_id = book_manager.get_id(work_id)
 
+                    covers = None
+                    if "covers" in line_data and isinstance(line_data["covers"], list):
+                        covers = []
+                        for cover in line_data["covers"]:
+                            if isinstance(cover, int):
+                                covers.append(cover)
+                            elif cover is not None:
+                                print(f"Unexpected cover type {type(cover)}: {cover}")
+
                     edition = Edition(
                         id=edition_id,
                         ol_id=edition_ol_id,
@@ -213,7 +223,8 @@ def main():
                         isbn_10=first_or_none(line_data, "isbn_10"),
                         isbn_13=first_or_none(line_data, "isbn_13"),
                         lc_classifications=line_data.get("lc_classifications"),
-                        series=first_or_none(line_data, "series")
+                        series=first_or_none(line_data, "series"),
+                        covers=covers
                     )
                     edition_manager.write(edition)
 
