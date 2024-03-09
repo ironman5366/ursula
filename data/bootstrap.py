@@ -19,9 +19,8 @@ DATA_FILE = Path(os.environ["OL_DATA_DUMP_PATH"])
 assert DATA_FILE.exists(), f"Open library data directory {DATA_FILE} does not exist"
 
 POSTGRES_CONN_URL = os.environ["POSTGRES_CONN_URL"]
-BATCH_SIZE = 5000
-QUEUE_MAX_SIZE = BATCH_SIZE * 10
-
+BATCH_SIZE = 20 * 1000
+QUEUE_MAX_SIZE = 500 * 1000
 
 def get_db_conn():
     return psycopg.connect(POSTGRES_CONN_URL)
@@ -38,7 +37,8 @@ class Insertable(BaseModel):
 
             if isinstance(val, list):
                 inner_vals = list(map(json.dumps, val))
-                formatted_vals.append("{{" + ",".join(inner_vals) + "}}")
+                array_val = "\"{" + ",".join(inner_vals) + "}\""
+                formatted_vals.append(array_val)
             else:
                 formatted_vals.append(val)
 
