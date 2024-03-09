@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import gzip
 from tqdm import tqdm
 import json
+import pandas as pd
 
 load_dotenv()
 
@@ -55,5 +56,19 @@ def find_book_and_editions(book_id):
             if line_type == "/type/book/":
                 pass
 
+def count_lines():
+    total = 0
+    with gzip.open(os.path.join(DATA_FILE)) as fin:
+        for line in tqdm(fin):
+            total += 1
+    print(f"Total lines: {total}")
+
+def read_pandas():
+    print(f"Loading {DATA_FILE}")
+    with gzip.open(DATA_FILE) as in_file:
+        print("Reading in file...")
+        df = pd.read_csv(in_file, sep='\t', header=None)
+        print(df.head())
+
 if __name__ == "__main__":
-    main()
+    read_pandas()
