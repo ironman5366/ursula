@@ -31,7 +31,7 @@ if not DATA_OUT_DIR.exists():
 
 POSTGRES_CONN_URL = os.environ["POSTGRES_CONN_URL"]
 
-# Only 10 million lines per each CSV file
+# Only 1 million lines per each CSV file
 CHUNK_MAX_ROWS = 1000 * 1000 * 1
 
 def get_db_conn():
@@ -70,6 +70,7 @@ class Book(Writeable):
     lc_classifications: list[str] | None
     subtitle: str | None
     description: str | None
+    covers: list[int] | None
 
 
 class Edition(Writeable):
@@ -96,6 +97,12 @@ class Subject(Writeable):
     id: int
     name: str
     subject_type: typing.Literal["topic", "place", "person", "time"]
+
+
+class BookSubject(Writeable):
+    id: int
+    book_id: int
+    subject_id: int
 
 
 class TableManager:
@@ -178,7 +185,35 @@ def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject
     for subject_raw in subjects_list:
         # Check whether the subject manager already has this subject
         if subject_raw in subject_manager.key_cache:
-            pass
+            subject_id = subject_manager.key_cache[subject_raw]
+        else:
+            subject_id = subject_manager.get_id(subject_raw)
+            subject = Subject(
+                id=subject_id,
+                name=subject_raw,
+                subject_type=subject_type
+            )
+            subject_manager.write(subject)
+
+        book_subject = BookSubject(
+            id=book_subject_manager.get_id(
+                f"{book_id}-{subject_id}"
+            ),
+            book_id=book_id,
+            subject_id=subject_id
+        )
+        book_subject_manager.write(book_subject)
+
+
+def extract_covers(covers_raw):
+    if covers_raw and isinstance(covers_raw, list):
+        covers = []
+        for cover in covers_raw:
+            if isinstance(cover, int):
+                covers.append(cover)
+            elif cover is not None:
+                print(f"Unexpected cover type {type(cover)}: {cover}")
+        return covers
 
 
 def process_book_line(line_data, book_manager, **kwargs) -> tuple[bool, bool]:
@@ -195,12 +230,22 @@ def process_book_line(line_data, book_manager, **kwargs) -> tuple[bool, bool]:
         dewey_numbers=line_data.get("dewey_decimal_class"),
         lc_classifications=line_data.get("lc_classifications"),
         subtitle=line_data.get("subtitle"),
-        description=extract_text(line_data, "description")
+        description=extract_text(line_data, "description"),
+        covers=extract_covers(line_data.get("covers"))
     )
     book_manager.write(book)
 
-    # TODO: handle subjects here
+    if "subjects" in line_data:
+        process_book_subjects(book_id, line_data["subjects"], "topic", **kwargs)
 
+    if "subject_places" in line_data:
+        process_book_subjects(book_id, line_data["subject_places"], "place", **kwargs)
+
+    if "subject_people" in line_data:
+        process_book_subjects(book_id, line_data["subject_people"], "person", **kwargs)
+
+    if "subject_times" in line_data:
+        process_book_subjects(book_id, line_data["subject_times"], "time", **kwargs)
 
     return True, False
 
@@ -234,14 +279,6 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
     edition_id = edition_manager.get_id(edition_ol_id)
     book_id = book_manager.get_id(work_id)
 
-    covers = None
-    if "covers" in line_data and isinstance(line_data["covers"], list):
-        covers = []
-        for cover in line_data["covers"]:
-            if isinstance(cover, int):
-                covers.append(cover)
-            elif cover is not None:
-                print(f"Unexpected cover type {type(cover)}: {cover}")
 
     edition = Edition(
         id=edition_id,
@@ -257,7 +294,7 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
         isbn_13=first_or_none(line_data, "isbn_13"),
         lc_classifications=line_data.get("lc_classifications"),
         series=first_or_none(line_data, "series"),
-        covers=covers
+        covers=extract_covers(line_data.get("covers"))
     )
     edition_manager.write(edition)
     return True, False
@@ -273,10 +310,12 @@ def main():
     errors = 0
 
     with gzip.open(DATA_FILE) as in_file:
+
+        # Note: the copy_from_csv scripts expect these filenames to correspond to table names
         with TableManager(DATA_OUT_DIR / "ol_books.csv") as book_manager:
             with TableManager(DATA_OUT_DIR / "ol_editions.csv") as edition_manager:
-                with TableManager(DATA_OUT_DIR / "ol_subjects.csv") as subject_manager:
-                    with TableManager(DATA_OUT_DIR / "ol_book_subjects.csv") as book_subject_manager:
+                with TableManager(DATA_OUT_DIR / "subjects.csv") as subject_manager:
+                    with TableManager(DATA_OUT_DIR / "book_subjects.csv") as book_subject_manager:
                         type_processors = {
                             "/type/work": process_book_line,
                             "/type/edition": process_edition_line,
@@ -309,7 +348,7 @@ def main():
                                 traceback.print_exception(e)
                                 errors += 1
 
-                            if total > 50 * 1000 * 1000:
+                            if total > 20 * 1000 * 1000:
                                 break
 
     print(f"Finished preprocessing - total records: {total}, errors: {errors}")
