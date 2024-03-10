@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS ol_books (
     lc_classifications TEXT [],
     subtitle TEXT,
     description TEXT,
-    covers INTEGER []
+    covers INTEGER [],
+    excerpts TEXT [],
+    links JSONB
 );
 
 CREATE TABLE IF NOT EXISTS ol_editions (
@@ -27,7 +29,7 @@ CREATE TABLE IF NOT EXISTS ol_editions (
     series TEXT
 );
 
-CREATE TABLE IF NOT EXISTS book_authors (
+CREATE TABLE IF NOT EXISTS ol_book_authors (
     id SERIAL PRIMARY KEY,
     book_id INTEGER NOT NULL,
     author_id INTEGER NOT NULL,
@@ -35,21 +37,6 @@ CREATE TABLE IF NOT EXISTS book_authors (
     as_what TEXT
 );
 
-
-CREATE TABLE IF NOT EXISTS ol_book_excerpts (
-    id SERIAL PRIMARY KEY,
-    book_id INTEGER,
-    edition_id INTEGER,
-    is_first_sentence BOOLEAN NOT NULL,
-    excerpt TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS ol_book_links (
-    id SERIAL PRIMARY KEY,
-    book_id INTEGER,
-    url TEXT NOT NULL,
-    title TEXT NOT NULL
-);
 
 CREATE TABLE IF NOT EXISTS ol_authors (
     id SERIAL PRIMARY KEY,

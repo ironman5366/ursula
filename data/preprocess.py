@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Note for the reader: this script is way overcomplicated because this originally also tried to manager inserting into
+# Note for the reader: this script is way overcomplicated because this originally also tried to manage inserting into
 # the database, so I tried to do some fancy metaprogramming and worker stuff to keep track of everything. Conceptually
 # this just preprocesses the data into separate CSV files that correspond to temp tables in the DB. Basically the same
 # approach at https://github.com/LibrariesHacked/openlibrary-search, but for my DB schema and
@@ -71,7 +71,9 @@ class Book(Writeable):
     subtitle: str | None
     description: str | None
     covers: list[int] | None
-
+    excerpts: list[str] | None
+    # A JSON blob of a list of links
+    links: str | None
 
 class Edition(Writeable):
     id: int
@@ -128,6 +130,7 @@ class Author(Writeable):
     birth_date: str | None
     death_date: str | None
     photos: list[int] | None
+
 
 class BookAuthor(Writeable):
     id: int
@@ -262,6 +265,21 @@ def process_book_line(line_data, book_manager, author_manager, book_author_manag
 
     book_ol_id = line_data["key"].split("/works/")[1]
     book_id = book_manager.get_id(book_ol_id)
+
+    excerpts = None
+    if "first_sentence" in line_data:
+        excerpts = [extract_text(line_data, "first_sentence")]
+
+    if "excerpts" in line_data:
+        if excerpts is None:
+            excerpts = []
+        for excerpt in line_data["excerpts"]:
+            excerpts.append(extract_text(excerpt, "excerpt"))
+
+    links = None
+    if "links" in line_data:
+        links = json.dumps(line_data["links"])
+
     book = Book(
         id=book_id,
         ol_id=book_ol_id,
@@ -271,7 +289,9 @@ def process_book_line(line_data, book_manager, author_manager, book_author_manag
         lc_classifications=line_data.get("lc_classifications"),
         subtitle=line_data.get("subtitle"),
         description=extract_text(line_data, "description"),
-        covers=extract_image_ids(line_data.get("covers"))
+        covers=extract_image_ids(line_data.get("covers")),
+        excerpts=excerpts,
+        links=links
     )
     book_manager.write(book)
 
@@ -285,12 +305,17 @@ def process_book_line(line_data, book_manager, author_manager, book_author_manag
             author_ol_id = author["key"].split("/authors/")[1]
             author_id = author_manager.get_id(author_ol_id)
 
+            book_author_key = f"{book_id}-{author_id}"
+            if book_author_key in book_author_manager.key_cache:
+                continue
+
+            book_author_manager.key_cache[book_author_key] = True
             book_author = BookAuthor(
-                id=book_author_manager.get_id(f"{book_id}-{author_id}"),
+                id=book_author_manager.get_id(book_author_key),
                 book_id=book_id,
                 author_id=author_id,
                 role=author.get("role"),
-                as_what=author.get("as_what")
+                as_what=author.get("as")
             )
             book_author_manager.write(book_author)
 
@@ -305,6 +330,7 @@ def process_book_line(line_data, book_manager, author_manager, book_author_manag
 
     if "subject_times" in line_data:
         process_book_subjects(book_id, line_data["subject_times"], "time", **kwargs)
+
 
     return True, False
 
@@ -378,7 +404,6 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
     edition_id = edition_manager.get_id(edition_ol_id)
     book_id = book_manager.get_id(work_id)
 
-
     edition = Edition(
         id=edition_id,
         ol_id=edition_ol_id,
@@ -401,7 +426,6 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
         process_edition_genres(line_data["genres"], edition_id, **kwargs)
 
     return True, False
-
 
 def process_author_line(line_data, author_manager, **kwargs) -> tuple[bool, bool]:
     if "name" not in line_data:
@@ -431,7 +455,6 @@ def process_author_line(line_data, author_manager, **kwargs) -> tuple[bool, bool
     author_manager.write(author)
 
     return True, False
-
 
 
 def process(**kwargs):
@@ -473,9 +496,6 @@ def process(**kwargs):
                 traceback.print_exception(e)
                 errors += 1
 
-            if total > 5 * 1000 * 1000:
-                break
-
     print(f"Finished preprocessing - total records: {total}, errors: {errors}")
     with open("statistics.json", 'w') as stats_file:
         stats_file.write(json.dumps({
@@ -494,7 +514,7 @@ def main():
                     with TableManager(DATA_OUT_DIR / "genres.csv") as genre_manager:
                         with TableManager(DATA_OUT_DIR / "edition_genres.csv") as edition_genre_manager:
                             with TableManager(DATA_OUT_DIR / "ol_authors.csv") as author_manager:
-                                with TableManager(DATA_OUT_DIR / "book_authors.csv") as book_author_manager:
+                                with TableManager(DATA_OUT_DIR / "ol_book_authors.csv") as book_author_manager:
                                     process(
                                         book_manager=book_manager,
                                         edition_manager=edition_manager,

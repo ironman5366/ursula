@@ -3,8 +3,8 @@ set -e;
 
 # Function to handle the SIGINT signal (Ctrl+C)
 shutdown() {
-  echo "Received SIGINT. Terminating all processes..."
-  kill "${pids[@]}" 2>/dev/null
+  echo "Received SIGINT. Terminating all processes...";
+  kill "${pids[@]}";
   exit 1
 }
 
@@ -28,6 +28,8 @@ for file in $1/*.csv; do
   # Store the pid
   pids+=($!)
 done
+
+echo "Out of loop, going to wait"
 
 # Wait for all pids
 for pid in ${pids[*]}; do
