@@ -104,6 +104,37 @@ class BookSubject(Writeable):
     book_id: int
     subject_id: int
 
+class Genre(Writeable):
+    id: int
+    name: str
+
+
+class EditionGenre(Writeable):
+    id: int
+    edition_id: int
+    genre_id: int
+
+class Author(Writeable):
+    id: int
+    ol_id: str
+    name: str
+    eastern_order: bool | None
+    personal_name: str | None
+    enumeration: str | None
+    title: str | None
+    alternate_names: list[str] | None
+    bio: str | None
+    location: str | None
+    birth_date: str | None
+    death_date: str | None
+    photos: list[int] | None
+
+class BookAuthor(Writeable):
+    id: int
+    book_id: int
+    author_id: int
+    role: str | None
+    as_what: str | None
 
 class TableManager:
 
@@ -214,18 +245,18 @@ def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject
             book_subject_manager.write(book_subject)
 
 
-def extract_covers(covers_raw):
-    if covers_raw and isinstance(covers_raw, list):
-        covers = []
-        for cover in covers_raw:
-            if isinstance(cover, int):
-                covers.append(cover)
-            elif cover is not None:
-                print(f"Unexpected cover type {type(cover)}: {cover}")
-        return covers
+def extract_image_ids(image_ids_raw):
+    if image_ids_raw and isinstance(image_ids_raw, list):
+        image_ids = []
+        for image_id in image_ids_raw:
+            if isinstance(image_id, int):
+                image_ids.append(image_id)
+            elif image_id is not None:
+                print(f"Unexpected image ID type {type(image_id)}: {image_id}")
+        return image_ids
 
 
-def process_book_line(line_data, book_manager, **kwargs) -> tuple[bool, bool]:
+def process_book_line(line_data, book_manager, author_manager, book_author_manager, **kwargs) -> tuple[bool, bool]:
     if "title" not in line_data:
         return False, False
 
@@ -240,9 +271,28 @@ def process_book_line(line_data, book_manager, **kwargs) -> tuple[bool, bool]:
         lc_classifications=line_data.get("lc_classifications"),
         subtitle=line_data.get("subtitle"),
         description=extract_text(line_data, "description"),
-        covers=extract_covers(line_data.get("covers"))
+        covers=extract_image_ids(line_data.get("covers"))
     )
     book_manager.write(book)
+
+    if "authors" in line_data:
+        for author_role in line_data["authors"]:
+
+            if "author" not in author_role:
+                continue
+
+            author = author_role["author"]
+            author_ol_id = author["key"].split("/authors/")[1]
+            author_id = author_manager.get_id(author_ol_id)
+
+            book_author = BookAuthor(
+                id=book_author_manager.get_id(f"{book_id}-{author_id}"),
+                book_id=book_id,
+                author_id=author_id,
+                role=author.get("role"),
+                as_what=author.get("as_what")
+            )
+            book_author_manager.write(book_author)
 
     if "subjects" in line_data:
         process_book_subjects(book_id, line_data["subjects"], "topic", **kwargs)
@@ -259,22 +309,62 @@ def process_book_line(line_data, book_manager, **kwargs) -> tuple[bool, bool]:
     return True, False
 
 
-def parse_publish_date(publish_date_raw: str) -> str | None:
-    if publish_date_raw:
+def parse_date(date_raw: str) -> str | None:
+    if date_raw:
         try:
-            publish_date = parse(publish_date_raw)
-            return publish_date.strftime("%Y-%m-%d")
+            parsed_date = parse(date_raw)
+            return parsed_date.strftime("%Y-%m-%d")
         except (ParserError, OverflowError):
             return None
     return None
 
 
+def process_edition_genres(
+        genres: list[str] | None,
+        edition_id: int,
+        genre_manager: TableManager,
+        edition_genre_manager: TableManager,
+        **kwargs,
+):
+    if not genres:
+        return
+
+    for genre_raw in genres:
+        if not genre_raw:
+            continue
+
+        # Check whether the genre manager already has this genre
+        if genre_raw in genre_manager.key_cache:
+            genre_id = genre_manager.key_cache[genre_raw]
+        else:
+            genre_id = genre_manager.get_id(genre_raw)
+            genre = Genre(
+                id=genre_id,
+                name=genre_raw
+            )
+            genre_manager.write(genre)
+            genre_manager.key_cache[genre_raw] = genre_id
+
+        genre_edition_key = f"{edition_id}-{genre_id}"
+        if genre_edition_key in edition_genre_manager.key_cache:
+            continue
+        else:
+            edition_genre_manager.key_cache[genre_edition_key] = True
+            genre_edition = EditionGenre(
+                id=edition_genre_manager.get_id(
+                    genre_edition_key
+                ),
+                edition_id=edition_id,
+                genre_id=genre_id
+            )
+            edition_genre_manager.write(genre_edition)
+
 def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> tuple[bool, bool]:
     if "works" not in line_data or len(line_data["works"]) == 0:
-        return False, False
+        return False, True
 
     if "title" not in line_data:
-        return False, False
+        return False, True
 
     edition_ol_id = line_data["key"].split("/books/")[1]
     work_id = line_data["works"][0]["key"]
@@ -282,7 +372,7 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
     publish_date_raw = line_data.get("publish_date")
     publish_date = None
     if publish_date_raw:
-        publish_date = parse_publish_date(publish_date_raw)
+        publish_date = parse_date(publish_date_raw)
 
 
     edition_id = edition_manager.get_id(edition_ol_id)
@@ -303,14 +393,48 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
         isbn_13=first_or_none(line_data, "isbn_13"),
         lc_classifications=line_data.get("lc_classifications"),
         series=first_or_none(line_data, "series"),
-        covers=extract_covers(line_data.get("covers"))
+        covers=extract_image_ids(line_data.get("covers"))
     )
     edition_manager.write(edition)
+
+    if "genres" in line_data:
+        process_edition_genres(line_data["genres"], edition_id, **kwargs)
+
+    return True, False
+
+
+def process_author_line(line_data, author_manager, **kwargs) -> tuple[bool, bool]:
+    if "name" not in line_data:
+        return False, True
+
+    if "key" not in line_data:
+        return False, True
+
+    author_ol_id = line_data["key"].split("/authors/")[1]
+
+    author_id = author_manager.get_id(author_ol_id)
+    author = Author(
+        id=author_id,
+        ol_id=author_ol_id,
+        name=line_data["name"],
+        eastern_order=line_data.get("eastern_order"),
+        personal_name=line_data.get("personal_name"),
+        enumeration=line_data.get("enumeration"),
+        title=line_data.get("title"),
+        alternate_names=line_data.get("alternate_names"),
+        bio=extract_text(line_data, "bio"),
+        location=line_data.get("location"),
+        birth_date=parse_date(line_data.get("birth_date")),
+        death_date=parse_date(line_data.get("death_date")),
+        photos=extract_image_ids(line_data.get("photos"))
+    )
+    author_manager.write(author)
+
     return True, False
 
 
 
-def main():
+def process(**kwargs):
     print(f"Loading {DATA_FILE}")
 
     total = 0
@@ -320,45 +444,37 @@ def main():
 
     with gzip.open(DATA_FILE) as in_file:
 
-        # Note: the copy_from_csv scripts expect these filenames to correspond to table names
-        with TableManager(DATA_OUT_DIR / "ol_books.csv") as book_manager:
-            with TableManager(DATA_OUT_DIR / "ol_editions.csv") as edition_manager:
-                with TableManager(DATA_OUT_DIR / "subjects.csv") as subject_manager:
-                    with TableManager(DATA_OUT_DIR / "book_subjects.csv") as book_subject_manager:
-                        type_processors = {
-                            "/type/work": process_book_line,
-                            "/type/edition": process_edition_line,
-                        }
+        type_processors = {
+            "/type/work": process_book_line,
+            "/type/edition": process_edition_line,
+            "/type/author": process_author_line
+        }
 
-                        # We expect this to have ~100 million lines
-                        for raw_line in tqdm(in_file, total=(100 * 1000 * 1000)):
-                            try:
-                                total += 1
-                                line = raw_line.decode("utf-8").split("\t")
-                                line_type = line[0]
-                                total_by_type[line_type] += 1
+        # We expect this to have ~100 million lines
+        for raw_line in tqdm(in_file, total=(100 * 1000 * 1000)):
+            try:
+                total += 1
+                line = raw_line.decode("utf-8").split("\t")
+                line_type = line[0]
+                total_by_type[line_type] += 1
 
-                                if line_type in type_processors:
-                                    line_data = json.loads(line[-1])
+                if line_type in type_processors:
+                    line_data = json.loads(line[-1])
 
-                                    included, was_error = type_processors[line_type](line_data,
-                                                                                     book_manager=book_manager,
-                                                                                     edition_manager=edition_manager,
-                                                                                     subject_manager=subject_manager,
-                                                                                     book_subject_manager=book_subject_manager)
-                                    if was_error:
-                                        errors += 1
+                    included, was_error = type_processors[line_type](line_data, **kwargs)
+                    if was_error:
+                        errors += 1
 
-                                    if included:
-                                        included_by_type[line_type] += 1
-                            except Exception as e:
-                                print(f"Unhandled exception {e}, processing line {line}")
-                                print(e.args)
-                                traceback.print_exception(e)
-                                errors += 1
+                    if included:
+                        included_by_type[line_type] += 1
+            except Exception as e:
+                print(f"Unhandled exception {e}, processing line {line}")
+                print(e.args)
+                traceback.print_exception(e)
+                errors += 1
 
-                            if total > 5 * 1000 * 1000:
-                                break
+            if total > 5 * 1000 * 1000:
+                break
 
     print(f"Finished preprocessing - total records: {total}, errors: {errors}")
     with open("statistics.json", 'w') as stats_file:
@@ -368,6 +484,27 @@ def main():
             "included_by_type": included_by_type,
             "errors": errors
         }, indent=4, sort_keys=True))
+
+def main():
+    # Note: the copy_from_csv scripts expect these filenames to correspond to table names
+    with TableManager(DATA_OUT_DIR / "ol_books.csv") as book_manager:
+        with TableManager(DATA_OUT_DIR / "ol_editions.csv") as edition_manager:
+            with TableManager(DATA_OUT_DIR / "subjects.csv") as subject_manager:
+                with TableManager(DATA_OUT_DIR / "book_subjects.csv") as book_subject_manager:
+                    with TableManager(DATA_OUT_DIR / "genres.csv") as genre_manager:
+                        with TableManager(DATA_OUT_DIR / "edition_genres.csv") as edition_genre_manager:
+                            with TableManager(DATA_OUT_DIR / "ol_authors.csv") as author_manager:
+                                with TableManager(DATA_OUT_DIR / "book_authors.csv") as book_author_manager:
+                                    process(
+                                        book_manager=book_manager,
+                                        edition_manager=edition_manager,
+                                        subject_manager=subject_manager,
+                                        book_subject_manager=book_subject_manager,
+                                        genre_manager=genre_manager,
+                                        edition_genre_manager=edition_genre_manager,
+                                        author_manager=author_manager,
+                                        book_author_manager=book_author_manager
+                                    )
 
 
 if __name__ == "__main__":

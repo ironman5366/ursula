@@ -1,6 +1,7 @@
 {
-  "errors": 0,
+  "errors": 102272,
   "included_by_type": {
+    "/type/author": 644361,
     "/type/edition": 2314742,
     "/type/work": 1734266
   },

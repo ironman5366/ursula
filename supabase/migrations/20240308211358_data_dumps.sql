@@ -27,6 +27,14 @@ CREATE TABLE IF NOT EXISTS ol_editions (
     series TEXT
 );
 
+CREATE TABLE IF NOT EXISTS book_authors (
+    id SERIAL PRIMARY KEY,
+    book_id INTEGER NOT NULL,
+    author_id INTEGER NOT NULL,
+    role TEXT,
+    as_what TEXT
+);
+
 
 CREATE TABLE IF NOT EXISTS ol_book_excerpts (
     id SERIAL PRIMARY KEY,
@@ -43,8 +51,31 @@ CREATE TABLE IF NOT EXISTS ol_book_links (
     title TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS ol_authors (
+    id SERIAL PRIMARY KEY,
+    ol_id VARCHAR(255) NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    eastern_order BOOL,
+    personal_name TEXT,
+    enumeration TEXT,
+    title TEXT,
+    alternate_names TEXT [],
+    bio TEXT,
+    location TEXT,
+    birth_date DATE,
+    death_date DATE,
+    photos INTEGER []
+);
+
 CREATE TABLE IF NOT EXISTS genres (
-    id SERIAL PRIMARY KEY
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS edition_genres (
+    id SERIAL PRIMARY KEY,
+    edition_id INTEGER,
+    genre_id INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS subjects (
