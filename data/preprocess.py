@@ -302,6 +302,9 @@ def process_book_line(line_data, book_manager, author_manager, book_author_manag
                 continue
 
             author = author_role["author"]
+            if isinstance(author, str):
+                continue
+
             author_ol_id = author["key"].split("/authors/")[1]
             author_id = author_manager.get_id(author_ol_id)
 
