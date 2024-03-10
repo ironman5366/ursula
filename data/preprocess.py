@@ -183,6 +183,9 @@ def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject
         return
 
     for subject_raw in subjects_list:
+        if not subject_raw:
+            continue
+
         # Check whether the subject manager already has this subject
         if subject_raw in subject_manager.key_cache:
             subject_id = subject_manager.key_cache[subject_raw]
@@ -194,15 +197,21 @@ def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject
                 subject_type=subject_type
             )
             subject_manager.write(subject)
+            subject_manager.key_cache[subject_raw] = subject_id
 
-        book_subject = BookSubject(
-            id=book_subject_manager.get_id(
-                f"{book_id}-{subject_id}"
-            ),
-            book_id=book_id,
-            subject_id=subject_id
-        )
-        book_subject_manager.write(book_subject)
+        book_subject_key = f"{book_id}-{subject_id}"
+        if book_subject_key in book_subject_manager.key_cache:
+            continue
+        else:
+            book_subject_manager.key_cache[book_subject_key] = True
+            book_subject = BookSubject(
+                id=book_subject_manager.get_id(
+                    book_subject_key
+                ),
+                book_id=book_id,
+                subject_id=subject_id
+            )
+            book_subject_manager.write(book_subject)
 
 
 def extract_covers(covers_raw):
@@ -348,7 +357,7 @@ def main():
                                 traceback.print_exception(e)
                                 errors += 1
 
-                            if total > 20 * 1000 * 1000:
+                            if total > 5 * 1000 * 1000:
                                 break
 
     print(f"Finished preprocessing - total records: {total}, errors: {errors}")

@@ -30,17 +30,17 @@ CREATE TABLE IF NOT EXISTS ol_editions (
 
 CREATE TABLE IF NOT EXISTS ol_book_excerpts (
     id SERIAL PRIMARY KEY,
-    book_id INTEGER REFERENCES ol_books (id) NOT NULL,
-    edition_id INTEGER REFERENCES ol_editions (id),
+    book_id INTEGER,
+    edition_id INTEGER,
     is_first_sentence BOOLEAN NOT NULL,
     excerpt TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ol_book_links (
     id SERIAL PRIMARY KEY,
-    book_id INTEGER REFERENCES ol_books (id) NOT NULL,
-    url VARCHAR(255) NOT NULL,
-    title VARCHAR(255) NOT NULL
+    book_id INTEGER,
+    url TEXT NOT NULL,
+    title TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS genres (
@@ -49,13 +49,13 @@ CREATE TABLE IF NOT EXISTS genres (
 
 CREATE TABLE IF NOT EXISTS subjects (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE,
     -- One of "topic", "person", "place", "time"
     subject_type VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS book_subjects (
     id SERIAL PRIMARY KEY,
-    book_id INTEGER REFERENCES ol_books (id) NOT NULL,
-    subject_id INTEGER REFERENCES subjects (id) NOT NULL
+    book_id INTEGER,
+    subject_id INTEGER
 );

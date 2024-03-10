@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -e;
 
+# Function to handle the SIGINT signal (Ctrl+C)
+shutdown() {
+  echo "Received SIGINT. Terminating all processes..."
+  kill "${pids[@]}" 2>/dev/null
+  exit 1
+}
+
+# Set the trap to call the handle_sigint function when SIGINT is received
+trap shutdown SIGINT
+trap shutdown SIGTERM
+
 # In the directory $1, look for any csv file, and run `./copy_from_csv.sh file_name.csv file_name` on it.
 # Do this all concurrently, and join at the end.
 

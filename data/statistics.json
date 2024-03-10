@@ -1,28 +1,32 @@
 {
   "errors": 0,
   "included_by_type": {
-    "/type/edition": 517511,
-    "/type/work": 270772
+    "/type/edition": 2314742,
+    "/type/work": 1734266
   },
   "total": "total",
   "total_by_type": {
-    "/type/author": 148609,
-    "/type/delete": 26203,
+    "/type/author": 644479,
+    "/type/delete": 126848,
     "/type/doc": 1,
-    "/type/edition": 540585,
+    "/type/edition": 2416896,
     "/type/home": 1,
-    "/type/i18n": 5,
-    "/type/i18n_page": 1,
-    "/type/language": 3,
-    "/type/library": 5,
-    "/type/list": 1550,
-    "/type/macro": 3,
-    "/type/page": 6,
+    "/type/i18n": 36,
+    "/type/i18n_page": 2,
+    "/type/language": 25,
+    "/type/library": 18,
+    "/type/list": 9664,
+    "/type/local_id": 2,
+    "/type/macro": 9,
+    "/type/page": 29,
     "/type/rawtext": 1,
-    "/type/redirect": 11538,
-    "/type/subject": 713,
-    "/type/template": 3,
-    "/type/volume": 1,
-    "/type/work": 270773
+    "/type/redirect": 62991,
+    "/type/scan_record": 1,
+    "/type/series": 1,
+    "/type/subject": 4703,
+    "/type/template": 19,
+    "/type/type": 4,
+    "/type/volume": 2,
+    "/type/work": 1734269
   }
 }
