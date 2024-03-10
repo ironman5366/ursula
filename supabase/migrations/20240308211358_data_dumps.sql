@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS ol_books (
     lc_classifications TEXT [],
     subtitle TEXT,
     description TEXT,
-    covers INTEGER [],
+    covers INTEGER []
 );
 
 CREATE TABLE IF NOT EXISTS ol_editions (

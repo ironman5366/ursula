@@ -9,3 +9,5 @@ command="\copy $2 ($headers) FROM $1 WITH CSV HEADER";
 
 echo "Running copy command: $command";
 psql "$POSTGRES_CONN_URL" -c "$command";
+
+echo "Finished copying $1";

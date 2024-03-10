@@ -8,8 +8,8 @@ set -e;
 pids=()
 
 for file in $1/*.csv; do
-  # Split the name and the extension
-  filename=$(basename -- "$file")
+  # Split all the extensions off of the file (we expect it to have at least two extensions)
+  filename=$(basename "$file" | cut -d. -f1)
 
   # Do the copy in the background
   echo "Copying $file to ${filename%.*}"

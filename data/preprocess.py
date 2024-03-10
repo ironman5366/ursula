@@ -31,6 +31,9 @@ if not DATA_OUT_DIR.exists():
 
 POSTGRES_CONN_URL = os.environ["POSTGRES_CONN_URL"]
 
+# Only 10 million lines per each CSV file
+CHUNK_MAX_ROWS = 1000 * 1000 * 1
+
 def get_db_conn():
     return psycopg.connect(POSTGRES_CONN_URL)
 
@@ -103,17 +106,31 @@ class TableManager:
         self._curr_id = 0
         self._id_cache: dict[str, int] = {}
         self.key_cache = {}
-        self._is_first = True
+        self._chunk_line_count = 0
+        self._chunk_number = 0
+
+    def _open_chunk(self):
+        # Split the extension out of out_file and add the chunk number
+        out_file_name = self.out_file_path.stem
+        out_file_ext = self.out_file_path.suffix
+        chunk_path = self.out_file_path.with_name(f"{out_file_name}.{self._chunk_number}{out_file_ext}")
+
+        self._out_file = open(chunk_path, "w", encoding="utf-8")
+        self._chunk_line_count = 0
+        self._chunk_number += 1
+        self._writer = csv.writer(
+            self._out_file, quoting=csv.QUOTE_MINIMAL
+        )
+
+    def _close_chunk(self):
+        self._out_file.close()
 
     def __enter__(self):
-        self.out_file = open(self.out_file_path, "w", encoding="utf-8")
-        self.writer = csv.writer(
-            self.out_file, quoting=csv.QUOTE_MINIMAL
-        )
+        self._open_chunk()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.out_file.close()
+        self._close_chunk()
 
     def get_id(self, key: str):
         if key in self._id_cache:
@@ -124,11 +141,15 @@ class TableManager:
         return self._curr_id
 
     def write(self, line: Writeable):
-        if self._is_first:
-            self.writer.writerow(line.get_header())
-            self._is_first = False
+        if self._chunk_line_count == 0:
+            self._writer.writerow(line.get_header())
 
-        self.writer.writerow(line.get_values())
+        self._chunk_line_count += 1
+        self._writer.writerow(line.get_values())
+
+        if self._chunk_line_count >= CHUNK_MAX_ROWS:
+            self._close_chunk()
+            self._open_chunk()
 
 
 def first_or_none(line, val):
@@ -148,6 +169,7 @@ def extract_text(line, val):
             raise ValueError(f"Unexpected type {type(val)}, {val}")
 
     return None
+
 
 def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject_type: str, subject_manager: TableManager, book_subject_manager: TableManager, **kwargs):
     if not subjects_list:
@@ -287,7 +309,7 @@ def main():
                                 traceback.print_exception(e)
                                 errors += 1
 
-                            if total > 1000 * 1000:
+                            if total > 50 * 1000 * 1000:
                                 break
 
     print(f"Finished preprocessing - total records: {total}, errors: {errors}")
