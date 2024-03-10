@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS ol_editions (
     number_of_pages INTEGER,
     publish_date DATE,
     covers INTEGER [],
-    isbn_10 VARCHAR(255),
-    isbn_13 VARCHAR(255),
+    isbn_10 VARCHAR(10),
+    isbn_13 VARCHAR(13),
     lc_classifications TEXT [],
     series TEXT
 );

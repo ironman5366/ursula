@@ -259,6 +259,21 @@ def extract_image_ids(image_ids_raw):
         return image_ids
 
 
+def parse_isbn(isbn_raw: str | None,
+               numbers: int) -> str | None:
+    if not isbn_raw:
+        return
+
+    isbn_str = ""
+    for ch in isbn_raw:
+        if ch.isdigit():
+            isbn_str += ch
+
+    if len(isbn_str) == numbers:
+        return isbn_str
+
+
+
 def process_book_line(line_data, book_manager, author_manager, book_author_manager, **kwargs) -> tuple[bool, bool]:
     if "title" not in line_data:
         return False, False
@@ -417,8 +432,8 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
         publish_places=line_data.get("publish_places"),
         number_of_pages=line_data.get("number_of_pages"),
         publish_date=publish_date,
-        isbn_10=first_or_none(line_data, "isbn_10"),
-        isbn_13=first_or_none(line_data, "isbn_13"),
+        isbn_10=parse_isbn(first_or_none(line_data, "isbn_10"), 10),
+        isbn_13=parse_isbn(first_or_none(line_data, "isbn_13"), 13),
         lc_classifications=line_data.get("lc_classifications"),
         series=first_or_none(line_data, "series"),
         covers=extract_image_ids(line_data.get("covers"))
@@ -459,6 +474,8 @@ def process_author_line(line_data, author_manager, **kwargs) -> tuple[bool, bool
 
     return True, False
 
+# Useful for testing, pass in a limit to only process a certain number of lines
+LIMIT = None
 
 def process(**kwargs):
     print(f"Loading {DATA_FILE}")
@@ -477,7 +494,7 @@ def process(**kwargs):
         }
 
         # We expect this to have ~100 million lines
-        for raw_line in tqdm(in_file, total=(100 * 1000 * 1000)):
+        for raw_line in tqdm(in_file, total=(LIMIT or 100 * 1000 * 1000)):
             try:
                 total += 1
                 line = raw_line.decode("utf-8").split("\t")
@@ -498,6 +515,11 @@ def process(**kwargs):
                 print(e.args)
                 traceback.print_exception(e)
                 errors += 1
+
+            if LIMIT:
+                if total >= LIMIT:
+                    print(f"Done - reached limit of {LIMIT}")
+                    break
 
     print(f"Finished preprocessing - total records: {total}, errors: {errors}")
     with open("statistics.json", 'w') as stats_file:

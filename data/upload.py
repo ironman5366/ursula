@@ -4,11 +4,14 @@ import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import click
 
+
 def copy_csv_file(csv_path, filename):
     print(f"Uploading {csv_path}")
     # Run the copy_from_csv.sh script as a subprocess, and output to STDOUT
-    subprocess.run(['./copy_from_csv.sh', csv_path, filename], check=True, capture_output=True, text=True)
+    subprocess.run(['./copy_from_csv.sh', csv_path, filename], check=True, text=True, stdout=subprocess.PIPE,
+                   stderr=subprocess.PIPE)
     print(f"Upload of {csv_path} complete")
+
 
 @click.command()
 @click.argument('directory', type=click.Path(exists=True, file_okay=False, dir_okay=True))
