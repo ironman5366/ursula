@@ -18,3 +18,12 @@ ALTER TABLE book_subjects ADD COLUMN subject_id INTEGER;
 
 UPDATE book_subjects SET book_id = (SELECT ol_books.id FROM ol_books WHERE ol_books.ol_id = book_subjects.book_ol_id);
 UPDATE book_subjects SET subject_id = (SELECT subjects.id FROM subjects WHERE subjects.name = book_subjects.subject_name);
+
+-- Now add foreign keys
+ALTER TABLE ol_editions ADD FOREIGN KEY (book_id) REFERENCES ol_books (id);
+ALTER TABLE ol_book_authors ADD FOREIGN KEY (book_id) REFERENCES ol_books (id);
+ALTER TABLE ol_book_authors ADD FOREIGN KEY (author_id) REFERENCES ol_authors (id);
+ALTER TABLE edition_genres ADD FOREIGN KEY (edition_id) REFERENCES ol_editions (id);
+ALTER TABLE edition_genres ADD FOREIGN KEY (genre_id) REFERENCES genres (id);
+ALTER TABLE book_subjects ADD FOREIGN KEY (book_id) REFERENCES ol_books (id);
+ALTER TABLE book_subjects ADD FOREIGN KEY (subject_id) REFERENCES subjects (id);
