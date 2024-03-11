@@ -11,6 +11,7 @@ pydantic = "*"
 python-dateutil = "*"
 pandas = "*"
 click = "*"
+backoff = "*"
 
 [dev-packages]
 

@@ -3,8 +3,10 @@ import os
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import click
+from tqdm import tqdm
+import backoff
 
-
+@backoff.on_exception(backoff.expo, Exception, max_tries=8)
 def copy_csv_file(csv_path, filename):
     print(f"Uploading {csv_path}")
     # Run the copy_from_csv.sh script as a subprocess, and output to STDOUT
@@ -31,7 +33,7 @@ def main(directory, max_uploads):
         print("Submitted all tasks, waiting for completion...")
 
         # Wait for all futures to complete
-        for future in as_completed(futures):
+        for future in tqdm(as_completed(futures), total=len(csv_files)):
             try:
                 future.result()
             except Exception as e:

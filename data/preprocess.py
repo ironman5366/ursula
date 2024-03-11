@@ -434,7 +434,7 @@ def process_author_line(line_data, author_manager, **kwargs) -> tuple[bool, bool
     return True, False
 
 # Useful for testing, pass in a limit to only process a certain number of lines
-LIMIT = 5 * 1000 * 1000
+LIMIT = None
 
 def process(**kwargs):
     print(f"Loading {DATA_FILE}")

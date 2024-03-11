@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS ol_books (
     links JSONB
 );
 
+CREATE INDEX IF NOT EXISTS ol_books_ol_id_idx ON ol_books (ol_id);
+
 CREATE TABLE IF NOT EXISTS ol_editions (
     id SERIAL PRIMARY KEY,
     ol_id VARCHAR(255) NOT NULL UNIQUE,
@@ -28,6 +30,8 @@ CREATE TABLE IF NOT EXISTS ol_editions (
     lc_classifications TEXT [],
     series TEXT
 );
+
+CREATE INDEX IF NOT EXISTS ol_editions_ol_id_idx ON ol_editions (ol_id);
 
 CREATE TABLE IF NOT EXISTS ol_book_authors (
     id SERIAL PRIMARY KEY,
@@ -54,10 +58,14 @@ CREATE TABLE IF NOT EXISTS ol_authors (
     photos INTEGER []
 );
 
+CREATE INDEX IF NOT EXISTS ol_authors_ol_id_idx ON ol_authors (ol_id);
+
 CREATE TABLE IF NOT EXISTS genres (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
 );
+
+CREATE INDEX IF NOT EXISTS genres_name_idx ON genres (name);
 
 CREATE TABLE IF NOT EXISTS edition_genres (
     id SERIAL PRIMARY KEY,
@@ -71,6 +79,8 @@ CREATE TABLE IF NOT EXISTS subjects (
     -- One of "topic", "person", "place", "time"
     subject_type VARCHAR(255) NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS subjects_name_idx ON subjects (name);
 
 CREATE TABLE IF NOT EXISTS book_subjects (
     id SERIAL PRIMARY KEY,
