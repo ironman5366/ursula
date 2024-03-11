@@ -62,7 +62,6 @@ class Writeable(BaseModel):
 
 
 class Book(Writeable):
-    id: int
     ol_id: str
     title: str
     alternate_titles: list[str] | None
@@ -76,9 +75,8 @@ class Book(Writeable):
     links: str | None
 
 class Edition(Writeable):
-    id: int
     ol_id: str
-    book_id: int
+    book_ol_id: str
     title: str
     covers: list[int] | None
     subtitle: str | None
@@ -96,28 +94,25 @@ class Edition(Writeable):
 
 
 class Subject(Writeable):
-    id: int
     name: str
     subject_type: typing.Literal["topic", "place", "person", "time"]
 
 
 class BookSubject(Writeable):
-    id: int
-    book_id: int
-    subject_id: int
+    book_ol_id: str
+    subject_name: str
+
 
 class Genre(Writeable):
-    id: int
     name: str
 
 
 class EditionGenre(Writeable):
-    id: int
-    edition_id: int
+    edition_ol_id: str
     genre_id: int
 
+
 class Author(Writeable):
-    id: int
     ol_id: str
     name: str
     eastern_order: bool | None
@@ -133,11 +128,11 @@ class Author(Writeable):
 
 
 class BookAuthor(Writeable):
-    id: int
-    book_id: int
-    author_id: int
+    book_ol_id: str
+    author_ol_id: str
     role: str | None
     as_what: str | None
+
 
 class TableManager:
 
@@ -145,7 +140,6 @@ class TableManager:
                  out_file_path: Path):
         self.out_file_path = out_file_path
         self._curr_id = 0
-        self._id_cache: dict[str, int] = {}
         self.key_cache = {}
         self._chunk_line_count = 0
         self._chunk_number = 0
@@ -172,14 +166,6 @@ class TableManager:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._close_chunk()
-
-    def get_id(self, key: str):
-        if key in self._id_cache:
-            return self._id_cache[key]
-
-        self._curr_id += 1
-        self._id_cache[key] = self._curr_id
-        return self._curr_id
 
     def write(self, line: Writeable):
         if self._chunk_line_count == 0:
@@ -212,7 +198,7 @@ def extract_text(line, val):
     return None
 
 
-def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject_type: str, subject_manager: TableManager, book_subject_manager: TableManager, **kwargs):
+def process_book_subjects(book_ol_id: str, subjects_list: list[str] | None, subject_type: str, subject_manager: TableManager, book_subject_manager: TableManager, **kwargs):
     if not subjects_list:
         return
 
@@ -221,29 +207,22 @@ def process_book_subjects(book_id: int, subjects_list: list[str] | None, subject
             continue
 
         # Check whether the subject manager already has this subject
-        if subject_raw in subject_manager.key_cache:
-            subject_id = subject_manager.key_cache[subject_raw]
-        else:
-            subject_id = subject_manager.get_id(subject_raw)
+        if subject_raw not in subject_manager.key_cache:
             subject = Subject(
-                id=subject_id,
                 name=subject_raw,
                 subject_type=subject_type
             )
             subject_manager.write(subject)
-            subject_manager.key_cache[subject_raw] = subject_id
+            subject_manager.key_cache[subject_raw] = True
 
-        book_subject_key = f"{book_id}-{subject_id}"
+        book_subject_key = f"{book_ol_id}-{subject_raw}"
         if book_subject_key in book_subject_manager.key_cache:
             continue
         else:
             book_subject_manager.key_cache[book_subject_key] = True
             book_subject = BookSubject(
-                id=book_subject_manager.get_id(
-                    book_subject_key
-                ),
-                book_id=book_id,
-                subject_id=subject_id
+                book_id=book_ol_id,
+                subject_name=subject_raw
             )
             book_subject_manager.write(book_subject)
 
@@ -272,14 +251,21 @@ def parse_isbn(isbn_raw: str | None,
     if len(isbn_str) == numbers:
         return isbn_str
 
+def parse_date(date_raw: str) -> str | None:
+    if date_raw:
+        try:
+            parsed_date = parse(date_raw)
+            return parsed_date.strftime("%Y-%m-%d")
+        except (ParserError, OverflowError):
+            return None
+    return None
 
 
-def process_book_line(line_data, book_manager, author_manager, book_author_manager, **kwargs) -> tuple[bool, bool]:
+def process_book_line(line_data, book_manager, book_author_manager, **kwargs) -> tuple[bool, bool]:
     if "title" not in line_data:
         return False, False
 
     book_ol_id = line_data["key"].split("/works/")[1]
-    book_id = book_manager.get_id(book_ol_id)
 
     excerpts = None
     if "first_sentence" in line_data:
@@ -296,7 +282,6 @@ def process_book_line(line_data, book_manager, author_manager, book_author_manag
         links = json.dumps(line_data["links"])
 
     book = Book(
-        id=book_id,
         ol_id=book_ol_id,
         title=line_data["title"],
         alternate_titles=line_data.get("alternate_titles"),
@@ -321,51 +306,39 @@ def process_book_line(line_data, book_manager, author_manager, book_author_manag
                 continue
 
             author_ol_id = author["key"].split("/authors/")[1]
-            author_id = author_manager.get_id(author_ol_id)
 
-            book_author_key = f"{book_id}-{author_id}"
+            book_author_key = f"{book_ol_id}-{author_ol_id}"
             if book_author_key in book_author_manager.key_cache:
                 continue
 
             book_author_manager.key_cache[book_author_key] = True
             book_author = BookAuthor(
-                id=book_author_manager.get_id(book_author_key),
-                book_id=book_id,
-                author_id=author_id,
+                book_ol_id=book_ol_id,
+                author_ol_id=author_ol_id,
                 role=author.get("role"),
                 as_what=author.get("as")
             )
             book_author_manager.write(book_author)
 
     if "subjects" in line_data:
-        process_book_subjects(book_id, line_data["subjects"], "topic", **kwargs)
+        process_book_subjects(book_ol_id, line_data["subjects"], "topic", **kwargs)
 
     if "subject_places" in line_data:
-        process_book_subjects(book_id, line_data["subject_places"], "place", **kwargs)
+        process_book_subjects(book_ol_id, line_data["subject_places"], "place", **kwargs)
 
     if "subject_people" in line_data:
-        process_book_subjects(book_id, line_data["subject_people"], "person", **kwargs)
+        process_book_subjects(book_ol_id, line_data["subject_people"], "person", **kwargs)
 
     if "subject_times" in line_data:
-        process_book_subjects(book_id, line_data["subject_times"], "time", **kwargs)
+        process_book_subjects(book_ol_id, line_data["subject_times"], "time", **kwargs)
 
 
     return True, False
 
 
-def parse_date(date_raw: str) -> str | None:
-    if date_raw:
-        try:
-            parsed_date = parse(date_raw)
-            return parsed_date.strftime("%Y-%m-%d")
-        except (ParserError, OverflowError):
-            return None
-    return None
-
-
 def process_edition_genres(
         genres: list[str] | None,
-        edition_id: int,
+        edition_ol_id: str,
         genre_manager: TableManager,
         edition_genre_manager: TableManager,
         **kwargs,
@@ -378,28 +351,21 @@ def process_edition_genres(
             continue
 
         # Check whether the genre manager already has this genre
-        if genre_raw in genre_manager.key_cache:
-            genre_id = genre_manager.key_cache[genre_raw]
-        else:
-            genre_id = genre_manager.get_id(genre_raw)
+        if genre_raw not in genre_manager.key_cache:
             genre = Genre(
-                id=genre_id,
                 name=genre_raw
             )
             genre_manager.write(genre)
-            genre_manager.key_cache[genre_raw] = genre_id
+            genre_manager.key_cache[genre_raw] = True
 
-        genre_edition_key = f"{edition_id}-{genre_id}"
+        genre_edition_key = f"{edition_ol_id}-{genre_raw}"
         if genre_edition_key in edition_genre_manager.key_cache:
             continue
         else:
             edition_genre_manager.key_cache[genre_edition_key] = True
             genre_edition = EditionGenre(
-                id=edition_genre_manager.get_id(
-                    genre_edition_key
-                ),
-                edition_id=edition_id,
-                genre_id=genre_id
+                edition_ol_id=edition_ol_id,
+                genre_name=genre_raw
             )
             edition_genre_manager.write(genre_edition)
 
@@ -411,7 +377,7 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
         return False, True
 
     edition_ol_id = line_data["key"].split("/books/")[1]
-    work_id = line_data["works"][0]["key"]
+    work_id = line_data["works"][0]["key"].split("/works/")[1]
 
     publish_date_raw = line_data.get("publish_date")
     publish_date = None
@@ -419,11 +385,9 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
         publish_date = parse_date(publish_date_raw)
 
 
-    edition_id = edition_manager.get_id(edition_ol_id)
     book_id = book_manager.get_id(work_id)
 
     edition = Edition(
-        id=edition_id,
         ol_id=edition_ol_id,
         book_id=book_id,
         title=line_data["title"],
@@ -441,7 +405,7 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
     edition_manager.write(edition)
 
     if "genres" in line_data:
-        process_edition_genres(line_data["genres"], edition_id, **kwargs)
+        process_edition_genres(line_data["genres"], edition_ol_id, **kwargs)
 
     return True, False
 
@@ -454,9 +418,7 @@ def process_author_line(line_data, author_manager, **kwargs) -> tuple[bool, bool
 
     author_ol_id = line_data["key"].split("/authors/")[1]
 
-    author_id = author_manager.get_id(author_ol_id)
     author = Author(
-        id=author_id,
         ol_id=author_ol_id,
         name=line_data["name"],
         eastern_order=line_data.get("eastern_order"),
@@ -475,7 +437,7 @@ def process_author_line(line_data, author_manager, **kwargs) -> tuple[bool, bool
     return True, False
 
 # Useful for testing, pass in a limit to only process a certain number of lines
-LIMIT = None
+LIMIT = 5 * 1000 * 1000
 
 def process(**kwargs):
     print(f"Loading {DATA_FILE}")
