@@ -109,7 +109,7 @@ class Genre(Writeable):
 
 class EditionGenre(Writeable):
     edition_ol_id: str
-    genre_id: int
+    genre_name: str
 
 
 class Author(Writeable):
@@ -221,7 +221,7 @@ def process_book_subjects(book_ol_id: str, subjects_list: list[str] | None, subj
         else:
             book_subject_manager.key_cache[book_subject_key] = True
             book_subject = BookSubject(
-                book_id=book_ol_id,
+                book_ol_id=book_ol_id,
                 subject_name=subject_raw
             )
             book_subject_manager.write(book_subject)
@@ -377,19 +377,16 @@ def process_edition_line(line_data, book_manager, edition_manager, **kwargs) -> 
         return False, True
 
     edition_ol_id = line_data["key"].split("/books/")[1]
-    work_id = line_data["works"][0]["key"].split("/works/")[1]
+    book_ol_id = line_data["works"][0]["key"].split("/works/")[1]
 
     publish_date_raw = line_data.get("publish_date")
     publish_date = None
     if publish_date_raw:
         publish_date = parse_date(publish_date_raw)
 
-
-    book_id = book_manager.get_id(work_id)
-
     edition = Edition(
         ol_id=edition_ol_id,
-        book_id=book_id,
+        book_ol_id=book_ol_id,
         title=line_data["title"],
         subtitle=line_data.get("subtitle"),
         alternate_titles=line_data.get("alternate_titles"),

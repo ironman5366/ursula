@@ -74,6 +74,6 @@ CREATE TABLE IF NOT EXISTS subjects (
 
 CREATE TABLE IF NOT EXISTS book_subjects (
     id SERIAL PRIMARY KEY,
-    book_ol_id INTEGER,
+    book_ol_id VARCHAR(255),
     subject_name TEXT
 );
