@@ -6,9 +6,11 @@ import click
 from tqdm import tqdm
 import backoff
 import traceback
+import time
 
 @backoff.on_exception(backoff.expo, Exception, max_tries=20)
 def copy_csv_file(csv_path, filename):
+    start_time = time.time()
     print(f"Uploading {csv_path}")
     try:
         # Run the copy_from_csv.sh script as a subprocess, and output to STDOUT
@@ -16,7 +18,9 @@ def copy_csv_file(csv_path, filename):
                        stderr=subprocess.PIPE)
         print(f"Upload of {csv_path} complete")
     except subprocess.CalledProcessError as e:
+        end_time = time.time()
         # Get as much info as we can, these flakes are often costly to get to
+        print(f"Failed after {end_time - start_time} seconds. Retrying...")
         print(f"Error occurred: {e} - will try again with backoff")
         print(e)
         print(e.args)
