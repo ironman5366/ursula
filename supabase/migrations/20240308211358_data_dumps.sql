@@ -1,3 +1,8 @@
+CREATE TABLE IF NOT EXISTS ol_files_uploaded (
+    id SERIAL PRIMARY KEY,
+    file_name TEXT NOT NULL UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS ol_books (
     id SERIAL PRIMARY KEY,
     ol_id VARCHAR(255) NOT NULL UNIQUE,

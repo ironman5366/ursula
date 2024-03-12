@@ -8,6 +8,7 @@ import backoff
 import traceback
 import time
 
+
 @backoff.on_exception(backoff.expo, Exception, max_tries=20)
 def copy_csv_file(csv_path, filename):
     start_time = time.time()
@@ -15,7 +16,7 @@ def copy_csv_file(csv_path, filename):
     try:
         # Run the copy_from_csv.sh script as a subprocess, and output to STDOUT
         subprocess.check_call(['./copy_from_csv.sh', csv_path, filename], text=True, stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE)
+                              stderr=subprocess.PIPE)
         print(f"Upload of {csv_path} complete")
     except subprocess.CalledProcessError as e:
         end_time = time.time()
@@ -32,9 +33,10 @@ def copy_csv_file(csv_path, filename):
 
         raise e
 
+
 @click.command()
 @click.argument('directory', type=click.Path(exists=True, file_okay=False, dir_okay=True))
-@click.option('--max-uploads', type=int, default=1, help='Maximum number of concurrent uploads')
+@click.option('--max-uploads', type=int, default=3, help='Maximum number of concurrent uploads')
 def upload(directory, max_uploads):
     csv_files = list(sorted([file for file in os.listdir(directory) if file.endswith('.csv')]))
 
