@@ -28,11 +28,7 @@ def copy_csv_file(csv_path, filename):
 
         raise e
 
-
-@click.command()
-@click.argument('directory', type=click.Path(exists=True, file_okay=False, dir_okay=True))
-@click.option('--max-uploads', type=int, default=1, help='Maximum number of concurrent uploads')
-def main(directory, max_uploads):
+def upload_multi_threaded(directory, max_uploads):
     csv_files = [file for file in os.listdir(directory) if file.endswith('.csv')]
 
     with ThreadPoolExecutor(max_workers=max_uploads) as executor:
@@ -52,8 +48,28 @@ def main(directory, max_uploads):
                 future.result()
             except Exception as e:
                 print(f"Error occurred: {e}")
-
     print("All tasks completed.")
 
-if __name__ == '__main__':
-    main()
+
+def upload_single_threaded(directory):
+    csv_files = list(sorted([file for file in os.listdir(directory) if file.endswith('.csv')]))
+
+    for file in tqdm(csv_files):
+        filename = file.split(".")[0]
+
+        csv_path = os.path.join(directory, file)
+        copy_csv_file(csv_path, filename)
+
+@click.command()
+@click.argument('directory', type=click.Path(exists=True, file_okay=False, dir_okay=True))
+@click.option('--multi-threaded', type=bool, default=False, help='Whether to use multi-threaded upload')
+@click.option('--max-uploads', type=int, default=1, help='Maximum number of concurrent uploads')
+def upload(directory, multi_threaded, max_uploads):
+    if multi_threaded:
+        upload_multi_threaded(directory, max_uploads)
+    else:
+        upload_single_threaded(directory)
+
+
+if __name__ == "__main__":
+    upload()
