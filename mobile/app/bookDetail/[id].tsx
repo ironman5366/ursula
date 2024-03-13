@@ -26,7 +26,7 @@ export default function BookDetail() {
     <>
       <Stack.Screen
         options={{
-          title: book.name,
+          title: book.title,
         }}
       />
       <StyledView style={styles.container}>
@@ -38,7 +38,7 @@ export default function BookDetail() {
               textAlign: "center",
             }}
           >
-            {book.name}
+            {book.title}
           </TitleText>
           <StyledText>
             {isAuthorsLoading

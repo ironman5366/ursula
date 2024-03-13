@@ -1002,7 +1002,15 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      search_book_titles: {
+        Args: {
+          search_text: string;
+        };
+        Returns: {
+          book: unknown;
+          rank: number;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;
