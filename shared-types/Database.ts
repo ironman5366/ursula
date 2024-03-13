@@ -68,57 +68,90 @@ export interface Database {
       };
       authors: {
         Row: {
-          created_at: string;
+          alternate_names: string[] | null;
+          bio: string | null;
+          birth_date: string | null;
+          death_date: string | null;
+          eastern_order: boolean | null;
+          enumeration: string | null;
           id: number;
+          location: string | null;
           name: string;
-          updated_at: string;
+          ol_id: string;
+          personal_name: string | null;
+          photos: number[] | null;
+          title: string | null;
         };
         Insert: {
-          created_at?: string;
+          alternate_names?: string[] | null;
+          bio?: string | null;
+          birth_date?: string | null;
+          death_date?: string | null;
+          eastern_order?: boolean | null;
+          enumeration?: string | null;
           id?: number;
+          location?: string | null;
           name: string;
-          updated_at?: string;
+          ol_id: string;
+          personal_name?: string | null;
+          photos?: number[] | null;
+          title?: string | null;
         };
         Update: {
-          created_at?: string;
+          alternate_names?: string[] | null;
+          bio?: string | null;
+          birth_date?: string | null;
+          death_date?: string | null;
+          eastern_order?: boolean | null;
+          enumeration?: string | null;
           id?: number;
+          location?: string | null;
           name?: string;
-          updated_at?: string;
+          ol_id?: string;
+          personal_name?: string | null;
+          photos?: number[] | null;
+          title?: string | null;
         };
         Relationships: [];
       };
       book_authors: {
         Row: {
+          as_what: string | null;
           author_id: number | null;
+          author_ol_id: string | null;
           book_id: number | null;
-          created_at: string;
+          book_ol_id: string | null;
           id: number;
-          updated_at: string;
+          role: string | null;
         };
         Insert: {
+          as_what?: string | null;
           author_id?: number | null;
+          author_ol_id?: string | null;
           book_id?: number | null;
-          created_at?: string;
+          book_ol_id?: string | null;
           id?: number;
-          updated_at?: string;
+          role?: string | null;
         };
         Update: {
+          as_what?: string | null;
           author_id?: number | null;
+          author_ol_id?: string | null;
           book_id?: number | null;
-          created_at?: string;
+          book_ol_id?: string | null;
           id?: number;
-          updated_at?: string;
+          role?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "book_authors_author_id_fkey";
+            foreignKeyName: "ol_book_authors_author_id_fkey";
             columns: ["author_id"];
             isOneToOne: false;
             referencedRelation: "authors";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "book_authors_book_id_fkey";
+            foreignKeyName: "ol_book_authors_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
@@ -126,36 +159,129 @@ export interface Database {
           }
         ];
       };
-      books: {
+      book_excerpts: {
         Row: {
-          author_key: string | null;
-          created_at: string;
-          description: string | null;
+          book_id: number | null;
+          edition_id: number | null;
+          excerpt: string;
           id: number;
-          large_thumbnail_key: string | null;
-          name: string;
-          small_thumbnail_key: string | null;
-          updated_at: string;
+          is_first_sentence: boolean;
         };
         Insert: {
-          author_key?: string | null;
-          created_at?: string;
-          description?: string | null;
+          book_id?: number | null;
+          edition_id?: number | null;
+          excerpt: string;
           id?: number;
-          large_thumbnail_key?: string | null;
-          name: string;
-          small_thumbnail_key?: string | null;
-          updated_at?: string;
+          is_first_sentence: boolean;
         };
         Update: {
-          author_key?: string | null;
-          created_at?: string;
-          description?: string | null;
+          book_id?: number | null;
+          edition_id?: number | null;
+          excerpt?: string;
           id?: number;
-          large_thumbnail_key?: string | null;
-          name?: string;
-          small_thumbnail_key?: string | null;
-          updated_at?: string;
+          is_first_sentence?: boolean;
+        };
+        Relationships: [];
+      };
+      book_links: {
+        Row: {
+          book_id: number | null;
+          id: number;
+          title: string;
+          url: string;
+        };
+        Insert: {
+          book_id?: number | null;
+          id?: number;
+          title: string;
+          url: string;
+        };
+        Update: {
+          book_id?: number | null;
+          id?: number;
+          title?: string;
+          url?: string;
+        };
+        Relationships: [];
+      };
+      book_subjects: {
+        Row: {
+          book_id: number | null;
+          book_ol_id: string | null;
+          id: number;
+          subject_id: number | null;
+          subject_name: string | null;
+        };
+        Insert: {
+          book_id?: number | null;
+          book_ol_id?: string | null;
+          id?: number;
+          subject_id?: number | null;
+          subject_name?: string | null;
+        };
+        Update: {
+          book_id?: number | null;
+          book_ol_id?: string | null;
+          id?: number;
+          subject_id?: number | null;
+          subject_name?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "book_subjects_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_subjects_subject_id_fkey";
+            columns: ["subject_id"];
+            isOneToOne: false;
+            referencedRelation: "subjects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      books: {
+        Row: {
+          alternate_titles: string[] | null;
+          covers: number[] | null;
+          description: string | null;
+          dewey_numbers: string[] | null;
+          excerpts: string[] | null;
+          id: number;
+          lc_classifications: string[] | null;
+          links: Json | null;
+          ol_id: string;
+          subtitle: string | null;
+          title: string;
+        };
+        Insert: {
+          alternate_titles?: string[] | null;
+          covers?: number[] | null;
+          description?: string | null;
+          dewey_numbers?: string[] | null;
+          excerpts?: string[] | null;
+          id?: number;
+          lc_classifications?: string[] | null;
+          links?: Json | null;
+          ol_id: string;
+          subtitle?: string | null;
+          title: string;
+        };
+        Update: {
+          alternate_titles?: string[] | null;
+          covers?: number[] | null;
+          description?: string | null;
+          dewey_numbers?: string[] | null;
+          excerpts?: string[] | null;
+          id?: number;
+          lc_classifications?: string[] | null;
+          links?: Json | null;
+          ol_id?: string;
+          subtitle?: string | null;
+          title?: string;
         };
         Relationships: [];
       };
@@ -164,26 +290,36 @@ export interface Database {
           book_id: number;
           created_at: string;
           id: number;
+          legacy_book_id: number | null;
           user_id: string;
         };
         Insert: {
           book_id: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           user_id: string;
         };
         Update: {
           book_id?: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "fk_currently_reading_items_book_id";
+            foreignKeyName: "currently_reading_items_ol_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "fk_currently_reading_items_book_id";
+            columns: ["legacy_book_id"];
+            isOneToOne: false;
+            referencedRelation: "legacy_books";
             referencedColumns: ["id"];
           },
           {
@@ -195,43 +331,103 @@ export interface Database {
           }
         ];
       };
-      editions: {
+      edition_genres: {
         Row: {
-          book_id: number;
-          created_at: string;
-          description: string | null;
-          google_id: string;
+          edition_id: number | null;
+          edition_ol_id: string | null;
+          genre_id: number | null;
+          genre_name: string | null;
           id: number;
-          isbn_10: string | null;
-          isbn_13: string | null;
-          name: string;
-          updated_at: string;
         };
         Insert: {
-          book_id: number;
-          created_at?: string;
-          description?: string | null;
-          google_id: string;
+          edition_id?: number | null;
+          edition_ol_id?: string | null;
+          genre_id?: number | null;
+          genre_name?: string | null;
           id?: number;
-          isbn_10?: string | null;
-          isbn_13?: string | null;
-          name: string;
-          updated_at?: string;
         };
         Update: {
-          book_id?: number;
-          created_at?: string;
-          description?: string | null;
-          google_id?: string;
+          edition_id?: number | null;
+          edition_ol_id?: string | null;
+          genre_id?: number | null;
+          genre_name?: string | null;
           id?: number;
-          isbn_10?: string | null;
-          isbn_13?: string | null;
-          name?: string;
-          updated_at?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "book_id";
+            foreignKeyName: "edition_genres_edition_id_fkey";
+            columns: ["edition_id"];
+            isOneToOne: false;
+            referencedRelation: "editions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "edition_genres_genre_id_fkey";
+            columns: ["genre_id"];
+            isOneToOne: false;
+            referencedRelation: "genres";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      editions: {
+        Row: {
+          alternate_titles: string[] | null;
+          book_id: number | null;
+          book_ol_id: string | null;
+          covers: number[] | null;
+          id: number;
+          isbn_10: string | null;
+          isbn_13: string | null;
+          isbn_13_or_10: string | null;
+          lc_classifications: string[] | null;
+          number_of_pages: number | null;
+          ol_id: string;
+          publish_date: string | null;
+          publish_places: string[] | null;
+          series: string | null;
+          subtitle: string | null;
+          title: string;
+        };
+        Insert: {
+          alternate_titles?: string[] | null;
+          book_id?: number | null;
+          book_ol_id?: string | null;
+          covers?: number[] | null;
+          id?: number;
+          isbn_10?: string | null;
+          isbn_13?: string | null;
+          isbn_13_or_10?: string | null;
+          lc_classifications?: string[] | null;
+          number_of_pages?: number | null;
+          ol_id: string;
+          publish_date?: string | null;
+          publish_places?: string[] | null;
+          series?: string | null;
+          subtitle?: string | null;
+          title: string;
+        };
+        Update: {
+          alternate_titles?: string[] | null;
+          book_id?: number | null;
+          book_ol_id?: string | null;
+          covers?: number[] | null;
+          id?: number;
+          isbn_10?: string | null;
+          isbn_13?: string | null;
+          isbn_13_or_10?: string | null;
+          lc_classifications?: string[] | null;
+          number_of_pages?: number | null;
+          ol_id?: string;
+          publish_date?: string | null;
+          publish_places?: string[] | null;
+          series?: string | null;
+          subtitle?: string | null;
+          title?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ol_editions_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
@@ -271,6 +467,194 @@ export interface Database {
             columns: ["follower_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      genres: {
+        Row: {
+          id: number;
+          name: string;
+        };
+        Insert: {
+          id?: number;
+          name: string;
+        };
+        Update: {
+          id?: number;
+          name?: string;
+        };
+        Relationships: [];
+      };
+      legacy_authors: {
+        Row: {
+          created_at: string;
+          id: number;
+          name: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          name: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          name?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      legacy_book_authors: {
+        Row: {
+          author_id: number | null;
+          book_id: number | null;
+          created_at: string;
+          id: number;
+          updated_at: string;
+        };
+        Insert: {
+          author_id?: number | null;
+          book_id?: number | null;
+          created_at?: string;
+          id?: number;
+          updated_at?: string;
+        };
+        Update: {
+          author_id?: number | null;
+          book_id?: number | null;
+          created_at?: string;
+          id?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "book_authors_author_id_fkey";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "legacy_authors";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_authors_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "legacy_books";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      legacy_book_mappings: {
+        Row: {
+          id: number;
+          legacy_book_id: number;
+          ol_book_id: number;
+        };
+        Insert: {
+          id?: number;
+          legacy_book_id: number;
+          ol_book_id: number;
+        };
+        Update: {
+          id?: number;
+          legacy_book_id?: number;
+          ol_book_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "legacy_book_mappings_legacy_book_id_fkey";
+            columns: ["legacy_book_id"];
+            isOneToOne: false;
+            referencedRelation: "legacy_books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "legacy_book_mappings_ol_book_id_fkey";
+            columns: ["ol_book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      legacy_books: {
+        Row: {
+          author_key: string | null;
+          created_at: string;
+          description: string | null;
+          id: number;
+          large_thumbnail_key: string | null;
+          name: string;
+          small_thumbnail_key: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          author_key?: string | null;
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          large_thumbnail_key?: string | null;
+          name: string;
+          small_thumbnail_key?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          author_key?: string | null;
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          large_thumbnail_key?: string | null;
+          name?: string;
+          small_thumbnail_key?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      legacy_editions: {
+        Row: {
+          book_id: number;
+          created_at: string;
+          description: string | null;
+          google_id: string;
+          id: number;
+          isbn_10: string | null;
+          isbn_13: string | null;
+          isbn_13_or_10: string | null;
+          name: string;
+          updated_at: string;
+        };
+        Insert: {
+          book_id: number;
+          created_at?: string;
+          description?: string | null;
+          google_id: string;
+          id?: number;
+          isbn_10?: string | null;
+          isbn_13?: string | null;
+          isbn_13_or_10?: string | null;
+          name: string;
+          updated_at?: string;
+        };
+        Update: {
+          book_id?: number;
+          created_at?: string;
+          description?: string | null;
+          google_id?: string;
+          id?: number;
+          isbn_10?: string | null;
+          isbn_13?: string | null;
+          isbn_13_or_10?: string | null;
+          name?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "book_id";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "legacy_books";
             referencedColumns: ["id"];
           }
         ];
@@ -315,6 +699,7 @@ export interface Database {
           book_id: number;
           created_at: string;
           id: number;
+          legacy_book_id: number | null;
           list_id: number | null;
           updated_at: string;
           user_id: string;
@@ -323,6 +708,7 @@ export interface Database {
           book_id: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           list_id?: number | null;
           updated_at?: string;
           user_id: string;
@@ -331,6 +717,7 @@ export interface Database {
           book_id?: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           list_id?: number | null;
           updated_at?: string;
           user_id?: string;
@@ -338,9 +725,9 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "book_id";
-            columns: ["book_id"];
+            columns: ["legacy_book_id"];
             isOneToOne: false;
-            referencedRelation: "books";
+            referencedRelation: "legacy_books";
             referencedColumns: ["id"];
           },
           {
@@ -348,6 +735,13 @@ export interface Database {
             columns: ["list_id"];
             isOneToOne: false;
             referencedRelation: "reading_lists";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reading_list_items_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
             referencedColumns: ["id"];
           },
           {
@@ -393,6 +787,7 @@ export interface Database {
           book_id: number;
           created_at: string;
           id: number;
+          legacy_book_id: number | null;
           recomendee_id: string;
           recomender_id: string;
         };
@@ -400,6 +795,7 @@ export interface Database {
           book_id: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           recomendee_id: string;
           recomender_id: string;
         };
@@ -407,15 +803,16 @@ export interface Database {
           book_id?: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           recomendee_id?: string;
           recomender_id?: string;
         };
         Relationships: [
           {
             foreignKeyName: "fk_recommendations_book_id";
-            columns: ["book_id"];
+            columns: ["legacy_book_id"];
             isOneToOne: false;
-            referencedRelation: "books";
+            referencedRelation: "legacy_books";
             referencedColumns: ["id"];
           },
           {
@@ -431,6 +828,13 @@ export interface Database {
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "recommendations_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -439,6 +843,7 @@ export interface Database {
           book_id: number;
           created_at: string;
           id: number;
+          legacy_book_id: number | null;
           note: string | null;
           updated_at: string;
           user_id: string;
@@ -447,6 +852,7 @@ export interface Database {
           book_id: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           note?: string | null;
           updated_at?: string;
           user_id: string;
@@ -455,6 +861,7 @@ export interface Database {
           book_id?: number;
           created_at?: string;
           id?: number;
+          legacy_book_id?: number | null;
           note?: string | null;
           updated_at?: string;
           user_id?: string;
@@ -462,6 +869,13 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "book_id";
+            columns: ["legacy_book_id"];
+            isOneToOne: false;
+            referencedRelation: "legacy_books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_ol_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
@@ -500,7 +914,7 @@ export interface Database {
             foreignKeyName: "search_cache_entries_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
-            referencedRelation: "books";
+            referencedRelation: "legacy_books";
             referencedColumns: ["id"];
           },
           {
@@ -527,6 +941,24 @@ export interface Database {
           created_at?: string | null;
           id?: number;
           query?: string;
+        };
+        Relationships: [];
+      };
+      subjects: {
+        Row: {
+          id: number;
+          name: string;
+          subject_type: string;
+        };
+        Insert: {
+          id?: number;
+          name: string;
+          subject_type: string;
+        };
+        Update: {
+          id?: number;
+          name?: string;
+          subject_type?: string;
         };
         Relationships: [];
       };
