@@ -44,3 +44,12 @@ BEGIN
     ALTER TABLE book_subjects ADD FOREIGN KEY (subject_id) REFERENCES subjects (id);
   END IF;
 END$$;
+
+-- Create a generated column that's isbn 13 OR 10
+ALTER TABLE ol_editions ADD COLUMN IF NOT EXISTS isbn_13_or_10 TEXT GENERATED ALWAYS AS (COALESCE(isbn_13, isbn_10)) STORED;
+-- Put an index on it
+CREATE INDEX IF NOT EXISTS ol_editions_isbn_13_or_10_idx ON ol_editions (isbn_13_or_10);
+
+-- Do the same thing for editions
+ALTER TABLE editions ADD COLUMN IF NOT EXISTS isbn_13_or_10 TEXT GENERATED ALWAYS AS (COALESCE(isbn_13, isbn_10)) STORED;
+CREATE INDEX IF NOT EXISTS editions_isbn_13_or_10_idx ON editions (isbn_13_or_10);

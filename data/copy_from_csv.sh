@@ -20,7 +20,7 @@ else
   SET statement_timeout = '20min';
   \copy $2 ($headers) FROM '$1' WITH CSV HEADER;
   INSERT INTO ol_files_uploaded (file_name) VALUES ('$1');
-  \q;
+  \q
 EOF
 
   echo "Finished copying $1";

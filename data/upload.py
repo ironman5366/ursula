@@ -9,7 +9,7 @@ import traceback
 import time
 
 
-@backoff.on_exception(backoff.expo, Exception, max_tries=20)
+@backoff.on_exception(backoff.expo, Exception, max_tries=3)
 def copy_csv_file(csv_path, filename):
     start_time = time.time()
     print(f"Uploading {csv_path}")
