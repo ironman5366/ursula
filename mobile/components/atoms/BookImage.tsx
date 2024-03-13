@@ -12,6 +12,8 @@ export interface Props {
 const aspectRatio = 0.625;
 
 export default function BookImage({ book, size }: Props) {
+  return <Ionicons name={"image"} size={size} />;
+  /** TODO: bring this back with the new cover setup
   if (book.large_thumbnail_key) {
     const {
       data: { publicUrl },
@@ -33,4 +35,5 @@ export default function BookImage({ book, size }: Props) {
   } else {
     return <Ionicons name={"image"} size={size} />;
   }
+   **/
 }

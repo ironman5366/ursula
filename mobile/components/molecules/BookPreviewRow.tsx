@@ -37,7 +37,7 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
           <BookImage book={book} size={imageHeight} />
         </StyledView>
         <StyledView style={styles.textContainer}>
-          <TitleText fontSize={20}>{book.name}</TitleText>
+          <TitleText fontSize={20}>{book.title}</TitleText>
           <BookAuthors bookId={book.id} />
         </StyledView>
       </StyledView>

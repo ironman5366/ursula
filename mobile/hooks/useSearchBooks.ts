@@ -2,25 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SUPABASE_PROJECT_URL } from "../constants";
 import { Book } from "../../shared-types/derived";
 
-function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
-  return new Promise((resolve, reject) => {
-    fetch(`${SUPABASE_PROJECT_URL}/functions/v1/book-search/?q=${name}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then((resp) => {
-        resp
-          .json()
-          .then((data: { books: Book[] }) => {
-            resolve(data.books);
-          })
-          .catch((err) => reject(err));
-      })
-      .catch((err) => reject(err));
-  });
-}
+function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {}
 
 export default function useSearchBooks({
   name,
