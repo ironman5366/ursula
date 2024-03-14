@@ -24,14 +24,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT update_book_counts();
-
 CREATE OR REPLACE FUNCTION search_book_titles(search_text TEXT)
-RETURNS TABLE (book BOOKS, rank DOUBLE PRECISION)
+RETURNS SETOF BOOKS
 LANGUAGE sql
+PARALLEL SAFE
 AS $$
-SELECT book, ts_rank(to_tsvector('english', book.title), plainto_tsquery('english', search_text)) AS rank
+SELECT book
 FROM books book
 WHERE to_tsvector('english', book.title) @@ plainto_tsquery('english', search_text)
-ORDER BY book.popularity DESC, rank DESC LIMIT 30;
+ORDER BY book.popularity DESC LIMIT 30
 $$;

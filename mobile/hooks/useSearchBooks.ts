@@ -4,28 +4,23 @@ import { supabase } from "../utils/supabase.ts";
 
 async function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
   console.log("Searching", name);
-  const { data, error } = (await supabase.rpc("search_book_titles", {
+  const { data: books, error } = await supabase.rpc("search_book_titles", {
     search_text: name,
-  })) as { data: { book: Book; rank: number }[]; error: Error };
+  });
 
   if (error) {
     throw error;
   }
-  console.log("Got results", data);
 
-  const includesPopularBook = data.some(
-    ({ book }: { book: Book; rank: number }) => book.popularity > 0
-  );
+  console.log(`Got ${books.length} results`);
+
+  const includesPopularBook = books.some((book) => book.popularity > 0);
 
   // Books with popularity = 0 tend to be... messy data. So if we have other
   // options, we'll filter them out
-  const books = includesPopularBook
-    ? data.filter(
-        ({ book }: { book: Book; rank: number }) => book.popularity > 0
-      )
-    : data;
-
-  return books.map(({ book }: { book: Book; rank: number }) => book);
+  return includesPopularBook
+    ? books.filter((book) => book.popularity > 0)
+    : books;
 }
 
 export default function useSearchBooks({

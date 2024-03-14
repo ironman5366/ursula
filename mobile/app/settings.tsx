@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text } from "react-native";
-import { StyledView } from "../../components/organisms/StyledView.tsx";
-import { supabase } from "../../utils/supabase.ts";
-import StyledButton from "../../components/organisms/StyledButton.tsx";
+import { StyledView } from "../components/organisms/StyledView.tsx";
+import { supabase } from "../utils/supabase.ts";
+import StyledButton from "../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
-import { TitleText } from "../../components/atoms/TitleText.tsx";
-import { useCurrentProfile, useProfile } from "../../hooks/profile.ts";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
+import { TitleText } from "../components/atoms/TitleText.tsx";
+import { useCurrentProfile, useProfile } from "../hooks/profile.ts";
+import { StyledText } from "../components/atoms/StyledText.tsx";
 
 function DebugPanel() {
   const queryClient = useQueryClient();

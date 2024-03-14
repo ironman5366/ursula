@@ -1,15 +1,20 @@
 import { Tabs } from "expo-router";
 import { useColorScheme } from "react-native";
-import { Colors } from "../../theme.ts";
+import { Colors, useThemeColor } from "../../theme.ts";
 import TabBarIcon from "../../components/atoms/TabBarIcon.tsx";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const color = useThemeColor("tint");
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerRight: () => <TabBarIcon name="gear" color={color} />,
+        headerRightContainerStyle: {
+          paddingRight: 10,
+        },
       }}
     >
       <Tabs.Screen
@@ -28,10 +33,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="profile"
         options={{
-          title: "Settings",
-          tabBarIcon: ({ color }) => <TabBarIcon name="gear" color={color} />,
+          title: "Your Profile",
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </Tabs>

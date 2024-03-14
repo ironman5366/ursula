@@ -409,7 +409,6 @@ export interface Database {
           id: number;
           isbn_10: string | null;
           isbn_13: string | null;
-          isbn_13_or_10: string | null;
           lc_classifications: string[] | null;
           number_of_pages: number | null;
           ol_id: string;
@@ -427,7 +426,6 @@ export interface Database {
           id?: number;
           isbn_10?: string | null;
           isbn_13?: string | null;
-          isbn_13_or_10?: string | null;
           lc_classifications?: string[] | null;
           number_of_pages?: number | null;
           ol_id: string;
@@ -445,7 +443,6 @@ export interface Database {
           id?: number;
           isbn_10?: string | null;
           isbn_13?: string | null;
-          isbn_13_or_10?: string | null;
           lc_classifications?: string[] | null;
           number_of_pages?: number | null;
           ol_id?: string;
@@ -830,6 +827,7 @@ export interface Database {
           id: string;
           review_ids: number[];
           updated_at: string | null;
+          username: string | null;
         };
         Insert: {
           avatar_url?: string | null;
@@ -838,6 +836,7 @@ export interface Database {
           id: string;
           review_ids?: number[];
           updated_at?: string | null;
+          username?: string | null;
         };
         Update: {
           avatar_url?: string | null;
@@ -846,6 +845,7 @@ export interface Database {
           id?: string;
           review_ids?: number[];
           updated_at?: string | null;
+          username?: string | null;
         };
         Relationships: [
           {
@@ -1199,8 +1199,20 @@ export interface Database {
           search_text: string;
         };
         Returns: {
-          book: unknown;
-          rank: number;
+          alternate_titles: string[] | null;
+          covers: number[] | null;
+          description: string | null;
+          dewey_numbers: string[] | null;
+          excerpts: string[] | null;
+          id: number;
+          lc_classifications: string[] | null;
+          links: Json | null;
+          ol_id: string;
+          popularity: number | null;
+          rating_count: number | null;
+          reading_count: number | null;
+          subtitle: string | null;
+          title: string;
         }[];
       };
       update_book_counts: {
