@@ -154,6 +154,13 @@ export interface Database {
             foreignKeyName: "ol_book_authors_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_book_authors_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
           }
@@ -231,6 +238,13 @@ export interface Database {
             foreignKeyName: "book_subjects_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_subjects_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
           },
@@ -254,6 +268,9 @@ export interface Database {
           lc_classifications: string[] | null;
           links: Json | null;
           ol_id: string;
+          popularity: number | null;
+          rating_count: number | null;
+          reading_count: number | null;
           subtitle: string | null;
           title: string;
         };
@@ -267,6 +284,9 @@ export interface Database {
           lc_classifications?: string[] | null;
           links?: Json | null;
           ol_id: string;
+          popularity?: number | null;
+          rating_count?: number | null;
+          reading_count?: number | null;
           subtitle?: string | null;
           title: string;
         };
@@ -280,6 +300,9 @@ export interface Database {
           lc_classifications?: string[] | null;
           links?: Json | null;
           ol_id?: string;
+          popularity?: number | null;
+          rating_count?: number | null;
+          reading_count?: number | null;
           subtitle?: string | null;
           title?: string;
         };
@@ -308,6 +331,13 @@ export interface Database {
           user_id?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "currently_reading_items_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "currently_reading_items_ol_book_id_fkey";
             columns: ["book_id"];
@@ -426,6 +456,13 @@ export interface Database {
           title?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "ol_editions_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "ol_editions_book_id_fkey";
             columns: ["book_id"];
@@ -574,6 +611,13 @@ export interface Database {
             foreignKeyName: "legacy_book_mappings_ol_book_id_fkey";
             columns: ["ol_book_id"];
             isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "legacy_book_mappings_ol_book_id_fkey";
+            columns: ["ol_book_id"];
+            isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
           }
@@ -659,6 +703,125 @@ export interface Database {
           }
         ];
       };
+      ol_files_uploaded: {
+        Row: {
+          file_name: string;
+          id: number;
+        };
+        Insert: {
+          file_name: string;
+          id?: number;
+        };
+        Update: {
+          file_name?: string;
+          id?: number;
+        };
+        Relationships: [];
+      };
+      ol_ratings: {
+        Row: {
+          book_id: number | null;
+          date: string | null;
+          edition_id: number | null;
+          id: number;
+          ol_book_id: string;
+          ol_edition_id: string | null;
+          rating: number;
+        };
+        Insert: {
+          book_id?: number | null;
+          date?: string | null;
+          edition_id?: number | null;
+          id?: number;
+          ol_book_id: string;
+          ol_edition_id?: string | null;
+          rating: number;
+        };
+        Update: {
+          book_id?: number | null;
+          date?: string | null;
+          edition_id?: number | null;
+          id?: number;
+          ol_book_id?: string;
+          ol_edition_id?: string | null;
+          rating?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ol_ratings_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_ratings_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_ratings_edition_id_fkey";
+            columns: ["edition_id"];
+            isOneToOne: false;
+            referencedRelation: "editions";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      ol_reading_log_items: {
+        Row: {
+          book_id: number | null;
+          date: string | null;
+          edition_id: number | null;
+          id: number;
+          ol_book_id: string;
+          ol_edition_id: string | null;
+          status: string;
+        };
+        Insert: {
+          book_id?: number | null;
+          date?: string | null;
+          edition_id?: number | null;
+          id?: number;
+          ol_book_id: string;
+          ol_edition_id?: string | null;
+          status: string;
+        };
+        Update: {
+          book_id?: number | null;
+          date?: string | null;
+          edition_id?: number | null;
+          id?: number;
+          ol_book_id?: string;
+          ol_edition_id?: string | null;
+          status?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ol_reading_log_items_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_reading_log_items_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_reading_log_items_edition_id_fkey";
+            columns: ["edition_id"];
+            isOneToOne: false;
+            referencedRelation: "editions";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -735,6 +898,13 @@ export interface Database {
             columns: ["list_id"];
             isOneToOne: false;
             referencedRelation: "reading_lists";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reading_list_items_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "book_popularity";
             referencedColumns: ["id"];
           },
           {
@@ -833,6 +1003,13 @@ export interface Database {
             foreignKeyName: "recommendations_ol_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
+            referencedRelation: "book_popularity";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "recommendations_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
           }
@@ -872,6 +1049,13 @@ export interface Database {
             columns: ["legacy_book_id"];
             isOneToOne: false;
             referencedRelation: "legacy_books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "book_popularity";
             referencedColumns: ["id"];
           },
           {
@@ -999,10 +1183,30 @@ export interface Database {
       };
     };
     Views: {
-      [_ in never]: never;
+      book_popularity: {
+        Row: {
+          id: number | null;
+          popularity: number | null;
+          rating_count: number | null;
+          reading_count: number | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
-      [_ in never]: never;
+      search_book_titles: {
+        Args: {
+          search_text: string;
+        };
+        Returns: {
+          book: unknown;
+          rank: number;
+        }[];
+      };
+      update_book_counts: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

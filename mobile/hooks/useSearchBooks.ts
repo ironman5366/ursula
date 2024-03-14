@@ -1,25 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
-import { SUPABASE_PROJECT_URL } from "../constants";
 import { Book } from "../../shared-types/derived";
+import { supabase } from "../utils/supabase.ts";
 
-function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
-  return new Promise((resolve, reject) => {
-    fetch(`${SUPABASE_PROJECT_URL}/functions/v1/book-search/?q=${name}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then((resp) => {
-        resp
-          .json()
-          .then((data: { books: Book[] }) => {
-            resolve(data.books);
-          })
-          .catch((err) => reject(err));
-      })
-      .catch((err) => reject(err));
-  });
+async function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
+  console.log("Searching", name);
+  const { data, error } = (await supabase.rpc("search_book_titles", {
+    search_text: name,
+  })) as { data: { book: Book; rank: number }[]; error: Error };
+
+  if (error) {
+    throw error;
+  }
+  console.log("Got results", data);
+
+  const includesPopularBook = data.some(
+    ({ book }: { book: Book; rank: number }) => book.popularity > 0
+  );
+
+  // Books with popularity = 0 tend to be... messy data. So if we have other
+  // options, we'll filter them out
+  const books = includesPopularBook
+    ? data.filter(
+        ({ book }: { book: Book; rank: number }) => book.popularity > 0
+      )
+    : data;
+
+  return books.map(({ book }: { book: Book; rank: number }) => book);
 }
 
 export default function useSearchBooks({

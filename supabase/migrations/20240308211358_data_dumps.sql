@@ -16,8 +16,30 @@ CREATE TABLE IF NOT EXISTS ol_books (
     excerpts TEXT [],
     links JSONB
 );
-
 CREATE INDEX IF NOT EXISTS ol_books_ol_id_idx ON ol_books (ol_id);
+
+
+CREATE TABLE IF NOT EXISTS ol_reading_log_items (
+    id SERIAL PRIMARY KEY,
+    ol_book_id VARCHAR(255) NOT NULL,
+    ol_edition_id VARCHAR(255),
+    status TEXT NOT NULL,
+    date DATE
+);
+
+CREATE INDEX IF NOT EXISTS ol_reading_log_items_ol_book_id_idx ON ol_reading_log_items (ol_book_id);
+CREATE INDEX IF NOT EXISTS ol_reading_log_items_ol_edition_id_idx ON ol_reading_log_items (ol_edition_id);
+
+CREATE TABLE IF NOT EXISTS ol_ratings (
+    id SERIAL PRIMARY KEY,
+    ol_book_id VARCHAR(255) NOT NULL,
+    ol_edition_id VARCHAR(255),
+    rating INTEGER NOT NULL,
+    date DATE
+);
+
+CREATE INDEX IF NOT EXISTS ol_ratings_ol_book_id_idx ON ol_ratings (ol_book_id);
+
 
 CREATE TABLE IF NOT EXISTS ol_editions (
     id SERIAL PRIMARY KEY,

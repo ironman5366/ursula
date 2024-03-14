@@ -1,0 +1,14 @@
+LOAD DATABASE
+    FROM postgresql://your_source_db
+    INTO postgresql://your_dest_db
+
+WITH include drop, on error resume next, create tables, create indexes, reset sequences, workers=4, batch rows=1000000, prefetch rows=5000
+
+SET maintenance_work_mem to '8GB', work_mem to '1GB', search_path to 'public'
+
+ALTER TABLE NAMES MATCHING 'books' IN SCHEMA 'public' RENAME TO 'ol_books'
+ALTER TABLE NAMES MATCHING 'editions' IN SCHEMA 'public' RENAME TO 'ol_editions'
+ALTER TABLE NAMES MATCHING 'authors' IN SCHEMA 'public' RENAME TO 'ol_authors'
+ALTER TABLE NAMES MATCHING 'book_authors' IN SCHEMA 'public' RENAME TO 'ol_book_authors'
+
+INCLUDING ONLY TABLE NAMES MATCHING 'books', 'editions', 'ol_ratings', 'ol_reading_log', 'book_authors', 'authors' in schema 'public';

@@ -20,7 +20,7 @@ export const [SessionProvider, useSession] = constate(() => {
   }, []);
 
   useEffect(() => {
-    if (session && session.user) {
+    if (session && session.user && posthog) {
       const identifier = `${ENVIRONMENT}:${session?.user?.id}`;
       posthog.identify(identifier, {
         id: session?.user?.id,

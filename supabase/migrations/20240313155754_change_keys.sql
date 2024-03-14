@@ -1,3 +1,4 @@
+SET statement_timeout = '12h';
 -- Rename the old columns "book_id" to "legacy_book_id" and make them nullable
 ALTER TABLE reading_list_items RENAME COLUMN book_id TO legacy_book_id;
 ALTER TABLE reading_list_items ALTER COLUMN legacy_book_id DROP NOT NULL;
