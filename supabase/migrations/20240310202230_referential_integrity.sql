@@ -1,4 +1,4 @@
-SET statement_timeout = '3h';
+SET statement_timeout = '12h';
 ALTER TABLE ol_editions ADD COLUMN IF NOT EXISTS book_id INTEGER;
 UPDATE ol_editions SET book_id = (SELECT ol_books.id FROM ol_books WHERE ol_books.ol_id = ol_editions.book_ol_id) WHERE book_id IS NULL;
 

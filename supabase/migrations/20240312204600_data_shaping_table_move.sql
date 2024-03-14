@@ -1,4 +1,4 @@
-SET statement_timeout = '3h';
+SET statement_timeout = '12h';
 ALTER TABLE IF EXISTS books RENAME TO legacy_books;
 ALTER TABLE IF EXISTS editions RENAME TO legacy_editions;
 ALTER TABLE IF EXISTS authors RENAME TO legacy_authors;

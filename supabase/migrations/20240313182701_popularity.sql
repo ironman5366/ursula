@@ -1,4 +1,4 @@
-SET statement_timeout = '5h';
+SET statement_timeout = '12h';
 
 ALTER TABLE books ADD COLUMN IF NOT EXISTS reading_count INTEGER DEFAULT 0;
 ALTER TABLE books ADD COLUMN IF NOT EXISTS rating_count INTEGER DEFAULT 0;
@@ -33,5 +33,5 @@ AS $$
 SELECT book, ts_rank(to_tsvector('english', book.title), plainto_tsquery('english', search_text)) AS rank
 FROM books book
 WHERE to_tsvector('english', book.title) @@ plainto_tsquery('english', search_text)
-ORDER BY book.popularity DESC, rank DESC
+ORDER BY book.popularity DESC, rank DESC LIMIT 30;
 $$;
