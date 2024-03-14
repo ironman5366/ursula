@@ -1,6 +1,5 @@
 SET statement_timeout = '12h';
-CREATE OR REPLACE FUNCTION batched_update(table_name text, get_total_query text, update_query text)
-RETURNS void AS $$
+CREATE OR REPLACE PROCEDURE proc_batched_update(table_name text, get_total_query text, update_query text) AS $$
 DECLARE affected_rows INTEGER;
     DECLARE total_rows INTEGER;
     DECLARE progress INTEGER;
@@ -20,6 +19,8 @@ BEGIN
 
         RAISE NOTICE 'Updated % rows in %, progress: %/%', affected_rows, table_name, progress, total_rows;
 
+        COMMIT;
+
         EXIT WHEN affected_rows = 0;
     END LOOP;
 
@@ -27,7 +28,7 @@ BEGIN
 END $$ LANGUAGE plpgsql;
 
 ALTER TABLE ol_editions ADD COLUMN IF NOT EXISTS book_id integer;
-SELECT batched_update(
+CALL proc_batched_update(
     'ol_editions',
     'SELECT COUNT(*) FROM ol_editions WHERE book_id IS NULL',
     'WITH cte AS (
@@ -35,7 +36,7 @@ SELECT batched_update(
                 FROM ol_editions
                 JOIN ol_books ON ol_books.ol_id = ol_editions.book_ol_id
                 WHERE ol_editions.book_id IS NULL
-                LIMIT 10000
+                LIMIT 50000
             )
             UPDATE ol_editions
             SET book_id = ol_books.id
@@ -47,7 +48,7 @@ SELECT batched_update(
 ALTER TABLE ol_book_authors ADD COLUMN IF NOT EXISTS book_id integer;
 ALTER TABLE ol_book_authors ADD COLUMN IF NOT EXISTS author_id integer;
 
-SELECT batched_update(
+CALL proc_batched_update(
     'ol_book_authors', 'SELECT COUNT(*) FROM ol_book_authors WHERE book_id IS NULL',
     'WITH cte AS (
                 SELECT ol_book_authors.id, book_ol_id, author_ol_id
@@ -55,7 +56,7 @@ SELECT batched_update(
                 JOIN ol_books ON ol_books.ol_id = ol_book_authors.book_ol_id
                 JOIN ol_authors ON ol_authors.ol_id = ol_book_authors.author_ol_id
                 WHERE ol_book_authors.book_id IS NULL
-                LIMIT 10000
+                LIMIT 50000
             )
             UPDATE ol_book_authors
             SET book_id = ol_books.id, author_id = ol_authors.id
@@ -65,14 +66,14 @@ SELECT batched_update(
             WHERE ol_book_authors.id = cte.id;'
 );
 
-SELECT batched_update(
+CALL proc_batched_update(
     'ol_book_authors', 'SELECT COUNT(*) FROM ol_book_authors WHERE author_id IS NULL',
     'WITH cte AS (
                 SELECT ol_book_authors.id, author_ol_id
                 FROM ol_book_authors
                 JOIN ol_authors ON ol_authors.ol_id = ol_book_authors.author_ol_id
                 WHERE ol_book_authors.author_id IS NULL
-                LIMIT 10000
+                LIMIT 50000
             )
             UPDATE ol_book_authors
             SET author_id = ol_authors.id
