@@ -17,3 +17,13 @@ ALTER TABLE reviews ADD FOREIGN KEY (book_id) REFERENCES books (id);
 
 ALTER TABLE reviews DROP CONSTRAINT IF EXISTS unique_user_review_book;
 ALTER TABLE reviews ADD CONSTRAINT unique_user_review_book UNIQUE (user_id, book_id)
+
+
+-- TODO: make this less permissive
+create policy "Allow avatar uploads"
+    on storage.objects
+    for all
+    to authenticated
+    with check (
+        true
+    );
