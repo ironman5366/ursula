@@ -31,11 +31,11 @@ export default function Review() {
     <>
       <Stack.Screen
         options={{
-          title: `Review ${book.name}`,
+          title: `Review ${book.title}`,
         }}
       />
       <StyledView style={styles.container}>
-        <StyledText>What did you think about {book.name}?</StyledText>
+        <StyledText>What did you think about {book.title}?</StyledText>
         <StyledInput
           style={{
             minWidth: "80%",

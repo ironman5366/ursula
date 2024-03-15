@@ -260,6 +260,7 @@ export interface Database {
       books: {
         Row: {
           alternate_titles: string[] | null;
+          book_key: string | null;
           covers: number[] | null;
           description: string | null;
           dewey_numbers: string[] | null;
@@ -276,6 +277,7 @@ export interface Database {
         };
         Insert: {
           alternate_titles?: string[] | null;
+          book_key?: string | null;
           covers?: number[] | null;
           description?: string | null;
           dewey_numbers?: string[] | null;
@@ -292,6 +294,7 @@ export interface Database {
         };
         Update: {
           alternate_titles?: string[] | null;
+          book_key?: string | null;
           covers?: number[] | null;
           description?: string | null;
           dewey_numbers?: string[] | null;
@@ -409,7 +412,6 @@ export interface Database {
           id: number;
           isbn_10: string | null;
           isbn_13: string | null;
-          isbn_13_or_10: string | null;
           lc_classifications: string[] | null;
           number_of_pages: number | null;
           ol_id: string;
@@ -427,7 +429,6 @@ export interface Database {
           id?: number;
           isbn_10?: string | null;
           isbn_13?: string | null;
-          isbn_13_or_10?: string | null;
           lc_classifications?: string[] | null;
           number_of_pages?: number | null;
           ol_id: string;
@@ -445,7 +446,6 @@ export interface Database {
           id?: number;
           isbn_10?: string | null;
           isbn_13?: string | null;
-          isbn_13_or_10?: string | null;
           lc_classifications?: string[] | null;
           number_of_pages?: number | null;
           ol_id?: string;
@@ -824,28 +824,31 @@ export interface Database {
       };
       profiles: {
         Row: {
-          avatar_url: string | null;
+          avatar_key: string | null;
           created_at: string;
           full_name: string | null;
           id: string;
           review_ids: number[];
           updated_at: string | null;
+          username: string;
         };
         Insert: {
-          avatar_url?: string | null;
+          avatar_key?: string | null;
           created_at?: string;
           full_name?: string | null;
           id: string;
           review_ids?: number[];
           updated_at?: string | null;
+          username: string;
         };
         Update: {
-          avatar_url?: string | null;
+          avatar_key?: string | null;
           created_at?: string;
           full_name?: string | null;
           id?: string;
           review_ids?: number[];
           updated_at?: string | null;
+          username?: string;
         };
         Relationships: [
           {
@@ -1052,14 +1055,14 @@ export interface Database {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "reviews_ol_book_id_fkey";
+            foreignKeyName: "reviews_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "book_popularity";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "reviews_ol_book_id_fkey";
+            foreignKeyName: "reviews_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
@@ -1199,8 +1202,21 @@ export interface Database {
           search_text: string;
         };
         Returns: {
-          book: unknown;
-          rank: number;
+          alternate_titles: string[] | null;
+          book_key: string | null;
+          covers: number[] | null;
+          description: string | null;
+          dewey_numbers: string[] | null;
+          excerpts: string[] | null;
+          id: number;
+          lc_classifications: string[] | null;
+          links: Json | null;
+          ol_id: string;
+          popularity: number | null;
+          rating_count: number | null;
+          reading_count: number | null;
+          subtitle: string | null;
+          title: string;
         }[];
       };
       update_book_counts: {
