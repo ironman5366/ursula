@@ -2,9 +2,11 @@ import React from "react";
 import { Stack } from "expo-router";
 import { useSession } from "../../contexts/SessionContext.ts";
 import ProfilePage from "../../pages/ProfilePage.tsx";
+import { useCurrentProfile } from "../../hooks/profile.ts";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 
 export default function YourProfile() {
-  const { session } = useSession();
+  const { data: profile } = useCurrentProfile();
 
   return (
     <>
@@ -13,7 +15,7 @@ export default function YourProfile() {
           title: "Your Profile",
         }}
       />
-      <ProfilePage profileId={session?.user.id} />
+      {profile ? <ProfilePage profile={profile} /> : <LoadingScreen />}
     </>
   );
 }

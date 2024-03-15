@@ -100,12 +100,50 @@ export default function ProfilePage({ profile }: Props) {
           }
         />
       </TouchableOpacity>
+      <StyledView style={styles.formContainer}>
+        <StyledText
+          style={{
+            fontWeight: "bold",
+          }}
+        >
+          Username:
+        </StyledText>
+        {isOwnProfile ? (
+          <StyledInput
+            autoCorrect={false}
+            autoComplete={"off"}
+            autoCapitalize={"none"}
+            value={username}
+            onChangeText={setUsername}
+            editable={isOwnProfile}
+          />
+        ) : (
+          <StyledText>@{username}</StyledText>
+        )}
 
-      {
-        // TODO: nice form here
-      }
+        <StyledText
+          style={{
+            fontWeight: "bold",
+          }}
+        >
+          Name:
+        </StyledText>
+        <StyledInput
+          value={name}
+          onChangeText={setName}
+          editable={isOwnProfile}
+        />
 
-      <StyledButton>Save</StyledButton>
+        <StyledButton
+          onPress={() => {
+            updateProfile({
+              username,
+              full_name: name,
+            });
+          }}
+          title={"Save"}
+        />
+      </StyledView>
     </StyledView>
   );
 }
@@ -115,5 +153,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: "center",
+  },
+  formContainer: {
+    width: "100%",
+    padding: 10,
+    flex: 0.5,
+    justifyContent: "space-evenly",
   },
 });
