@@ -260,6 +260,7 @@ export interface Database {
       books: {
         Row: {
           alternate_titles: string[] | null;
+          book_key: string | null;
           covers: number[] | null;
           description: string | null;
           dewey_numbers: string[] | null;
@@ -276,6 +277,7 @@ export interface Database {
         };
         Insert: {
           alternate_titles?: string[] | null;
+          book_key?: string | null;
           covers?: number[] | null;
           description?: string | null;
           dewey_numbers?: string[] | null;
@@ -292,6 +294,7 @@ export interface Database {
         };
         Update: {
           alternate_titles?: string[] | null;
+          book_key?: string | null;
           covers?: number[] | null;
           description?: string | null;
           dewey_numbers?: string[] | null;
@@ -827,7 +830,7 @@ export interface Database {
           id: string;
           review_ids: number[];
           updated_at: string | null;
-          username: string | null;
+          username: string;
         };
         Insert: {
           avatar_url?: string | null;
@@ -836,7 +839,7 @@ export interface Database {
           id: string;
           review_ids?: number[];
           updated_at?: string | null;
-          username?: string | null;
+          username: string;
         };
         Update: {
           avatar_url?: string | null;
@@ -845,7 +848,7 @@ export interface Database {
           id?: string;
           review_ids?: number[];
           updated_at?: string | null;
-          username?: string | null;
+          username?: string;
         };
         Relationships: [
           {
@@ -1052,14 +1055,14 @@ export interface Database {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "reviews_ol_book_id_fkey";
+            foreignKeyName: "reviews_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "book_popularity";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "reviews_ol_book_id_fkey";
+            foreignKeyName: "reviews_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
@@ -1200,6 +1203,7 @@ export interface Database {
         };
         Returns: {
           alternate_titles: string[] | null;
+          book_key: string | null;
           covers: number[] | null;
           description: string | null;
           dewey_numbers: string[] | null;

@@ -10,6 +10,8 @@ ALTER TABLE reading_list_items ADD CONSTRAINT unique_user_new_book UNIQUE (user_
 
 -- Create a foreign key on (user_id) on reading_list_items
 ALTER TABLE reading_list_items DROP CONSTRAINT IF EXISTS reading_list_items_user_id_fkey;
+ALTER TABLE reviews DROP CONSTRAINT IF EXISTS reviews_ol_book_id_fkey;
+
 ALTER TABLE reviews ADD FOREIGN KEY (book_id) REFERENCES books (id);
 
 ALTER TABLE reviews DROP CONSTRAINT IF EXISTS unique_user_review_book;
