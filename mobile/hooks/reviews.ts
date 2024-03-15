@@ -17,7 +17,6 @@ async function createReview({
   bookId,
   note,
 }: CreateReviewParams): Promise<ReviewWithBook> {
-  console.log("Creating review on ", userId, bookId);
   const {
     data: { books: book, ...review },
     error,
@@ -39,8 +38,6 @@ async function createReview({
   if (error) {
     throw error;
   }
-
-  console.log("Created review", book, review);
 
   return {
     book,
