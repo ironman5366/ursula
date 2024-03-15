@@ -8,34 +8,42 @@ export enum ActivityType {
 
 type StartedReadingActivity = {
   type: ActivityType.STARTED_READING;
-  book_id: number;
+  data: {
+    book_id: number;
+  };
 };
 
 type ReviewedActivity = {
   type: ActivityType.REVIEWED;
-  review_id: number;
+  data: {
+    review_id: number;
+  };
 };
 
 type AddedToListActivity = {
   type: ActivityType.ADDED_TO_LIST;
-  book_id: number;
+  data: {
+    book_id: number;
+  };
 };
 
 type FollowedActivity = {
   type: ActivityType.FOLLOWED;
-  user_id: number;
+  data: {
+    user_id: number;
+  };
 };
 
 type RecommendedActivity = {
   type: ActivityType.RECOMMENDED;
-  book_id: number;
+  data: {
+    book_id: number;
+  };
 };
 
-type Activity =
+export type ActivityData =
   | StartedReadingActivity
   | ReviewedActivity
   | AddedToListActivity
   | FollowedActivity
   | RecommendedActivity;
-
-export default Activity;
