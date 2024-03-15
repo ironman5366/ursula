@@ -824,7 +824,7 @@ export interface Database {
       };
       profiles: {
         Row: {
-          avatar_url: string | null;
+          avatar_key: string | null;
           created_at: string;
           full_name: string | null;
           id: string;
@@ -833,7 +833,7 @@ export interface Database {
           username: string;
         };
         Insert: {
-          avatar_url?: string | null;
+          avatar_key?: string | null;
           created_at?: string;
           full_name?: string | null;
           id: string;
@@ -842,7 +842,7 @@ export interface Database {
           username: string;
         };
         Update: {
-          avatar_url?: string | null;
+          avatar_key?: string | null;
           created_at?: string;
           full_name?: string | null;
           id?: string;

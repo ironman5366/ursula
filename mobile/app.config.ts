@@ -33,7 +33,16 @@ module.exports = {
     experiments: {
       typedRoutes: true,
     },
-    plugins: ["expo-router", "expo-localization"],
+    plugins: [
+      "expo-router",
+      "expo-localization",
+      [
+        "expo-image-picker",
+        {
+          photosPermission: "The app lets you upload photos to your profile.",
+        },
+      ],
+    ],
     extra: {
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       eas: {

@@ -3,6 +3,7 @@ ALTER TABLE profiles ADD COLUMN IF NOT EXISTS username TEXT UNIQUE;
 UPDATE profiles SET username = COALESCE(full_name, 'default username'::TEXT || id::TEXT);
 -- Make username not nullable
 ALTER TABLE profiles ALTER COLUMN username SET NOT NULL;
+ALTER TABLE profiles RENAME COLUMN avatar_url TO avatar_key;
 
 -- Create a unique constraint on (user_id, book_id) on reading_list_items
 ALTER TABLE reading_list_items DROP CONSTRAINT IF EXISTS unique_user_new_book;
