@@ -2,11 +2,11 @@ import { supabase } from "../utils/supabase.ts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 
-async function followUser(profileId: string) {
+async function followUser(profile_id: string, followee_id: string) {
   const { error } = await supabase.from("follows").upsert(
     {
-      follower_id: profileId,
-      followee_id: profileId,
+      follower_id: profile_id,
+      followee_id,
     },
     { onConflict: "follower_id, followee_id" }
   );
@@ -18,15 +18,22 @@ async function followUser(profileId: string) {
 
 export function useFollow() {
   const queryClient = useQueryClient();
+  const { session } = useSession();
+
   return useMutation({
-    mutationFn: followUser,
-    onSuccess: (_data, profileId) => {
-      queryClient.invalidateQueries(["FOLLOWING", profileId]);
+    mutationFn: (followee_id: string) =>
+      followUser(session.user.id, followee_id),
+    onSuccess: (_data, followee_id) => {
+      queryClient.invalidateQueries(["FOLLOWING", session.user.id]);
+      queryClient.setQueryData(
+        ["FOLLOWING", session.user.id, followee_id],
+        true
+      );
     },
   });
 }
 
-async function fetchFollowing(profileId: string) {
+async function fetchFollowing(profileId: string): Promise<string[]> {
   const { data, error } = await supabase
     .from("follows")
     .select("followee_id")
@@ -36,7 +43,7 @@ async function fetchFollowing(profileId: string) {
     throw error;
   }
 
-  return data;
+  return data.map((f) => f.followee_id);
 }
 
 export function useFollowing(profileId: string) {
@@ -51,7 +58,7 @@ export function useCurrentUserFollowing() {
   return useFollowing(session.user.id);
 }
 
-async function fetchFollowers(profileId: string) {
+async function fetchFollowers(profileId: string): Promise<string[]> {
   const { data, error } = await supabase
     .from("follows")
     .select("follower_id")
@@ -61,12 +68,70 @@ async function fetchFollowers(profileId: string) {
     throw error;
   }
 
-  return data;
+  return data.map((f) => f.follower_id);
 }
 
 export function useFollowers(profileId: string) {
   return useQuery({
     queryKey: ["FOLLOWERS", profileId],
     queryFn: () => fetchFollowers(profileId),
+  });
+}
+
+interface IsFollowingProps {
+  follower_id: string;
+  followee_id: string;
+}
+
+async function fetchIsFollowing({
+  follower_id,
+  followee_id,
+}: IsFollowingProps) {
+  const { data, error } = await supabase
+    .from("follows")
+    .select()
+    .eq("follower_id", follower_id)
+    .eq("followee_id", followee_id)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return !!data;
+}
+
+export function useIsFollowing(props: IsFollowingProps) {
+  return useQuery({
+    queryFn: () => fetchIsFollowing(props),
+    queryKey: ["FOLLOWING", props.follower_id, props.followee_id],
+  });
+}
+
+async function unfollow(user_id: string, followee_id: string) {
+  const { error } = await supabase
+    .from("follows")
+    .delete()
+    .eq("follower_id", user_id)
+    .eq("followee_id", followee_id);
+
+  if (error) {
+    throw error;
+  }
+}
+
+export function useUnfollow() {
+  const { session } = useSession();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (followee_id: string) => unfollow(session.user.id, followee_id),
+    onSuccess: (_data, followee_id: string) => {
+      queryClient.invalidateQueries(["FOLLOWING", session.user.id]);
+      queryClient.setQueryData(
+        ["FOLLOWING", session.user.id, followee_id],
+        false
+      );
+    },
   });
 }
