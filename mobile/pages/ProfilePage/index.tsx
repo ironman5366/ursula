@@ -1,15 +1,16 @@
 import React, { useMemo, useState } from "react";
-import { useProfile, useUpdateProfile } from "../hooks/profile.ts";
-import { StyledView } from "../components/organisms/StyledView.tsx";
+import { useProfile, useUpdateProfile } from "../../hooks/profile.ts";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 import { Image, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { useSession } from "../contexts/SessionContext.ts";
-import LoadingScreen from "../components/atoms/LoadingScreen.tsx";
+import { useSession } from "../../contexts/SessionContext.ts";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import * as ImagePicker from "expo-image-picker";
-import { supabase } from "../utils/supabase.ts";
-import { StyledText } from "../components/atoms/StyledText.tsx";
-import StyledInput from "../components/atoms/StyledInput.tsx";
-import StyledButton from "../components/organisms/StyledButton.tsx";
+import { supabase } from "../../utils/supabase.ts";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
+import StyledInput from "../../components/atoms/StyledInput.tsx";
+import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { Profile } from "@ursula/shared-types/derived.ts";
+import FollowersSection from "./FollowersSection.tsx";
 
 interface Props {
   profile: Profile;
@@ -18,7 +19,6 @@ interface Props {
 export default function ProfilePage({ profile }: Props) {
   const { session } = useSession();
   const { mutate: updateProfile, isLoading } = useUpdateProfile();
-
   const [username, setUsername] = useState(profile.username);
   const [name, setName] = useState(profile.full_name);
 
@@ -96,10 +96,11 @@ export default function ProfilePage({ profile }: Props) {
           source={
             avatarUrl
               ? { uri: avatarUrl }
-              : require("../assets/images/profile-placeholder.png")
+              : require("../../assets/images/profile-placeholder.png")
           }
         />
       </TouchableOpacity>
+      <FollowersSection profile={profile} />
       <StyledView style={styles.formContainer}>
         <StyledText
           style={{

@@ -36,24 +36,24 @@ export interface Database {
     Tables: {
       activities: {
         Row: {
-          activity_data: Json;
-          activity_type: string;
           created_at: string;
+          data: Json;
           id: number;
+          type: string;
           user_id: string;
         };
         Insert: {
-          activity_data: Json;
-          activity_type: string;
           created_at?: string;
+          data: Json;
           id?: number;
+          type: string;
           user_id: string;
         };
         Update: {
-          activity_data?: Json;
-          activity_type?: string;
           created_at?: string;
+          data?: Json;
           id?: number;
+          type?: string;
           user_id?: string;
         };
         Relationships: [

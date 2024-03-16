@@ -94,6 +94,7 @@ ALTER TABLE book_subjects ADD COLUMN IF NOT EXISTS subject_id integer;
 UPDATE book_subjects SET book_id = (SELECT ol_books.id FROM ol_books WHERE ol_books.ol_id = book_subjects.book_ol_id) WHERE book_subjects.book_id IS NULL;
 UPDATE book_subjects SET subject_id = (SELECT subjects.id FROM subjects WHERE subjects.name = book_subjects.subject_name) WHERE book_subjects.subject_id IS NULL;
 
+
 -- Now a DO block that checks if the foreign keys exist and if not, creates them
 DO $$
 BEGIN
