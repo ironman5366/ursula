@@ -5,6 +5,8 @@
   "scripts": {
     "start:local": "./expo_start_with_env.sh local",
     "start:dev": "./expo_start_with_env.sh dev",
+    "build:ios": "eas build -p ios --local --output dist/build.ipa",
+    "submit:ios": "eas submit -p ios --path=dist/build.ipa",
     "test": "jest --watchAll"
   },
   "jest": {
