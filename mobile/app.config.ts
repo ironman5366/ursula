@@ -46,7 +46,7 @@ module.exports = {
     extra: {
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       eas: {
-        projectId: "ac90d169-a022-4526-95a5-95e58f0151a4",
+        //projectId: "ac90d169-a022-4526-95a5-95e58f0151a4",
       },
     },
   },
