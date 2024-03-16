@@ -70,7 +70,9 @@ export default function FollowersSection({ profile }: Props) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
+    width: "50%",
     padding: 10,
+    alignSelf: "center",
     justifyContent: "space-between",
   },
 });
