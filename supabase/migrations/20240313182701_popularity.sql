@@ -24,6 +24,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP FUNCTION IF EXISTS search_book_titles (search_text TEXT);
 CREATE OR REPLACE FUNCTION search_book_titles(search_text TEXT)
 RETURNS SETOF BOOKS
 LANGUAGE sql
