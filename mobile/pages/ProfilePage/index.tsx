@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from "react";
-import { useProfile, useUpdateProfile } from "../../hooks/profile.ts";
+import React, { useEffect, useState } from "react";
+import { useUpdateProfile } from "../../hooks/profile.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
-import { Image, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import * as ImagePicker from "expo-image-picker";
@@ -11,6 +11,7 @@ import StyledInput from "../../components/atoms/StyledInput.tsx";
 import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import FollowersSection from "./FollowersSection.tsx";
+import { decode } from "base64-arraybuffer";
 
 interface Props {
   profile: Profile;
@@ -21,15 +22,23 @@ export default function ProfilePage({ profile }: Props) {
   const { mutate: updateProfile, isLoading } = useUpdateProfile();
   const [username, setUsername] = useState(profile.username);
   const [name, setName] = useState(profile.full_name);
+  const [avatarURL, setAvatarURL] = useState<string>();
 
-  const avatarUrl: string | undefined = useMemo(() => {
+  useEffect(() => {
     if (profile.avatar_key) {
-      const { data } = supabase.storage
+      supabase.storage
         .from("avatars")
-        .getPublicUrl(profile.avatar_key);
-      return data?.publicUrl;
+        .createSignedUrl(profile.avatar_key, 3600)
+        .then(({ data, error }) => {
+          if (error) {
+            throw error;
+          }
+
+          console.log("signed URL is", data.signedUrl);
+          setAvatarURL(data.signedUrl);
+        });
     }
-  }, [profile.avatar_key]);
+  }, [profile]);
 
   if (!profile || isLoading) {
     return <LoadingScreen />;
@@ -41,10 +50,11 @@ export default function ProfilePage({ profile }: Props) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
+      base64: true,
     });
 
     if (!result.canceled) {
-      const uri = result.assets[0].uri;
+      const { base64: encoded, uri } = result.assets[0];
 
       // Upload the result to supabase
       const ext = uri.substring(uri.lastIndexOf(".") + 1);
@@ -53,18 +63,14 @@ export default function ProfilePage({ profile }: Props) {
       console.log("Uploading", uri, "to", uploadPath);
 
       // Read the file and upload it
-      const file = await fetch(uri);
-      const blob = await file.blob();
-      const formData = new FormData();
-      formData.append("file", blob);
-
-      console.log("Blob size is ", blob.size, "bytes");
-      console.log(formData);
 
       // Upload with override
       const { data, error } = await supabase.storage
         .from("avatars")
-        .upload(uploadPath, formData, { upsert: true });
+        .upload(uploadPath, decode(encoded), {
+          upsert: true,
+          contentType: `image/${ext}`,
+        });
 
       if (error) {
         console.error("Error uploading avatar", error);
@@ -94,8 +100,8 @@ export default function ProfilePage({ profile }: Props) {
             borderRadius: 50,
           }}
           source={
-            avatarUrl
-              ? { uri: avatarUrl }
+            avatarURL
+              ? { uri: avatarURL }
               : require("../../assets/images/profile-placeholder.png")
           }
         />
