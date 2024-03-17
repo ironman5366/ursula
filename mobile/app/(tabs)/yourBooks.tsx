@@ -53,7 +53,7 @@ export default function YourBooks() {
     <>
       <Stack.Screen
         options={{
-          title: "Your Books",
+          title: "Books",
         }}
       />
       <SearchContainer editable={false}>
