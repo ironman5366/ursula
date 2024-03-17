@@ -10,6 +10,7 @@ import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
 import LoginSignup from "../pages/LoginSignup.tsx";
 import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 import { PostHogProvider } from "posthog-react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -72,17 +73,19 @@ function RootLayoutNav() {
         host: "https://app.posthog.com",
       }}
     >
-      <SessionProvider>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
-          >
-            <DismissKeyboardContainer>
-              <AuthRouter />
-            </DismissKeyboardContainer>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </SessionProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SessionProvider>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
+            >
+              <DismissKeyboardContainer>
+                <AuthRouter />
+              </DismissKeyboardContainer>
+            </ThemeProvider>
+          </QueryClientProvider>
+        </SessionProvider>
+      </GestureHandlerRootView>
     </PostHogProvider>
   );
 }

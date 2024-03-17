@@ -48,7 +48,7 @@ export default function SearchBar({ editable, ...props }: SearchBarProps) {
           }}
         >
           <Ionicons
-            name={"ios-search"}
+            name="search"
             size={20}
             color={tint}
             style={{ flex: 0.1 }}
