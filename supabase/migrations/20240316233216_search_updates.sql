@@ -20,7 +20,7 @@ CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
 (
     SELECT
         id AS entity_id_numeric,
-        NULL as entity_id_uuid,
+        NULL::uuid as entity_id_uuid,
         'books' AS entity_type,
         'book_title' AS result_type,
         title AS search_field,
@@ -30,7 +30,7 @@ CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
 )  UNION (
     SELECT
         id AS entity_id_numeric,
-        NULL as entity_id_uuid,
+        NULL::uuid as entity_id_uuid,
         'authors' AS entity_type,
         'author_name' AS result_type,
         name AS search_field,
