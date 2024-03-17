@@ -11,7 +11,6 @@ export default function Home() {
         options={{
           title: "Ursula",
           tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
       <Text>TODO: home here</Text>
