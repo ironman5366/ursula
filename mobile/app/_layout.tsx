@@ -1,15 +1,22 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { ThemeProvider } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { useEffect } from "react";
+import { PostHogProvider } from "posthog-react-native";
+import React, { useEffect } from "react";
 import { useColorScheme } from "react-native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { TamaguiProvider } from "tamagui";
+import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
 import LoginSignup from "../pages/LoginSignup.tsx";
-import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
-import { PostHogProvider } from "posthog-react-native";
+import tamaguiConfig from "../tamagui.config.ts";
+import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -72,17 +79,25 @@ function RootLayoutNav() {
         host: "https://app.posthog.com",
       }}
     >
-      <SessionProvider>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
-          >
-            <DismissKeyboardContainer>
-              <AuthRouter />
-            </DismissKeyboardContainer>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </SessionProvider>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <SessionProvider>
+              <QueryClientProvider client={queryClient}>
+                <ThemeProvider
+                  value={colorScheme === "dark" ? DARK_THEME : LIGHT_THEME}
+                >
+                  <DismissKeyboardContainer>
+                    <AuthRouter />
+                  </DismissKeyboardContainer>
+                </ThemeProvider>
+              </QueryClientProvider>
+            </SessionProvider>
+          </GestureHandlerRootView>
+        </ThemeProvider>
+      </TamaguiProvider>
     </PostHogProvider>
   );
 }

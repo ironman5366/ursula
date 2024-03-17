@@ -13,5 +13,11 @@
     "mobile",
     "shared-types"
   ],
-  "packageManager": "npm@10.4.0"
+  "packageManager": "npm@10.4.0",
+  "dependencies": {
+    "@tamagui/babel-plugin": "^1.91.4",
+    "@tamagui/config": "^1.91.4",
+    "@tamagui/metro-plugin": "^1.91.4",
+    "tamagui": "^1.91.4"
+  }
 }
