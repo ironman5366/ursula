@@ -2,6 +2,8 @@ import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 import { Colors, useThemeColor } from "../../theme.ts";
 import TabBarIcon from "../../components/atoms/TabBarIcon.tsx";
+import { TabBar } from "../../components/containers/TabBar.tsx";
+import { Home, Book, User } from "@tamagui/lucide-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -22,27 +24,28 @@ export default function TabLayout() {
           paddingRight: 10,
         },
       }}
+      tabBar={TabBar}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Ursula",
           tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <Home color={color} />,
         }}
       />
       <Tabs.Screen
         name="yourBooks"
         options={{
-          title: "Your Books",
-          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
+          title: "Books",
+          tabBarIcon: ({ color }) => <Book color={color} />,
         }}
       />
       <Tabs.Screen
         name="yourProfile"
         options={{
-          title: "Your Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          title: "Profile",
+          tabBarIcon: ({ color }) => <User color={color} />,
         }}
       />
     </Tabs>

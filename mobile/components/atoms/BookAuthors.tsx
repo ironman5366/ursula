@@ -11,7 +11,7 @@ export default function BookAuthors({ bookId }: Props) {
   if (isSuccess) {
     return (
       <StyledText>
-        {authors?.map((author) => author.name).join(", ")}
+        {authors?.map((author) => author?.name || "").join(", ")}
       </StyledText>
     );
   } else {

@@ -7,7 +7,6 @@ import { StyledText } from "../components/atoms/StyledText";
 import { AuthError } from "@supabase/supabase-js";
 import EmailInput from "../components/atoms/Emailnput";
 import PasswordInput from "../components/atoms/PasswordInput";
-import StyledInput from "../components/atoms/StyledInput.tsx";
 import LoadingScreen from "../components/atoms/LoadingScreen.tsx";
 import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 

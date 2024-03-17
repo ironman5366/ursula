@@ -11,7 +11,7 @@ export default function YourProfile() {
     <>
       <Stack.Screen
         options={{
-          title: "Your Profile",
+          title: "Profile",
         }}
       />
       {profile ? <ProfilePage profile={profile} /> : <LoadingScreen />}
