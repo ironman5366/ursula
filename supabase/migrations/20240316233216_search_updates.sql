@@ -1,28 +1,28 @@
-create index if not exists idx_fts_title
-on public.books using gin (to_tsvector('english'::regconfig, title));
+CREATE INDEX IF NOT EXISTS idx_fts_title
+ON public.books USING gin (to_tsvector('english'::regconfig, title));
 
-create index if not exists idx_fts_author_name
-on public.authors using gin (to_tsvector('english'::regconfig, name));
+CREATE INDEX IF NOT EXISTS idx_fts_author_name
+ON public.authors USING gin (to_tsvector('english'::regconfig, name));
 
 
-create or replace view v_search as (
+CREATE OR REPLACE VIEW v_search AS (
     (
-        select
-            id as entity_id,
-            'books' as entity_type,
-            'book_title' as result_type,
-            title as search_field,
-            popularity as order_key
-        from books
+        SELECT
+            id AS entity_id,
+            'books' AS entity_type,
+            'book_title' AS result_type,
+            title AS search_field,
+            popularity AS order_key
+        FROM books
     )
-    union
+    UNION
     (
-        select
-            id as entity_id,
-            'authors' as entity_type,
-            'author_name' as result_type,
-            name as search_field,
-            1 as order_key
-        from authors
+        SELECT
+            id AS entity_id,
+            'authors' AS entity_type,
+            'author_name' AS result_type,
+            name AS search_field,
+            1 AS order_key
+        FROM authors
     )
 );
