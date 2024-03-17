@@ -39,7 +39,7 @@ export default function BinaryRank({
 
   // If we're finished, we're just waiting for the update to the profile, and
   // we'll be redirected after
-  if (isLoading) {
+  if (isLoading || !curr) {
     return <LoadingScreen />;
   }
 
