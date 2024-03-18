@@ -266,6 +266,7 @@ export type Database = {
           dewey_numbers: string[] | null;
           excerpts: string[] | null;
           id: number;
+          last_cover_update: string | null;
           lc_classifications: string[] | null;
           links: Json | null;
           ol_id: string;
@@ -283,6 +284,7 @@ export type Database = {
           dewey_numbers?: string[] | null;
           excerpts?: string[] | null;
           id?: number;
+          last_cover_update?: string | null;
           lc_classifications?: string[] | null;
           links?: Json | null;
           ol_id: string;
@@ -300,6 +302,7 @@ export type Database = {
           dewey_numbers?: string[] | null;
           excerpts?: string[] | null;
           id?: number;
+          last_cover_update?: string | null;
           lc_classifications?: string[] | null;
           links?: Json | null;
           ol_id?: string;
@@ -1195,16 +1198,6 @@ export type Database = {
         };
         Relationships: [];
       };
-      v_search: {
-        Row: {
-          entity_id: number | null;
-          entity_type: string | null;
-          order_key: number | null;
-          result_type: string | null;
-          search_field: string | null;
-        };
-        Relationships: [];
-      };
     };
     Functions: {
       search_all: {
@@ -1232,6 +1225,7 @@ export type Database = {
           dewey_numbers: string[] | null;
           excerpts: string[] | null;
           id: number;
+          last_cover_update: string | null;
           lc_classifications: string[] | null;
           links: Json | null;
           ol_id: string;
