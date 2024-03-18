@@ -1,5 +1,5 @@
 import React from "react";
-import useIdParam from "../../hooks/useIdParam.ts";
+import useNumericIdParam from "../../hooks/useIdParam.ts";
 import { StyleSheet } from "react-native";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import BinaryRank from "./BinaryRank.tsx";
@@ -8,7 +8,7 @@ import { useCurrentUserReviews, useReview } from "../../hooks/reviews.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 
 export default function Rank() {
-  const id = useIdParam();
+  const id = useNumericIdParam();
   const { data: review } = useReview(id);
   const { data: profile } = useCurrentProfile();
   const { data: existingReviews } = useCurrentUserReviews();

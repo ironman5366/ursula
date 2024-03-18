@@ -1,6 +1,6 @@
 import React, { ComponentProps } from "react";
-import BookPreviewRow from "../molecules/BookPreviewRow.tsx";
 import { Link } from "expo-router";
+import BookPreviewRow from "./Row.tsx";
 
 interface Props extends ComponentProps<typeof BookPreviewRow> {
   replace?: boolean;

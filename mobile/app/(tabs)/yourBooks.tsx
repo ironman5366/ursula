@@ -58,7 +58,7 @@ export default function YourBooks() {
       />
       <SearchContainer editable={false}>
         <TabView
-          tabBarPosition={"bottom"}
+          tabBarPosition={"top"}
           renderTabBar={TabBar}
           navigationState={{ index, routes }}
           renderScene={renderScene}

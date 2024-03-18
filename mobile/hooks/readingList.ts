@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../utils/supabase.ts";
 import { Book, ReadingListItem } from "@ursula/shared-types/derived.ts";
 import { useSession } from "../contexts/SessionContext.ts";
+import { useRecordActivity } from "./activities.ts";
+import { ActivityType } from "@ursula/shared-types/Activity.ts";
 
 export type ReadingListItemWithBook = {
   book: Book;
@@ -54,11 +56,19 @@ async function doAddToReadingList(userId: string, bookId: number) {
 export function useAddToReadingList() {
   const { session } = useSession();
   const client = useQueryClient();
+  const { mutate: recordActivity } = useRecordActivity();
 
   return useMutation({
     mutationFn: (bookId: number) => doAddToReadingList(session.user.id, bookId),
-    onSuccess: () =>
-      client.invalidateQueries(["READING_LIST", session.user.id]),
+    onSuccess: (_data, bookId) => {
+      client.invalidateQueries(["READING_LIST", session.user.id]);
+      recordActivity({
+        type: ActivityType.ADDED_TO_LIST,
+        data: {
+          book_id: bookId,
+        },
+      });
+    },
   });
 }
 

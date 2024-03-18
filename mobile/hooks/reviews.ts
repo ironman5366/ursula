@@ -5,6 +5,8 @@ import { Profile, Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../types/ReviewWithBook.ts";
 import { useProfile, useUpdateProfile } from "./profile.ts";
 import { useRemoveFromReadingList } from "./readingList.ts";
+import { useRecordActivity } from "./activities.ts";
+import { ActivityType } from "@ursula/shared-types/Activity.ts";
 
 interface CreateReviewParams {
   userId: string;
@@ -48,6 +50,7 @@ async function createReview({
 export function useCreateReview() {
   const { session } = useSession();
   const queryClient = useQueryClient();
+  const { mutate: recordActivity } = useRecordActivity();
 
   return useMutation({
     mutationFn: (vars: Omit<CreateReviewParams, "userId">) =>
@@ -57,6 +60,12 @@ export function useCreateReview() {
       }),
     onSuccess: (data) => {
       queryClient.setQueryData(["REVIEW", data.review.id], data);
+      recordActivity({
+        type: ActivityType.REVIEWED,
+        data: {
+          review_id: data.review.id,
+        },
+      });
     },
   });
 }

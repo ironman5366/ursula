@@ -1,7 +1,8 @@
 import { Activity } from "@ursula/shared-types/derived.ts";
-import { ActivityData, ActivityType } from "@ursula/shared-types/Activity.ts";
+import { ActivityData } from "@ursula/shared-types/Activity.ts";
 import { supabase } from "../utils/supabase.ts";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "../contexts/SessionContext.ts";
 
 async function recordActivity(
   userId: string,
@@ -21,6 +22,17 @@ async function recordActivity(
   }
 
   return activity;
+}
+
+export function useRecordActivity() {
+  const { session } = useSession();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: ActivityData) => recordActivity(session.user.id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["ACTIVITIES", session.user.id]);
+    },
+  });
 }
 
 async function fetchUserActivities(userId: string): Promise<Activity[]> {
@@ -44,4 +56,22 @@ export function useActivities(userId: string) {
   });
 }
 
-async function fetchFollowerActivities(userId: string): Promise<Activity[]> {}
+async function fetchSocialFeed(userId: string): Promise<Activity[]> {
+  const { data, error } = await supabase.rpc("social_feed", {
+    for_user_id: userId,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data as Activity[];
+}
+
+export function useSocialFeed() {
+  const { session } = useSession();
+  return useQuery({
+    queryFn: () => fetchSocialFeed(session.user.id),
+    queryKey: ["SOCIAL_FEED"],
+  });
+}

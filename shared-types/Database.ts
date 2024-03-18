@@ -1215,7 +1215,7 @@ export type Database = {
           entity_id_numeric: number;
           entity_id_uuid: string;
           entity_type: string;
-          result_type: string;
+          result_field: string;
           search_field: string;
           order_key: number;
         }[];
@@ -1240,6 +1240,18 @@ export type Database = {
           reading_count: number | null;
           subtitle: string | null;
           title: string;
+        }[];
+      };
+      social_feed: {
+        Args: {
+          for_user_id: string;
+        };
+        Returns: {
+          created_at: string;
+          data: Json;
+          id: number;
+          type: string;
+          user_id: string;
         }[];
       };
       update_book_counts: {

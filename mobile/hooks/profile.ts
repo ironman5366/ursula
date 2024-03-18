@@ -63,8 +63,36 @@ export function useUpdateProfile() {
     },
     mutationFn: (profile: Partial<Profile>) =>
       updateProfile(session.user.id, profile),
-    onSuccess: async (updatedProfile) => {
+    onSuccess: async (updatedProfile, variables) => {
       queryClient.setQueryData(["PROFILE", session.user.id], updatedProfile);
+      // If the profile image was updated, we need to invalidate the profile image query
+      if (variables.avatar_key) {
+        queryClient.invalidateQueries(["PROFILE_IMAGE", session.user.id]);
+      }
     },
+  });
+}
+
+async function getProfileImage(profile: Profile): Promise<string | null> {
+  if (profile.avatar_key) {
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .createSignedUrl(profile.avatar_key, 3600);
+
+    if (error) {
+      throw error;
+    }
+
+    return data.signedUrl;
+  }
+
+  return null;
+}
+
+export function useProfileImage(profile?: Profile) {
+  return useQuery({
+    queryKey: ["PROFILE_IMAGE", profile.id],
+    queryFn: () => getProfileImage(profile),
+    enabled: !!profile,
   });
 }

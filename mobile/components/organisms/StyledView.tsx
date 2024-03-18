@@ -3,7 +3,7 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { View as DefaultView } from "react-native";
+import { View as DefaultView } from "tamagui";
 
 import { StyledViewProps, useThemeColor } from "../../theme.ts";
 

@@ -1,8 +1,7 @@
 import React from "react";
 import { FlatList } from "react-native";
-import BookPreviewRow from "./BookPreviewRow.tsx";
 import { Book } from "../../../shared-types/derived";
-import BookPreviewLink from "../atoms/BookPreviewLink.tsx";
+import BookPreviewLink from "./BookPreview/Link.tsx";
 
 interface Props {
   books: Book[];
