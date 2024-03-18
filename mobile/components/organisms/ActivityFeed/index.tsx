@@ -15,7 +15,9 @@ export default function ActivityFeed({ activities }: Props) {
   return (
     <FlatList
       data={activities}
-      renderItem={(activity) => <ActivityFeedItem activity={activity} />}
+      renderItem={({ item, index }) => (
+        <ActivityFeedItem activity={item} key={index} />
+      )}
     />
   );
 }

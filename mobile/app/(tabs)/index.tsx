@@ -1,10 +1,8 @@
 import React from "react";
-import { Text } from "react-native";
 import SearchContainer from "../../components/containers/SearchContainer.tsx";
 import { Tabs } from "expo-router";
-import TabBarIcon from "../../components/atoms/TabBarIcon.tsx";
 import { useSocialFeed } from "../../hooks/activities.ts";
-import ActivityFeed from "../../components/organisms/ActivityFeed/ActivityFeed.tsx";
+import ActivityFeed from "../../components/organisms/ActivityFeed";
 
 export default function Home() {
   const { data: socialFeed } = useSocialFeed();

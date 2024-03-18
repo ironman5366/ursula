@@ -7,6 +7,7 @@ import { useProfile, useUpdateProfile } from "./profile.ts";
 import { useRemoveFromReadingList } from "./readingList.ts";
 import { useRecordActivity } from "./activities.ts";
 import { ActivityType } from "@ursula/shared-types/Activity.ts";
+import { fetchBook } from "./useBook.ts";
 
 interface CreateReviewParams {
   userId: string;
@@ -50,7 +51,6 @@ async function createReview({
 export function useCreateReview() {
   const { session } = useSession();
   const queryClient = useQueryClient();
-  const { mutate: recordActivity } = useRecordActivity();
 
   return useMutation({
     mutationFn: (vars: Omit<CreateReviewParams, "userId">) =>
@@ -60,12 +60,6 @@ export function useCreateReview() {
       }),
     onSuccess: (data) => {
       queryClient.setQueryData(["REVIEW", data.review.id], data);
-      recordActivity({
-        type: ActivityType.REVIEWED,
-        data: {
-          review_id: data.review.id,
-        },
-      });
     },
   });
 }
@@ -163,6 +157,7 @@ export function useRank() {
   const profileMutation = useUpdateProfile();
   const readingListMutation = useRemoveFromReadingList();
   const queryClient = useQueryClient();
+  const { mutate: recordActivity } = useRecordActivity();
 
   return useMutation({
     mutationFn: async ({ profile, review, rankIdx }: RankMutationVariables) => {
@@ -188,10 +183,23 @@ export function useRank() {
         readingListMutation.mutateAsync(review.book_id),
       ]);
 
-      return profile.id;
+      return profile;
     },
-    onSuccess: async (profileId) => {
-      await queryClient.invalidateQueries(["BOOK_REVIEW", profileId]);
+    onSuccess: async (profile, { rankIdx, review }) => {
+      await queryClient.invalidateQueries(["BOOK_REVIEW", profile.id]);
+      const rank = rankIdx + 1;
+      const book = await fetchBook(review.book_id);
+
+      recordActivity({
+        type: ActivityType.RANKED,
+        data: {
+          review_id: review.id,
+          rank,
+          book_name: book.title,
+          book_id: book.id,
+          total: profile.review_ids.length,
+        },
+      });
     },
   });
 }
