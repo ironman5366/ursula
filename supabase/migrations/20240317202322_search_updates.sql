@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
     entity_id_numeric integer,
     entity_id_uuid uuid,
     entity_type text,
-    result_type text,
+    result_field text,
     search_field text,
     order_key integer
 ) LANGUAGE sql AS $$
@@ -22,7 +22,7 @@ CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
         id AS entity_id_numeric,
         NULL::uuid as entity_id_uuid,
         'books' AS entity_type,
-        'book_title' AS result_type,
+        'title' AS result_field,
         title AS search_field,
         popularity AS order_key
     FROM books
@@ -32,7 +32,7 @@ CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
         id AS entity_id_numeric,
         NULL::uuid as entity_id_uuid,
         'authors' AS entity_type,
-        'author_name' AS result_type,
+        'name' AS result_field,
         name AS search_field,
         1 AS order_key
     FROM authors
@@ -43,10 +43,11 @@ UNION (
         NULL AS entity_id_numeric,
         id::uuid AS entity_id_uuid,
         'profiles' AS entity_type,
-        'profiles_username' AS result_type,
+        'username' AS result_field,
         username AS search_field,
         1 AS order_key
     FROM profiles
     WHERE username ILIKE search_text || '%'
 )
+    ORDER BY order_key DESC
 $$;

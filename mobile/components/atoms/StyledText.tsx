@@ -1,4 +1,4 @@
-import { Text as DefaultText } from "react-native";
+import { Text as DefaultText } from "tamagui";
 import { useThemeColor, StyledTextProps } from "../../theme.ts";
 
 export function StyledText(props: StyledTextProps) {
