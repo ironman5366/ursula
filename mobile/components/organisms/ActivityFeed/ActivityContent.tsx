@@ -2,12 +2,12 @@ import React from "react";
 import { Activity, ActivityOf, Profile } from "@ursula/shared-types/derived.ts";
 import {
   ActivityType,
+  AddedToListActivity,
   RankedActivity,
   StartedReadingActivity,
 } from "@ursula/shared-types/Activity.ts";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import { Link } from "expo-router";
-import StyledButton from "../StyledButton.tsx";
 
 interface Props<T> {
   activity: T;
@@ -34,11 +34,26 @@ function RankedContent({
 }: Props<ActivityOf<RankedActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} started ranked{" "}
+      {profile.full_name} ranked{" "}
       <Link href={`/bookDetail/${activity.data.book_id}/`}>
         {activity.data.book_name}
       </Link>{" "}
       as {activity.data.rank} out of {activity.data.total} books read.
+    </StyledText>
+  );
+}
+
+function AddedToListContent({
+  activity,
+  profile,
+}: Props<ActivityOf<AddedToListActivity>>) {
+  return (
+    <StyledText>
+      {profile.full_name} added{" "}
+      <Link href={`/bookDetail/${activity.data.book_id}/`}>
+        {activity.data.book_name}
+      </Link>{" "}
+      to their reading list.
     </StyledText>
   );
 }
@@ -52,6 +67,8 @@ export default function ActivityContent<T extends Activity>({
       return <StartedReadingContent activity={activity} profile={profile} />;
     case ActivityType.RANKED:
       return <RankedContent activity={activity} profile={profile} />;
+    case ActivityType.ADDED_TO_LIST:
+      return <AddedToListContent activity={activity} profile={profile} />;
     default:
       return <StyledText>TODO</StyledText>;
   }

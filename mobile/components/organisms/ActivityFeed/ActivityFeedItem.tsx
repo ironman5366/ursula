@@ -4,6 +4,7 @@ import { ListItem } from "tamagui";
 import { useProfile } from "../../../hooks/profile.ts";
 import ProfileImage from "../../atoms/ProfileImage.tsx";
 import ActivityContent from "./ActivityContent.tsx";
+import { ActivityIndicator } from "react-native";
 
 interface Props {
   activity: Activity;
@@ -14,7 +15,11 @@ export default function ActivityFeedItem({ activity }: Props) {
 
   return (
     <ListItem icon={<ProfileImage profile={profile} width={30} height={30} />}>
-      <ActivityContent activity={activity} profile={profile} />
+      {profile ? (
+        <ActivityContent activity={activity} profile={profile} />
+      ) : (
+        <ActivityIndicator size={"small"} />
+      )}
     </ListItem>
   );
 }
