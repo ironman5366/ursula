@@ -38,7 +38,7 @@ CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
     FROM authors
     WHERE to_tsvector('english', authors.name) @@ plainto_tsquery('english', search_text)
 )
-    UNION (
+UNION (
     SELECT
         NULL AS entity_id_numeric,
         id::uuid AS entity_id_uuid,

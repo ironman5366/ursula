@@ -1242,6 +1242,18 @@ export type Database = {
           title: string;
         }[];
       };
+      social_feed: {
+        Args: {
+          for_user_id: string;
+        };
+        Returns: {
+          created_at: string;
+          data: Json;
+          id: number;
+          type: string;
+          user_id: string;
+        }[];
+      };
       update_book_counts: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;

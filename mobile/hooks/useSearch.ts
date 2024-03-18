@@ -23,7 +23,7 @@ async function fetchSearchBooks({ name }: { name: string }): Promise<Book[]> {
     : books;
 }
 
-export default function useSearchBooks({
+export default function useSearch({
   name,
   enabled,
 }: {

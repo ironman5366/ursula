@@ -55,3 +55,23 @@ export function useActivities(userId: string) {
     queryFn: () => fetchUserActivities(userId),
   });
 }
+
+async function fetchSocialFeed(userId: string): Promise<Activity[]> {
+  const { data, error } = await supabase.rpc("social_feed", {
+    for_user_id: userId,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data as Activity[];
+}
+
+export function useSocialFeed() {
+  const { session } = useSession();
+  return useQuery({
+    queryFn: () => fetchSocialFeed(session.user.id),
+    queryKey: ["SOCIAL_FEED"],
+  });
+}
