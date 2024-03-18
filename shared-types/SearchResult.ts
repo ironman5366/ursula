@@ -1,9 +1,9 @@
 import { Database } from "./Database.ts";
 
 type ConditionalEntityId<T extends { id: unknown }> = T["id"] extends number
-  ? { entity_id_numeric: number; entity_id_uuid: never }
+  ? { entity_id_numeric: number; entity_id_uuid: null }
   : T["id"] extends string
-  ? { entity_id_numeric: never; entity_id_uuid: string }
+  ? { entity_id_numeric: null; entity_id_uuid: string }
   : never;
 
 type SearchResultBase<
@@ -11,7 +11,7 @@ type SearchResultBase<
   F extends keyof Database["public"]["Tables"][T]["Row"]
 > = ConditionalEntityId<Database["public"]["Tables"][T]["Row"]> & {
   result_field: F;
-  result_type: T;
+  entity_type: T;
   search_field: string;
   order_key: number;
 };

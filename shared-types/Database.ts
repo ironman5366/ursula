@@ -1215,7 +1215,7 @@ export type Database = {
           entity_id_numeric: number;
           entity_id_uuid: string;
           entity_type: string;
-          result_type: string;
+          result_field: string;
           search_field: string;
           order_key: number;
         }[];
