@@ -8,11 +8,11 @@ import {
 import LoaderRow from "./LoaderRow.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import useBook from "../../../hooks/useBook.ts";
-import BookPreviewRow from "../../molecules/BookPreviewRow.tsx";
 import { useAuthor } from "../../../hooks/authors.ts";
-import AuthorPreviewRow from "../../molecules/AuthorPreviewRow.tsx";
 import { useProfile } from "../../../hooks/profile.ts";
-import ProfilePreviewRow from "../../molecules/ProfilePreviewRow.tsx";
+import BookPreviewLink from "../../molecules/BookPreview/Link.tsx";
+import AuthorPreviewLink from "../../molecules/AuthorPreview/Link.tsx";
+import ProfilePreviewLink from "../../molecules/ProfilePreview/Link.tsx";
 
 interface Props {
   result: SearchResult;
@@ -24,7 +24,7 @@ function BookResultRow({ result }: { result: BookSearchResult }) {
     <LoaderRow
       icon={<Ionicons name={"book"} />}
       elem={book}
-      render={(it) => <BookPreviewRow book={it} />}
+      render={(it) => <BookPreviewLink book={it} />}
     />
   );
 }
@@ -35,7 +35,7 @@ function AuthorResultRow({ result }: { result: AuthorSearchResult }) {
     <LoaderRow
       icon={<Ionicons name={"pencil"} />}
       elem={author}
-      render={(it) => <AuthorPreviewRow author={it} />}
+      render={(it) => <AuthorPreviewLink author={it} />}
     />
   );
 }
@@ -46,7 +46,7 @@ function ProfileResultRow({ result }: { result: ProfileSearchResult }) {
     <LoaderRow
       icon={<Ionicons name={"person"} />}
       elem={profile}
-      render={(it) => <ProfilePreviewRow profile={it} />}
+      render={(it) => <ProfilePreviewLink profile={it} />}
     />
   );
 }

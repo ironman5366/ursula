@@ -4,8 +4,8 @@ import { StyledText } from "../../components/atoms/StyledText.tsx";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import BookPreviewLink from "../../components/atoms/BookPreviewLink.tsx";
 import { useThemeColor } from "../../theme.ts";
+import BookPreviewLink from "../../components/molecules/BookPreview/Link.tsx";
 
 interface Props {
   review: ReviewWithBook;

@@ -10,7 +10,7 @@ ON public.profiles USING gin (to_tsvector('english'::regconfig, full_name));
 CREATE INDEX IF NOT EXISTS idx_users_username_lower ON profiles (lower(username));
 
 CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
-    entity_id_numeric integer NULL,
+    entity_id_numeric integer,
     entity_id_uuid uuid,
     entity_type text,
     result_field text,
@@ -34,7 +34,8 @@ CREATE OR REPLACE FUNCTION search_all(search_text text) RETURNS TABLE (
         'authors' AS entity_type,
         'name' AS result_field,
         name AS search_field,
-        1 AS order_key
+        -- TODO: this should eventually be based on a metric of author popularity
+        0 AS order_key
     FROM authors
     WHERE to_tsvector('english', authors.name) @@ plainto_tsquery('english', search_text)
 )

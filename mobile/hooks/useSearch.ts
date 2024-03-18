@@ -4,6 +4,7 @@ import { supabase } from "../utils/supabase.ts";
 import { SearchResult } from "../../shared-types/SearchResult.ts";
 
 async function fetchSearchResults(query: string): Promise<SearchResult[]> {
+  console.log("query is", query);
   const { data, error } = await supabase
     .rpc("search_all", {
       search_text: query,
