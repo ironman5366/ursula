@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, router } from "expo-router";
 import { PostHogProvider } from "posthog-react-native";
 import React, { useEffect } from "react";
 import { useColorScheme } from "react-native";
@@ -13,9 +13,13 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TamaguiProvider } from "tamagui";
 import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
-import LoginSignup from "../pages/LoginSignup.tsx";
 import tamaguiConfig from "../tamagui.config.ts";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
+
+export const unstable_settings = {
+  // Ensure any route can link back to `/`
+  initialRouteName: "(onboard)/welcome",
+};
 
 SplashScreen.preventAutoHideAsync();
 
@@ -48,13 +52,31 @@ const queryClient = new QueryClient();
 
 function AuthenticatedStack() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        animationTypeForReplace: "pop",
+      }}
+    >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="bookDetail/[id]" options={{ title: "Book" }} />
       <Stack.Screen name="review/[id]" options={{ title: "Review " }} />
       <Stack.Screen name="rank/[id]" options={{ title: "Review" }} />
       <Stack.Screen name="followers/[id]" options={{ title: "Followers" }} />
       <Stack.Screen name="following/[id]" options={{ title: "Following" }} />
+      <Stack.Screen name="singup" options={{ title: "Home" }} />
+    </Stack>
+  );
+}
+
+function PublicStack() {
+  return (
+    <Stack
+      screenOptions={{
+        animationTypeForReplace: "pop",
+        animation: "fade"
+      }}
+    >
+      <Stack.Screen name="(onboard)" options={{ headerShown: false }} />
     </Stack>
   );
 }
@@ -62,10 +84,16 @@ function AuthenticatedStack() {
 function AuthRouter() {
   const { session } = useSession();
 
+  useEffect(() => {
+    if (!session || !session.user) {
+      router.replace("/(onboard)/welcome");
+    }
+  }, [session]);
+
   if (session && session.user) {
     return <AuthenticatedStack />;
   } else {
-    return <LoginSignup />;
+    return <PublicStack />;
   }
 }
 
