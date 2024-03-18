@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useUpdateProfile } from "../../hooks/profile.ts";
+import { useProfileImage, useUpdateProfile } from "../../hooks/profile.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import * as ImagePicker from "expo-image-picker";
@@ -12,6 +17,7 @@ import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import FollowersSection from "./FollowersSection.tsx";
 import { decode } from "base64-arraybuffer";
+import ProfileImage from "../../components/atoms/ProfileImage.tsx";
 
 interface Props {
   profile: Profile;
@@ -22,23 +28,6 @@ export default function ProfilePage({ profile }: Props) {
   const { mutate: updateProfile, isLoading } = useUpdateProfile();
   const [username, setUsername] = useState(profile.username);
   const [name, setName] = useState(profile.full_name);
-  const [avatarURL, setAvatarURL] = useState<string>();
-
-  useEffect(() => {
-    if (profile.avatar_key) {
-      supabase.storage
-        .from("avatars")
-        .createSignedUrl(profile.avatar_key, 3600)
-        .then(({ data, error }) => {
-          if (error) {
-            throw error;
-          }
-
-          console.log("signed URL is", data.signedUrl);
-          setAvatarURL(data.signedUrl);
-        });
-    }
-  }, [profile]);
 
   if (!profile || isLoading) {
     return <LoadingScreen />;
@@ -93,18 +82,7 @@ export default function ProfilePage({ profile }: Props) {
           }
         }}
       >
-        <Image
-          style={{
-            width: 150,
-            height: 150,
-            borderRadius: 50,
-          }}
-          source={
-            avatarURL
-              ? { uri: avatarURL }
-              : require("../../assets/images/profile-placeholder.png")
-          }
-        />
+        <ProfileImage profile={profile} />
       </TouchableOpacity>
       <FollowersSection profile={profile} />
       <StyledView style={styles.formContainer}>

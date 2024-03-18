@@ -22,3 +22,24 @@ export function useBookAuthors(bookId: number | undefined | null) {
     enabled: typeof bookId === "number",
   });
 }
+
+async function fetchAuthor(authorId: number): Promise<Author> {
+  const { data, error } = await supabase
+    .from("authors")
+    .select("*")
+    .eq("id", authorId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export function useAuthor(authorId: number) {
+  return useQuery({
+    queryKey: ["AUTHOR", authorId],
+    queryFn: () => fetchAuthor(authorId),
+  });
+}
