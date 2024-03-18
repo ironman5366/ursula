@@ -57,27 +57,7 @@ const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
 
 export function TabBar({ state, descriptors, navigation, ...rest }) {
   return (
-    <BlurView
-      tint="dark"
-      intensity={80}
-      style={{
-        position: "absolute",
-        bottom: 0,
-        gap: 20,
-        overflow: "hidden",
-        paddingHorizontal: 20,
-
-        height: 55,
-        marginBottom: 30,
-        flexDirection: "row",
-        alignSelf: "center",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingVertical: 5,
-        borderRadius: 1000,
-        borderColor: "transparent",
-      }}
-    >
+   <FloatingActionBar>
       {state.routes.map((route, index) => {
         return (
           <TabBarButton
@@ -90,6 +70,34 @@ export function TabBar({ state, descriptors, navigation, ...rest }) {
           />
         );
       })}
+    </FloatingActionBar>
+  );
+}
+
+export function FloatingActionBar({ children }) {
+  return (
+    <BlurView
+      tint="dark"
+      intensity={80}
+      style={{
+        position: "absolute",
+        bottom: 0,
+        gap: 20,
+        overflow: "hidden",
+        paddingHorizontal: 20,
+        minWidth: 300,
+        height: 55,
+        marginBottom: 30,
+        flexDirection: "row",
+        alignSelf: "center",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 5,
+        borderRadius: 1000,
+        borderColor: "transparent",
+      }}
+    >
+      {children}
     </BlurView>
   );
 }

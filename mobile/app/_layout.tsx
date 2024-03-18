@@ -10,12 +10,17 @@ import { PostHogProvider } from "posthog-react-native";
 import React, { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { TamaguiProvider } from "tamagui";
+import { TamaguiProvider, YStack } from "tamagui";
 import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
-import LoginSignup from "../pages/LoginSignup.tsx";
 import tamaguiConfig from "../tamagui.config.ts";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
+import Onboard from "./onboard.tsx";
+
+export const unstable_settings = {
+  // Ensure any route can link back to `/`
+  initialRouteName: "test",
+};
 
 SplashScreen.preventAutoHideAsync();
 
@@ -59,13 +64,22 @@ function AuthenticatedStack() {
   );
 }
 
+function PublicStack() {
+  return (
+    <Stack>
+      <Stack.Screen name="onboard" options={{ headerShown: false }} />
+      <Stack.Screen name="signup" options={{ headerShown: false }} />
+    </Stack>
+  );
+}
+
 function AuthRouter() {
   const { session } = useSession();
 
-  if (session && session.user) {
-    return <AuthenticatedStack />;
+  if( !(session && session.user)) {
+    return <PublicStack />;
   } else {
-    return <LoginSignup />;
+    return <AuthenticatedStack />;
   }
 }
 
