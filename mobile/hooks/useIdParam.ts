@@ -7,7 +7,15 @@ function coerceId(id: string | string[]): number {
   return Number.parseInt(id);
 }
 
-export default function useIdParam() {
+export default function useNumericIdParam() {
   const { id } = useLocalSearchParams();
   return coerceId(id);
+}
+
+export function useStringIdParam() {
+  const { id } = useLocalSearchParams();
+  if (Array.isArray(id)) {
+    return id[0];
+  }
+  return id;
 }

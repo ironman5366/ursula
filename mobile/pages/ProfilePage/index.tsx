@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useProfileImage, useUpdateProfile } from "../../hooks/profile.ts";
+import React, { useState } from "react";
+import { useUpdateProfile } from "../../hooks/profile.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
-import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import * as ImagePicker from "expo-image-picker";
@@ -119,15 +114,17 @@ export default function ProfilePage({ profile }: Props) {
           editable={isOwnProfile}
         />
 
-        <StyledButton
-          onPress={() => {
-            updateProfile({
-              username,
-              full_name: name,
-            });
-          }}
-          title={"Save"}
-        />
+        {isOwnProfile && (
+          <StyledButton
+            onPress={() => {
+              updateProfile({
+                username,
+                full_name: name,
+              });
+            }}
+            title={"Save"}
+          />
+        )}
       </StyledView>
     </StyledView>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
-import useIdParam from "../../hooks/useIdParam.ts";
+import useNumericIdParam from "../../hooks/useIdParam.ts";
 import useBook from "../../hooks/useBook.ts";
 import { useCreateReview } from "../../hooks/reviews.ts";
 import { router, Stack } from "expo-router";
@@ -11,7 +11,7 @@ import { StyledView } from "../../components/organisms/StyledView.tsx";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
 
 export default function Review() {
-  const id = useIdParam();
+  const id = useNumericIdParam();
   const { data: book } = useBook(id);
   const [note, setNote] = useState<string | null>(null);
   const { mutate, data } = useCreateReview();
