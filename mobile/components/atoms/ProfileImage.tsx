@@ -4,7 +4,7 @@ import { useProfileImage } from "../../hooks/profile.ts";
 import { ActivityIndicator, Image, ImageStyle, StyleProp } from "react-native";
 
 interface Props {
-  profile: Profile;
+  profile?: Profile;
   width?: number;
   height?: number;
 }

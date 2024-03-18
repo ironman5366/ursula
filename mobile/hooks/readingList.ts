@@ -4,6 +4,7 @@ import { Book, ReadingListItem } from "@ursula/shared-types/derived.ts";
 import { useSession } from "../contexts/SessionContext.ts";
 import { useRecordActivity } from "./activities.ts";
 import { ActivityType } from "@ursula/shared-types/Activity.ts";
+import { fetchBook } from "./useBook.ts";
 
 export type ReadingListItemWithBook = {
   book: Book;
@@ -60,12 +61,14 @@ export function useAddToReadingList() {
 
   return useMutation({
     mutationFn: (bookId: number) => doAddToReadingList(session.user.id, bookId),
-    onSuccess: (_data, bookId) => {
+    onSuccess: async (_data, bookId) => {
       client.invalidateQueries(["READING_LIST", session.user.id]);
+      const book = await fetchBook(bookId);
       recordActivity({
         type: ActivityType.ADDED_TO_LIST,
         data: {
           book_id: bookId,
+          book_name: book.title,
         },
       });
     },

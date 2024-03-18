@@ -89,9 +89,9 @@ async function getProfileImage(profile: Profile): Promise<string | null> {
   return null;
 }
 
-export function useProfileImage(profile?: Profile) {
+export function useProfileImage(profile: Profile | undefined) {
   return useQuery({
-    queryKey: ["PROFILE_IMAGE", profile.id],
+    queryKey: ["PROFILE_IMAGE", profile?.id],
     queryFn: () => getProfileImage(profile),
     enabled: !!profile,
   });

@@ -8,8 +8,9 @@ async function recordActivity(
   userId: string,
   data: ActivityData
 ): Promise<Activity> {
+  console.log("recording activity", userId, data);
   const { data: activity, error } = await supabase
-    .from("activites")
+    .from("activities")
     .insert({
       user_id: userId,
       ...data,
@@ -21,7 +22,7 @@ async function recordActivity(
     throw error;
   }
 
-  return activity;
+  return activity as Activity;
 }
 
 export function useRecordActivity() {

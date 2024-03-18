@@ -15,3 +15,5 @@ export type BaseActivity = Omit<
   "data" | "activity_type"
 >;
 export type Activity = BaseActivity & ActivityData;
+
+export type ActivityOf<T extends ActivityData> = BaseActivity & T;

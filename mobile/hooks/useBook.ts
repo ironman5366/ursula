@@ -1,7 +1,8 @@
 import { supabase } from "../utils/supabase";
 import { Book } from "../../shared-types/derived";
 import { useQuery } from "@tanstack/react-query";
-export function queryBook(id: number): Promise<Book> {
+
+export function fetchBook(id: number): Promise<Book> {
   return new Promise((resolve, reject) => {
     supabase
       .from("books")
@@ -25,6 +26,6 @@ export function queryBook(id: number): Promise<Book> {
 export default function useBook(id: number) {
   return useQuery({
     queryKey: ["BOOK", id],
-    queryFn: () => queryBook(id),
+    queryFn: () => fetchBook(id),
   });
 }
