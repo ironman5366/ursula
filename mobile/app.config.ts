@@ -2,7 +2,7 @@ module.exports = {
   expo: {
     name: "Ursula",
     slug: "ursula",
-    version: "1.0.2",
+    version: "1.0.3",
     orientation: "portrait",
     icon: "./assets/images/logo-192.png",
     scheme: "ursula",
@@ -14,7 +14,7 @@ module.exports = {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      buildNumber: "2",
+      buildNumber: "1",
       icon: "./assets/images/logo-192.png",
       bundleIdentifier: "com.willbeddow.ursula",
       supportsTablet: true,
@@ -47,7 +47,7 @@ module.exports = {
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       eas: {
         // Uncomment this for builds
-        //projectId: "ac90d169-a022-4526-95a5-95e58f0151a4",
+        // projectId: "ac90d169-a022-4526-95a5-95e58f0151a4",
       },
     },
   },
