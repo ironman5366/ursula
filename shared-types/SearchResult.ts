@@ -16,6 +16,10 @@ type SearchResultBase<
   order_key: number;
 };
 
+export type BookSearchResult = SearchResultBase<"books", any>;
+export type AuthorSearchResult = SearchResultBase<"authors", any>;
+export type ProfileSearchResult = SearchResultBase<"profiles", any>;
+
 /**
  * Example:
  * { entity_id_numeric: 1, entity_id_uuid: never, result_field: "title", result_type: "books", search_field: "Gone with the Wind", order_key: 3 }

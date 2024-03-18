@@ -1,22 +1,20 @@
 import React from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { Link, Stack } from "expo-router";
+import { StyleSheet, View, ScrollView } from "react-native";
+import { Stack } from "expo-router";
 import useBook from "../../hooks/useBook.ts";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
 import BookImage from "../../components/atoms/BookImage.tsx";
 import ReadingListButton from "./ReadingListButton.tsx";
-import CardButton from "../../components/atoms/CardButton.tsx";
 import useIdParam from "../../hooks/useIdParam.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import ReviewButton from "./ReviewButton.tsx";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
-import useBookAuthors from "../../hooks/useBookAuthors.ts";
+import BookAuthors from "../../components/atoms/BookAuthors.tsx";
 
 export default function BookDetail() {
   const id = useIdParam();
   const { data: book } = useBook(id);
-  const { data: authors, isLoading: isAuthorsLoading } = useBookAuthors(id);
 
   if (!book) {
     return <LoadingScreen />;
@@ -40,11 +38,7 @@ export default function BookDetail() {
           >
             {book.title}
           </TitleText>
-          <StyledText>
-            {isAuthorsLoading
-              ? "Loading..."
-              : authors?.map((a) => a.name).join(", ")}
-          </StyledText>
+          <BookAuthors bookId={id} />
         </View>
         <View style={styles.buttons}>
           <ReadingListButton bookId={book.id} />

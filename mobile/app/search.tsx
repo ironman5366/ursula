@@ -5,13 +5,14 @@ import useDebounce from "../hooks/useDebounce.ts";
 import useSearch from "../hooks/useSearch.ts";
 import BookList from "../components/molecules/BookList.tsx";
 import { Stack } from "expo-router";
+import SearchResultList from "../components/organisms/SearchResultList";
 
 export default function Search() {
   const [query, setQuery] = useState("");
   const debounced = useDebounce(query, 500);
 
   const { data, isLoading } = useSearch({
-    name: debounced,
+    query: debounced,
     enabled: !!debounced,
   });
 
@@ -31,7 +32,7 @@ export default function Search() {
       {showLoading ? (
         <ActivityIndicator />
       ) : (
-        <BookList books={data} replace={true} />
+        <SearchResultList results={data || []} />
       )}
     </SearchContainer>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import useBookAuthors from "../../hooks/useBookAuthors.ts";
+import { useBookAuthors } from "../../hooks/authors.ts";
 import { StyledText } from "./StyledText.tsx";
 
 interface Props {

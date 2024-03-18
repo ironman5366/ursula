@@ -6,6 +6,7 @@ import { TitleText } from "../atoms/TitleText.tsx";
 import { useTheme } from "@react-navigation/native";
 import BookAuthors from "../atoms/BookAuthors.tsx";
 import { StyledView } from "../organisms/StyledView.tsx";
+import { ListItem } from "tamagui";
 
 interface Props {
   book: Book;
@@ -20,7 +21,8 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
 
   return (
     <Pressable onPress={onPress} ref={ref}>
-      <StyledView
+      <ListItem
+        icon={<BookImage book={book} size={imageHeight} />}
         style={[
           {
             borderWidth: 2,
@@ -33,14 +35,11 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
           },
         ]}
       >
-        <StyledView style={styles.imageContainer}>
-          <BookImage book={book} size={imageHeight} />
-        </StyledView>
         <StyledView style={styles.textContainer}>
           <TitleText fontSize={20}>{book.title}</TitleText>
           <BookAuthors bookId={book.id} />
         </StyledView>
-      </StyledView>
+      </ListItem>
     </Pressable>
   );
 }
