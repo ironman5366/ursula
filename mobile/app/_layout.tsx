@@ -63,7 +63,6 @@ function AuthenticatedStack() {
       <Stack.Screen name="rank/[id]" options={{ title: "Review" }} />
       <Stack.Screen name="followers/[id]" options={{ title: "Followers" }} />
       <Stack.Screen name="following/[id]" options={{ title: "Following" }} />
-      <Stack.Screen name="singup" options={{ title: "Home" }} />
     </Stack>
   );
 }
@@ -73,7 +72,7 @@ function PublicStack() {
     <Stack
       screenOptions={{
         animationTypeForReplace: "pop",
-        animation: "fade"
+        animation: "fade",
       }}
     >
       <Stack.Screen name="(onboard)" options={{ headerShown: false }} />
@@ -82,13 +81,13 @@ function PublicStack() {
 }
 
 function AuthRouter() {
-  const { session } = useSession();
+  const { session, loading } = useSession();
 
   useEffect(() => {
-    if (!session || !session.user) {
+    if (!session?.user && !loading) {
       router.replace("/(onboard)/welcome");
     }
-  }, [session]);
+  }, [session, loading]);
 
   if (session && session.user) {
     return <AuthenticatedStack />;
