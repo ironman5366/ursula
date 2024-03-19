@@ -29,9 +29,9 @@ export function useRecordActivity() {
   const { session } = useSession();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: ActivityData) => recordActivity(session.user.id, data),
+    mutationFn: (data: ActivityData) => recordActivity(session?.user.id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(["ACTIVITIES", session.user.id]);
+      queryClient.invalidateQueries(["ACTIVITIES", session?.user.id]);
     },
   });
 }
@@ -74,5 +74,6 @@ export function useSocialFeed() {
   return useQuery({
     queryFn: () => fetchSocialFeed(session.user.id),
     queryKey: ["SOCIAL_FEED"],
+    enabled: !!session?.user.id,
   });
 }

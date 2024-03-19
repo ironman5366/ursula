@@ -1,5 +1,5 @@
 import React from "react";
-import ProfilePage from "../../pages/ProfilePage";
+import ProfilePage from "../../pages/Profile/Edit/index.tsx";
 import { useProfile } from "../../hooks/profile.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import { useStringIdParam } from "../../hooks/useIdParam.ts";

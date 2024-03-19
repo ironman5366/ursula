@@ -5,7 +5,7 @@ import { Book } from "@ursula/shared-types/derived.ts";
 import { TitleText } from "../../atoms/TitleText.tsx";
 import BookAuthors from "../../atoms/BookAuthors.tsx";
 import { StyledView } from "../../organisms/StyledView.tsx";
-import { ListItem } from "tamagui";
+import { ListItem, YStack } from "tamagui";
 
 interface Props {
   book: Book;
@@ -21,11 +21,12 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
       ref={ref}
       onPress={onPress}
       icon={<BookImage book={book} size={imageHeight} />}
+      backgroundColor={"transparent"}
     >
-      <StyledView style={styles.textContainer}>
+      <YStack style={styles.textContainer}>
         <TitleText fontSize={20}>{book.title}</TitleText>
         <BookAuthors bookId={book.id} />
-      </StyledView>
+      </YStack>
     </ListItem>
   );
 }

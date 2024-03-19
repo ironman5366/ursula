@@ -1,22 +1,26 @@
 import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 import { Colors, useThemeColor } from "../../theme.ts";
-import TabBarIcon from "../../components/atoms/TabBarIcon.tsx";
 import { TabBar } from "../../components/containers/TabBar.tsx";
-import { Home, Book, User } from "@tamagui/lucide-icons";
+import { Home, Book, User, Settings2 } from "@tamagui/lucide-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const color = useThemeColor("tint");
+  const color = useThemeColor("primary");
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerRight: () => (
-          <Link href={"/settings"} asChild>
+          <Link
+            href={"/settings"}
+            asChild
+            style={{
+              padding: 5,
+            }}
+          >
             <Pressable>
-              <TabBarIcon name="gear" color={color} />
+              <Settings2 color={color} />
             </Pressable>
           </Link>
         ),

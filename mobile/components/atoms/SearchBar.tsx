@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { TextInput, View } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Search, XCircle } from "@tamagui/lucide-icons";
+import { router } from "expo-router";
+import React from "react";
+import { TextInput } from "react-native";
+import { Button, Input, XStack } from "tamagui";
 import { useThemeColor } from "../../theme.ts";
-import StyledButton from "../organisms/StyledButton.tsx";
-import { StyledView } from "../organisms/StyledView.tsx";
-import { StyledText } from "./StyledText.tsx";
 
 interface SearchBarProps
   extends Omit<
@@ -18,7 +17,7 @@ interface SearchBarProps
 }
 
 export default function SearchBar({ editable, ...props }: SearchBarProps) {
-  const tint = useThemeColor("tint");
+  const tint = "gray";
   const textColor = useThemeColor("text");
   const placeholderColor = useThemeColor("disabled");
 
@@ -26,75 +25,40 @@ export default function SearchBar({ editable, ...props }: SearchBarProps) {
   const onChangeText = props.onChangeText || (() => {});
 
   return (
-    <View
-      style={{
-        width: "100%",
-        flexDirection: "row",
-      }}
+    <XStack
+      borderWidth={2}
+      backgroundColor="#00000011"
+      borderRadius={8}
+      width="100%"
+      p={8}
+      borderColor="#00000022"
     >
-      <View
+      <Search size={20} color={tint} mr="$2" style={{ flex: 0.1 }} />
+      <Input
         style={{
-          flexDirection: "column",
-          width: "100%",
+          color: textColor,
+          flex: 0.9,
         }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            borderColor: tint,
-            borderWidth: 3,
-            borderRadius: 8,
-            padding: 8,
-          }}
-        >
-          <Ionicons
-            name="search"
-            size={20}
-            color={tint}
-            style={{ flex: 0.1 }}
-          />
-          {editable ? (
-            <TextInput
-              style={{
-                color: textColor,
-                flex: 0.9,
-              }}
-              autoFocus={true}
-              caretHidden={false}
-              placeholder={"Search"}
-              onChangeText={onChangeText}
-              value={value}
-              placeholderTextColor={placeholderColor}
-              {...props}
-            />
-          ) : (
-            <StyledView
-              style={{
-                flex: 0.9,
-                justifyContent: "center",
-              }}
-            >
-              <StyledText
-                style={{
-                  color: placeholderColor,
-                }}
-              >
-                Search
-              </StyledText>
-            </StyledView>
-          )}
-        </View>
-        {value && value.length > 0 && (
-          <View
-            style={{
-              paddingTop: 10,
-              alignSelf: "center",
-            }}
-          >
-            <StyledButton title={"Clear"} onPress={() => onChangeText("")} />
-          </View>
-        )}
-      </View>
-    </View>
+        autoFocus={true}
+        caretHidden={false}
+        placeholder={"Search"}
+        onChangeText={onChangeText}
+        unstyled
+        backgroundColor="$colorTransparent"
+        flexGrow={1}
+        editable={editable}
+        onPressIn={() => router.push("/search")}
+        value={value}
+        placeholderTextColor={placeholderColor}
+        {...props}
+      />
+      {value && value.length > 0 && (
+        <Button
+          unstyled
+          iconAfter={<XCircle size={20} color={tint} />}
+          onPress={() => onChangeText("")}
+        />
+      )}
+    </XStack>
   );
 }

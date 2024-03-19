@@ -6,7 +6,7 @@ import StyledButton from "../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
 import { TitleText } from "../components/atoms/TitleText.tsx";
 import { useCurrentProfile } from "../hooks/profile.ts";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 
 function DebugPanel() {
   const queryClient = useQueryClient();
@@ -36,8 +36,6 @@ function DebugPanel() {
 }
 
 export default function Settings() {
-  const { data: profile } = useCurrentProfile();
-
   return (
     <StyledView style={styles.container}>
       <Stack.Screen
@@ -47,8 +45,7 @@ export default function Settings() {
       />
       <StyledButton
         title={"Sign Out"}
-        onPress={() => {
-          console.log("Signing out...");
+        onPress={async () => {
           supabase.auth.signOut();
         }}
       />

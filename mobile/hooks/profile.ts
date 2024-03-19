@@ -26,7 +26,7 @@ export function useProfile(userId: string) {
 
 export function useCurrentProfile() {
   const { session } = useSession();
-  return useProfile(session.user.id);
+  return useProfile(session?.user.id);
 }
 
 export async function updateProfile(
