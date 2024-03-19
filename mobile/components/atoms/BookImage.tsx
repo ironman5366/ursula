@@ -3,6 +3,7 @@ import { Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Book } from "../../../shared-types/derived";
 import { supabase } from "../../utils/supabase.ts";
+import { Book as BookIcon } from "@tamagui/lucide-icons";
 
 export interface Props {
   book: Book;
@@ -12,7 +13,7 @@ export interface Props {
 const aspectRatio = 0.625;
 
 export default function BookImage({ book, size }: Props) {
-  return <Ionicons name={"image"} size={size} />;
+  return <BookIcon size={30} />;
   /** TODO: bring this back with the new cover setup
   if (book.large_thumbnail_key) {
     const {

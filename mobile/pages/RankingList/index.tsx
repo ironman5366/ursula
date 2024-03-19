@@ -6,6 +6,7 @@ import { StyledView } from "../../components/organisms/StyledView.tsx";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { useUpdateProfile } from "../../hooks/profile.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import { YStack } from "tamagui";
 
 export default function RankingList() {
   const { data: reviews, isLoading } = useCurrentUserReviews();
@@ -16,7 +17,7 @@ export default function RankingList() {
   }
 
   return (
-    <StyledView style={styles.container}>
+    <YStack width="100%" flexGrow={3} flex={4} >
       <DraggableFlatList
         keyExtractor={(item) => item.review.id.toString()}
         data={reviews}
@@ -31,12 +32,13 @@ export default function RankingList() {
           });
         }}
       />
-    </StyledView>
+    </YStack>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
   },
 });

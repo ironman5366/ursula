@@ -6,6 +6,7 @@ import { StyledView } from "../../components/organisms/StyledView.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useThemeColor } from "../../theme.ts";
 import BookPreviewLink from "../../components/molecules/BookPreview/Link.tsx";
+import { XStack } from "tamagui";
 
 interface Props {
   review: ReviewWithBook;
@@ -17,7 +18,7 @@ export default function BookRankRow({ rank, review, drag }: Props) {
   const color = useThemeColor("text");
 
   return (
-    <StyledView style={styles.container}>
+    <XStack style={styles.container} borderBottomWidth={1} borderBottomColor="#00000022">
       <StyledView style={styles.number}>
         <StyledText
           style={{
@@ -35,7 +36,7 @@ export default function BookRankRow({ rank, review, drag }: Props) {
           <Ionicons name={"list-outline"} size={30} color={color} />
         </Pressable>
       </StyledView>
-    </StyledView>
+    </XStack>
   );
 }
 

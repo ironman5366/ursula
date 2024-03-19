@@ -24,5 +24,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 10,
+    width: "100%",
   },
 });

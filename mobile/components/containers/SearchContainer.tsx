@@ -9,6 +9,7 @@ import {
 import { StyledView } from "../organisms/StyledView.tsx";
 import SearchBar from "../atoms/SearchBar.tsx";
 import { Link } from "expo-router";
+import { YStack } from "tamagui";
 
 function SearchNavigator({
   children,
@@ -44,7 +45,7 @@ export default function SearchContainer({
       <WrapperComp style={styles.searchBarContainer}>
         <SearchBar editable={showSearch} {...props} />
       </WrapperComp>
-      <StyledView style={styles.children}>{children}</StyledView>
+      <YStack flex={1}>{children}</YStack>
     </SafeAreaView>
   );
 }
@@ -60,8 +61,5 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
   },
-  children: {
-    flex: 1,
-    padding: 10,
-  },
+
 });
