@@ -1,5 +1,8 @@
--- Delete all books associated with the author 'OL34694732W' via the book_authors table
+-- We need these indexes for this deletion to be performant
+CREATE INDEX IF NOT EXISTS ol_reading_log_items_edition_id_idx ON ol_reading_log_items (edition_id);
+CREATE INDEX IF NOT EXISTS ol_ratings_edition_id_idx ON ol_ratings (edition_id);
 
+-- Delete all books associated with the author 'OL8497983A' via the book_authors table
 CREATE OR REPLACE FUNCTION delete_bs_author(delete_ol_id text) RETURNS void AS $$
 DECLARE
     delete_author_id integer;
@@ -7,6 +10,8 @@ DECLARE
     editions_affected integer := 0;
     book_authors_affected integer := 0;
     authors_affected integer := 0;
+    reading_log_items_affected integer := 0;
+    ratings_affected integer := 0;
 BEGIN
     -- Find the author id with that OL id
     SELECT id INTO delete_author_id FROM authors WHERE ol_id = delete_ol_id;
@@ -17,42 +22,61 @@ BEGIN
         RETURN;
     END IF;
 
+    RAISE NOTICE 'Deleting all records associated with %s (authors ID = %s )', delete_ol_id, delete_author_id;
+
+    WITH deleted_reading_log_items AS (
+        DELETE FROM ol_reading_log_items WHERE book_id IN (SELECT book_id FROM book_authors WHERE author_id = delete_author_id)
+            RETURNING *
+    ) SELECT count(*) INTO reading_log_items_affected FROM deleted_reading_log_items;
+
+    RAISE NOTICE 'Deleted % reading log items', reading_log_items_affected;
+
+
+    WITH deleted_ratings AS (
+        DELETE FROM ol_ratings WHERE book_id IN (SELECT book_id FROM book_authors WHERE author_id = delete_author_id)
+            RETURNING *
+    ) SELECT count(*) INTO ratings_affected FROM deleted_ratings;
+
+    RAISE NOTICE 'Deleted % ratings', ratings_affected;
+
+
     WITH deleted_editions AS (
         DELETE FROM editions WHERE book_id IN (SELECT book_id FROM book_authors WHERE author_id = delete_author_id)
             RETURNING *
-    )
-    SELECT count(*) INTO editions_affected FROM deleted_editions;
+    ) SELECT count(*) INTO editions_affected FROM deleted_editions;
+
+    RAISE NOTICE 'Deleted % editions', editions_affected;
+
 
     -- Delete books associated with the author
     WITH deleted_books AS (
         DELETE FROM books
             WHERE id IN (SELECT book_id FROM book_authors WHERE author_id = delete_author_id)
             RETURNING *
-    )
-    SELECT count(*) INTO books_affected FROM deleted_books;
+    ) SELECT count(*) INTO books_affected FROM deleted_books;
+
+    RAISE NOTICE 'Deleted % books', books_affected;
+
 
     -- Delete book_authors entries for the author
     WITH deleted_book_authors AS (
         DELETE FROM book_authors WHERE author_id = delete_author_id
             RETURNING *
-    )
-    SELECT count(*) INTO book_authors_affected FROM deleted_book_authors;
+    ) SELECT count(*) INTO book_authors_affected FROM deleted_book_authors;
+    RAISE NOTICE 'Deleted % book_authors entries', book_authors_affected;
+
 
     -- Delete the author
     WITH deleted_authors AS (
         DELETE FROM authors WHERE id = delete_author_id
             RETURNING *
-    )
-    SELECT count(*) INTO authors_affected FROM deleted_authors;
-
-    -- Print the number of affected rows
-    RAISE NOTICE 'Deleted % editions', editions_affected;
-    RAISE NOTICE 'Deleted % books', books_affected;
-    RAISE NOTICE 'Deleted % book_authors entries', book_authors_affected;
+    ) SELECT count(*) INTO authors_affected FROM deleted_authors;
     RAISE NOTICE 'Deleted % authors', authors_affected;
+
+    RAISE NOTICE 'Finished!';
 END;
 $$ LANGUAGE plpgsql;
 
 
-
-SELECT delete_bs_author('OL9615339A') -- IRB media, just summaries
+SELECT delete_bs_author('OL9615339A'); -- IRB media, just summaries
+SELECT delete_bs_author('OL8497983A'); -- Quantum publishing, same
