@@ -1,13 +1,14 @@
 import React, { ComponentProps } from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
-import { useFollowers, useFollowing } from "../../hooks/follows.ts";
-import { StyledView } from "../../components/organisms/StyledView.tsx";
+import { useFollowers, useFollowing } from "../../../hooks/follows.ts";
+import { StyledView } from "../../../components/organisms/StyledView.tsx";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { Link, LinkProps } from "expo-router";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
-import { useSession } from "../../contexts/SessionContext.ts";
-import StyledButton from "../../components/organisms/StyledButton.tsx";
+import { StyledText } from "../../../components/atoms/StyledText.tsx";
+import { useSession } from "../../../contexts/SessionContext.ts";
+import StyledButton from "../../../components/organisms/StyledButton.tsx";
 import FollowButton from "./FollowButton.tsx";
+import { XStack } from "tamagui";
 
 interface FollowerLinkProps<T> extends Omit<LinkProps<T>, "children"> {
   list: string[] | undefined;
@@ -45,7 +46,7 @@ export default function FollowersSection({ profile }: Props) {
   const isOwnProfile = profile.id == session.user.id;
 
   return (
-    <StyledView>
+    <XStack>
       <StyledView style={styles.row}>
         <FollowerLink
           list={followers}
@@ -63,7 +64,7 @@ export default function FollowersSection({ profile }: Props) {
           <FollowButton userId={profile.id} />
         </StyledView>
       )}
-    </StyledView>
+    </XStack>
   );
 }
 

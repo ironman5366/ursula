@@ -1,7 +1,7 @@
 import React from "react";
-import { useFollow, useIsFollowing, useUnfollow } from "../../hooks/follows.ts";
-import { useSession } from "../../contexts/SessionContext.ts";
-import StyledButton from "../../components/organisms/StyledButton.tsx";
+import { useFollow, useIsFollowing, useUnfollow } from "../../../hooks/follows.ts";
+import { useSession } from "../../../contexts/SessionContext.ts";
+import StyledButton from "../../../components/organisms/StyledButton.tsx";
 import { ActivityIndicator } from "react-native";
 
 interface Props {

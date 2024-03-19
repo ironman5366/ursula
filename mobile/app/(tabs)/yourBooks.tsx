@@ -54,6 +54,7 @@ export default function YourBooks() {
       <Stack.Screen
         options={{
           title: "Books",
+          headerShown: false,
         }}
       />
       <SearchContainer editable={false}>

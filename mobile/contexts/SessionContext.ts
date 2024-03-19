@@ -16,7 +16,7 @@ export const [SessionProvider, useSession] = constate(() => {
       if (error) {
         console.error("Error fetching session:", error.message);
       } else {
-        setSession(data?.session);
+        setSession(data.session);
       }
       setLoading(false);
     });

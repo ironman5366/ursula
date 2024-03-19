@@ -63,6 +63,7 @@ function AuthenticatedStack() {
       <Stack.Screen name="rank/[id]" options={{ title: "Review" }} />
       <Stack.Screen name="followers/[id]" options={{ title: "Followers" }} />
       <Stack.Screen name="following/[id]" options={{ title: "Following" }} />
+      <Stack.Screen name="profile/edit" options={{ title: "Edit" }} />
     </Stack>
   );
 }
