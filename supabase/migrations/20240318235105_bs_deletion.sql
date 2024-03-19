@@ -1,6 +1,12 @@
+-- High statement timeout
+SET statement_timeout = '3h';
+
 -- We need these indexes for this deletion to be performant
 CREATE INDEX IF NOT EXISTS ol_reading_log_items_edition_id_idx ON ol_reading_log_items (edition_id);
 CREATE INDEX IF NOT EXISTS ol_ratings_edition_id_idx ON ol_ratings (edition_id);
+
+CREATE INDEX IF NOT EXISTS book_subjects_book_id_idx ON book_subjects (book_id);
+CREATE INDEX IF NOT EXISTS book_subjects_subject_id_idx ON book_subjects (subject_id);
 
 
 -- Delete all books associated with the author 'OL8497983A' via the book_authors table
@@ -114,7 +120,7 @@ DECLARE
     authors_affected integer := 0;
 BEGIN
     -- Find the author id with that OL id
-    SELECT id INTO delete_author_id FROM authors WHERE ol_id = delete_ol_id;
+    SELECT id INTO delete_author_id FROM authors WHERE authors.ol_id = delete_ol_id;
 
     -- If the author is not found, raise a notice and exit the function
     IF delete_author_id IS NULL THEN
@@ -142,6 +148,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Delete any authors with > 2000 books
+
+SELECT
+    author.name,
+    author.ol_id,
+    delete_only_bs_author(author.ol_id), -- noqa
+    count(*) AS author_id_count
+FROM book_authors
+INNER JOIN public.authors AS author ON book_authors.author_id = author.id
+GROUP BY author.id, author.name, author.ol_id
+HAVING count(*) > 2000;
 
 -- Do a cleanup to delete orphan books - find books with no record in book authors, and delete them
 
