@@ -34,5 +34,12 @@ ALTER TABLE ol_reading_log_items DROP CONSTRAINT IF EXISTS ol_reading_log_items_
 ALTER TABLE ol_reading_log_items ADD CONSTRAINT ol_reading_log_items_book_id_fkey FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE;
 ALTER TABLE ol_reading_log_items ADD CONSTRAINT ol_reading_log_items_edition_id_fkey FOREIGN KEY (edition_id) REFERENCES editions (id) ON DELETE CASCADE;
 
+ALTER TABLE editions DROP CONSTRAINT IF EXISTS ol_editions_book_id_fkey;
+ALTER TABLE editions DROP CONSTRAINT IF EXISTS editions_book_id_fkey;
+ALTER TABLE editions ADD CONSTRAINT editions_book_id_fkey FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE;
+
+ALTER TABLE legacy_book_mappings DROP CONSTRAINT IF EXISTS legacy_book_mappings_ol_book_id_fkey;
+ALTER TABLE legacy_book_mappings ADD CONSTRAINT legacy_book_mappings_book_id_fkey FOREIGN KEY (ol_book_id) REFERENCES books (id) ON DELETE CASCADE;
+
 -- NOTE: we intentionally don't do this with reviews or reading_list_items.
 -- If we try to delete a book that a user has reviewed we need to care about it

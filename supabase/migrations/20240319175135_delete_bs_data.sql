@@ -1,3 +1,5 @@
+SET statement_timeout = '3h';
+
 CREATE OR REPLACE FUNCTION delete_bs_author(delete_ol_id text) RETURNS void AS $$
     DECLARE
         delete_author_id integer;
@@ -11,6 +13,9 @@ CREATE OR REPLACE FUNCTION delete_bs_author(delete_ol_id text) RETURNS void AS $
 
         -- Delete all the books from the books table associated with this author by looking at book_authors.
         DELETE FROM books WHERE id IN (SELECT book_id FROM book_authors WHERE author_id = delete_author_id);
+
+        -- Delete the actual author
+        DELETE FROM authors WHERE id = delete_author_id;
     END;
 $$ LANGUAGE plpgsql;
 
@@ -24,3 +29,44 @@ SELECT delete_bs_author('OL11174076A'); -- Adele coloring books;
 SELECT delete_bs_author('OL4712881A'); -- Great britain, a bunch of legal docs
 SELECT delete_bs_author('OL4529419A'); -- US Congress, public records
 SELECT delete_bs_author('OL539875A'); -- Philip Parker, a guy who algorithmically generates books
+SELECT delete_bs_author('OL10026209A'); -- Someone who publishes trivia about popular books
+SELECT delete_bs_author('OL8374311A');
+SELECT delete_bs_author('OL10136442A'); -- Sumoreads
+SELECT delete_bs_author('OL7551984A'); -- Paula Croyle, a woman who publishes the same children's book but with different names on the cover
+
+
+CREATE OR REPLACE FUNCTION delete_orphan_books() RETURNS void AS $$
+DECLARE
+    deleted_book_count integer;
+BEGIN
+
+    RAISE NOTICE 'Deleting orphan books';
+
+    WITH deleted_books AS (
+        DELETE FROM books
+            WHERE NOT EXISTS (SELECT 1
+                              FROM book_authors
+                              WHERE book_authors.book_id = books.id)) SELECT COUNT(*) into deleted_book_count;
+
+
+    RAISE NOTICE 'Deleted % books', deleted_book_count;
+
+END
+$$ LANGUAGE plpgsql;
+
+
+-- By doing this twice we can see the number of orphans that were just in the database at large, and the
+-- number of author based orphans
+SELECT delete_orphan_books();
+
+-- Delete any authors who are in the database as having written > 1000 books. We can confidently say that nobody
+-- has written that many books, so these are likely to be spam or other bad data.
+DELETE FROM public.authors
+WHERE id IN (
+    SELECT author_id
+    FROM book_authors
+    GROUP BY author_id
+    HAVING count(*) > 1500
+);
+
+SELECT delete_orphan_books();
