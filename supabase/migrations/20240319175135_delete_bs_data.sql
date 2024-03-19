@@ -1,5 +1,7 @@
 SET statement_timeout = '3h';
 
+CREATE INDEX IF NOT EXISTS books_popularity_idx ON books (popularity);
+
 CREATE OR REPLACE FUNCTION delete_bs_author(delete_ol_id text) RETURNS void AS $$
     DECLARE
         delete_author_id integer;
@@ -46,7 +48,10 @@ BEGIN
         DELETE FROM books
             WHERE NOT EXISTS (SELECT 1
                               FROM book_authors
-                              WHERE book_authors.book_id = books.id)) SELECT COUNT(*) into deleted_book_count;
+                              WHERE book_authors.book_id = books.id)
+               AND popularity = 0
+               AND covers is NULL
+               ) SELECT COUNT(*) into deleted_book_count;
 
 
     RAISE NOTICE 'Deleted % books', deleted_book_count;
@@ -59,14 +64,14 @@ $$ LANGUAGE plpgsql;
 -- number of author based orphans
 SELECT delete_orphan_books();
 
--- Delete any authors who are in the database as having written > 1000 books. We can confidently say that nobody
+-- Delete any authors who are in the database as having written > 2500 books. We can confidently say that nobody
 -- has written that many books, so these are likely to be spam or other bad data.
 DELETE FROM public.authors
 WHERE id IN (
     SELECT author_id
     FROM book_authors
     GROUP BY author_id
-    HAVING count(*) > 1500
+    HAVING count(*) > 2500
 );
 
 SELECT delete_orphan_books();
