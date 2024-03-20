@@ -40,10 +40,15 @@ async function loadBookCover(
     return book;
   }
 
-  book.last_cover_update = new Date().toISOString();
+  let updatedBook: Partial<Book> = {
+    last_cover_update: new Date().toISOString(),
+  };
 
-  if (book.covers && book.covers.length >= 1) {
-    const firstCoverId = book.covers.sort()[0];
+  if (book.covers && book.covers.length >= 1 && Math.max(...book.covers) > 0) {
+    // Making a baseless assumption here that the smallest ID (first cover created) is more likely to be the
+    // canonical one
+    const firstCoverId = book.covers.filter((c) => c > 0).sort()[0];
+
     const coverTemplate = `https://covers.openlibrary.org/b/id/${firstCoverId}`;
     const imagePromises: Promise<string>[] = [
       fetchImageAndUploadToSupabase(`${coverTemplate}-S.jpg`, supabase),
@@ -53,8 +58,8 @@ async function loadBookCover(
 
     const [small_cover_key, medium_cover_key, large_cover_key] =
       await Promise.all(imagePromises);
-    book = {
-      ...book,
+    updatedBook = {
+      ...updatedBook,
       small_cover_key,
       medium_cover_key,
       large_cover_key,
@@ -62,21 +67,21 @@ async function loadBookCover(
   }
 
   // Update the book in the database
-  const { data: updatedBook, error } = await supabase
+  const { data: newBook, error } = await supabase
     .from("books")
-    .update(book)
+    .update(updatedBook)
     .eq("id", book.id)
+    .select("*")
     .single();
 
   if (error) {
     throw error;
   }
 
-  return updatedBook;
+  return newBook;
 }
 
 async function handler(req: Request): Promise<Response> {
-  const url = new URL(req.url);
   const { bookId }: RequestParams = await req.json();
   let supabase: SupabaseClient<Database>;
 
@@ -110,6 +115,7 @@ async function handler(req: Request): Promise<Response> {
   }
 
   const updatedBook = await loadBookCover(supabase, book);
+  console.log("Updated book", updatedBook);
   return new Response(JSON.stringify(updatedBook), {
     headers: {
       "Content-Type": "application/json",

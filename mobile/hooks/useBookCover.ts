@@ -3,11 +3,15 @@ import useBook from "./useBook.ts";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { supabase } from "../utils/supabase.ts";
 
-function getPublicUrlForKey(key: string) {
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from("book_thumbnails").getPublicUrl(key);
-  return publicUrl;
+function getPublicUrlForKey(key: string | null) {
+  if (key) {
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("book_thumbnails").getPublicUrl(key);
+    return publicUrl;
+  } else {
+    return null;
+  }
 }
 
 export interface BookCovers {
@@ -27,8 +31,11 @@ async function loadBookCover(
     return { small_url, medium_url, large_url };
   } else {
     const { data: newBook, error } = await supabase.functions.invoke(
-      "loadBookCover",
-      {}
+      "load-book-cover",
+      {
+        method: "POST",
+        body: JSON.stringify({ bookId: book.id }),
+      }
     );
 
     if (error) {
