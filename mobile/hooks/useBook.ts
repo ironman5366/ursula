@@ -2,25 +2,18 @@ import { supabase } from "../utils/supabase";
 import { Book } from "../../shared-types/derived";
 import { useQuery } from "@tanstack/react-query";
 
-export function fetchBook(id: number): Promise<Book> {
-  return new Promise((resolve, reject) => {
-    supabase
-      .from("books")
-      .select("*")
-      .eq("id", id)
-      .then((resp) => {
-        if (resp.error) {
-          reject(resp.error);
-          return;
-        }
-        if (resp.data === null) {
-          reject();
-          return;
-        }
-        resolve(resp.data[0] as Book);
-        return;
-      });
-  });
+export async function fetchBook(id: number): Promise<Book> {
+  const { data, error } = await supabase
+    .from("books")
+    .select()
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 }
 
 export default function useBook(id: number) {

@@ -20,15 +20,12 @@ export default function Onboard() {
               textAlign="center"
               fontSize="$11"
             >
-              Maybe some cool tagline three lines
+              There's nothing like a good book. Welcome to Ursula.
             </Text>
           </YStack>
         </SafeAreaView>
         <FloatingActionBar>
-          <Link
-            href="/(onboard)/login"
-            asChild
-          >
+          <Link href="/(onboard)/login" asChild>
             <Button
               width={300}
               unstyled
