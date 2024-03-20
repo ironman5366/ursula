@@ -1,27 +1,21 @@
-import { color, radius, size, space, zIndex, themes } from "@tamagui/themes";
-import { DARK_TINT, LIGHT_TINT } from "./theme.ts";
-import { createTokens } from "tamagui";
+import { createTamagui } from "tamagui";
+import { config as defaultConfig } from "@tamagui/config/v3";
+import { darkTheme, lightTheme, themeTokens } from "./theme.ts";
 
-const tokens = createTokens({
-  color: {
-    darkRed: LIGHT_TINT,
-    darkOrange: DARK_TINT,
-    ...color,
+// Most all of the logic is in the theme.ts file, we just use this to tie it
+// together and export what we need for tamagui
+
+const tamaguiConfig = createTamagui({
+  ...defaultConfig,
+  themes: {
+    light: lightTheme,
+    dark: darkTheme,
   },
-  space,
-  size,
-  radius,
-  zIndex,
+  tokens: themeTokens,
 });
-
-const tamaguiConfig = {
-  tokens,
-  themes,
-};
+export default tamaguiConfig;
 
 export type Conf = typeof tamaguiConfig;
 declare module "tamagui" {
   interface TamaguiCustomConfig extends Conf {}
 }
-
-export default tamaguiConfig;

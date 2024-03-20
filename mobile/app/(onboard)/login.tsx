@@ -38,7 +38,6 @@ export default function LoginSignup() {
   useEffect(() => {
     const checkLoginStatus = async () => {
       const hasDoneThisBefore = await loggedInBefore();
-      console.log("hasDoneThisBefore", hasDoneThisBefore);
       setIsLogin(hasDoneThisBefore);
     };
     checkLoginStatus();
@@ -85,7 +84,7 @@ export default function LoginSignup() {
               Ursula
             </Text>
             <YStack width="100%" px="$5" gap="$1" mb="$6">
-              <Text fontSize={25}>Sign Up</Text>
+              <Text fontSize={25}>{isLogin ? "Login" : "Sign Up"}</Text>
             </YStack>
             <YStack width="100%" px="$5" gap="$3">
               <EmailInput

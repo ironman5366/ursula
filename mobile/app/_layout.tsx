@@ -13,7 +13,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TamaguiProvider } from "tamagui";
 import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
-import { DARK_THEME, LIGHT_THEME, tamaguiConfig } from "../theme.ts";
+import tamaguiConfig from "../tamagui.config.ts";
+import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
+import { color } from "@tamagui/themes";
 
 export const unstable_settings = {
   // Ensure any route can link back to `/`
@@ -56,7 +58,14 @@ function AuthenticatedStack() {
         animationTypeForReplace: "pop",
       }}
     >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(onboard)"
+        options={{ headerShown: false, title: "Welcome" }}
+      />
+      <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false, title: "Home" }}
+      />
       <Stack.Screen name="bookDetail/[id]" options={{ title: "Book" }} />
       <Stack.Screen name="review/[id]" options={{ title: "Review " }} />
       <Stack.Screen name="rank/[id]" options={{ title: "Review" }} />
