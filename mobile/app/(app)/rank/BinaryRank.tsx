@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
-import ReviewWithBook from "../../types/ReviewWithBook.ts";
-import useBinarySearch from "../../hooks/useBinarySearch.ts";
+import ReviewWithBook from "../../../types/ReviewWithBook.ts";
+import useBinarySearch from "../../../hooks/useBinarySearch.ts";
 import { router } from "expo-router";
-import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
 import RankComparison from "./RankComparison.tsx";
-import { useRank } from "../../hooks/reviews.ts";
+import { useRank } from "../../../hooks/reviews.ts";
 
 interface Props {
   profile: Profile;

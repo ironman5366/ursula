@@ -14,29 +14,21 @@ interface Props {
 
 export default function ActivityFeedItem({ activity }: Props) {
   const { data: profile } = useProfile(activity.user_id);
-  const primary = useThemeColor("primary");
 
   return (
-    <StyledView
+    <ListItem
+      icon={<ProfileImage profile={profile} size={30} />}
+      borderRadius={20}
       style={{
-        flex: 1,
-        paddingRight: 10,
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
+        paddingRight: 50,
+        justifyContent: "left",
       }}
     >
-      <ListItem
-        icon={<ProfileImage profile={profile} size={30} />}
-        style={{
-          border: `1px solid ${primary}`,
-        }}
-      >
-        {profile ? (
-          <ActivityContent activity={activity} profile={profile} />
-        ) : (
-          <ActivityIndicator size={"small"} />
-        )}
-      </ListItem>
-    </StyledView>
+      {profile ? (
+        <ActivityContent activity={activity} profile={profile} />
+      ) : (
+        <ActivityIndicator size={"small"} />
+      )}
+    </ListItem>
   );
 }

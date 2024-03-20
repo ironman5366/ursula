@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text } from "react-native";
-import { StyledView } from "../components/organisms/StyledView.tsx";
-import { supabase } from "../utils/supabase.ts";
-import StyledButton from "../components/organisms/StyledButton.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
+import { supabase } from "../../utils/supabase.ts";
+import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
-import { TitleText } from "../components/atoms/TitleText.tsx";
-import { useCurrentProfile } from "../hooks/profile.ts";
+import { TitleText } from "../../components/atoms/TitleText.tsx";
+import { useCurrentProfile } from "../../hooks/profile.ts";
 import { Stack, router } from "expo-router";
-import useSignOut from "../hooks/useSignOut.ts";
+import useSignOut from "../../hooks/useSignOut.ts";
 
 function DebugPanel() {
   const queryClient = useQueryClient();

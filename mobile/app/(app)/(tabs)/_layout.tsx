@@ -1,12 +1,11 @@
-import { Link, Tabs } from "expo-router";
+import { Link, Redirect, router, Tabs } from "expo-router";
 import { Pressable } from "react-native";
-import { useThemeColor } from "../../theme.ts";
-import { TabBar } from "../../components/containers/TabBar.tsx";
+import { useThemeColor } from "../../../theme.ts";
+import { TabBar } from "../../../components/containers/TabBar.tsx";
 import { Home, Book, User, Settings2 } from "@tamagui/lucide-icons";
 
 export default function TabLayout() {
   const color = useThemeColor("primary");
-  console.log("In tab layout");
 
   return (
     <Tabs

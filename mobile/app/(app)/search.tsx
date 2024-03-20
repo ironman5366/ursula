@@ -2,20 +2,16 @@ import { Stack, router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, SafeAreaView } from "react-native";
 import { XStack, Text, Button } from "tamagui";
-import SearchContainer from "../components/containers/SearchContainer.tsx";
-import SearchResultList from "../components/organisms/SearchResultList";
-import useDebounce from "../hooks/useDebounce.ts";
-import useSearch from "../hooks/useSearch.ts";
+import SearchContainer from "../../components/containers/SearchContainer.tsx";
+import SearchResultList from "../../components/organisms/SearchResultList";
+import useDebounce from "../../hooks/useDebounce.ts";
+import useSearch from "../../hooks/useSearch.ts";
 import { XCircle } from "@tamagui/lucide-icons";
-import {
-  NativeStackHeaderProps
-} from "@react-navigation/native-stack";
+import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 export default function Search() {
   const [query, setQuery] = useState("");
   const debounced = useDebounce(query, 500);
   const [dirty, setDirty] = useState(false);
-
-
 
   const { data, isLoading } = useSearch({
     query: debounced,
@@ -28,14 +24,12 @@ export default function Search() {
   useEffect(() => {
     if (!debounced && dirty) {
       setDirty(false);
-     popRoute()
+      popRoute();
     }
     if (debounced) {
       setDirty(true);
     }
   }, [debounced, dirty]);
-
-
 
   return (
     <SearchContainer
@@ -58,7 +52,6 @@ export default function Search() {
     </SearchContainer>
   );
 }
-
 
 export function SearchHeader(props: NativeStackHeaderProps) {
   return (

@@ -79,6 +79,7 @@ export const TAMAGUI_THEMES = {
     colorHover: themeTokens.color.cambridgeBlue,
     colorPress: themeTokens.color.cambridgeBlue,
     shadowColor: themeTokens.color.sunglow,
+    borderWidth: 2,
   },
   light_Button: {
     color: themeTokens.color.claret,

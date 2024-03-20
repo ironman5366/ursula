@@ -1,9 +1,9 @@
-import { useUnrank, useUserBookReview } from "../../hooks/reviews.ts";
-import CardButton from "../../components/atoms/CardButton.tsx";
+import { useUnrank, useUserBookReview } from "../../../hooks/reviews.ts";
+import CardButton from "../../../components/atoms/CardButton.tsx";
 import { ActivityIndicator } from "react-native";
 import React from "react";
 import { router } from "expo-router";
-import { useCurrentProfile } from "../../hooks/profile.ts";
+import { useCurrentProfile } from "../../../hooks/profile.ts";
 
 interface Props {
   bookId: number;

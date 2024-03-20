@@ -37,7 +37,7 @@ export default function LoginSignup() {
     if (error) {
       Alert.alert(error.message);
     } else {
-      router.replace("/(tabs)");
+      router.replace("/(app)/(tabs)");
     }
     setLoading(false);
   }
