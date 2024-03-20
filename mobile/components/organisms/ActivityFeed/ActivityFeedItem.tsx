@@ -5,6 +5,8 @@ import { useProfile } from "../../../hooks/profile.ts";
 import ProfileImage from "../../atoms/ProfileImage.tsx";
 import ActivityContent from "./ActivityContent.tsx";
 import { ActivityIndicator } from "react-native";
+import { useThemeColor } from "../../../theme.ts";
+import { StyledView } from "../StyledView.tsx";
 
 interface Props {
   activity: Activity;
@@ -12,14 +14,29 @@ interface Props {
 
 export default function ActivityFeedItem({ activity }: Props) {
   const { data: profile } = useProfile(activity.user_id);
+  const primary = useThemeColor("primary");
 
   return (
-    <ListItem icon={<ProfileImage profile={profile} width={30} height={30} />}>
-      {profile ? (
-        <ActivityContent activity={activity} profile={profile} />
-      ) : (
-        <ActivityIndicator size={"small"} />
-      )}
-    </ListItem>
+    <StyledView
+      style={{
+        flex: 1,
+        paddingRight: 10,
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+      }}
+    >
+      <ListItem
+        icon={<ProfileImage profile={profile} size={30} />}
+        style={{
+          border: `1px solid ${primary}`,
+        }}
+      >
+        {profile ? (
+          <ActivityContent activity={activity} profile={profile} />
+        ) : (
+          <ActivityIndicator size={"small"} />
+        )}
+      </ListItem>
+    </StyledView>
   );
 }

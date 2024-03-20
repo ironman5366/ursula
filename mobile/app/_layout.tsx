@@ -16,6 +16,7 @@ import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
 import tamaguiConfig from "../tamagui.config.ts";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 import { color } from "@tamagui/themes";
+import LoadingScreen from "../components/atoms/LoadingScreen.tsx";
 
 export const unstable_settings = {
   // Ensure any route can link back to `/`
@@ -52,16 +53,14 @@ export default function RootLayout() {
 const queryClient = new QueryClient();
 
 function AuthenticatedStack() {
+  console.log("In authenticated stack");
   return (
     <Stack
+      initialRouteName="onboard"
       screenOptions={{
         animationTypeForReplace: "pop",
       }}
     >
-      <Stack.Screen
-        name="(onboard)"
-        options={{ headerShown: false, title: "Welcome" }}
-      />
       <Stack.Screen
         name="(tabs)"
         options={{ headerShown: false, title: "Home" }}
@@ -77,6 +76,7 @@ function AuthenticatedStack() {
 }
 
 function PublicStack() {
+  console.log("in public stack");
   return (
     <Stack
       screenOptions={{
@@ -95,8 +95,13 @@ function PublicStack() {
 function AuthRouter() {
   const { session, loading } = useSession();
   if (session && session.user) {
+    console.log("Returning public stack bc", session.user);
     return <AuthenticatedStack />;
+  } else if (loading) {
+    console.log("returning loading screen");
+    return <LoadingScreen />;
   } else {
+    console.log("Returning public stack");
     return <PublicStack />;
   }
 }

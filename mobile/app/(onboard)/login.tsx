@@ -1,8 +1,8 @@
 import { AuthError } from "@supabase/supabase-js";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, SafeAreaView } from "react-native";
-import { Button, YStack, Text, Input } from "tamagui";
+import { Button, YStack, Text } from "tamagui";
 import LoadingScreen from "../../components/atoms/LoadingScreen";
 import DismissKeyboardContainer from "../../components/containers/DismissKeyboardContainer";
 import { FloatingActionBar } from "../../components/containers/TabBar";

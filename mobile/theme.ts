@@ -6,12 +6,6 @@ import { ThemeProps } from "./components/organisms/StyledView.tsx";
 import { useColorScheme } from "react-native";
 import { createTokens } from "tamagui";
 import { config as defaultConfig } from "@tamagui/config/v3";
-import { createSoftenMask, createThemeBuilder } from "@tamagui/theme-builder";
-
-console.log(
-  "defaultConfig themes",
-  JSON.stringify(defaultConfig.themes.light, null, 2)
-);
 
 export const LIGHT_PRIMARY_CLARET = "#832232";
 export const LIGHT_SECONDARY_SUNGLOW = "#FDCA40";
@@ -88,6 +82,10 @@ export const TAMAGUI_THEMES = {
   },
   light_Button: {
     color: themeTokens.color.claret,
+  },
+  light_ListItem: {
+    borderColor: themeTokens.color.claret,
+    color: themeTokens.color.sunglow,
   },
   dark: {
     background: themeTokens.color.raisinBlack,
