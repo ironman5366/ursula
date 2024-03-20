@@ -1,36 +1,16 @@
-import { Link, Redirect, router, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Tabs } from "expo-router";
 import { useThemeColor } from "../../../theme.ts";
 import { TabBar } from "../../../components/containers/TabBar.tsx";
-import { Home, Book, User, Settings2 } from "@tamagui/lucide-icons";
+import { Home, Book, User } from "@tamagui/lucide-icons";
+import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
 
 export default function TabLayout() {
   const color = useThemeColor("primary");
-  console.log("In tab layout");
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "blue",
-        headerRight: () => {
-          console.log("in header right");
-          return (
-            <Link
-              href={"/settings"}
-              asChild
-              style={{
-                padding: 5,
-              }}
-            >
-              <Pressable>
-                <Settings2 color={color} />
-              </Pressable>
-            </Link>
-          );
-        },
-        headerRightContainerStyle: {
-          paddingRight: 10,
-        },
+        header: DefaultHeader,
       }}
       tabBar={TabBar}
     >

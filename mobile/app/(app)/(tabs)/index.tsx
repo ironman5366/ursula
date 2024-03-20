@@ -16,7 +16,6 @@ export default function Home() {
         options={{
           title: "Ursula",
           tabBarLabel: "Home",
-          header: DefaultHeader,
         }}
       />
       <ActivityFeed activities={socialFeed} />

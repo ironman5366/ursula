@@ -1,14 +1,10 @@
 import { useSession } from "../../contexts/SessionContext.ts";
-import { Link, Redirect, Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import React from "react";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
-import { Pressable } from "react-native";
-import { Settings2 } from "@tamagui/lucide-icons";
-import { useThemeColor } from "../../theme.ts";
 
 export default function App() {
   const { session, loading } = useSession();
-  const primaryColor = useThemeColor("primary");
 
   if (loading && !(session && session.user)) {
     return <LoadingScreen />;
@@ -19,7 +15,7 @@ export default function App() {
   }
 
   return (
-    <Stack screenOptions={{}}>
+    <Stack>
       <Stack.Screen
         name="(tabs)"
         options={{
