@@ -1,8 +1,9 @@
 import React, { ComponentProps, forwardRef } from "react";
 import StyledInput from "./StyledInput";
+import { Input } from "tamagui";
 
 type Props = Omit<
-  ComponentProps<typeof StyledInput>,
+  ComponentProps<typeof Input>,
   | "autoCapitalize"
   | "autoComplete"
   | "keyboardType"
@@ -12,13 +13,12 @@ type Props = Omit<
 
 function EmailInput(props: Props, ref) {
   return (
-    <StyledInput
+    <Input
       {...props}
       ref={ref}
       autoCorrect={false}
-      autoCapitalize="none"
-      autoComplete="email"
-      textContentType="emailAddress"
+      autoComplete={"email"}
+      autoCapitalize={"none"}
     />
   );
 }

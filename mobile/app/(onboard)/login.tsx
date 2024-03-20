@@ -1,6 +1,5 @@
 import { AuthError } from "@supabase/supabase-js";
-import { MoveRight } from "@tamagui/lucide-icons";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { Button, YStack, Text, Input } from "tamagui";
@@ -9,6 +8,8 @@ import DismissKeyboardContainer from "../../components/containers/DismissKeyboar
 import { FloatingActionBar } from "../../components/containers/TabBar";
 import { supabase } from "../../utils/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import PasswordInput from "../../components/atoms/PasswordInput.tsx";
+import EmailInput from "../../components/atoms/Emailnput.tsx";
 
 export default function LoginSignup() {
   const [isLogin, setIsLogin] = useState(false);
@@ -84,20 +85,16 @@ export default function LoginSignup() {
               Ursula
             </Text>
             <YStack width="100%" px="$5" gap="$1" mb="$6">
-              <Text fontSize={25}>Hi</Text>
-              <Text fontSize={25}>Placeholder text</Text>
-              <Text fontSize={18}>
-                Less important explainer text maybe one more lime{" "}
-              </Text>
+              <Text fontSize={25}>Sign Up</Text>
             </YStack>
             <YStack width="100%" px="$5" gap="$3">
-              <Input
+              <EmailInput
                 placeholder="Email"
                 value={email}
                 onChangeText={setEmail}
               />
-              <Input
-                placeholder="Password"
+              <PasswordInput
+                placeholder="Pick a password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry

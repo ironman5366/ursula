@@ -4,18 +4,21 @@ import { Text as DefaultText } from "react-native/Libraries/Text/Text";
 import { View as DefaultView } from "react-native/Libraries/Components/View/View";
 import { ThemeProps } from "./components/organisms/StyledView.tsx";
 import { useColorScheme } from "react-native";
+import "@tamagui/themes/v3";
+import { color, radius, size, space, themes, zIndex } from "@tamagui/themes";
+import { createTamagui, createTokens } from "tamagui";
 
-const tintColorLight = "#832232";
-const tintColorDark = "#CE8964";
+export const LIGHT_TINT = "#832232";
+export const DARK_TINT = "#CE8964";
 
 export const Colors = {
   light: {
     text: "#000",
     background: "#fff",
-    tint: tintColorLight,
+    tint: LIGHT_TINT,
     tabIconDefault: "#370031",
-    tabIconSelected: tintColorLight,
-    primary: tintColorLight,
+    tabIconSelected: LIGHT_TINT,
+    primary: LIGHT_TINT,
     card: "rgb(255, 255, 255)",
     border: "rgb(216, 216, 216)",
     notification: "rgb(255, 59, 48)",
@@ -24,10 +27,10 @@ export const Colors = {
   dark: {
     text: "#fff",
     background: "#000",
-    tint: tintColorDark,
+    tint: DARK_TINT,
     tabIconDefault: "#370031",
-    tabIconSelected: tintColorDark,
-    primary: tintColorDark,
+    tabIconSelected: DARK_TINT,
+    primary: DARK_TINT,
     card: "rgb(18, 18, 18)",
     border: "rgb(39, 39, 41)",
     notification: "rgb(255, 69, 58)",

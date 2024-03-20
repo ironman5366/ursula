@@ -1,14 +1,15 @@
 import React, { ComponentProps } from "react";
 import StyledInput from "./StyledInput";
+import { Input } from "tamagui";
 
 type Props = Omit<
-  ComponentProps<typeof StyledInput>,
+  ComponentProps<typeof Input>,
   "autoCapitalize" | "autoComplete" | "keyboardType" | "textContentType"
 >;
 
 export default function PasswordInput(props: Props) {
   return (
-    <StyledInput
+    <Input
       {...props}
       secureTextEntry
       autoCapitalize={"none"}
