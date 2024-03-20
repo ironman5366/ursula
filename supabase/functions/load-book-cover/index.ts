@@ -81,7 +81,7 @@ async function loadBookCover(
   return newBook;
 }
 
-async function handler(req: Request): Promise<Response> {
+Deno.serve(async (req: Request) => {
   const { bookId }: RequestParams = await req.json();
   let supabase: SupabaseClient<Database>;
 
@@ -114,13 +114,18 @@ async function handler(req: Request): Promise<Response> {
     });
   }
 
-  const updatedBook = await loadBookCover(supabase, book);
-  console.log("Updated book", updatedBook);
-  return new Response(JSON.stringify(updatedBook), {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
-
-Deno.serve(handler);
+  try {
+    const updatedBook = await loadBookCover(supabase, book);
+    console.log("Updated book", updatedBook);
+    return new Response(JSON.stringify(updatedBook), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    return new Response(JSON.stringify({ error: "Failed to update book" }), {
+      status: 500,
+    });
+  }
+});
