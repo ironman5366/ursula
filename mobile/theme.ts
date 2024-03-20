@@ -4,8 +4,14 @@ import { Text as DefaultText } from "react-native/Libraries/Text/Text";
 import { View as DefaultView } from "react-native/Libraries/Components/View/View";
 import { ThemeProps } from "./components/organisms/StyledView.tsx";
 import { useColorScheme } from "react-native";
-import { createTamagui, createTokens } from "tamagui";
+import { createTokens } from "tamagui";
 import { config as defaultConfig } from "@tamagui/config/v3";
+import { createSoftenMask, createThemeBuilder } from "@tamagui/theme-builder";
+
+console.log(
+  "defaultConfig themes",
+  JSON.stringify(defaultConfig.themes.light, null, 2)
+);
 
 export const LIGHT_PRIMARY_CLARET = "#832232";
 export const LIGHT_SECONDARY_SUNGLOW = "#FDCA40";
@@ -41,22 +47,66 @@ export const themeTokens = createTokens({
   zIndex: defaultConfig.tokens.zIndex,
 });
 
-export const lightTheme = {
-  background: themeTokens.color.whiteSmoke,
-  color: "black",
-  primary: themeTokens.color.claret,
-  secondary: themeTokens.color.sunglow,
-  accent: themeTokens.color.cambridgeBlue,
-  warning: themeTokens.color.purple,
-};
+/**
+ * The properties that tamagui pays attention to:
+ * {
+ *   background: string
+ *   backgroundFocus: string
+ *   backgroundHover: string
+ *   backgroundPress: string
+ *   borderColor: string
+ *   borderColorFocus: string
+ *   borderColorHover: string
+ *   borderColorPress: string
+ *   color: string
+ *   colorFocus: string
+ *   colorHover: string
+ *   colorPress: string
+ *   colorTransparent: string
+ *   placeholderColor: string
+ *   shadowColor: string
+ *   shadowColorFocus: string
+ *   shadowColorHover: string
+ *   shadowColorPress: string
+ * }
+ */
 
-export const darkTheme = {
-  background: themeTokens.color.raisinBlack,
-  color: "white",
-  primary: themeTokens.color.eggplant,
-  secondary: themeTokens.color.goldenBrown,
-  accent: themeTokens.color.deepSeaGreen,
-  warning: themeTokens.color.electricPurple,
+export const TAMAGUI_THEMES = {
+  light: {
+    background: themeTokens.color.whiteSmoke,
+    backgroundFocus: "white",
+    backgroundHover: "white",
+    borderColor: themeTokens.color.claret,
+    borderColorFocus: themeTokens.color.cambridgeBlue,
+    borderColorHover: themeTokens.color.cambridgeBlue,
+    borderColorPress: themeTokens.color.sunglow,
+    color: "black",
+    colorFocus: themeTokens.color.cambridgeBlue,
+    colorHover: themeTokens.color.cambridgeBlue,
+    colorPress: themeTokens.color.cambridgeBlue,
+    shadowColor: themeTokens.color.sunglow,
+  },
+  light_Button: {
+    color: themeTokens.color.claret,
+  },
+  dark: {
+    background: themeTokens.color.raisinBlack,
+    backgroundFocus: themeTokens.color.raisinBlack,
+    backgroundHover: themeTokens.color.raisinBlack,
+    borderColor: themeTokens.color.electricPurple,
+    borderColorFocus: themeTokens.color.electricPurple,
+    borderColorHover: themeTokens.color.electricPurple,
+    borderColorPress: themeTokens.color.deepSeaGreen,
+    color: "white",
+    colorFocus: themeTokens.color.electricPurple,
+    colorHover: themeTokens.color.electricPurple,
+    colorPress: themeTokens.color.electricPurple,
+    placeholderColor: themeTokens.color.deepSeaGreen,
+    shadowColor: themeTokens.color.deepSeaGreen,
+  },
+  dark_Button: {
+    color: themeTokens.color.eggplant,
+  },
 };
 
 // TODO: this should go away and we should be totally on tamagui

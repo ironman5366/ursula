@@ -7,7 +7,6 @@ import LoadingScreen from "../../components/atoms/LoadingScreen";
 import DismissKeyboardContainer from "../../components/containers/DismissKeyboardContainer";
 import { FloatingActionBar } from "../../components/containers/TabBar";
 import { supabase } from "../../utils/supabase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import PasswordInput from "../../components/atoms/PasswordInput.tsx";
 import EmailInput from "../../components/atoms/Emailnput.tsx";
 
@@ -16,32 +15,6 @@ export default function LoginSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // TODO: turn this into a hook
-  const persistsSuccessfullLogin = async (value) => {
-    try {
-      await AsyncStorage.setItem("loggedInBefore", value);
-    } catch (e) {}
-  };
-
-  const loggedInBefore = async () => {
-    try {
-      const value = await AsyncStorage.getItem("loggedInBefore");
-      if (value !== null) {
-        return true;
-      }
-    } catch (e) {
-      return false;
-    }
-  };
-
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      const hasDoneThisBefore = await loggedInBefore();
-      setIsLogin(hasDoneThisBefore);
-    };
-    checkLoginStatus();
-  }, []);
 
   async function signInWithEmail() {
     setLoading(true);
@@ -64,8 +37,6 @@ export default function LoginSignup() {
     if (error) {
       Alert.alert(error.message);
     } else {
-      // use async storage to store that user has already logged in
-      persistsSuccessfullLogin("true");
       router.replace("/(tabs)");
     }
     setLoading(false);

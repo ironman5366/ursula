@@ -84,20 +84,16 @@ function PublicStack() {
         animation: "fade",
       }}
     >
-      <Stack.Screen name="(onboard)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(onboard)"
+        options={{ headerShown: false, title: "Welcome" }}
+      />
     </Stack>
   );
 }
 
 function AuthRouter() {
   const { session, loading } = useSession();
-
-  useEffect(() => {
-    if (!session?.user && !loading) {
-      router.replace("/(onboard)/welcome");
-    }
-  }, [session, loading]);
-
   if (session && session.user) {
     return <AuthenticatedStack />;
   } else {
