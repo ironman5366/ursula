@@ -6,23 +6,28 @@ import { Home, Book, User, Settings2 } from "@tamagui/lucide-icons";
 
 export default function TabLayout() {
   const color = useThemeColor("primary");
+  console.log("In tab layout");
 
   return (
     <Tabs
       screenOptions={{
-        headerRight: () => (
-          <Link
-            href={"/settings"}
-            asChild
-            style={{
-              padding: 5,
-            }}
-          >
-            <Pressable>
-              <Settings2 color={color} />
-            </Pressable>
-          </Link>
-        ),
+        tabBarActiveTintColor: "blue",
+        headerRight: () => {
+          console.log("in header right");
+          return (
+            <Link
+              href={"/settings"}
+              asChild
+              style={{
+                padding: 5,
+              }}
+            >
+              <Pressable>
+                <Settings2 color={color} />
+              </Pressable>
+            </Link>
+          );
+        },
         headerRightContainerStyle: {
           paddingRight: 10,
         },

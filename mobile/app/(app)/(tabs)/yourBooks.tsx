@@ -95,7 +95,6 @@ export default function YourBooks() {
             <AnimatePresence>
               {activeAt && (
                 <TabsRovingIndicator
-                  theme="active"
                   active
                   width={activeAt.width}
                   height="$0.5"

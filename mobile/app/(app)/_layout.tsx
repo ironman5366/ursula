@@ -1,22 +1,31 @@
 import { useSession } from "../../contexts/SessionContext.ts";
-import { Redirect, Stack } from "expo-router";
+import { Link, Redirect, Stack } from "expo-router";
 import React from "react";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import { Pressable } from "react-native";
+import { Settings2 } from "@tamagui/lucide-icons";
+import { useThemeColor } from "../../theme.ts";
 
 export default function App() {
-  const { session } = useSession();
+  const { session, loading } = useSession();
+  const primaryColor = useThemeColor("primary");
+
+  if (loading && !(session && session.user)) {
+    return <LoadingScreen />;
+  }
+
   if (!session) {
     return <Redirect href={"/(onboard)/welcome"} />;
   }
 
   return (
-    <Stack
-      screenOptions={{
-        animationTypeForReplace: "pop",
-      }}
-    >
+    <Stack screenOptions={{}}>
       <Stack.Screen
         name="(tabs)"
-        options={{ headerShown: false, title: "Home" }}
+        options={{
+          title: "Home",
+          headerShown: false,
+        }}
       />
       <Stack.Screen name="bookDetail/[id]" options={{ title: "Book" }} />
       <Stack.Screen name="review/[id]" options={{ title: "Review " }} />

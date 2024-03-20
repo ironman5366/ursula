@@ -16,11 +16,6 @@ import { SessionProvider } from "../contexts/SessionContext.ts";
 import tamaguiConfig from "../tamagui.config.ts";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
 
-export const unstable_settings = {
-  // Ensure any route can link back to `/`
-  initialRouteName: "(onboard)/welcome",
-};
-
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -76,7 +71,10 @@ function RootLayoutNav() {
                         name="(onboard)"
                         options={{ headerShown: false, title: "Welcome" }}
                       />
-                      <Stack.Screen name="(app)" />
+                      <Stack.Screen
+                        name="(app)"
+                        options={{ headerShown: false, title: "Home" }}
+                      />
                     </Stack>
                   </DismissKeyboardContainer>
                 </ThemeProvider>
