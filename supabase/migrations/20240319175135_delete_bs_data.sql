@@ -78,6 +78,6 @@ WHERE id IN (
     FROM book_authors
     GROUP BY author_id
     HAVING count(*) > 2500
-);
+) AND photos IS NULL AND birth_date IS NULL AND death_date IS NULL AND bio IS NULL;
 
 SELECT delete_orphan_books();
