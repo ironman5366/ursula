@@ -15,6 +15,7 @@ import DismissKeyboardContainer from "../components/containers/DismissKeyboardCo
 import { SessionProvider, useSession } from "../contexts/SessionContext.ts";
 import tamaguiConfig from "../tamagui.config.ts";
 import { DARK_THEME, LIGHT_THEME } from "../theme.ts";
+import { color } from "@tamagui/themes";
 
 export const unstable_settings = {
   // Ensure any route can link back to `/`
@@ -57,7 +58,14 @@ function AuthenticatedStack() {
         animationTypeForReplace: "pop",
       }}
     >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(onboard)"
+        options={{ headerShown: false, title: "Welcome" }}
+      />
+      <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false, title: "Home" }}
+      />
       <Stack.Screen name="bookDetail/[id]" options={{ title: "Book" }} />
       <Stack.Screen name="review/[id]" options={{ title: "Review " }} />
       <Stack.Screen name="rank/[id]" options={{ title: "Review" }} />
@@ -76,20 +84,16 @@ function PublicStack() {
         animation: "fade",
       }}
     >
-      <Stack.Screen name="(onboard)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(onboard)"
+        options={{ headerShown: false, title: "Welcome" }}
+      />
     </Stack>
   );
 }
 
 function AuthRouter() {
   const { session, loading } = useSession();
-
-  useEffect(() => {
-    if (!session?.user && !loading) {
-      router.replace("/(onboard)/welcome");
-    }
-  }, [session, loading]);
-
   if (session && session.user) {
     return <AuthenticatedStack />;
   } else {

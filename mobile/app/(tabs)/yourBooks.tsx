@@ -1,6 +1,5 @@
 import { Stack } from "expo-router";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native";
 import {
   AnimatePresence,
   SizableText,
@@ -9,8 +8,6 @@ import {
   Tabs,
   TabsContentProps,
   TabsTabProps,
-  Text,
-  XStack,
   YStack,
   styled,
 } from "tamagui";
@@ -142,8 +139,7 @@ export default function YourBooks() {
 
           <AnimatePresence
             exitBeforeEnter
-            enterVariant={enterVariant}
-            exitVariant={exitVariant}
+            custom={{ enterVariant, exitVariant }}
           >
             <AnimatedYStack
               key={currentTab}

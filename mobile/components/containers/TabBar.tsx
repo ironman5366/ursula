@@ -77,10 +77,11 @@ export function TabBar({ state, descriptors, navigation, ...rest }) {
 
 export function FloatingActionBar({ children }) {
   let colorScheme = useColorScheme();
+
   return (
     <BlurView
       tint={colorScheme === "dark" ? "light" : "dark"}
-      intensity={80}
+      intensity={60}
       style={{
         position: "absolute",
         bottom: 0,

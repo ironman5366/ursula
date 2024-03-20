@@ -19,6 +19,7 @@ export default function Onboard() {
               px="$2"
               textAlign="center"
               fontSize="$11"
+              color="$claret"
             >
               There's nothing like a good book. Welcome to Ursula.
             </Text>

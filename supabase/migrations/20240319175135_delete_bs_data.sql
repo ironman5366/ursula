@@ -66,17 +66,4 @@ END
 $$ LANGUAGE plpgsql;
 
 
--- By doing this twice we can see the number of orphans that were just in the database at large, and the
--- number of author based orphans
 SELECT delete_orphan_books();
-
--- -- Delete any authors who are in the database as having written > 2500 books. We can confidently say that nobody
--- -- has written that many books, so these are likely to be spam or other bad data.
--- DELETE FROM public.authors
--- WHERE id IN (
---     SELECT author_id
---     FROM book_authors
---     GROUP BY author_id
---     HAVING count(*) > 2500
--- ) AND photos IS NULL AND birth_date IS NULL AND death_date IS NULL AND bio IS NULL;
--- SELECT delete_orphan_books();
