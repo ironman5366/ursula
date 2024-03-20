@@ -1,1 +1,0 @@
-ALTER TABLE books ADD COLUMN last_cover_update TIMESTAMP DEFAULT NULL;

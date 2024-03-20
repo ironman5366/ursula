@@ -1,6 +1,12 @@
-SET statement_timeout = '3h';
+SET statement_timeout = '5h';
 
+CREATE INDEX IF NOT EXISTS ol_authors_ol_id_idx ON authors (ol_id);
 CREATE INDEX IF NOT EXISTS books_popularity_idx ON books (popularity);
+CREATE INDEX IF NOT EXISTS book_subjects_subject_id_idx ON book_subjects (subject_id);
+CREATE INDEX IF NOT EXISTS book_subjects_book_id_idx ON book_subjects (book_id);
+CREATE INDEX IF NOT EXISTS ol_ratings_edition_id_idx ON ol_ratings (edition_id);
+CREATE INDEX IF NOT EXISTS ol_reading_log_items_edition_id_idx ON ol_reading_log_items (edition_id);
+
 
 CREATE OR REPLACE FUNCTION delete_bs_author(delete_ol_id text) RETURNS void AS $$
     DECLARE
