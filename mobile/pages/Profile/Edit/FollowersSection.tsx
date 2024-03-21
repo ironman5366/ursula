@@ -46,21 +46,19 @@ export default function FollowersSection({ profile }: Props) {
   const isOwnProfile = profile.id == session.user.id;
 
   return (
-    <XStack>
-      <StyledView style={styles.row}>
-        <FollowerLink
-          list={followers}
-          link_text={"Followers"}
-          href={`/followers/${profile.id}`}
-        />
-        <FollowerLink
-          list={following}
-          link_text={"Following"}
-          href={`/following/${profile.id}`}
-        />
-      </StyledView>
+    <XStack alignItems="center" justifyContent="center" gap="$3">
+      <FollowerLink
+        list={followers}
+        link_text={"Followers"}
+        href={`/followers/${profile.id}`}
+      />
+      <FollowerLink
+        list={following}
+        link_text={"Following"}
+        href={`/following/${profile.id}`}
+      />
       {!isOwnProfile && (
-        <StyledView style={styles.row}>
+        <StyledView style={styles}>
           <FollowButton userId={profile.id} />
         </StyledView>
       )}
@@ -68,12 +66,4 @@ export default function FollowersSection({ profile }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    width: "50%",
-    padding: 10,
-    alignSelf: "center",
-    justifyContent: "space-between",
-  },
-});
+const styles = StyleSheet.create({});

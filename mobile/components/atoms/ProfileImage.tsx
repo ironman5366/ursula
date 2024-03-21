@@ -3,10 +3,11 @@ import { Profile } from "@ursula/shared-types/derived.ts";
 import { useProfileImage } from "../../hooks/profile.ts";
 import { ActivityIndicator, Image, ImageStyle, StyleProp } from "react-native";
 import { Avatar, Circle, SizeTokens } from "tamagui";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface Props {
   profile?: Profile;
-  size?: number | SizeTokens;
+  size?: number;
 }
 
 export default function ProfileImage({ profile, size }: Props) {
@@ -17,7 +18,9 @@ export default function ProfileImage({ profile, size }: Props) {
     return (
       <Avatar circular size={size}>
         <Avatar.Image src={imageURL} />
-        <Avatar.Fallback bc="red" />
+        <Avatar.Fallback>
+          <Ionicons name={"person"} size={size} />
+        </Avatar.Fallback>
       </Avatar>
     );
   }

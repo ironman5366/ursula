@@ -12,6 +12,7 @@ import { useSession } from "../../../contexts/SessionContext.ts";
 import { useUpdateProfile } from "../../../hooks/profile.ts";
 import { supabase } from "../../../utils/supabase.ts";
 import { Stack } from "expo-router";
+import FollowersSection from "./FollowersSection.tsx";
 
 interface Props {
   profile: Profile;
@@ -85,10 +86,11 @@ export default function EditProfilePage({ profile }: Props) {
                   }
                 }}
               >
-                <ProfileImage profile={profile} size="$15" />
+                <ProfileImage profile={profile} size={100} />
               </TouchableOpacity>
             </YStack>
-            {/* <FollowersSection profile={profile} /> */}
+            <FollowersSection profile={profile} />
+
             {isOwnProfile ? (
               <Input
                 autoCorrect={false}

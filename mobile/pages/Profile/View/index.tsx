@@ -27,7 +27,7 @@ export default function ViewProfile({ profile }: Props) {
       <YStack height="100%" py="$6" px="$3">
         <YStack gap="$3" alignItems="center" width="100%">
           <YStack my="$5" alignItems="center">
-            <ProfileImage profile={profile} size="$10" />
+            <ProfileImage profile={profile} size={100} />
             <Text mt="$3" fontSize="$8" fontWeight="bold">
               {profile.full_name}
             </Text>
