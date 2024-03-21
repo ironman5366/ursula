@@ -12,7 +12,7 @@ export default function ProfilePreviewLink({
   ...props
 }: Props) {
   return (
-    <Link href={`/profileDetail/${profile.id}`} asChild replace={replace}>
+    <Link href={`/profile/${profile.id}`} asChild replace={replace}>
       <ProfilePreviewRow profile={profile} {...props} />
     </Link>
   );

@@ -11,6 +11,7 @@ import { FloatingActionBar } from "../../../components/containers/TabBar.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import { useUpdateProfile } from "../../../hooks/profile.ts";
 import { supabase } from "../../../utils/supabase.ts";
+import { Stack } from "expo-router";
 
 interface Props {
   profile: Profile;
@@ -67,6 +68,11 @@ export default function EditProfilePage({ profile }: Props) {
 
   return (
     <YStack>
+      <Stack.Screen
+        options={{
+          title: `User ${profile.username}`,
+        }}
+      />
       <SafeAreaView>
         <YStack height="100%" p="$3">
           <YStack gap="$3" alignItems="center" width="100%">
@@ -103,34 +109,33 @@ export default function EditProfilePage({ profile }: Props) {
               onChangeText={setName}
               editable={isOwnProfile}
             />
-
-          
           </YStack>
         </YStack>
       </SafeAreaView>
-       {isOwnProfile && (<FloatingActionBar>
-        <Button
-          width={300}
-          unstyled
-          alignSelf="center"
-          height={50}
-          px={10}
-          onPress={() => {
-            updateProfile({
-              username,
-              full_name: name,
-            });
-          }}
-          fontWeight="bold"
-          color="white"
-          flexDirection="row"
-          alignItems="center"
-          alignContent="space-around"
-          justifyContent="space-around"
-        >
+      {isOwnProfile && (
+        <FloatingActionBar>
+          <Button
+            width={300}
+            unstyled
+            alignSelf="center"
+            height={50}
+            px={10}
+            onPress={() => {
+              updateProfile({
+                username,
+                full_name: name,
+              });
+            }}
+            fontWeight="bold"
+            color="white"
+            flexDirection="row"
+            alignItems="center"
+            alignContent="space-around"
+            justifyContent="space-around"
+          >
             Save
-        </Button>
-      </FloatingActionBar>
+          </Button>
+        </FloatingActionBar>
       )}
     </YStack>
   );

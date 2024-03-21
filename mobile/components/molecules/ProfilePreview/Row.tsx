@@ -1,6 +1,6 @@
 import React, { ComponentProps, forwardRef } from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
-import { ListItem } from "tamagui";
+import { ListItem, Text } from "tamagui";
 import ProfileImage from "../../atoms/ProfileImage.tsx";
 
 interface Props {
@@ -13,9 +13,10 @@ function ProfilePreviewRow({ profile, onPress }: Props, ref) {
     <ListItem
       ref={ref}
       onPress={onPress}
-      icon={<ProfileImage profile={profile} width={30} height={30} />}
+      icon={<ProfileImage profile={profile} size={30} />}
+      justifyContent="flex-start"
     >
-      @{profile.username}
+      <Text>@{profile.username}</Text>
     </ListItem>
   );
 }
