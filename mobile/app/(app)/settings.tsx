@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text } from "react-native";
-import { StyledView } from "../components/organisms/StyledView.tsx";
-import { supabase } from "../utils/supabase.ts";
-import StyledButton from "../components/organisms/StyledButton.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
+import { supabase } from "../../utils/supabase.ts";
+import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
-import { TitleText } from "../components/atoms/TitleText.tsx";
-import { useCurrentProfile } from "../hooks/profile.ts";
+import { TitleText } from "../../components/atoms/TitleText.tsx";
+import { useCurrentProfile } from "../../hooks/profile.ts";
 import { Stack, router } from "expo-router";
+import useSignOut from "../../hooks/useSignOut.ts";
 
 function DebugPanel() {
   const queryClient = useQueryClient();
@@ -36,6 +37,8 @@ function DebugPanel() {
 }
 
 export default function Settings() {
+  const signOut = useSignOut();
+
   return (
     <StyledView style={styles.container}>
       <Stack.Screen
@@ -46,7 +49,7 @@ export default function Settings() {
       <StyledButton
         title={"Sign Out"}
         onPress={async () => {
-          supabase.auth.signOut();
+          await signOut();
         }}
       />
       {process.env.NODE_ENV !== "production" && <DebugPanel />}

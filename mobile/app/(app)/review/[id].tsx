@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
-import useNumericIdParam from "../../hooks/useIdParam.ts";
-import useBook from "../../hooks/useBook.ts";
-import { useCreateReview } from "../../hooks/reviews.ts";
+import useNumericIdParam from "../../../hooks/useIdParam.ts";
+import useBook from "../../../hooks/useBook.ts";
+import { useCreateReview } from "../../../hooks/reviews.ts";
 import { router, Stack } from "expo-router";
-import StyledButton from "../../components/organisms/StyledButton.tsx";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
-import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
-import { StyledView } from "../../components/organisms/StyledView.tsx";
-import StyledInput from "../../components/atoms/StyledInput.tsx";
+import StyledButton from "../../../components/organisms/StyledButton.tsx";
+import { StyledText } from "../../../components/atoms/StyledText.tsx";
+import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
+import { StyledView } from "../../../components/organisms/StyledView.tsx";
+import StyledInput from "../../../components/atoms/StyledInput.tsx";
 
 export default function Review() {
   const id = useNumericIdParam();

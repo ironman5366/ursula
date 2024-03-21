@@ -11,10 +11,10 @@ import {
   YStack,
   styled,
 } from "tamagui";
-import SearchContainer from "../../components/containers/SearchContainer.tsx";
-import RankingList from "../../pages/RankingList";
-import ReadingList from "../../pages/ReadingList.tsx";
-import { DefaultHeader } from "../../components/atoms/DefaultHeader.tsx";
+import SearchContainer from "../../../components/containers/SearchContainer.tsx";
+import RankingList from "../../../pages/RankingList";
+import ReadingList from "../../../pages/ReadingList.tsx";
+import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
 
 export default function YourBooks() {
   const [tabState, setTabState] = useState<{
@@ -95,7 +95,6 @@ export default function YourBooks() {
             <AnimatePresence>
               {activeAt && (
                 <TabsRovingIndicator
-                  theme="active"
                   active
                   width={activeAt.width}
                   height="$0.5"

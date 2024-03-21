@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StyleProp,
   StyleSheet,
+  View,
   ViewStyle,
 } from "react-native";
 import { StyledView } from "../organisms/StyledView.tsx";
@@ -45,13 +46,21 @@ export default function SearchContainer({
       <WrapperComp style={styles.searchBarContainer}>
         <SearchBar editable={showSearch} {...props} />
       </WrapperComp>
-      <YStack flex={1}>{children}</YStack>
+      <View
+        style={{
+          padding: 10,
+          flex: 0.9,
+        }}
+      >
+        {children}
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    padding: 10,
     flex: 1,
   },
   searchBarContainer: {
@@ -61,5 +70,4 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
   },
-
 });

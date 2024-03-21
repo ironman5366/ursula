@@ -3,8 +3,8 @@ import {
   useAddToReadingList,
   useBookInReadingList,
   useRemoveFromReadingList,
-} from "../../hooks/readingList.ts";
-import CardButton from "../../components/atoms/CardButton.tsx";
+} from "../../../hooks/readingList.ts";
+import CardButton from "../../../components/atoms/CardButton.tsx";
 import { ActivityIndicator } from "react-native";
 
 interface Props {

@@ -1,16 +1,16 @@
 import React from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { Stack } from "expo-router";
-import useBook from "../../hooks/useBook.ts";
-import { TitleText } from "../../components/atoms/TitleText.tsx";
-import BookImage from "../../components/atoms/BookImage.tsx";
+import useBook from "../../../hooks/useBook.ts";
+import { TitleText } from "../../../components/atoms/TitleText.tsx";
+import BookImage from "../../../components/atoms/BookImage.tsx";
 import ReadingListButton from "./ReadingListButton.tsx";
-import useNumericIdParam from "../../hooks/useIdParam.ts";
-import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import useNumericIdParam from "../../../hooks/useIdParam.ts";
+import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
 import ReviewButton from "./ReviewButton.tsx";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
-import { StyledView } from "../../components/organisms/StyledView.tsx";
-import BookAuthors from "../../components/atoms/BookAuthors.tsx";
+import { StyledText } from "../../../components/atoms/StyledText.tsx";
+import { StyledView } from "../../../components/organisms/StyledView.tsx";
+import BookAuthors from "../../../components/atoms/BookAuthors.tsx";
 
 export default function BookDetail() {
   const id = useNumericIdParam();
