@@ -24,16 +24,28 @@ async function fetchSearchResults(query: string): Promise<SearchResult[]> {
   return filtered as SearchResult[];
 }
 
-export default function useSearch({
-  query,
-  enabled,
-}: {
+interface SearchProps {
   query: string;
   enabled: boolean;
-}) {
+}
+
+export default function useSearch({ query, enabled }: SearchProps) {
   return useQuery({
     queryKey: ["SEARCH", query],
     queryFn: () => fetchSearchResults(query),
     enabled,
   });
+}
+
+interface FilteredSearchProps extends SearchProps {
+  filter: (result: SearchResult) => boolean;
+}
+
+export function useFilteredSearch({ filter, ...props }: FilteredSearchProps) {
+  const results = useSearch(props);
+
+  return {
+    ...results,
+    data: results.data?.filter(filter),
+  };
 }
