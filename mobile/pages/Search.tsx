@@ -3,13 +3,16 @@ import { Stack, router } from "expo-router";
 import { ActivityIndicator, SafeAreaView } from "react-native";
 import { XStack, Text, Button } from "tamagui";
 import { XCircle } from "@tamagui/lucide-icons";
-import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import useDebounce from "../hooks/useDebounce.ts";
-import useSearch from "../hooks/useSearch.ts";
+import useSearch, {
+  SearchFilter,
+  useFilteredSearch,
+} from "../hooks/useSearch.ts";
 import SearchContainer from "../components/containers/SearchContainer.tsx";
 import SearchResultList from "../components/organisms/SearchResultList";
+import { SearchResult } from "@ursula/shared-types/SearchResult.ts";
 
-export function SearchHeader(props: NativeStackHeaderProps) {
+export function SearchHeader() {
   return (
     <SafeAreaView>
       <XStack
@@ -28,12 +31,16 @@ export function SearchHeader(props: NativeStackHeaderProps) {
   );
 }
 
+interface SearchProps {
+  // TODO: specify allowed search types here
+}
+
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const debounced = useDebounce(query, 500);
   const [dirty, setDirty] = useState(false);
 
-  const { data, isLoading } = useSearch({
+  const { data, isLoading } = useFilteredSearch({
     query: debounced,
     enabled: !!debounced,
   });
@@ -60,7 +67,7 @@ export default function SearchPage() {
       <Stack.Screen
         options={{
           title: "Search",
-          header: (props) => <SearchHeader {...props} />,
+          header: () => <SearchHeader />,
           animation: "fade",
         }}
       />

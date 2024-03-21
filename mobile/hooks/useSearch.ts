@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { Book } from "../../shared-types/derived";
 import { supabase } from "../utils/supabase.ts";
 import { SearchResult } from "../../shared-types/SearchResult.ts";
 
@@ -37,8 +36,10 @@ export default function useSearch({ query, enabled }: SearchProps) {
   });
 }
 
+export type SearchFilter = (result: SearchResult) => boolean;
+
 interface FilteredSearchProps extends SearchProps {
-  filter: (result: SearchResult) => boolean;
+  filter?: SearchFilter;
 }
 
 export function useFilteredSearch({ filter, ...props }: FilteredSearchProps) {
@@ -46,6 +47,6 @@ export function useFilteredSearch({ filter, ...props }: FilteredSearchProps) {
 
   return {
     ...results,
-    data: results.data?.filter(filter),
+    data: filter ? results.data?.filter(filter) : results.data,
   };
 }
