@@ -2,7 +2,6 @@ import { Stack } from "expo-router";
 import React, { useState } from "react";
 import {
   AnimatePresence,
-  SizableText,
   StackProps,
   TabLayout,
   Tabs,
@@ -10,6 +9,7 @@ import {
   TabsTabProps,
   YStack,
   styled,
+  Text,
 } from "tamagui";
 import SearchContainer from "../../../components/containers/SearchContainer.tsx";
 import RankingList from "../../../pages/RankingList";
@@ -121,7 +121,7 @@ export default function YourBooks() {
                 value="tab1"
                 onInteraction={handleOnInteraction}
               >
-                <SizableText>Want to read</SizableText>
+                <Text>Want to read</Text>
               </Tabs.Tab>
               <Tabs.Tab
                 unstyled
@@ -131,7 +131,7 @@ export default function YourBooks() {
                 flex={1}
                 onInteraction={handleOnInteraction}
               >
-                <SizableText>Already read</SizableText>
+                <Text>Already read</Text>
               </Tabs.Tab>
             </Tabs.List>
           </YStack>
