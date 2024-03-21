@@ -5,8 +5,8 @@
   "scripts": {
     "start:local": "./expo_start_with_env.sh local",
     "start:dev": "./expo_start_with_env.sh dev",
-    "build:ios": "eas build -p ios --local --output dist/build.ipa",
-    "submit:ios": "eas submit -p ios --path=dist/build.ipa",
+    "build:ios": "EAS_PROJECT_ID=ac90d169-a022-4526-95a5-95e58f0151a4 eas build -p ios --local --output dist/build.ipa",
+    "submit:ios": "EAS_PROJECT_ID=ac90d169-a022-4526-95a5-95e58f0151a4 eas submit -p ios --path=dist/build.ipa",
     "test": "jest --watchAll"
   },
   "jest": {

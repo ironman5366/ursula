@@ -46,8 +46,10 @@ module.exports = {
     extra: {
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       eas: {
-        // Uncomment this for builds
-        // projectId: "ac90d169-a022-4526-95a5-95e58f0151a4",
+        // Supplied as an env variable because we don't want this to be set when
+        // running locally - otherwise it blocks local dev on logging into EAS.
+        // We set it in package.json for build and submit commands.
+        projectId: process.env.EAS_PROJECT_ID,
       },
     },
   },
