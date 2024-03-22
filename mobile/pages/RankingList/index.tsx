@@ -13,20 +13,14 @@ import ReviewWithBook from "../../types/ReviewWithBook.ts";
 export default function RankingList() {
   const { data: reviews, isLoading } = useCurrentUserReviews();
   const { mutate: updateProfile } = useUpdateProfile();
-  const [tempReviews, setTempReviews] = useState<ReviewWithBook[]>([]);
+  const [hotReviews, setHotReviews] = useState<ReviewWithBook[]>([]);
   const reviewsSerialized = JSON.stringify(reviews);
 
-  console.log("review re-render");
-
-  /*
   useEffect(() => {
     if (reviews && reviews.length > 1) {
-      console.log("setting temp reviews");
-      setTempReviews(reviews);
+      setHotReviews(reviews);
     }
   }, [reviewsSerialized]);
-
-   */
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -36,12 +30,13 @@ export default function RankingList() {
     <YStack width="100%" flexGrow={3} flex={4}>
       <DraggableFlatList
         keyExtractor={(item) => item.review.id.toString()}
-        data={reviews}
+        data={hotReviews}
         renderItem={({ item: review, getIndex, drag }) => {
           const index = getIndex();
           return <BookRankRow review={review} rank={index + 1} drag={drag} />;
         }}
         onDragEnd={({ data }) => {
+          setHotReviews(data);
           const orderedReviewIds = data.map((review) => review.review.id);
           updateProfile({
             review_ids: [...orderedReviewIds],
@@ -51,10 +46,3 @@ export default function RankingList() {
     </YStack>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-  },
-});
