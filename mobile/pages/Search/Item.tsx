@@ -4,15 +4,15 @@ import {
   BookSearchResult,
   ProfileSearchResult,
   SearchResult,
-} from "../../../../shared-types/SearchResult.ts";
-import LoaderRow from "./LoaderRow.tsx";
+} from "@ursula/shared-types/SearchResult.ts";
+import LoaderRow from "../../components/atoms/LoaderRow.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import useBook from "../../../hooks/useBook.ts";
-import { useAuthor } from "../../../hooks/authors.ts";
-import { useProfile } from "../../../hooks/profile.ts";
-import BookPreviewLink from "../../molecules/BookPreview/Link.tsx";
-import AuthorPreviewLink from "../../molecules/AuthorPreview/Link.tsx";
-import ProfilePreviewLink from "../../molecules/ProfilePreview/Link.tsx";
+import useBook from "../../hooks/useBook.ts";
+import { useAuthor } from "../../hooks/authors.ts";
+import { useProfile } from "../../hooks/profile.ts";
+import BookPreviewLink from "../../components/molecules/BookPreview/Link.tsx";
+import AuthorPreviewLink from "../../components/molecules/AuthorPreview/Link.tsx";
+import ProfilePreviewLink from "../../components/molecules/ProfilePreview/Link.tsx";
 
 interface Props {
   result: SearchResult;

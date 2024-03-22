@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { Book } from "../../shared-types/derived";
 import { supabase } from "../utils/supabase.ts";
 import { SearchResult } from "../../shared-types/SearchResult.ts";
 
@@ -24,13 +23,12 @@ async function fetchSearchResults(query: string): Promise<SearchResult[]> {
   return filtered as SearchResult[];
 }
 
-export default function useSearch({
-  query,
-  enabled,
-}: {
+interface SearchProps {
   query: string;
   enabled: boolean;
-}) {
+}
+
+export default function useSearch({ query, enabled }: SearchProps) {
   return useQuery({
     queryKey: ["SEARCH", query],
     queryFn: () => fetchSearchResults(query),

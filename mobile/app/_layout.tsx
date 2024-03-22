@@ -57,7 +57,9 @@ function RootLayoutNav() {
     >
       <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
         <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          // TODO: bring back dark mode when we have time to put into it
+          value={DefaultTheme}
+          //value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <GestureHandlerRootView style={{ flex: 1 }}>
             <SessionProvider>

@@ -58,12 +58,10 @@ export default function FollowersSection({ profile }: Props) {
         href={`/following/${profile.id}`}
       />
       {!isOwnProfile && (
-        <StyledView style={styles}>
+        <StyledView>
           <FollowButton userId={profile.id} />
         </StyledView>
       )}
     </XStack>
   );
 }
-
-const styles = StyleSheet.create({});
