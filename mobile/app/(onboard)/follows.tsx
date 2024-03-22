@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button, SizableText, Text, YStack } from "tamagui";
 import SearchPage from "../../pages/Search";
 import { WILLS_USER_ID } from "../../constants.ts";
@@ -7,9 +7,12 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import LoaderRow from "../../components/atoms/LoaderRow.tsx";
 import ProfilePreviewRow from "../../components/molecules/ProfilePreview/Row.tsx";
 import { FloatingActionBar } from "../../components/containers/TabBar.tsx";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { MoveRight } from "@tamagui/lucide-icons";
 import { FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
+import { useBulkFollow } from "../../hooks/follows.ts";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 
 interface FollowProfileItemProps {
   profileId: string;
@@ -49,23 +52,46 @@ export function FollowProfileItem({
 }
 
 export default function FindFollows() {
-  const [follows, setFollows] = useState<string[]>([
-    "bd5e0476-a422-4970-a5dd-f8c1c7c539e9",
-  ]);
+  const [follows, setFollows] = useState<string[]>([WILLS_USER_ID]);
+  const followText = `Follow ${follows.length} ${
+    follows.length === 1 ? "person" : "people"
+  }`;
+  const { mutate: doFollow, isLoading, isSuccess } = useBulkFollow();
+  const finished = () => {
+    router.replace("/(app)/(tabs)");
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      finished();
+    }
+  }, [isSuccess]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <SizableText>Find people to follow</SizableText>
-      <FlatList
-        data={follows}
-        renderItem={({ item }) => (
-          <FollowProfileItem
-            profileId={item}
-            key={item}
-            follows={follows}
-            setFollows={setFollows}
-          />
-        )}
-      />
+      <StyledView
+        style={{
+          flex: 0.2,
+        }}
+      >
+        <FlatList
+          data={follows}
+          renderItem={({ item }) => (
+            <FollowProfileItem
+              profileId={item}
+              key={item}
+              follows={follows}
+              setFollows={setFollows}
+            />
+          )}
+        />
+      </StyledView>
+
       <SearchPage
         allowedTypes={["profiles"]}
         renderSearchItem={(it) => {
@@ -95,8 +121,15 @@ export default function FindFollows() {
             alignContent="space-between"
             justifyContent="space-between"
             iconAfter={<MoveRight size="$1" />}
+            onPress={() => {
+              if (follows.length > 0) {
+                doFollow(follows);
+              } else {
+                finished();
+              }
+            }}
           >
-            <Text>Follow {follows.length} people</Text>
+            {followText}
           </Button>
         </Link>
       </FloatingActionBar>
@@ -108,5 +141,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 5,
+    alignItems: "center",
   },
 });

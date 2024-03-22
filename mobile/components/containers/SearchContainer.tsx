@@ -16,7 +16,6 @@ function SearchNavigator({
   children,
   style,
 }: PropsWithChildren<{ style: StyleProp<ViewStyle> }>) {
-  console.log("rendering search navigator");
   return (
     <Link href={"/search"} asChild>
       <Pressable>
