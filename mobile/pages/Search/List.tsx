@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { FlatList, ScrollView } from "react-native";
 import {
   SearchResult,
@@ -9,6 +9,8 @@ import SearchResultItem from "./Item.tsx";
 
 interface Props {
   results: SearchResult[];
+  allowedTypes: SearchResultType[];
+  renderSearchItem?: (result: SearchResult) => ReactElement;
 }
 
 type SectionMappings = {
@@ -37,15 +39,26 @@ const sortedKeys = Object.keys(MAPPINGS).sort(
   (a, b) => MAPPINGS[a].order - MAPPINGS[b].order
 );
 
-export default function SearchResultList({ results }: Props) {
+export default function SearchResultList({
+  results,
+  allowedTypes,
+  renderSearchItem,
+}: Props) {
+  const filteredResults = results.filter((result) => {
+    if (allowedTypes && allowedTypes.length > 0) {
+      return allowedTypes.includes(result.entity_type);
+    } else {
+      return true;
+    }
+  });
   return (
     <ScrollView>
       <YStack>
-        {results &&
-          results.length > 0 &&
+        {filteredResults &&
+          filteredResults.length > 0 &&
           sortedKeys.map((key) => {
             const { title } = MAPPINGS[key];
-            const sectionResults = results
+            const sectionResults = filteredResults
               .filter((result) => result.entity_type === key)
               .sort((a, b) => a.order_key - b.order_key);
 
@@ -54,7 +67,12 @@ export default function SearchResultList({ results }: Props) {
                 <FlatList
                   key={key}
                   data={sectionResults}
-                  renderItem={({ item }) => <SearchResultItem result={item} />}
+                  renderItem={({ item }) => {
+                    if (renderSearchItem) {
+                      return renderSearchItem(item);
+                    }
+                    return <SearchResultItem result={item} />;
+                  }}
                   ListHeaderComponent={<SizableText>{title}</SizableText>}
                   scrollEnabled={false}
                 />

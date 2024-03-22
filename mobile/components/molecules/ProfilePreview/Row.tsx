@@ -1,4 +1,9 @@
-import React, { ComponentProps, forwardRef } from "react";
+import React, {
+  ComponentProps,
+  forwardRef,
+  ReactElement,
+  ReactNode,
+} from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import { ListItem, Text } from "tamagui";
 import ProfileImage from "../../atoms/ProfileImage.tsx";
@@ -6,9 +11,10 @@ import ProfileImage from "../../atoms/ProfileImage.tsx";
 interface Props {
   profile: Profile;
   onPress?: ComponentProps<typeof ListItem>["onPress"];
+  children?: ReactNode;
 }
 
-function ProfilePreviewRow({ profile, onPress }: Props, ref) {
+function ProfilePreviewRow({ profile, onPress, children }: Props, ref) {
   return (
     <ListItem
       ref={ref}
@@ -16,7 +22,7 @@ function ProfilePreviewRow({ profile, onPress }: Props, ref) {
       icon={<ProfileImage profile={profile} size={30} />}
       justifyContent="flex-start"
     >
-      <Text>@{profile.username}</Text>
+      {children}
     </ListItem>
   );
 }

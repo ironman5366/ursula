@@ -28,9 +28,7 @@ export default function ReadingListButton({ bookId }: Props) {
     };
   } else {
     buttonProps = {
-      title: bookInReadingList
-        ? "Remove from Reading List"
-        : "Add to Reading List",
+      title: bookInReadingList ? "Remove from Reading List" : "Want to Read",
     };
   }
 
