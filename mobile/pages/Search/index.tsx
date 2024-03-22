@@ -3,14 +3,10 @@ import { Stack, router } from "expo-router";
 import { ActivityIndicator, SafeAreaView } from "react-native";
 import { XStack, Text, Button } from "tamagui";
 import { XCircle } from "@tamagui/lucide-icons";
-import useDebounce from "../hooks/useDebounce.ts";
-import useSearch, {
-  SearchFilter,
-  useFilteredSearch,
-} from "../hooks/useSearch.ts";
-import SearchContainer from "../components/containers/SearchContainer.tsx";
-import SearchResultList from "../components/organisms/SearchResultList";
-import { SearchResult } from "@ursula/shared-types/SearchResult.ts";
+import useDebounce from "../../hooks/useDebounce.ts";
+import useSearch from "../../hooks/useSearch.ts";
+import SearchContainer from "../../components/containers/SearchContainer.tsx";
+import SearchResultList from "../../components/organisms/SearchResultList";
 
 export function SearchHeader() {
   return (
@@ -31,16 +27,12 @@ export function SearchHeader() {
   );
 }
 
-interface SearchProps {
-  // TODO: specify allowed search types here
-}
-
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const debounced = useDebounce(query, 500);
   const [dirty, setDirty] = useState(false);
 
-  const { data, isLoading } = useFilteredSearch({
+  const { data, isLoading } = useSearch({
     query: debounced,
     enabled: !!debounced,
   });

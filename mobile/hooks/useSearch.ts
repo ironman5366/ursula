@@ -35,18 +35,3 @@ export default function useSearch({ query, enabled }: SearchProps) {
     enabled,
   });
 }
-
-export type SearchFilter = (result: SearchResult) => boolean;
-
-interface FilteredSearchProps extends SearchProps {
-  filter?: SearchFilter;
-}
-
-export function useFilteredSearch({ filter, ...props }: FilteredSearchProps) {
-  const results = useSearch(props);
-
-  return {
-    ...results,
-    data: filter ? results.data?.filter(filter) : results.data,
-  };
-}

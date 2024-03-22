@@ -1,4 +1,4 @@
-import SearchPage from "../../pages/Search.tsx";
+import SearchPage from "../../pages/Search";
 
 export default function Search() {
   return <SearchPage />;

@@ -30,3 +30,5 @@ export type SearchResult =
   | SearchResultBase<"books", "title", Book>
   | SearchResultBase<"authors", "name", Author>
   | SearchResultBase<"profiles", "username", Profile>;
+
+export type SearchResultType = SearchResult["entity_type"];
