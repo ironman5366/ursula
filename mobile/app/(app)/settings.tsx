@@ -8,6 +8,7 @@ import { TitleText } from "../../components/atoms/TitleText.tsx";
 import { useCurrentProfile } from "../../hooks/profile.ts";
 import { Stack, router } from "expo-router";
 import useSignOut from "../../hooks/useSignOut.ts";
+import { Link } from "@react-navigation/native";
 
 function DebugPanel() {
   const queryClient = useQueryClient();
@@ -32,6 +33,9 @@ function DebugPanel() {
         }}
       />
       {dumpedCache && <Text>{dumpedCache}</Text>}
+      <Link to={"/(onboard)/follows"}>
+        <Text>Try the follow page</Text>
+      </Link>
     </>
   );
 }
