@@ -5,8 +5,8 @@ import { XStack, Text, Button } from "tamagui";
 import { XCircle } from "@tamagui/lucide-icons";
 import useDebounce from "../../hooks/useDebounce.ts";
 import useSearch from "../../hooks/useSearch.ts";
+import SearchResultList from "./List.tsx";
 import SearchContainer from "../../components/containers/SearchContainer.tsx";
-import SearchResultList from "../../components/organisms/SearchResultList";
 
 export function SearchHeader() {
   return (
