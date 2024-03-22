@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, ScrollView } from "react-native";
 import {
   SearchResult,
   SearchResultType,
@@ -19,17 +19,17 @@ type SectionMappings = {
 };
 
 const MAPPINGS: SectionMappings = {
-  books: {
-    title: "Books",
-    order: 1,
-  },
   profiles: {
     title: "Profiles",
     order: 1,
   },
+  books: {
+    title: "Books",
+    order: 2,
+  },
   authors: {
     title: "Authors",
-    order: 2,
+    order: 3,
   },
 };
 
@@ -39,26 +39,29 @@ const sortedKeys = Object.keys(MAPPINGS).sort(
 
 export default function SearchResultList({ results }: Props) {
   return (
-    <YStack>
-      {results &&
-        results.length > 0 &&
-        sortedKeys.map((key) => {
-          const { title } = MAPPINGS[key];
-          const sectionResults = results
-            .filter((result) => result.entity_type === key)
-            .sort((a, b) => a.order_key - b.order_key);
+    <ScrollView>
+      <YStack>
+        {results &&
+          results.length > 0 &&
+          sortedKeys.map((key) => {
+            const { title } = MAPPINGS[key];
+            const sectionResults = results
+              .filter((result) => result.entity_type === key)
+              .sort((a, b) => a.order_key - b.order_key);
 
-          if (sectionResults.length > 0) {
-            return (
-              <FlatList
-                key={key}
-                data={sectionResults}
-                renderItem={({ item }) => <SearchResultItem result={item} />}
-                ListHeaderComponent={<SizableText>{title}</SizableText>}
-              />
-            );
-          }
-        })}
-    </YStack>
+            if (sectionResults.length > 0) {
+              return (
+                <FlatList
+                  key={key}
+                  data={sectionResults}
+                  renderItem={({ item }) => <SearchResultItem result={item} />}
+                  ListHeaderComponent={<SizableText>{title}</SizableText>}
+                  scrollEnabled={false}
+                />
+              );
+            }
+          })}
+      </YStack>
+    </ScrollView>
   );
 }
