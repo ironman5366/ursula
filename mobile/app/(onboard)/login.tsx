@@ -37,7 +37,11 @@ export default function LoginSignup() {
     if (error) {
       Alert.alert(error.message);
     } else {
-      router.replace("/(app)/(tabs)");
+      if (isLogin) {
+        router.replace("/(app)/(tabs)");
+      } else {
+        router.replace("/(onboard)/follows");
+      }
     }
     setLoading(false);
   }

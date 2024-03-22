@@ -16,3 +16,8 @@ export const ENVIRONMENT = process.env.EXPO_PUBLIC_ENVIRONMENT;
 if (!ENVIRONMENT) {
   throw new Error("Environment not set");
 }
+
+export const WILLS_USER_ID =
+  ENVIRONMENT === "local"
+    ? "e68a6daf-49c8-441a-a15d-7c2069fac7fa"
+    : "bd5e0476-a422-4970-a5dd-f8c1c7c539e9";

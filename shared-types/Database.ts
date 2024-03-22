@@ -837,6 +837,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_key: string | null;
+          bio: string | null;
           created_at: string;
           full_name: string | null;
           id: string;
@@ -846,6 +847,7 @@ export type Database = {
         };
         Insert: {
           avatar_key?: string | null;
+          bio?: string | null;
           created_at?: string;
           full_name?: string | null;
           id: string;
@@ -855,6 +857,7 @@ export type Database = {
         };
         Update: {
           avatar_key?: string | null;
+          bio?: string | null;
           created_at?: string;
           full_name?: string | null;
           id?: string;

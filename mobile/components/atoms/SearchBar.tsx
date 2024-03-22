@@ -47,7 +47,6 @@ export default function SearchBar({ editable, ...props }: SearchBarProps) {
         backgroundColor="$colorTransparent"
         flexGrow={1}
         editable={editable}
-        onPressIn={() => router.push("/search")}
         value={value}
         placeholderTextColor={placeholderColor}
         {...props}
