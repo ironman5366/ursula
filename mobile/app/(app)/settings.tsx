@@ -8,7 +8,7 @@ import { Stack } from "expo-router";
 import useSignOut from "../../hooks/useSignOut.ts";
 import { Link } from "@react-navigation/native";
 import { Button } from "tamagui";
-import { invoke } from "../../hooks/invoke.ts";
+import { invoke } from "../../ai/invoke.ts";
 import { LLMRole, Model } from "@ursula/shared-types/llm.ts";
 
 function DebugPanel() {

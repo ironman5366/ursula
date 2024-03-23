@@ -1,14 +1,10 @@
-import {
-  InvocationParams,
-  LLMFinishReason,
-  LLMMessage,
-  LLMMessageDelta,
-  LLMResponseStream,
-} from "@ursula/shared-types/llm.ts";
+import LLM from "@ursula/shared-types/llm.ts";
 import { SUPABASE_ANON_KEY, SUPABASE_PROJECT_URL } from "../constants.ts";
 import EventSource from "react-native-sse";
 
-export async function* invoke(params: InvocationParams): LLMResponseStream {
+export async function* invoke(
+  params: LLM.InvocationParams
+): LLM.ResponseStream {
   const functionUrl = `${SUPABASE_PROJECT_URL}/functions/v1/invoke-ai/`;
   const eventSource = new EventSource(functionUrl, {
     method: "POST",
@@ -18,8 +14,8 @@ export async function* invoke(params: InvocationParams): LLMResponseStream {
     body: JSON.stringify(params),
   });
 
-  let messageQueue: LLMMessageDelta[] = [];
-  let finishReason: LLMFinishReason | null = null;
+  let messageQueue: LLM.MessageDelta[] = [];
+  let finishReason: LLM.FinishReason | null = null;
 
   eventSource.addEventListener("error", (event) => {
     console.error(event);
@@ -32,12 +28,12 @@ export async function* invoke(params: InvocationParams): LLMResponseStream {
 
   eventSource.addEventListener("close", (event) => {
     // TODO: propagate this
-    finishReason = LLMFinishReason.FINISHED;
+    finishReason = LLM.FinishReason.FINISHED;
   });
 
   while (true) {
     if (messageQueue.length > 0) {
-      yield messageQueue.shift() as LLMMessageDelta;
+      yield messageQueue.shift() as LLM.MessageDelta;
     } else {
       await new Promise((resolve) => setTimeout(resolve, 50));
     }
@@ -48,9 +44,9 @@ export async function* invoke(params: InvocationParams): LLMResponseStream {
   }
 }
 
-interface InvokeWithParams extends InvocationParams {
-  onMessage?: (message: LLMMessageDelta) => void;
-  onFinish?: (reason: LLMFinishReason) => void;
+interface InvokeWithParams extends LLM.InvocationParams {
+  onMessage?: (message: LLM.MessageDelta) => void;
+  onFinish?: (reason: LLM.FinishReason) => void;
   // TODO: add on function call here when we're ready
 }
 
@@ -66,5 +62,5 @@ export async function invokeWith({
   }
 
   // TODO: handle finish reason
-  onFinish && onFinish(LLMFinishReason.FINISHED);
+  onFinish && onFinish(LLM.FinishReason.FINISHED);
 }

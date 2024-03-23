@@ -1,20 +1,15 @@
-import React, { useCallback, useState } from "react";
-import {
-  LLMAssistantMessage,
-  LLMMessage,
-  LLMMessageDelta,
-  Model,
-} from "@ursula/shared-types/llm.ts";
+import LLM from "@ursula/shared-types/llm.ts";
 import { SafeAreaView, TextInput } from "react-native";
-import { Button, XStack, YStack } from "tamagui";
+import { Button, YStack } from "tamagui";
 import ChatMessage, { AssistantMessage } from "./ChatMessage.tsx";
-import { invoke, invokeWith } from "../../hooks/invoke.ts";
+import { invokeWith } from "../../ai/invoke.ts";
+import { useState } from "react";
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<LLMMessage[]>([]);
+  const [messages, setMessages] = useState<LLM.Message[]>([]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [currResponse, setCurrResponse] = useState<LLMAssistantMessage | null>(
+  const [currResponse, setCurrResponse] = useState<LLM.AssistantMessage | null>(
     null
   );
 
@@ -22,8 +17,7 @@ export default function ChatPage() {
     console.log("invoking chat with ", messages);
     setIsGenerating(false);
     invokeWith({
-      onMessage: (delta: LLMMessageDelta<LLMAssistantMessage>) => {
-        console.log("got delta", delta);
+      onMessage: (delta: LLM.MessageDelta<LLM.AssistantMessage>) => {
         setCurrResponse((curr) => {
           if (curr == null) {
             return {
@@ -39,10 +33,10 @@ export default function ChatPage() {
         });
       },
       onFinish: (reason) => {
-        setMessages((prev) => [...prev, currResponse as LLMAssistantMessage]);
+        setMessages((prev) => [...prev, currResponse as LLM.AssistantMessage]);
         setIsGenerating(false);
       },
-      model: Model.ANTHROPIC_HAIKU,
+      model: LLM.Model.ANTHROPIC_HAIKU,
       messages: chatMessages,
     });
   };
@@ -54,7 +48,7 @@ export default function ChatPage() {
           <ChatMessage message={message} key={i} />
         ))}
         {currResponse && (
-          <AssistantMessage message={currResponse as LLMAssistantMessage} />
+          <AssistantMessage message={currResponse as LLM.AssistantMessage} />
         )}
         <TextInput
           value={input}
@@ -64,7 +58,7 @@ export default function ChatPage() {
         <Button
           disabled={isGenerating}
           onPress={() => {
-            const newMessages: LLMMessage[] = [
+            const newMessages: LLM.Message[] = [
               ...messages,
               { content: input, role: "user" },
             ];
