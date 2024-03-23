@@ -5,17 +5,17 @@ export enum LLMRole {
   FUNCTION = "function",
 }
 
-type LLMFunction = {
+export type LLMFunction = {
   name: string;
   description: string;
   parameters: object;
 };
 
-type FunctionCall = {
+export type LLMFunctionCall = {
   name: string;
 };
 
-type LLMMessage =
+export type LLMMessage =
   | {
       role: LLMRole.SYSTEM;
       content: string;
@@ -30,7 +30,7 @@ type LLMMessage =
     }
   | {
       role: LLMRole.ASSISTANT;
-      function: FunctionCall;
+      function: LLMFunctionCall;
     }
   | {
       role: LLMRole.FUNCTION;
@@ -38,20 +38,16 @@ type LLMMessage =
       content: string | null;
     };
 
-type LLMMessageDelta = Partial<LLMMessage>;
+export type LLMMessageDelta = Partial<LLMMessage>;
 
 export enum Model {
   ANTHROPIC_HAIKU,
 }
 
-interface InvocationParams {
+export interface InvocationParams {
   model: Model;
   messages: LLMMessage[];
   functions?: LLMFunction[];
   // Optionally force the model to call a specific function by giving the name of it
   force_function?: string;
-}
-
-export function invoke(params: InvocationParams): Generator<LLMMessageDelta> {
-  // TODO
 }
