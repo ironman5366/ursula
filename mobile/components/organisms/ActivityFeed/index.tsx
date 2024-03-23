@@ -4,7 +4,6 @@ import { ActivityIndicator, FlatList } from "react-native";
 import ActivityFeedItem from "./ActivityFeedItem.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import { TitleText } from "../../atoms/TitleText.tsx";
-import StyledButton from "../StyledButton.tsx";
 
 interface Props {
   activities: Activity[] | null | undefined;

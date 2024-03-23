@@ -58,9 +58,11 @@ export function useActivities(userId: string) {
 }
 
 async function fetchSocialFeed(userId: string): Promise<Activity[]> {
-  const { data, error } = await supabase.rpc("social_feed", {
-    for_user_id: userId,
-  });
+  const { data, error } = await supabase
+    .rpc("social_feed", {
+      for_user_id: userId,
+    })
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;
