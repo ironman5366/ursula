@@ -1,28 +1,48 @@
 import {
   InvocationParams,
-  InvokeFn,
+  LLMFinishReason,
+  LLMMessageDelta,
   LLMResponseStream,
 } from "@ursula/shared-types/llm.ts";
-import { supabase } from "../utils/supabase.ts";
-import { SUPABASE_PROJECT_URL } from "../constants.ts";
-import {
-  EventSourceMessage,
-  fetchEventSource,
-} from "@microsoft/fetch-event-source";
+import { SUPABASE_ANON_KEY, SUPABASE_PROJECT_URL } from "../constants.ts";
+import EventSource from "react-native-sse";
 
 export async function* invoke(params: InvocationParams): LLMResponseStream {
-  // This is a supabase function but because it uses SSE we'll invoke it on our own
   const functionUrl = `${SUPABASE_PROJECT_URL}/functions/v1/invoke-ai/`;
-  const response = await fetchEventSource(functionUrl, {
+  const eventSource = new EventSource(functionUrl, {
     method: "POST",
-    body: JSON.stringify(params),
-    onmessage: (event) => {
-      // @ts-ignore
-      yield JSON.parse(event.data);
+    headers: {
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
     },
-    onclose: () => {},
+    body: JSON.stringify(params),
   });
 
-  console.log("Done");
-  return;
+  let messageQueue: LLMMessageDelta[] = [];
+  let finishReason: LLMFinishReason | null = null;
+
+  eventSource.addEventListener("error", (event) => {
+    console.error(event);
+    throw event;
+  });
+
+  eventSource.addEventListener("message", (message) => {
+    messageQueue.push(JSON.parse(message.data));
+  });
+
+  eventSource.addEventListener("close", (event) => {
+    // TODO: propagate this
+    finishReason = LLMFinishReason.FINISHED;
+  });
+
+  while (true) {
+    if (messageQueue.length > 0) {
+      yield messageQueue.shift() as LLMMessageDelta;
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+
+    if (finishReason) {
+      return finishReason;
+    }
+  }
 }
