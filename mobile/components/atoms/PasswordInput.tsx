@@ -1,6 +1,7 @@
 import React, { ComponentProps } from "react";
 import StyledInput from "./StyledInput";
 import { Input } from "tamagui";
+import { Lock } from "@tamagui/lucide-icons";
 
 type Props = Omit<
   ComponentProps<typeof Input>,
@@ -9,9 +10,10 @@ type Props = Omit<
 
 export default function PasswordInput(props: Props) {
   return (
-    <Input
+    <StyledInput
       {...props}
       secureTextEntry
+      icon={<Lock />}
       autoCapitalize={"none"}
       autoComplete="password"
       textContentType="password"

@@ -1,6 +1,7 @@
 import React, { ComponentProps, forwardRef } from "react";
 import StyledInput from "./StyledInput";
 import { Input } from "tamagui";
+import { Mail } from "@tamagui/lucide-icons";
 
 type Props = Omit<
   ComponentProps<typeof Input>,
@@ -13,9 +14,10 @@ type Props = Omit<
 
 function EmailInput(props: Props, ref) {
   return (
-    <Input
+    <StyledInput
       {...props}
       ref={ref}
+      icon={<Mail />}
       autoCorrect={false}
       autoComplete={"email"}
       autoCapitalize={"none"}

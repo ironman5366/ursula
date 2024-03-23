@@ -1,9 +1,10 @@
 import { Search, XCircle } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { TextInput } from "react-native";
 import { Button, Input, XStack } from "tamagui";
 import { useThemeColor } from "../../theme.ts";
+import { usePathname } from "expo-router";
 
 interface SearchBarProps
   extends Omit<
@@ -23,6 +24,11 @@ export default function SearchBar({ editable, ...props }: SearchBarProps) {
 
   const value = props.value || "";
   const onChangeText = props.onChangeText || (() => {});
+  const pathname = usePathname();
+
+  useEffect(() => {
+    console.log(pathname);
+  }, [pathname]);
 
   return (
     <XStack
@@ -39,14 +45,15 @@ export default function SearchBar({ editable, ...props }: SearchBarProps) {
           color: textColor,
           flex: 0.9,
         }}
-        autoFocus={true}
+        autoFocus={editable}
+        onFocus={() => pathname !== "/search" && router.push("/search")}
         caretHidden={false}
         placeholder={"Search"}
         onChangeText={onChangeText}
         unstyled
         backgroundColor="$colorTransparent"
         flexGrow={1}
-        editable={editable}
+        editable={true}
         value={value}
         placeholderTextColor={placeholderColor}
         {...props}

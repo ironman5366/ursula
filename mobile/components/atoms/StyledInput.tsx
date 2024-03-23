@@ -1,31 +1,71 @@
-import React, { ComponentProps, forwardRef } from "react";
-import { TextInput, StyleSheet } from "react-native";
-import ThemeColor from "../../types/ThemeColor";
+import React, {
+  ComponentProps,
+  ReactElement,
+  cloneElement,
+  forwardRef,
+} from "react";
+import { Button, Input, XStack } from "tamagui";
 import { useThemeColor } from "../../theme.ts";
+import ThemeColor from "../../types/ThemeColor";
+import { XCircle } from "@tamagui/lucide-icons";
 
-interface Props extends ComponentProps<typeof TextInput> {
+interface Props extends ComponentProps<typeof Input> {
   borderColorName?: ThemeColor;
+  icon?: ReactElement;
 }
 
 function StyledInput({ borderColorName, style, ...props }: Props, ref) {
-  const borderColor = useThemeColor(borderColorName || "tint");
-  const color = useThemeColor("text");
+  const tint = "gray";
+  const textColor = useThemeColor("text");
+  const placeholderColor = useThemeColor("disabled");
+
+  const value = props.value || "";
+  const onChangeText = props.onChangeText || (() => {});
 
   return (
-    <TextInput
-      ref={ref}
-      style={[styles.input, { borderColor, color }, style || {}]}
-      {...props}
-    />
+    <XStack
+      borderWidth={2}
+      backgroundColor="#00000011"
+      borderRadius={8}
+      width="100%"
+      p={8}
+      borderColor="#00000022"
+    >
+      {cloneElement(props.icon, {
+        size: 20,
+        color: tint,
+        mr: "$2",
+        style: {
+          flex: 0.1,
+        },
+      })}
+
+      <Input
+        style={{
+          color: textColor,
+          flex: 0.9,
+        }}
+        autoFocus={true}
+        caretHidden={false}
+        ref={ref}
+        placeholder={"Search"}
+        onChangeText={onChangeText}
+        unstyled
+        backgroundColor="$colorTransparent"
+        flexGrow={1}
+        value={value}
+        placeholderTextColor={placeholderColor}
+        {...props}
+      />
+      {value && value.length > 0 && (
+        <Button
+          unstyled
+          iconAfter={<XCircle size={20} color={tint} />}
+          onPress={() => onChangeText("")}
+        />
+      )}
+    </XStack>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    borderWidth: 2,
-    padding: 5,
-    borderRadius: 5,
-  },
-});
 
 export default forwardRef(StyledInput);

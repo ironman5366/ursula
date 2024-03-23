@@ -1,18 +1,22 @@
-import React, { ComponentProps, useEffect, useState } from "react";
-import { Stack, router } from "expo-router";
-import { ActivityIndicator, SafeAreaView } from "react-native";
-import { XStack, Text, Button } from "tamagui";
 import { XCircle } from "@tamagui/lucide-icons";
+import { Stack, router } from "expo-router";
+import React, { ComponentProps, useEffect, useState } from "react";
+import { ActivityIndicator, SafeAreaView } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { Button, Text, XStack } from "tamagui";
+import SearchContainer from "../../components/containers/SearchContainer.tsx";
 import useDebounce from "../../hooks/useDebounce.ts";
 import useSearch from "../../hooks/useSearch.ts";
 import SearchResultList from "./List.tsx";
-import SearchContainer from "../../components/containers/SearchContainer.tsx";
-import { SearchResultType } from "@ursula/shared-types/SearchResult.ts";
-import SearchResultItem from "./Item.tsx";
 
 export function SearchHeader() {
   return (
-    <SafeAreaView>
+    <Animated.View
+      key={"uniqueKey"}
+      entering={FadeIn.duration(400)}
+      exiting={FadeOut.duration(400)}
+    >
+      <SafeAreaView>
       <XStack
         height="$3"
         px="$3"
@@ -26,6 +30,7 @@ export function SearchHeader() {
         </Button>
       </XStack>
     </SafeAreaView>
+    </Animated.View>
   );
 }
 
