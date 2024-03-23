@@ -1,6 +1,7 @@
 import {
   InvocationParams,
   LLMFinishReason,
+  LLMMessage,
   LLMMessageDelta,
   LLMResponseStream,
 } from "@ursula/shared-types/llm.ts";
@@ -45,4 +46,25 @@ export async function* invoke(params: InvocationParams): LLMResponseStream {
       return finishReason;
     }
   }
+}
+
+interface InvokeWithParams extends InvocationParams {
+  onMessage?: (message: LLMMessageDelta) => void;
+  onFinish?: (reason: LLMFinishReason) => void;
+  // TODO: add on function call here when we're ready
+}
+
+export async function invokeWith({
+  onMessage,
+  onFinish,
+  ...params
+}: InvokeWithParams) {
+  const stream = invoke(params);
+
+  for await (const message of stream) {
+    onMessage && onMessage(message);
+  }
+
+  // TODO: handle finish reason
+  onFinish && onFinish(LLMFinishReason.FINISHED);
 }
