@@ -8,7 +8,7 @@ export enum LLMRole {
 export type LLMFunction = {
   name: string;
   description: string;
-  parameters: object;
+  parameters: any;
 };
 
 export type LLMFunctionCall = {
@@ -48,7 +48,7 @@ export enum LLMFinishReason {
 export type LLMMessageDelta = Partial<LLMMessage>;
 
 export enum Model {
-  ANTHROPIC_HAIKU,
+  ANTHROPIC_HAIKU = "claude-3-haiku-20240307",
 }
 
 export type InvocationParams = {

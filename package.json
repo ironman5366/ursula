@@ -12,7 +12,6 @@
     "supabase",
     "mobile",
     "shared-types"
-    "anthropic"
   ],
   "packageManager": "npm@10.4.0",
   "dependencies": {}

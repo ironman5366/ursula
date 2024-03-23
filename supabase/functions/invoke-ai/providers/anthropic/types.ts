@@ -3,7 +3,7 @@
 // <description>
 // Retrieves the current weather for a specified location.
 // Returns a dictionary with two fields:
-// - temperature: float, the current temperature in Fahrenheit 
+// - temperature: float, the current temperature in Fahrenheit
 // - conditions: string, a brief description of the current weather conditions
 // Raises ValueError if the provided location cannot be found.
 // </description>
@@ -16,20 +16,17 @@
 // </parameters>
 // </tool_description>
 
-
 export interface Tool {
-    tool_name: string;
-    description: string;
-    parameters: ToolParam[];
+  tool_name: string;
+  description: string;
+  parameters: ToolParam[];
 }
 
 export interface ToolParam {
-    name: string;
-    type: string;
-    description: string;
+  name: string;
+  type: string;
+  description: string;
 }
-
-
 
 // <function_calls>
 // <invoke>
@@ -42,15 +39,14 @@ export interface ToolParam {
 // </function_calls>
 
 export interface FunctionCalls {
-    invoke : FunctionInvoke
+  invoke: FunctionInvoke;
 }
 
 export interface FunctionInvoke {
-    tool_name: string;
-    parameters: ParameterResponse;
+  tool_name: string;
+  parameters: ParameterResponse;
 }
 
 interface ParameterResponse {
-    [key: string]: string;
+  [key: string]: string;
 }
-

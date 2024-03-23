@@ -3,41 +3,13 @@
 // This enables autocomplete, go to definition, etc.
 import {
   InvocationParams,
-  Model,
   InvokeFn,
-  LLMRole,
   LLMFinishReason,
   LLMResponseStream,
+  LLMRole,
+  Model,
 } from "@ursula/shared-types/llm.ts";
-
-async function* haikuStub(): LLMResponseStream {
-  yield {
-    role: LLMRole.ASSISTANT,
-    content: "",
-  };
-
-  yield {
-    role: LLMRole.ASSISTANT,
-    content: "He",
-  };
-
-  yield {
-    role: LLMRole.ASSISTANT,
-    content: "llo",
-  };
-
-  yield {
-    role: LLMRole.ASSISTANT,
-    content: "!",
-  };
-
-  yield {
-    role: LLMRole.SYSTEM,
-    content: " World",
-  };
-
-  return LLMFinishReason.FINISHED;
-}
+import "npm:@anthropic-ai/sdk@^0.19.0";
 
 const MODEL_MAP: Record<Model, InvokeFn> = {
   [Model.ANTHROPIC_HAIKU]: haikuStub,
