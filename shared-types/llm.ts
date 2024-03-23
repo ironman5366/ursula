@@ -8,28 +8,38 @@ export type LLMFunctionCall = {
   name: string;
 };
 
+export type LLMSystemMessage = {
+  role: "system";
+  content: string;
+};
+
+export type LLMUserMessage = {
+  role: "user";
+  content: string;
+};
+
+export type LLMAssistantMessage = {
+  role: "assistant";
+  content: string;
+};
+
+export type LLMAssistantFunctionCall = {
+  role: "assistant";
+  function: LLMFunctionCall;
+};
+
+export type LLMFunctionMessage = {
+  role: "function";
+  name: string;
+  content: string | null;
+};
+
 export type LLMMessage =
-  | {
-      role: "system";
-      content: string;
-    }
-  | {
-      role: "user";
-      content: string;
-    }
-  | {
-      role: "assistant";
-      content: string;
-    }
-  | {
-      role: "assistant";
-      function: LLMFunctionCall;
-    }
-  | {
-      role: "function";
-      name: string;
-      content: string | null;
-    };
+  | LLMSystemMessage
+  | LLMUserMessage
+  | LLMAssistantMessage
+  | LLMAssistantFunctionCall
+  | LLMFunctionMessage;
 
 export enum LLMFinishReason {
   FINISHED,
@@ -38,7 +48,7 @@ export enum LLMFinishReason {
   CONTENT_FILTER,
 }
 
-export type LLMMessageDelta = Partial<LLMMessage>;
+export type LLMMessageDelta<T extends LLMMessage = LLMMessage> = Partial<T>;
 
 export enum Model {
   ANTHROPIC_HAIKU = "claude-3-haiku-20240307",
