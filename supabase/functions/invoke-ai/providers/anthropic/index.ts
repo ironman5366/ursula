@@ -74,15 +74,31 @@ export async function* invokeAnthropic({
   model,
   functions,
   messages,
+  ...rest
 }: LLM.InvocationParams): LLM.ResponseStream {
+  console.log(JSON.stringify({ model, functions, messages, ...rest }, null, 2));
   const systemPrompt = generateSystemPrompt(functions);
   console.log("system prompt is ", systemPrompt);
-  // TODO: re-include system prompt once we integrate functions
+  const transferredMessages = messages.map(llmMessageToAnthropicMessage);
+
+  if (functions) {
+    if (transferredMessages[0].role === "user") {
+      transferredMessages[0].content =
+        systemPrompt + "\n" + transferredMessages[0].content;
+    } else {
+      transferredMessages.unshift({
+        role: "user",
+        content: systemPrompt,
+      });
+    }
+  }
+
+  console.log(JSON.stringify(transferredMessages, null, 2));
 
   const stream = anthropic.messages.stream({
     model,
     max_tokens: 4096,
-    messages: messages.map(llmMessageToAnthropicMessage),
+    messages: transferredMessages,
   });
 
   for await (const messageStreamEvent of stream) {
