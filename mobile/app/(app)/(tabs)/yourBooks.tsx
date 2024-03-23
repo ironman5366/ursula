@@ -109,8 +109,6 @@ export default function YourBooks() {
               borderBottomLeftRadius={0}
               borderBottomRightRadius={0}
               paddingBottom="$1.5"
-              borderColor="$color3"
-              borderBottomWidth="$0.5"
               backgroundColor="transparent"
             >
               <Tabs.Tab
@@ -118,6 +116,8 @@ export default function YourBooks() {
                 paddingHorizontal="$3"
                 paddingVertical="$2"
                 flex={1}
+                borderBottomWidth="$1"
+                borderBottomColor={currentTab === "tab1" ? "black" : "gray"}
                 value="tab1"
                 onInteraction={handleOnInteraction}
               >
@@ -128,6 +128,8 @@ export default function YourBooks() {
                 paddingHorizontal="$3"
                 paddingVertical="$2"
                 value="tab2"
+                borderBottomWidth="$1"
+                borderBottomColor={currentTab === "tab2" ? "black" : "gray"}
                 flex={1}
                 onInteraction={handleOnInteraction}
               >

@@ -1,0 +1,19 @@
+{
+  "name": "anthropic",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.19.0",
+    "xmlbuilder2": "^3.1.1",
+    "@ursula/shared-types": "*"
+  }
+}
