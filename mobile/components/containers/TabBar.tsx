@@ -49,7 +49,9 @@ const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
         icon={options.tabBarIcon({ color: isFocused ? "#000" : "#fff" })}
       >
         <Text fontWeight="bold" color={isFocused ? "#000" : "#fff"}>
-          {label}
+          {
+            isFocused ? label : ""
+          }
         </Text>
       </Button>
     </XStack>
