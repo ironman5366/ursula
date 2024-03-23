@@ -1,8 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../utils/supabase.ts";
 import { SearchResult } from "../../shared-types/SearchResult.ts";
+import { Book } from "@ursula/shared-types/derived.ts";
 
-async function fetchSearchResults(query: string): Promise<SearchResult[]> {
+export async function fetchSearchBooksOnly(query: string): Promise<Book[]> {
+  const { data, error } = await supabase
+    .rpc("search_only_books", {
+      search_text: query,
+    })
+    .limit(30);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function fetchSearchResults(
+  query: string
+): Promise<SearchResult[]> {
   const { data, error } = await supabase
     .rpc("search_all", {
       search_text: query,

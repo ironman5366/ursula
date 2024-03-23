@@ -1,10 +1,4 @@
-import {
-  InvocationParams,
-  LLMFunction,
-  LLMResponseStream,
-  LLMFinishReason,
-  LLMMessage,
-} from "@ursula/shared-types/llm.ts";
+import LLM from "@ursula/shared-types/llm.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { Tool } from "./types.ts";
 import { jsonToXml } from "./utils.ts";
@@ -13,7 +7,7 @@ const anthropic = new Anthropic({
   apiKey: Deno.env.get("ANTHROPIC_API_KEY"),
 });
 
-function LLMFunctionToTool(llmFunction: LLMFunction): Tool {
+function LLMFunctionToTool(llmFunction: LLM.Function): Tool {
   return {
     tool_name: llmFunction.name,
     description: llmFunction.description,
@@ -22,7 +16,7 @@ function LLMFunctionToTool(llmFunction: LLMFunction): Tool {
   };
 }
 
-function generateSystemPrompt(functions?: LLMFunction[]) {
+function generateSystemPrompt(functions?: LLM.Function[]) {
   if (!functions) {
     return "";
   }
@@ -52,7 +46,7 @@ function generateSystemPrompt(functions?: LLMFunction[]) {
 }
 
 function llmMessageToAnthropicMessage(
-  message: LLMMessage
+  message: LLM.Message
 ): Anthropic.MessageParam {
   switch (message.role) {
     case "user":
@@ -80,7 +74,7 @@ export async function* invokeAnthropic({
   model,
   functions,
   messages,
-}: InvocationParams): LLMResponseStream {
+}: LLM.InvocationParams): LLM.ResponseStream {
   const systemPrompt = generateSystemPrompt(functions);
   console.log("system prompt is ", systemPrompt);
   // TODO: re-include system prompt once we integrate functions
@@ -102,5 +96,11 @@ export async function* invokeAnthropic({
     }
   }
 
-  return LLMFinishReason.FINISHED;
+  console.log("Returning finished from anthropic");
+  yield {
+    role: "finished",
+    reason: LLM.FinishReason.FINISHED,
+  };
+
+  return LLM.FinishReason.FINISHED;
 }
