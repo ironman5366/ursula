@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text } from "react-native";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
-import { supabase } from "../../utils/supabase.ts";
 import StyledButton from "../../components/organisms/StyledButton.tsx";
 import { useQueryClient } from "@tanstack/react-query";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
-import { useCurrentProfile } from "../../hooks/profile.ts";
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import useSignOut from "../../hooks/useSignOut.ts";
 import { Link } from "@react-navigation/native";
+import { Button } from "tamagui";
+import { invoke } from "../../hooks/invoke.ts";
+import { LLMRole, Model } from "@ursula/shared-types/llm.ts";
 
 function DebugPanel() {
   const queryClient = useQueryClient();
@@ -33,9 +34,18 @@ function DebugPanel() {
         }}
       />
       {dumpedCache && <Text>{dumpedCache}</Text>}
-      <Link to={"/(onboard)/follows"}>
-        <Text>Try the follow page</Text>
-      </Link>
+      <Button
+        onPress={async () => {
+          for await (const resp of invoke({
+            model: Model.ANTHROPIC_HAIKU,
+            messages: [{ role: LLMRole.USER, content: "Hello" }],
+          })) {
+            console.log("invoke resp", resp);
+          }
+        }}
+      >
+        Try invoke
+      </Button>
     </>
   );
 }
