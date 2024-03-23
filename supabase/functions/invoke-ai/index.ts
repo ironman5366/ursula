@@ -6,12 +6,9 @@ import {
   Model,
   InvokeFn,
   LLMRole,
-  LLMMessageDelta,
   LLMFinishReason,
   LLMResponseStream,
 } from "@ursula/shared-types/llm.ts";
-
-console.log("Hello from Functions!");
 
 async function* haikuStub(): LLMResponseStream {
   yield {
@@ -47,24 +44,20 @@ const MODEL_MAP: Record<Model, InvokeFn> = {
 };
 
 Deno.serve(async (req) => {
+  console.log("Request", req.url, req.headers.get("authorization"), req.body);
   const params: InvocationParams = await req.json();
   const invokationFn = MODEL_MAP[params.model];
 
+  console.debug("Invoking model", params.model);
+
   const body = new ReadableStream({
-    start(controller) {
+    async start(controller) {
       const encoder = new TextEncoder();
-      let count = 0;
 
-      const timer = setInterval(() => {
-        const data = `data: ${JSON.stringify({ count })}\n\n`;
+      for await (const message of invokationFn(params)) {
+        const data = `data: ${JSON.stringify(message)}\n\n`;
         controller.enqueue(encoder.encode(data));
-        count++;
-
-        if (count > 10) {
-          clearInterval(timer);
-          controller.close();
-        }
-      }, 1000);
+      }
     },
   });
 
@@ -76,15 +69,3 @@ Deno.serve(async (req) => {
     },
   });
 });
-
-/* To invoke locally:
-
-  1. Run `supabase start` (see: https://supabase.com/docs/reference/cli/supabase-start)
-  2. Make an HTTP request:
-
-  curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/invoke-ai' \
-    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
-    --header 'Content-Type: application/json' \
-    --data '{"name":"Functions"}'
-
-*/
