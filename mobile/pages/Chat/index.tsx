@@ -33,8 +33,11 @@ export default function ChatPage() {
         });
       },
       onFinish: (reason) => {
-        setMessages((prev) => [...prev, currResponse as LLM.AssistantMessage]);
-        setIsGenerating(false);
+        setCurrResponse((curr) => {
+          setMessages((prev) => [...prev, curr]);
+          setIsGenerating(false);
+          return null;
+        });
       },
       model: LLM.Model.ANTHROPIC_HAIKU,
       messages: chatMessages,

@@ -1,27 +1,22 @@
 // Follow this setup guide to integrate the Deno language server with your editor:
 // https://deno.land/manual/getting_started/setup_your_environment
 // This enables autocomplete, go to definition, etc.
-import {
-  InvocationParams,
-  InvokeFn,
-  LLMFinishReason,
-  LLMResponseStream,
-  LLMRole,
-  Model,
-} from "@ursula/shared-types/llm.ts";
+import LLM from "@ursula/shared-types/llm.ts";
 import "npm:@anthropic-ai/sdk@^0.19.0";
 import { invokeAnthropic } from "./providers/anthropic/index.ts";
 
-const MODEL_MAP: Record<Model, InvokeFn> = {
-  [Model.ANTHROPIC_HAIKU]: invokeAnthropic,
+const MODEL_MAP: Record<LLM.Model, LLM.InvokeFn> = {
+  [LLM.Model.ANTHROPIC_HAIKU]: invokeAnthropic,
 };
 
 Deno.serve(async (req) => {
   console.log("Request", req.url, req.headers.get("authorization"), req.body);
-  const params: InvocationParams = await req.json();
+  const params: LLM.InvocationParams = await req.json();
   const invokationFn = MODEL_MAP[params.model];
 
   console.debug("Invoking model", params.model);
+
+  console.debug("Hello world");
 
   const body = new ReadableStream({
     async start(controller) {
@@ -31,6 +26,9 @@ Deno.serve(async (req) => {
         const data = `data: ${JSON.stringify(message)}\n\n`;
         controller.enqueue(encoder.encode(data));
       }
+
+      console.log("Closing controller");
+      controller.close();
     },
   });
 

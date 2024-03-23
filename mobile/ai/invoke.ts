@@ -27,21 +27,29 @@ export async function* invoke(
   });
 
   eventSource.addEventListener("close", (event) => {
+    console.log("got close event");
     // TODO: propagate this
     finishReason = LLM.FinishReason.FINISHED;
   });
 
   while (true) {
     if (messageQueue.length > 0) {
-      yield messageQueue.shift() as LLM.MessageDelta;
+      const message = messageQueue.shift() as LLM.MessageDelta;
+      if (message.role === "finished") {
+        return message.reason;
+      }
+      yield message;
     } else {
       await new Promise((resolve) => setTimeout(resolve, 50));
     }
 
     if (finishReason) {
+      console.log("Returning from invoke");
       return finishReason;
     }
   }
+
+  console.log("Done from invoke");
 }
 
 interface InvokeWithParams extends LLM.InvocationParams {
@@ -60,6 +68,8 @@ export async function invokeWith({
   for await (const message of stream) {
     onMessage && onMessage(message);
   }
+
+  console.log("Done from invokeWith");
 
   // TODO: handle finish reason
   onFinish && onFinish(LLM.FinishReason.FINISHED);

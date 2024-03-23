@@ -2,7 +2,7 @@ import { MoveRight } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
 import React from "react";
 import { SafeAreaView } from "react-native";
-import { Button, Text, XStack, YStack } from "tamagui";
+import { Button, Text, YStack } from "tamagui";
 import DismissKeyboardContainer from "../../components/containers/DismissKeyboardContainer.tsx";
 import { FloatingActionBar } from "../../components/containers/TabBar.tsx";
 

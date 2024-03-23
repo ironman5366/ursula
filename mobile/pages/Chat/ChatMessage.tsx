@@ -1,17 +1,13 @@
 import React from "react";
-import {
-  LLMAssistantMessage,
-  LLMMessage,
-  LLMUserMessage,
-} from "@ursula/shared-types/llm.ts";
+import LLM from "@ursula/shared-types/llm.ts";
 import { Text } from "tamagui";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 
-interface Props<M extends LLMMessage> {
+interface Props<M extends LLM.Message> {
   message: M;
 }
 
-export function AssistantMessage({ message }: Props<LLMAssistantMessage>) {
+export function AssistantMessage({ message }: Props<LLM.AssistantMessage>) {
   return (
     <StyledView
       style={{
@@ -23,7 +19,7 @@ export function AssistantMessage({ message }: Props<LLMAssistantMessage>) {
   );
 }
 
-export function UserMessage({ message }: Props<LLMUserMessage>) {
+export function UserMessage({ message }: Props<LLM.UserMessage>) {
   return (
     <StyledView
       style={{
@@ -35,7 +31,7 @@ export function UserMessage({ message }: Props<LLMUserMessage>) {
   );
 }
 
-export default function ChatMessage({ message }: Props<LLMMessage>) {
+export default function ChatMessage({ message }: Props<LLM.Message>) {
   switch (message.role) {
     case "assistant":
       if ("content" in message) {

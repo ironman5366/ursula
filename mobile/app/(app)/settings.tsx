@@ -6,10 +6,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
 import { Stack } from "expo-router";
 import useSignOut from "../../hooks/useSignOut.ts";
-import { Link } from "@react-navigation/native";
 import { Button } from "tamagui";
 import { invoke } from "../../ai/invoke.ts";
-import { LLMRole, Model } from "@ursula/shared-types/llm.ts";
+import LLM from "@ursula/shared-types/llm.ts";
+import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.ts";
 
 function DebugPanel() {
   const queryClient = useQueryClient();
@@ -37,8 +37,9 @@ function DebugPanel() {
       <Button
         onPress={async () => {
           for await (const resp of invoke({
-            model: Model.ANTHROPIC_HAIKU,
-            messages: [{ role: LLMRole.USER, content: "Hello" }],
+            model: LLM.Model.ANTHROPIC_HAIKU,
+            messages: [{ role: "user", content: "Hello" }],
+            functions: [CHOOSE_BOOK_FUNCTION],
           })) {
             console.log("invoke resp", resp);
           }

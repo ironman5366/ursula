@@ -35,12 +35,18 @@ namespace LLM {
     content: string | null;
   };
 
+  export type FinishedMessage = {
+    role: "finished";
+    reason: FinishReason;
+  };
+
   export type Message =
     | SystemMessage
     | UserMessage
     | AssistantMessage
     | AssistantFunctionCall
-    | FunctionMessage;
+    | FunctionMessage
+    | FinishedMessage;
 
   export enum FinishReason {
     FINISHED,
