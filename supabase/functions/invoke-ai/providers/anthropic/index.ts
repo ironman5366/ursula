@@ -3,7 +3,7 @@ import {
   LLMFunction,
   LLMResponseStream,
   LLMFinishReason,
-  LLMRole,
+  LLMMessage,
 } from "@ursula/shared-types/llm.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { Tool } from "./types.ts";
@@ -51,30 +51,52 @@ function generateSystemPrompt(functions?: LLMFunction[]) {
   return t;
 }
 
-// deno-lint-ignore require-yield
+function llmMessageToAnthropicMessage(
+  message: LLMMessage
+): Anthropic.MessageParam {
+  switch (message.role) {
+    case "user":
+      return message;
+    case "assistant":
+      if ("content" in message) {
+        return message;
+      } else {
+        // The assistant called a function in this message
+        return {
+          role: "assistant",
+          content: `[called function ${message.function.name}]`,
+        };
+      }
+    case "function":
+      return {
+        role: "user",
+        content: message.content || "[function returned void response]",
+      };
+  }
+  throw new Error(`Invalid message for anthropic: ${message}`);
+}
+
 export async function* invokeAnthropic({
   model,
   functions,
+  messages,
 }: InvocationParams): LLMResponseStream {
   const systemPrompt = generateSystemPrompt(functions);
   console.log("system prompt is ", systemPrompt);
+  // TODO: re-include system prompt once we integrate functions
+
   const stream = anthropic.messages.stream({
     model,
-    max_tokens: 4096, //TODO: could be param
-    messages: [
-      {
-        role: "user",
-        content: "tell me about istanbul",
-      },
-    ],
+    max_tokens: 4096,
+    messages: messages.map(llmMessageToAnthropicMessage),
   });
 
   for await (const messageStreamEvent of stream) {
-    let typedEvent: Anthropic.MessageStreamEvent = messageStreamEvent;
+    const typedEvent: Anthropic.MessageStreamEvent = messageStreamEvent;
     switch (typedEvent.type) {
       case "content_block_delta":
         yield {
-          role: LLMRole.ASSISTANT,
+          role: "assistant",
           content: typedEvent.delta.text,
         };
     }

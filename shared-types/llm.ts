@@ -1,10 +1,3 @@
-export enum LLMRole {
-  USER = "user",
-  ASSISTANT = "assistant",
-  SYSTEM = "system",
-  FUNCTION = "function",
-}
-
 export type LLMFunction = {
   name: string;
   description: string;
@@ -17,23 +10,23 @@ export type LLMFunctionCall = {
 
 export type LLMMessage =
   | {
-      role: LLMRole.SYSTEM;
+      role: "system";
       content: string;
     }
   | {
-      role: LLMRole.USER;
+      role: "user";
       content: string;
     }
   | {
-      role: LLMRole.ASSISTANT;
+      role: "assistant";
       content: string;
     }
   | {
-      role: LLMRole.ASSISTANT;
+      role: "assistant";
       function: LLMFunctionCall;
     }
   | {
-      role: LLMRole.FUNCTION;
+      role: "function";
       name: string;
       content: string | null;
     };
