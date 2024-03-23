@@ -1,5 +1,14 @@
+import {
+  LLMAssistantMessage,
+  LLMMessage,
+  LLMMessageDelta,
+  Model,
+} from "@ursula/shared-types/llm.ts";
+import React, { useEffect, useState } from "react";
 import LLM from "@ursula/shared-types/llm.ts";
 import { SafeAreaView, TextInput } from "react-native";
+import { Button, YStack } from "tamagui";
+import { invokeWith } from "../../hooks/invoke.ts";
 import { Button, YStack } from "tamagui";
 import ChatMessage, { AssistantMessage } from "./ChatMessage.tsx";
 import { invokeWith } from "../../ai/invoke.ts";
@@ -12,6 +21,7 @@ export default function ChatPage() {
   const [currResponse, setCurrResponse] = useState<LLM.AssistantMessage | null>(
     null
   );
+  
 
   const invokeChat = async (chatMessages) => {
     console.log("invoking chat with ", messages);
@@ -33,6 +43,9 @@ export default function ChatPage() {
         });
       },
       onFinish: (reason) => {
+        console.log("finished", reason);
+        setMessages((prev) => [...prev, currResponse as LLMAssistantMessage]);
+        setIsGenerating(false);
         setCurrResponse((curr) => {
           setMessages((prev) => [...prev, curr]);
           setIsGenerating(false);
@@ -44,13 +57,20 @@ export default function ChatPage() {
     });
   };
 
+  useEffect(() => {
+    console.log(messages)
+  },  [messages])
+
   return (
     <SafeAreaView>
       <YStack>
-        {messages.map((message, i) => (
+        {/* {messages.map((message, i) => (
           <ChatMessage message={message} key={i} />
         ))}
         {currResponse && (
+          <AssistantMessage message={currResponse as LLMAssistantMessage} />
+        )} */}
+        <RenderMessages messages={messages} />
           <AssistantMessage message={currResponse as LLM.AssistantMessage} />
         )}
         <TextInput
@@ -74,5 +94,20 @@ export default function ChatPage() {
         </Button>
       </YStack>
     </SafeAreaView>
+  );
+}
+
+
+export function RenderMessages({ messages }: { messages: (LLMAssistantMessage | LLMMessage)[] }) {
+  return (
+    <YStack>
+      {messages.map((message, i) =>  {
+        if (message.role === "assistant") {
+          return <AssistantMessage message={message as LLMAssistantMessage} key={i} />;
+        } else {
+          return <ChatMessage message={message} key={i} />;
+        }
+      })}
+    </YStack>
   );
 }
