@@ -38,16 +38,30 @@ export type LLMMessage =
       content: string | null;
     };
 
+export enum LLMFinishReason {
+  FINISHED,
+  MAX_LENGTH,
+  FUNCTION_CALL,
+  CONTENT_FILTER,
+}
+
 export type LLMMessageDelta = Partial<LLMMessage>;
 
 export enum Model {
   ANTHROPIC_HAIKU,
 }
 
-export interface InvocationParams {
+export type InvocationParams = {
   model: Model;
   messages: LLMMessage[];
   functions?: LLMFunction[];
   // Optionally force the model to call a specific function by giving the name of it
   force_function?: string;
-}
+};
+
+export type LLMResponseStream = AsyncGenerator<
+  LLMMessageDelta,
+  LLMFinishReason
+>;
+
+export type InvokeFn = (params: InvocationParams) => LLMResponseStream;
