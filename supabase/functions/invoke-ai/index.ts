@@ -10,9 +10,10 @@ import {
   Model,
 } from "@ursula/shared-types/llm.ts";
 import "npm:@anthropic-ai/sdk@^0.19.0";
+import { invokeAnthropic } from "./providers/anthropic/index.ts";
 
 const MODEL_MAP: Record<Model, InvokeFn> = {
-  [Model.ANTHROPIC_HAIKU]: haikuStub,
+  [Model.ANTHROPIC_HAIKU]: invokeAnthropic,
 };
 
 Deno.serve(async (req) => {

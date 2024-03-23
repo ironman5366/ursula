@@ -2,8 +2,10 @@ import {
   InvocationParams,
   LLMFunction,
   LLMResponseStream,
+  LLMFinishReason,
+  LLMRole,
 } from "@ursula/shared-types/llm.ts";
-import Anthropic from "npm:anthropic-ai/sdk@^0.19.0";
+import Anthropic from "npm:@anthropic-ai/sdk";
 import { Tool } from "./types.ts";
 import { jsonToXml } from "./utils.ts";
 
@@ -49,24 +51,34 @@ function generateSystemPrompt(functions?: LLMFunction[]) {
   return t;
 }
 
-export async function invokeAnthropic({ model, functions }: InvocationParams) {
+// deno-lint-ignore require-yield
+export async function* invokeAnthropic({
+  model,
+  functions,
+}: InvocationParams): LLMResponseStream {
   const systemPrompt = generateSystemPrompt(functions);
   console.log("system prompt is ", systemPrompt);
   const stream = anthropic.messages.stream({
     model,
-    max_tokens: 1024, //TODO: could be param
+    max_tokens: 4096, //TODO: could be param
     messages: [
       {
-        role: "system",
-        content: generateSystemPrompt(functions),
-      },
-      {
         role: "user",
-        content: "test",
+        content: "tell me about istanbul",
       },
     ],
   });
+
   for await (const messageStreamEvent of stream) {
-    console.log("message event", messageStreamEvent);
+    let typedEvent: Anthropic.MessageStreamEvent = messageStreamEvent;
+    switch (typedEvent.type) {
+      case "content_block_delta":
+        yield {
+          role: LLMRole.ASSISTANT,
+          content: typedEvent.delta.text,
+        };
+    }
   }
+
+  return LLMFinishReason.FINISHED;
 }
