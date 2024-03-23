@@ -1291,6 +1291,32 @@ export type Database = {
           title: string;
         }[];
       };
+      search_only_books: {
+        Args: {
+          search_text: string;
+        };
+        Returns: {
+          alternate_titles: string[] | null;
+          book_key: string | null;
+          covers: number[] | null;
+          description: string | null;
+          dewey_numbers: string[] | null;
+          excerpts: string[] | null;
+          id: number;
+          large_cover_key: string | null;
+          last_cover_update: string | null;
+          lc_classifications: string[] | null;
+          links: Json | null;
+          medium_cover_key: string | null;
+          ol_id: string;
+          popularity: number | null;
+          rating_count: number | null;
+          reading_count: number | null;
+          small_cover_key: string | null;
+          subtitle: string | null;
+          title: string;
+        }[];
+      };
       social_feed: {
         Args: {
           for_user_id: string;
