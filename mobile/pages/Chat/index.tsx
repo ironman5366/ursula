@@ -1,12 +1,11 @@
-
-import React, { useEffect, useState } from "react";
+import { Send } from "@tamagui/lucide-icons";
 import LLM from "@ursula/shared-types/llm.ts";
-import { SafeAreaView, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native";
 import { Button, XStack, YStack } from "tamagui";
-import ChatMessage, { AssistantMessage } from "./ChatMessage";
 import { invokeWith } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
-import { ChefHat, Send } from "@tamagui/lucide-icons";
+import ChatMessage, { AssistantMessage } from "./ChatMessage";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<LLM.Message[]>([]);
@@ -15,7 +14,6 @@ export default function ChatPage() {
   const [currResponse, setCurrResponse] = useState<LLM.AssistantMessage | null>(
     null
   );
-  
 
   const invokeChat = async (chatMessages) => {
     console.log("invoking chat with ", messages);
@@ -37,14 +35,19 @@ export default function ChatPage() {
         });
       },
       onFinish: (reason) => {
-        console.log("finished", reason);
-        setMessages((prev) => [...prev, currResponse as LLM.AssistantMessage]);
+        if (currResponse) {
+          setMessages((prev) => [
+            ...prev,
+            currResponse as LLM.AssistantMessage,
+          ]);
+         
+        }
+         setCurrResponse((curr) => {
+           setMessages((prev) => [...prev, curr]);
+           setIsGenerating(false);
+           return null;
+         });
         setIsGenerating(false);
-        setCurrResponse((curr) => {
-          setMessages((prev) => [...prev, curr]);
-          setIsGenerating(false);
-          return null;
-        });
       },
       model: LLM.Model.ANTHROPIC_HAIKU,
       messages: chatMessages,
@@ -52,12 +55,18 @@ export default function ChatPage() {
   };
 
   useEffect(() => {
-    console.log(messages)
-  },  [messages])
+    console.log(messages);
+  }, [messages]);
 
   return (
     <SafeAreaView>
-      <YStack justifyContent='space-between' alignContent='space-between'  height="100%" pb="$11" px="$3">
+      <YStack
+        justifyContent="space-between"
+        alignContent="space-between"
+        height="100%"
+        pb="$11"
+        px="$3"
+      >
         {/* {messages.map((message, i) => (
           <ChatMessage message={message} key={i} />
         ))}
@@ -69,12 +78,11 @@ export default function ChatPage() {
           <StyledInput
             value={input}
             onChangeText={(val) => setInput(val)}
-            icon={<ChefHat />}
             placeholder="What is dune about?"
           />
           <Button
-          flex={1}
-          flexGrow={2}
+            flex={1}
+            flexGrow={2}
             disabled={isGenerating}
             onPress={() => {
               const newMessages: LLM.Message[] = [
@@ -89,23 +97,29 @@ export default function ChatPage() {
             p="$1"
             backgroundColor="blue"
             icon={<Send size={20} color="white" />}
-          >
-          
-          </Button>
+          ></Button>
         </XStack>
       </YStack>
     </SafeAreaView>
   );
 }
 
-
-export function RenderMessages({ messages }: { messages: (LLM.AssistantMessage | LLM.Message)[] }) {
+export function RenderMessages({
+  messages,
+}: {
+  messages: (LLM.AssistantMessage | LLM.Message)[];
+}) {
   return (
     <YStack>
-      {messages.map((message, i) =>  {
+      {messages.map((message, i) => {
         // TODO: check why nulls are being passed
         if (message?.role === "assistant") {
-          return <AssistantMessage message={message as LLM.AssistantMessage} key={i} />;
+          return (
+            <AssistantMessage
+              message={message as LLM.AssistantMessage}
+              key={i}
+            />
+          );
         } else {
           return <ChatMessage message={message} key={i} />;
         }

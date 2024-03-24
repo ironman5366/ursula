@@ -45,11 +45,15 @@ export default function ChatMessage({ message }: Props<LLM.Message>) {
 export function RenderBotMessage({ message }: Props<LLM.AssistantMessage>) {
 
   return (
-    <XStack my={2} justifyContent="flex-start" gap={4}>
-      <Avatar backgroundColor='green' circular size={30}>
-       
-      </Avatar>
-      <YStack backgroundColor="gray" mr="$7" mt="$2" borderRadius="$3" p="$2">
+    <XStack
+      my={2}
+      alignItems="flex-start"
+      mt="$2"
+      justifyContent="flex-start"
+      gap={4}
+    >
+      <Avatar backgroundColor="green" circular size={30}></Avatar>
+      <YStack backgroundColor="gray" mr="$7" borderRadius="$3" p="$2">
         <Text color="white">{message.content}</Text>
       </YStack>
     </XStack>
@@ -62,7 +66,7 @@ export function RenderUserMessage({ message }: Props<LLM.UserMessage>) {
   const { data: profile } = useCurrentProfile();
 
   return (
-    <XStack my={2} justifyContent="flex-end" gap={4}>
+    <XStack my={2} justifyContent="flex-end" gap={4} ml="$4" >
       <YStack backgroundColor="blue" borderRadius="$3" p="$2">
         <Text color="white">{message.content}</Text>
       </YStack>
