@@ -1,18 +1,12 @@
-import {
-  LLMAssistantMessage,
-  LLMMessage,
-  LLMMessageDelta,
-  Model,
-} from "@ursula/shared-types/llm.ts";
+
 import React, { useEffect, useState } from "react";
 import LLM from "@ursula/shared-types/llm.ts";
 import { SafeAreaView, TextInput } from "react-native";
-import { Button, YStack } from "tamagui";
-import { invokeWith } from "../../hooks/invoke.ts";
-import { Button, YStack } from "tamagui";
-import ChatMessage, { AssistantMessage } from "./ChatMessage.tsx";
+import { Button, XStack, YStack } from "tamagui";
+import ChatMessage, { AssistantMessage } from "./ChatMessage";
 import { invokeWith } from "../../ai/invoke.ts";
-import { useState } from "react";
+import StyledInput from "../../components/atoms/StyledInput.tsx";
+import { ChefHat, Send } from "@tamagui/lucide-icons";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<LLM.Message[]>([]);
@@ -44,7 +38,7 @@ export default function ChatPage() {
       },
       onFinish: (reason) => {
         console.log("finished", reason);
-        setMessages((prev) => [...prev, currResponse as LLMAssistantMessage]);
+        setMessages((prev) => [...prev, currResponse as LLM.AssistantMessage]);
         setIsGenerating(false);
         setCurrResponse((curr) => {
           setMessages((prev) => [...prev, curr]);
@@ -63,7 +57,7 @@ export default function ChatPage() {
 
   return (
     <SafeAreaView>
-      <YStack>
+      <YStack justifyContent='space-between' alignContent='space-between'  height="100%" pb="$11" px="$3">
         {/* {messages.map((message, i) => (
           <ChatMessage message={message} key={i} />
         ))}
@@ -71,39 +65,47 @@ export default function ChatPage() {
           <AssistantMessage message={currResponse as LLMAssistantMessage} />
         )} */}
         <RenderMessages messages={messages} />
-          <AssistantMessage message={currResponse as LLM.AssistantMessage} />
-        )}
-        <TextInput
-          value={input}
-          onChangeText={(val) => setInput(val)}
-          placeholder={"Type here"}
-        />
-        <Button
-          disabled={isGenerating}
-          onPress={() => {
-            const newMessages: LLM.Message[] = [
-              ...messages,
-              { content: input, role: "user" },
-            ];
-            setMessages(newMessages);
-            setInput("");
-            invokeChat(newMessages);
-          }}
-        >
-          Send
-        </Button>
+        <XStack gap="$2">
+          <StyledInput
+            value={input}
+            onChangeText={(val) => setInput(val)}
+            icon={<ChefHat />}
+            placeholder="What is dune about?"
+          />
+          <Button
+          flex={1}
+          flexGrow={2}
+            disabled={isGenerating}
+            onPress={() => {
+              const newMessages: LLM.Message[] = [
+                ...messages,
+                { content: input, role: "user" },
+              ];
+              setMessages(newMessages);
+              setInput("");
+              invokeChat(newMessages);
+            }}
+            circular
+            p="$1"
+            backgroundColor="blue"
+            icon={<Send size={20} color="white" />}
+          >
+          
+          </Button>
+        </XStack>
       </YStack>
     </SafeAreaView>
   );
 }
 
 
-export function RenderMessages({ messages }: { messages: (LLMAssistantMessage | LLMMessage)[] }) {
+export function RenderMessages({ messages }: { messages: (LLM.AssistantMessage | LLM.Message)[] }) {
   return (
     <YStack>
       {messages.map((message, i) =>  {
-        if (message.role === "assistant") {
-          return <AssistantMessage message={message as LLMAssistantMessage} key={i} />;
+        // TODO: check why nulls are being passed
+        if (message?.role === "assistant") {
+          return <AssistantMessage message={message as LLM.AssistantMessage} key={i} />;
         } else {
           return <ChatMessage message={message} key={i} />;
         }

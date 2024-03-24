@@ -27,7 +27,7 @@ function StyledInput({ borderColorName, style, ...props }: Props, ref) {
       borderWidth={2}
       backgroundColor="#00000011"
       borderRadius={8}
-      width="100%"
+      flexGrow={10}
       p={8}
       borderColor="#00000022"
     >
