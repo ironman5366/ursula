@@ -86,7 +86,6 @@ export const TAMAGUI_THEMES = {
   },
   light_ListItem: {
     borderColor: themeTokens.color.claret,
-    backgroundColor: "red",
   },
   dark: {
     background: themeTokens.color.raisinBlack,
