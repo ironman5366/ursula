@@ -51,6 +51,7 @@ function parseSingleFunctionCall(
  * }
  */
 function parseFunctionCallXml(rawFunctionCall: string): LLM.FunctionCall[] {
+  console.log("parsing raw function call", rawFunctionCall);
   const data = parse(rawFunctionCall);
   console.log("parsed data", data);
 
@@ -98,12 +99,15 @@ export class FunctionStateMachine {
             type: "initial",
           };
           // Emit the characters we've matched so far - we can throw them away
-          return [
-            {
-              role: "assistant",
-              content: this.startTok.substring(0, nextExpected),
-            },
-          ];
+          const remaining = this.startTok.substring(0, nextExpected);
+          if (remaining.length > 0) {
+            return [
+              {
+                role: "assistant",
+                content: remaining,
+              },
+            ];
+          }
         }
       }
     }
@@ -123,40 +127,48 @@ export class FunctionStateMachine {
     }
 
     // We didn't match the start token, emit the characters we've seen
-    return [
-      {
-        role: "assistant",
-        content: delta,
-      },
-    ];
+    if (delta.length > 0) {
+      return [
+        {
+          role: "assistant",
+          content: delta,
+        },
+      ];
+    }
+    return null;
   }
 
   emitInFunction(delta: string): LLM.MessageDelta[] | null {
     (this.state as InFunctionState).accumulated += delta;
 
     if ((this.state as InFunctionState).accumulated.includes(this.endTok)) {
-      const endIdx = (this.state as InFunctionState).accumulated.indexOf(
-        this.endTok
-      );
+      const endIdx =
+        (this.state as InFunctionState).accumulated.indexOf(this.endTok) +
+        this.endTok.length;
       const functionCallContent = (
         this.state as InFunctionState
       ).accumulated.substring(0, endIdx);
 
       const functionCalls = parseFunctionCallXml(functionCallContent);
 
+      let deltas: LLM.MessageDelta[] = functionCalls.map((f) => ({
+        role: "assistant",
+        function: f,
+      }));
+
       const rest = (this.state as InFunctionState).accumulated.substring(
-        endIdx + this.endTok.length
+        endIdx
       );
 
       this.state = { type: "initial" };
+      const remainingDeltas = this.emit(rest);
 
-      return functionCalls.map((fc) => {
-        return {
-          role: "function",
-          name: fc.name,
-          content: JSON.stringify(fc.arguments),
-        };
-      });
+      if (remainingDeltas) {
+        deltas = [...deltas, ...remainingDeltas];
+      }
+
+      console.log("Returning finalized function deltas", deltas);
+      return deltas;
     } else {
       return null;
     }
