@@ -78,8 +78,7 @@ export default function YourBooks() {
           flexGrow={1}
           flexDirection="column"
           activationMode="manual"
-          backgroundColor="$background"
-          borderRadius="$4"
+          height="100%"
         >
           <YStack>
             <AnimatePresence>
@@ -116,6 +115,7 @@ export default function YourBooks() {
                 paddingHorizontal="$3"
                 paddingVertical="$2"
                 flex={1}
+                my="$2"
                 borderBottomWidth="$1"
                 borderBottomColor={currentTab === "tab1" ? "black" : "gray"}
                 value="tab1"
@@ -128,6 +128,7 @@ export default function YourBooks() {
                 paddingHorizontal="$3"
                 paddingVertical="$2"
                 value="tab2"
+                my="$2"
                 borderBottomWidth="$1"
                 borderBottomColor={currentTab === "tab2" ? "black" : "gray"}
                 flex={1}

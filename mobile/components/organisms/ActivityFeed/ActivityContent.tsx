@@ -21,9 +21,9 @@ function StartedReadingContent({
   return (
     <StyledText>
       {profile.full_name} started reading{" "}
-      <Link href={`/bookDetail/${activity.data.book_id}`}>
+      <StyledLink href={`/bookDetail/${activity.data.book_id}`}>
         {activity.data.book_name}
-      </Link>
+      </StyledLink>
     </StyledText>
   );
 }
@@ -35,9 +35,9 @@ function RankedContent({
   return (
     <StyledText>
       {profile.full_name} ranked{" "}
-      <Link href={`/bookDetail/${activity.data.book_id}/`}>
+      <StyledLink href={`/bookDetail/${activity.data.book_id}/`}>
         {activity.data.book_name}
-      </Link>{" "}
+      </StyledLink>{" "}
       as {activity.data.rank} out of {activity.data.total} books read.
     </StyledText>
   );
@@ -50,9 +50,9 @@ function AddedToListContent({
   return (
     <StyledText>
       {profile.full_name} added{" "}
-      <Link href={`/bookDetail/${activity.data.book_id}/`}>
+      <StyledLink href={`/bookDetail/${activity.data.book_id}/`}>
         {activity.data.book_name}
-      </Link>{" "}
+      </StyledLink>{" "}
       to their reading list.
     </StyledText>
   );
@@ -72,4 +72,26 @@ export default function ActivityContent<T extends Activity>({
     default:
       return <StyledText>TODO</StyledText>;
   }
+}
+
+//create a custom link component that uses the expo-router Link component, accepts all the same props, forwards the ref, and adds a style prop
+
+export function StyledLink({
+  style,
+  href,
+  ...props
+}: React.ComponentProps<typeof Link> & { style?: any; href: string }) {
+  return (
+    <Link
+      href={href}
+      {...props}
+      style={[
+        style,
+        {
+          fontWeight: "bold",
+          color: "#035487",
+        },
+      ]}
+    />
+  );
 }

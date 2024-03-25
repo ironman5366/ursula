@@ -11,11 +11,7 @@ import SearchResultList from "./List.tsx";
 
 export function SearchHeader() {
   return (
-    <Animated.View
-      key={"uniqueKey"}
-      entering={FadeIn.duration(400)}
-      exiting={FadeOut.duration(400)}
-    >
+  
       <SafeAreaView>
       <XStack
         height="$3"
@@ -30,7 +26,6 @@ export function SearchHeader() {
         </Button>
       </XStack>
     </SafeAreaView>
-    </Animated.View>
   );
 }
 
