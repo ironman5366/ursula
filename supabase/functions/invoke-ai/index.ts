@@ -14,10 +14,6 @@ Deno.serve(async (req) => {
   const params: LLM.InvocationParams = await req.json();
   const invokationFn = MODEL_MAP[params.model];
 
-  console.debug("Invoking model", params.model);
-
-  console.debug("Hello world");
-
   const body = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();

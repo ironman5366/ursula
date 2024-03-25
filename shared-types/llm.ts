@@ -7,6 +7,8 @@ namespace LLM {
 
   export type FunctionCall = {
     name: string;
+    // This is an object with keys as parameter names and values as parameter values
+    arguments: any;
   };
 
   export type SystemMessage = {

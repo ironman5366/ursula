@@ -1,19 +1,71 @@
 import LLM from "@ursula/shared-types/llm.ts";
+import { parse } from "https://deno.land/x/xml/mod.ts";
 
-type State =
-  | {
-      type: "watching";
-      matchingUpTo: number;
-    }
-  | {
-      type: "in-function";
-      accumulated: string;
-    }
-  | {
-      type: "initial";
-    };
+type WatchingState = {
+  type: "watching";
+  matchingUpTo: number;
+};
 
-class FunctionStateMachine {
+type InFunctionState = {
+  type: "in-function";
+  accumulated: string;
+};
+
+type InitialState = {
+  type: "initial";
+};
+
+type State = WatchingState | InFunctionState | InitialState;
+
+type ParsedInvokeFormat = {
+  tool_name: string;
+  parameters: { [key: string]: any };
+};
+
+function parseSingleFunctionCall(
+  invocation: ParsedInvokeFormat
+): LLM.FunctionCall {
+  return {
+    name: invocation.tool_name,
+    arguments: invocation.parameters,
+  };
+}
+
+/**
+ * Takes a raw string like <function_calls>
+ * <invoke>
+ * <tool_name>function_name</tool_name>
+ * <parameters>
+ * <param1>value1</param1>
+ * <param2>value2</param2>
+ * </parameters>
+ * </invoke>
+ * </function_calls>
+ *
+ * and returns an object like {
+ *     name: "function_name",
+ *     arguments: {
+ *        param1: "value1",
+ *        param2: "value2"
+ *     }
+ * }
+ */
+function parseFunctionCallXml(rawFunctionCall: string): LLM.FunctionCall[] {
+  const data = parse(rawFunctionCall);
+  console.log("parsed data", data);
+
+  const functionCalls: {
+    invoke: ParsedInvokeFormat[] | ParsedInvokeFormat;
+  } = data.function_calls as any;
+
+  if (Array.isArray(functionCalls.invoke)) {
+    return functionCalls.invoke.map(parseSingleFunctionCall);
+  }
+
+  return [parseSingleFunctionCall(functionCalls.invoke)];
+}
+
+export class FunctionStateMachine {
   private startTok = "<function_calls>";
   private endTok = "</function_calls>";
   private state: State;
@@ -26,8 +78,7 @@ class FunctionStateMachine {
 
   emitWatching(delta: string): LLM.MessageDelta[] | null {
     for (let chIdx = 0; chIdx < delta.length; chIdx++) {
-      const nextExpected =
-        (this.state as Extract<State, { type: "watching" }>).matchingUpTo + 1;
+      const nextExpected = (this.state as WatchingState).matchingUpTo + 1;
 
       if (nextExpected == this.startTok.length) {
         this.state = {
@@ -42,7 +93,6 @@ class FunctionStateMachine {
             type: "watching",
             matchingUpTo: nextExpected,
           };
-          return null;
         } else {
           this.state = {
             type: "initial",
@@ -57,6 +107,7 @@ class FunctionStateMachine {
         }
       }
     }
+    return null;
   }
 
   emitInitial(delta: string): LLM.MessageDelta[] | null {
@@ -81,20 +132,44 @@ class FunctionStateMachine {
   }
 
   emitInFunction(delta: string): LLM.MessageDelta[] | null {
-    (this.state as Extract<State, { type: "in-function" }>).accumulated +=
-      delta;
+    (this.state as InFunctionState).accumulated += delta;
+
+    if ((this.state as InFunctionState).accumulated.includes(this.endTok)) {
+      const endIdx = (this.state as InFunctionState).accumulated.indexOf(
+        this.endTok
+      );
+      const functionCallContent = (
+        this.state as InFunctionState
+      ).accumulated.substring(0, endIdx);
+
+      const functionCalls = parseFunctionCallXml(functionCallContent);
+
+      const rest = (this.state as InFunctionState).accumulated.substring(
+        endIdx + this.endTok.length
+      );
+
+      this.state = { type: "initial" };
+
+      return functionCalls.map((fc) => {
+        return {
+          role: "function",
+          name: fc.name,
+          content: JSON.stringify(fc.arguments),
+        };
+      });
+    } else {
+      return null;
+    }
   }
 
   emit(delta: string): LLM.MessageDelta[] | null {
     switch (this.state.type) {
       case "initial":
-        return this.emitInitial();
+        return this.emitInitial(delta);
       case "watching":
-        return this.emitWatching();
+        return this.emitWatching(delta);
       case "in-function":
-        return this.emitInFunction();
+        return this.emitInFunction(delta);
     }
   }
-
-  finish() {}
 }

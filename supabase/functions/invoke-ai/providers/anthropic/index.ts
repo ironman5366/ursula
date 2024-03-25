@@ -2,6 +2,7 @@ import LLM from "@ursula/shared-types/llm.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { Tool } from "./types.ts";
 import { jsonToXml } from "./utils.ts";
+import { FunctionStateMachine } from "./function_adapter.ts";
 
 const anthropic = new Anthropic({
   apiKey: Deno.env.get("ANTHROPIC_API_KEY"),
@@ -101,18 +102,20 @@ export async function* invokeAnthropic({
     messages: transferredMessages,
   });
 
+  // This will keep track of the output to tell if we're in a function
+  const stateMachine = new FunctionStateMachine();
   for await (const messageStreamEvent of stream) {
     const typedEvent: Anthropic.MessageStreamEvent = messageStreamEvent;
     switch (typedEvent.type) {
       case "content_block_delta":
-        yield {
-          role: "assistant",
-          content: typedEvent.delta.text,
-        };
+        for (const delta of stateMachine.emit(typedEvent.delta.text) || []) {
+          yield delta;
+        }
     }
   }
 
   console.log("Returning finished from anthropic");
+
   yield {
     role: "finished",
     reason: LLM.FinishReason.FINISHED,
