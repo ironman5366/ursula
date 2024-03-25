@@ -2,6 +2,7 @@ import LLM from "@ursula/shared-types/llm.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { Tool } from "./types.ts";
 import { jsonToXml } from "./utils.ts";
+import { FunctionStateMachine } from "./function_adapter.ts";
 
 const anthropic = new Anthropic({
   apiKey: Deno.env.get("ANTHROPIC_API_KEY"),
@@ -11,7 +12,6 @@ function LLMFunctionToTool(llmFunction: LLM.Function): Tool {
   return {
     tool_name: llmFunction.name,
     description: llmFunction.description,
-    // @ts-ignore
     parameters: llmFunction.parameters,
   };
 }
@@ -24,6 +24,7 @@ function generateSystemPrompt(functions?: LLM.Function[]) {
   const txt = functions
     .map((f) => jsonToXml(LLMFunctionToTool(f), "Tool"))
     .join("\n");
+
   const t = `
     In this environment you have access to a set of tools you can use to answer the user's question.
     You may call them like this:
@@ -74,29 +75,47 @@ export async function* invokeAnthropic({
   model,
   functions,
   messages,
+  ...rest
 }: LLM.InvocationParams): LLM.ResponseStream {
+  console.log(JSON.stringify({ model, functions, messages, ...rest }, null, 2));
   const systemPrompt = generateSystemPrompt(functions);
   console.log("system prompt is ", systemPrompt);
-  // TODO: re-include system prompt once we integrate functions
+  const transferredMessages = messages.map(llmMessageToAnthropicMessage);
+
+  if (functions) {
+    if (transferredMessages[0].role === "user") {
+      transferredMessages[0].content =
+        systemPrompt + "\n" + transferredMessages[0].content;
+    } else {
+      transferredMessages.unshift({
+        role: "user",
+        content: systemPrompt,
+      });
+    }
+  }
+
+  console.log(JSON.stringify(transferredMessages, null, 2));
 
   const stream = anthropic.messages.stream({
     model,
     max_tokens: 4096,
-    messages: messages.map(llmMessageToAnthropicMessage),
+    messages: transferredMessages,
   });
 
+  // This will keep track of the output to tell if we're in a function
+  const stateMachine = new FunctionStateMachine();
   for await (const messageStreamEvent of stream) {
     const typedEvent: Anthropic.MessageStreamEvent = messageStreamEvent;
     switch (typedEvent.type) {
       case "content_block_delta":
-        yield {
-          role: "assistant",
-          content: typedEvent.delta.text,
-        };
+        for (const delta of stateMachine.emit(typedEvent.delta.text) || []) {
+          yield delta;
+        }
     }
   }
 
   console.log("Returning finished from anthropic");
+
   yield {
     role: "finished",
     reason: LLM.FinishReason.FINISHED,
