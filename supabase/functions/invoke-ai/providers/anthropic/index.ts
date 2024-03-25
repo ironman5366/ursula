@@ -11,7 +11,6 @@ function LLMFunctionToTool(llmFunction: LLM.Function): Tool {
   return {
     tool_name: llmFunction.name,
     description: llmFunction.description,
-    // @ts-ignore
     parameters: llmFunction.parameters,
   };
 }
