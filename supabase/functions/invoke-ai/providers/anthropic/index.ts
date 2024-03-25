@@ -16,7 +16,10 @@ function LLMFunctionToTool(llmFunction: LLM.Function): Tool {
   };
 }
 
-function generateSystemPrompt(functions?: LLM.Function[]) {
+function generateSystemPrompt(
+  systemMessage: string | undefined | null,
+  functions?: LLM.Function[]
+) {
   if (!functions) {
     return "";
   }
@@ -26,6 +29,7 @@ function generateSystemPrompt(functions?: LLM.Function[]) {
     .join("\n");
 
   const t = `
+    ${systemMessage || ""}
     In this environment you have access to a set of tools you can use to answer the user's question.
     You may call them like this:
     <function_calls>
@@ -67,6 +71,12 @@ function llmMessageToAnthropicMessage(
         role: "user",
         content: message.content || "[function returned void response]",
       };
+    case "system": {
+      return {
+        role: "system",
+        content: message.content,
+      };
+    }
   }
   throw new Error(`Invalid message for anthropic: ${message}`);
 }
@@ -75,11 +85,11 @@ export async function* invokeAnthropic({
   model,
   functions,
   messages,
+  systemMessage,
   ...rest
 }: LLM.InvocationParams): LLM.ResponseStream {
   console.log(JSON.stringify({ model, functions, messages, ...rest }, null, 2));
-  const systemPrompt = generateSystemPrompt(functions);
-  console.log("system prompt is ", systemPrompt);
+  const systemPrompt = generateSystemPrompt(systemMessage, functions);
   const transferredMessages = messages.map(llmMessageToAnthropicMessage);
 
   if (functions) {
@@ -100,6 +110,7 @@ export async function* invokeAnthropic({
     model,
     max_tokens: 4096,
     messages: transferredMessages,
+    system: systemPrompt,
   });
 
   // This will keep track of the output to tell if we're in a function

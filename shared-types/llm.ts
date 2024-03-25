@@ -65,6 +65,7 @@ namespace LLM {
 
   export type InvocationParams = {
     model: Model;
+    systemMessage?: string;
     messages: Message[];
     functions?: Function[];
     // Optionally force the model to call a specific function by giving the name of it

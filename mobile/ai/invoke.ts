@@ -55,17 +55,21 @@ export async function* invoke(
 interface InvokeWithParams extends LLM.InvocationParams {
   onMessage?: (message: LLM.MessageDelta) => void;
   onFinish?: (reason: LLM.FinishReason) => void;
-  // TODO: add on function call here when we're ready
+  onFunctionCall?: (call: LLM.FunctionCall) => void;
 }
 
 export async function invokeWith({
   onMessage,
   onFinish,
+  onFunctionCall,
   ...params
 }: InvokeWithParams) {
   const stream = invoke(params);
 
   for await (const message of stream) {
+    if ("function" in message) {
+      onFunctionCall && onFunctionCall(message.function);
+    }
     onMessage && onMessage(message);
   }
 

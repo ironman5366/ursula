@@ -17,10 +17,7 @@ export function AssistantMessage({ message }: Props<LLM.AssistantMessage>) {
 
 export function UserMessage({ message }: Props<LLM.UserMessage>) {
   return (
-    <StyledView
-      style={{
-      }}
-    >
+    <StyledView style={{}}>
       <Text>User {message.content}</Text>
     </StyledView>
   );
@@ -35,14 +32,13 @@ export default function ChatMessage({ message }: Props<LLM.Message>) {
         return <Text>TODO: function call message</Text>;
       }
     case "system":
-      return <Text>System {message.content}</Text>;
+      return <></>;
     case "user":
       return <RenderUserMessage message={message} />;
   }
 }
 
 export function RenderBotMessage({ message }: Props<LLM.AssistantMessage>) {
-
   return (
     <XStack
       my={2}
@@ -59,13 +55,12 @@ export function RenderBotMessage({ message }: Props<LLM.AssistantMessage>) {
   );
 }
 
-
 // Fix overflow, text wrapping
 export function RenderUserMessage({ message }: Props<LLM.UserMessage>) {
   const { data: profile } = useCurrentProfile();
 
   return (
-    <XStack my={2} justifyContent="flex-end" gap={4} ml="$4" >
+    <XStack my={2} justifyContent="flex-end" gap={4} ml="$4">
       <YStack backgroundColor="blue" borderRadius="$3" p="$2">
         <Text color="white">{message.content}</Text>
       </YStack>

@@ -10,6 +10,7 @@ import { Button, XStack, YStack } from "tamagui";
 import { invokeWith } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
 import ChatMessage, { AssistantMessage } from "./ChatMessage";
+import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.ts";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<LLM.Message[]>([]);
@@ -20,9 +21,9 @@ export default function ChatPage() {
   );
 
   const invokeChat = async (chatMessages) => {
-    console.log("invoking chat with ", messages);
     setIsGenerating(false);
     invokeWith({
+      functions: [CHOOSE_BOOK_FUNCTION],
       onMessage: (delta: LLM.MessageDelta<LLM.AssistantMessage>) => {
         setCurrResponse((curr) => {
           if (curr == null) {
@@ -52,6 +53,12 @@ export default function ChatPage() {
         });
         setIsGenerating(false);
       },
+      onFunctionCall: (call) => {
+        console.log("got call", call);
+      },
+      systemMessage:
+        "You're chatting with a user to recommend books to them. For each recommendation, talk to the user about it," +
+        "and use your choose_book function",
       model: LLM.Model.ANTHROPIC_HAIKU,
       messages: chatMessages,
     });
@@ -75,10 +82,16 @@ export default function ChatPage() {
           pb="$11"
           px="$3"
         >
-          <RenderMessages messages={messages} />
-          {currResponse && (
-            <AssistantMessage message={currResponse as LLM.AssistantMessage} />
-          )}
+          <YStack>
+            {messages.map((message, i) => (
+              <ChatMessage message={message} key={i} />
+            ))}
+            {currResponse && (
+              <AssistantMessage
+                message={currResponse as LLM.AssistantMessage}
+              />
+            )}
+          </YStack>
           <XStack gap="$2">
             <StyledInput
               value={input}
@@ -108,29 +121,5 @@ export default function ChatPage() {
         </YStack>
       </SafeAreaView>
     </KeyboardAvoidingView>
-  );
-}
-
-export function RenderMessages({
-  messages,
-}: {
-  messages: (LLM.AssistantMessage | LLM.Message)[];
-}) {
-  return (
-    <YStack>
-      {messages.map((message, i) => {
-        // TODO: check why nulls are being passed
-        if (message?.role === "assistant") {
-          return (
-            <AssistantMessage
-              message={message as LLM.AssistantMessage}
-              key={i}
-            />
-          );
-        } else {
-          return <ChatMessage message={message} key={i} />;
-        }
-      })}
-    </YStack>
   );
 }
