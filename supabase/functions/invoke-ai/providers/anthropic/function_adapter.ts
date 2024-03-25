@@ -115,6 +115,7 @@ export class FunctionStateMachine {
   }
 
   emitInitial(delta: string): LLM.MessageDelta[] | null {
+    console.log("in emitInitial");
     for (let chIdx = 0; chIdx < delta.length; chIdx++) {
       const ch = delta[chIdx];
       if (ch === this.startTok[0]) {
@@ -122,8 +123,8 @@ export class FunctionStateMachine {
           type: "watching",
           matchingUpTo: 0,
         };
+        return this.emitWatching(delta.substring(chIdx + 1));
       }
-      return this.emitWatching(delta.substring(chIdx + 1));
     }
 
     // We didn't match the start token, emit the characters we've seen
