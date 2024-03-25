@@ -23,6 +23,7 @@ function generateSystemPrompt(functions?: LLM.Function[]) {
   const txt = functions
     .map((f) => jsonToXml(LLMFunctionToTool(f), "Tool"))
     .join("\n");
+
   const t = `
     In this environment you have access to a set of tools you can use to answer the user's question.
     You may call them like this:
