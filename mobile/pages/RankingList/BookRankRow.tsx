@@ -7,6 +7,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useThemeColor } from "../../theme.ts";
 import BookPreviewLink from "../../components/molecules/BookPreview/Link.tsx";
 import { XStack } from "tamagui";
+import { GripVertical } from "@tamagui/lucide-icons";
 
 interface Props {
   review: ReviewWithBook;
@@ -18,25 +19,29 @@ export default function BookRankRow({ rank, review, drag }: Props) {
   const color = useThemeColor("text");
 
   return (
-    <XStack style={styles.container} borderBottomWidth={1} borderBottomColor="#00000022">
-      <StyledView style={styles.number}>
-        <StyledText
-          style={{
-            fontWeight: "600",
-          }}
-        >
-          # {rank}
-        </StyledText>
-      </StyledView>
-      <StyledView style={styles.preview}>
-        <BookPreviewLink book={review.book} />
-      </StyledView>
-      <StyledView style={styles.dragHandle}>
-        <Pressable onLongPress={drag}>
-          <Ionicons name={"list-outline"} size={30} color={color} />
-        </Pressable>
-      </StyledView>
-    </XStack>
+    <Pressable onLongPress={drag}>
+      <XStack
+        style={styles.container}
+        borderBottomWidth={1}
+        borderBottomColor="#00000022"
+      >
+        <StyledView style={styles.number}>
+          <StyledText
+            style={{
+              fontWeight: "600",
+            }}
+          >
+            # {rank}
+          </StyledText>
+        </StyledView>
+        <StyledView style={styles.preview}>
+          <BookPreviewLink book={review.book} />
+        </StyledView>
+        <XStack flex={1} flexGrow={1} py="$2" px="$3" alignItems="center"  >
+          <GripVertical color="#00000044" />
+        </XStack>
+      </XStack>
+    </Pressable>
   );
 }
 

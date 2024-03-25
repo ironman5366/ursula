@@ -46,28 +46,20 @@ export default function SearchContainer({
       <WrapperComp style={styles.searchBarContainer}>
         <SearchBar editable={showSearch} {...props} />
       </WrapperComp>
-      <View
-        style={{
-          padding: 10,
-          flex: 0.9,
-        }}
-      >
-        {children}
-      </View>
+      <YStack flexGrow={1}>{children}</YStack>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     flex: 1,
   },
   searchBarContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 5,
-    padding: 10,
+    marginHorizontal: 10,
     justifyContent: "center",
   },
 });

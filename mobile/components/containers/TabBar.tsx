@@ -1,7 +1,8 @@
 import { BlurView } from "expo-blur";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useColorScheme } from "react-native";
-import { Button, XStack, Text } from "tamagui";
+import { Button, XStack, Text, YStack } from "tamagui";
+import StyledInput from "../atoms/StyledInput";
 
 const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
   const { options } = descriptors[route.key];
@@ -35,12 +36,12 @@ const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
 
   return (
     <XStack
-      borderRadius="$11"
+      borderRadius="$10"
       backgroundColor={isFocused ? "#fff" : "transparent"}
     >
       <Button
-        mx={15}
-        my={10}
+        px={15}
+        py={10}
         unstyled
         onPress={handlePress}
         onLongPress={handleLongPress}
@@ -49,35 +50,44 @@ const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
         icon={options.tabBarIcon({ color: isFocused ? "#000" : "#fff" })}
       >
         <Text fontWeight="bold" color={isFocused ? "#000" : "#fff"}>
-          {
-            isFocused ? label : ""
-          }
+          {isFocused ? label : ""}
         </Text>
       </Button>
     </XStack>
   );
 };
 
-export function TabBar({ state, descriptors, navigation, ...rest }) {
+export function ReactiveContainerIdkWhy({ state, descriptors, navigation, ...rest }: any) {
+
   return (
     <FloatingActionBar>
-      {state.routes.map((route, index) => {
-        return (
-          <TabBarButton
-            key={route.key}
-            route={route}
-            state={state}
-            navigation={navigation}
-            descriptors={descriptors}
-            index={index}
-          />
-        );
-      })}
+      <YStack alignContent='space-between'>
+        <XStack>
+          {state.routes.map((route, index) => {
+            return (
+              <TabBarButton
+                key={route.key}
+                route={route}
+                state={state}
+                navigation={navigation}
+                descriptors={descriptors}
+                index={index}
+              />
+            );
+          })}
+        </XStack>
+      </YStack>
     </FloatingActionBar>
   );
 }
 
-export function FloatingActionBar({ children }) {
+// TODO: Strongly type this 
+export function TabBar({ state, descriptors, navigation, ...rest } : any) {
+
+  return <ReactiveContainerIdkWhy state={state} descriptors={descriptors} navigation={navigation} {...rest} />;
+}
+
+export function FloatingActionBar({ children, height = 55 , borderRadius = 1000}) {
   let colorScheme = useColorScheme();
 
   return (
@@ -91,14 +101,14 @@ export function FloatingActionBar({ children }) {
         overflow: "hidden",
         paddingHorizontal: 20,
         minWidth: 300,
-        height: 55,
+        height: height,
         marginBottom: 40,
         flexDirection: "row",
         alignSelf: "center",
         justifyContent: "space-between",
         alignItems: "center",
         paddingVertical: 5,
-        borderRadius: 1000,
+        borderRadius: borderRadius,
         borderColor: "transparent",
       }}
     >
