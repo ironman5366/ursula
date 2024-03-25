@@ -1,7 +1,11 @@
 import { Send } from "@tamagui/lucide-icons";
 import LLM from "@ursula/shared-types/llm.ts";
 import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, KeyboardAvoidingViewComponent, SafeAreaView } from "react-native";
+import {
+  KeyboardAvoidingView,
+  KeyboardAvoidingViewComponent,
+  SafeAreaView,
+} from "react-native";
 import { Button, XStack, YStack } from "tamagui";
 import { invokeWith } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
@@ -40,13 +44,12 @@ export default function ChatPage() {
             ...prev,
             currResponse as LLM.AssistantMessage,
           ]);
-         
         }
-         setCurrResponse((curr) => {
-           setMessages((prev) => [...prev, curr]);
-           setIsGenerating(false);
-           return null;
-         });
+        setCurrResponse((curr) => {
+          setMessages((prev) => [...prev, curr]);
+          setIsGenerating(false);
+          return null;
+        });
         setIsGenerating(false);
       },
       model: LLM.Model.ANTHROPIC_HAIKU,
@@ -59,7 +62,11 @@ export default function ChatPage() {
   }, [messages]);
 
   return (
-    <KeyboardAvoidingView behavior="padding" enabled keyboardVerticalOffset={30}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      enabled
+      keyboardVerticalOffset={30}
+    >
       <SafeAreaView>
         <YStack
           justifyContent="space-between"
@@ -68,13 +75,10 @@ export default function ChatPage() {
           pb="$11"
           px="$3"
         >
-          {/* {messages.map((message, i) => (
-          <ChatMessage message={message} key={i} />
-        ))}
-        {currResponse && (
-          <AssistantMessage message={currResponse as LLMAssistantMessage} />
-        )} */}
           <RenderMessages messages={messages} />
+          {currResponse && (
+            <AssistantMessage message={currResponse as LLM.AssistantMessage} />
+          )}
           <XStack gap="$2">
             <StyledInput
               value={input}
