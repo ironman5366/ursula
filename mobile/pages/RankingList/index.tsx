@@ -27,8 +27,9 @@ export default function RankingList() {
   }
 
   return (
-    <YStack width="100%" flexGrow={3} flex={4}>
+    <YStack width="100%"  flexGrow={3} flex={4}>
       <DraggableFlatList
+      style={{ height: '100%'}}
         keyExtractor={(item) => item.review.id.toString()}
         data={hotReviews}
         renderItem={({ item: review, getIndex, drag }) => {

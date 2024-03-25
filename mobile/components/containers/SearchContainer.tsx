@@ -46,11 +46,7 @@ export default function SearchContainer({
       <WrapperComp style={styles.searchBarContainer}>
         <SearchBar editable={showSearch} {...props} />
       </WrapperComp>
-      <YStack
-       
-      >
-        {children}
-      </YStack>
+      <YStack flexGrow={1}>{children}</YStack>
     </SafeAreaView>
   );
 }

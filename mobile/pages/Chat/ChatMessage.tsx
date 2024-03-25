@@ -19,7 +19,6 @@ export function UserMessage({ message }: Props<LLM.UserMessage>) {
   return (
     <StyledView
       style={{
-        backgroundColor: "yellow",
       }}
     >
       <Text>User {message.content}</Text>
