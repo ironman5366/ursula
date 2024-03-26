@@ -6,8 +6,6 @@ import { Button, XStack, YStack } from "tamagui";
 import { useInvoke } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
 import ChatMessage from "./ChatMessage";
-import Model = LLM.Model;
-import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import { useReviews } from "../../hooks/reviews.ts";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
@@ -35,7 +33,7 @@ export default function ChatPage() {
   }, [reviews]);
 
   const { messages, isInvoking, addMessage } = useInvoke({
-    model: Model.ANTHROPIC_HAIKU,
+    model: LLM.Model.ANTHROPIC_HAIKU,
     systemMessage,
     functions: [CHOOSE_BOOK_FUNCTION],
   });

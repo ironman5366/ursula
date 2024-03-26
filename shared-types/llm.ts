@@ -26,7 +26,7 @@ namespace LLM {
     content: string;
   };
 
-  export type AssistantFunctionCall = {
+  export type FunctionCallMessage = {
     role: "assistant";
     function: FunctionCall;
   };
@@ -46,7 +46,7 @@ namespace LLM {
     | SystemMessage
     | UserMessage
     | AssistantMessage
-    | AssistantFunctionCall
+    | FunctionCallMessage
     | FunctionMessage
     | FinishedMessage;
 
