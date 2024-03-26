@@ -11,6 +11,7 @@ import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import { useReviews } from "../../hooks/reviews.ts";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.ts";
 
 export default function ChatPage() {
   const [input, setInput] = useState("");
@@ -26,18 +27,22 @@ export default function ChatPage() {
       return initialPrompt;
     } else {
       const books = reviews.map(({ book, review }, i) => {
-        return `#${i + 1}: ${book.title}`;
+        return `#${i + 1}: ${book.title}\n`;
       });
-      return `${initialPrompt}\nHere are some books they enjoy, in order:\n${books}`;
+      return `${initialPrompt}\nHere are some books they enjoy,
+      in order of how much they enjoyed them\n:${books}`;
     }
   }, [reviews]);
-
-  console.log(systemMessage);
 
   const { messages, isInvoking, addMessage } = useInvoke({
     model: Model.ANTHROPIC_HAIKU,
     systemMessage,
+    functions: [CHOOSE_BOOK_FUNCTION],
   });
+
+  useEffect(() => {
+    console.log("messages are ", messages);
+  }, [messages]);
 
   if (isLoading) {
     return <LoadingScreen />;

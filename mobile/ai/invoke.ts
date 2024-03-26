@@ -116,11 +116,12 @@ export function useInvoke(
   const [isInvoking, setInvoking] = useState(false);
 
   const addMessage = (message: Message) => {
-    setMessages((old) => [...old, message]);
+    const newMessages = [...messages, message];
+    setMessages(newMessages);
     setInvoking(true);
     invokeWith({
       ...args,
-      messages,
+      messages: newMessages,
       onMessage: (delta) => {
         setMessages((curr) => {
           if (curr.length == 0) {
