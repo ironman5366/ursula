@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingViewComponent,
   SafeAreaView,
 } from "react-native";
-import { Button, XStack, YStack } from "tamagui";
+import { Button, ScrollView, XStack, YStack } from "tamagui";
 import { invokeWith } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
 import ChatMessage, { AssistantMessage } from "./ChatMessage";
@@ -63,50 +63,61 @@ export default function ChatPage() {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+      behavior="height"
       enabled
+      style={{ flex: 1 }}
       keyboardVerticalOffset={30}
     >
-      <SafeAreaView>
-        <YStack
-          justifyContent="space-between"
-          alignContent="space-between"
-          height="100%"
-          pb="$11"
-          px="$3"
-        >
+      <ScrollView 
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "flex-end",
+          paddingBottom: "$20",
+
+          marginHorizontal: "$3",
+        }}
+        style={{}}
+      >
+        <YStack>
           <RenderMessages messages={messages} />
           {currResponse && (
             <AssistantMessage message={currResponse as LLM.AssistantMessage} />
           )}
-          <XStack gap="$2">
-            <StyledInput
-              value={input}
-              onChangeText={(val) => setInput(val)}
-              placeholder="What is dune about?"
-              autoFocus={false}
-            />
-            <Button
-              flex={1}
-              flexGrow={2}
-              disabled={isGenerating}
-              onPress={() => {
-                const newMessages: LLM.Message[] = [
-                  ...messages,
-                  { content: input, role: "user" },
-                ];
-                setMessages(newMessages);
-                setInput("");
-                invokeChat(newMessages);
-              }}
-              circular
-              p="$1"
-              backgroundColor="blue"
-              icon={<Send size={20} color="white" />}
-            ></Button>
-          </XStack>
         </YStack>
-      </SafeAreaView>
+      </ScrollView>
+      <XStack
+        gap="$2"
+        position="absolute"
+        bottom={0}
+        mb="$14"
+        width={"100%"}
+        px="$3"
+      >
+        <StyledInput
+          value={input}
+          onChangeText={(val) => setInput(val)}
+          placeholder="What is dune about?"
+          autoFocus={false}
+        />
+        <Button
+          flex={1}
+          flexGrow={2}
+          disabled={isGenerating}
+          onPress={() => {
+            const newMessages: LLM.Message[] = [
+              ...messages,
+              { content: input, role: "user" },
+            ];
+            setMessages(newMessages);
+            setInput("");
+            invokeChat(newMessages);
+          }}
+          circular
+          p="$1"
+          backgroundColor="blue"
+          icon={<Send size={20} color="white" />}
+        ></Button>
+      </XStack>
     </KeyboardAvoidingView>
   );
 }
