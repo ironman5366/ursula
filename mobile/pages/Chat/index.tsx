@@ -24,7 +24,11 @@ export default function ChatPage() {
     setIsGenerating(false);
     invokeWith({
       functions: [CHOOSE_BOOK_FUNCTION],
-      onMessage: (delta: LLM.MessageDelta<LLM.AssistantMessage>) => {
+      onMessage: (delta: LLM.MessageDelta) => {
+        if (!("content" in delta)) {
+          return;
+        }
+
         setCurrResponse((curr) => {
           if (curr == null) {
             return {
