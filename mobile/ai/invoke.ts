@@ -1,6 +1,8 @@
 import LLM from "@ursula/shared-types/llm.ts";
 import { SUPABASE_ANON_KEY, SUPABASE_PROJECT_URL } from "../constants.ts";
 import EventSource from "react-native-sse";
+import { useState } from "react";
+import Message = LLM.Message;
 
 export async function* invoke(
   params: LLM.InvocationParams
@@ -77,4 +79,62 @@ export async function invokeWith({
 
   // TODO: handle finish reason
   onFinish && onFinish(LLM.FinishReason.FINISHED);
+}
+
+function tryMergeMessages(
+  messageOne: LLM.Message,
+  messageTwo: LLM.MessageDelta
+): LLM.Message[] {
+  if (messageOne.role === "user" && messageTwo.role === "user") {
+    return [
+      {
+        role: "user",
+        content: (messageOne.content || "") + (messageTwo.content || ""),
+      },
+    ];
+  } else if (
+    messageOne.role === "assistant" &&
+    messageTwo.role === "assistant" &&
+    "content" in messageOne &&
+    "content" in messageTwo
+  ) {
+    return [
+      {
+        role: "assistant",
+        content: (messageOne.content || "") + (messageTwo.content || ""),
+      },
+    ];
+  } else {
+    return [messageOne, messageTwo as LLM.Message];
+  }
+}
+
+export function useInvoke(
+  args: Omit<InvokeWithParams, "messages" | "onMessage">
+) {
+  const [messages, setMessages] = useState<LLM.Message[]>([]);
+  const [isInvoking, setInvoking] = useState(false);
+
+  const addMessage = (message: Message) => {
+    setMessages((old) => [...old, message]);
+    setInvoking(true);
+    invokeWith({
+      ...args,
+      messages,
+      onMessage: (delta) => {
+        setMessages((curr) => {
+          if (curr.length == 0) {
+            return [delta as LLM.Message];
+          } else {
+            const lastMessage = curr[curr.length - 1];
+            const maybeMerged = tryMergeMessages(lastMessage, delta);
+            return [...curr.slice(0, curr.length - 1), ...maybeMerged];
+          }
+        });
+      },
+      onFinish: () => setInvoking(false),
+    });
+  };
+
+  return { messages, addMessage, isInvoking };
 }
