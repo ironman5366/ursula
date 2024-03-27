@@ -4,6 +4,8 @@ import { ActivityIndicator } from "react-native";
 import React from "react";
 import { router } from "expo-router";
 import { useCurrentProfile } from "../../../hooks/profile.ts";
+import { Button } from "tamagui";
+import { PlusCircle, Star, StarOff } from "@tamagui/lucide-icons";
 
 interface Props {
   bookId: number;
@@ -17,19 +19,8 @@ export default function ReviewButton({ bookId }: Props) {
 
   const isLoading = !profile || isReviewLoading || isUnranking;
 
-  let buttonProps;
-  if (isLoading) {
-    buttonProps = {
-      children: <ActivityIndicator />,
-    };
-  } else {
-    buttonProps = {
-      title: review ? "Remove from your reviews" : "Review",
-    };
-  }
-
   return (
-    <CardButton
+    <Button
       onPress={() => {
         if (review) {
           unrank({ profile, reviewId: review.id });
@@ -38,7 +29,21 @@ export default function ReviewButton({ bookId }: Props) {
         }
       }}
       disabled={isLoading}
-      {...buttonProps}
-    />
+      icon={
+        isLoading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : review ? (
+          <StarOff size={20} color="white" />
+        ) : (
+          <Star size={20} color="white" />
+        )
+      }
+      backgroundColor={
+        review ? "maroon" : "black"
+      }
+      color="white"
+    >
+      {review ? "Remove Review" : " Review"}
+    </Button>
   );
 }

@@ -13,6 +13,7 @@ export function TitleText({ fontSize, ...props }: Props) {
         props.style,
         {
           fontSize: fontSize || 24,
+          fontWeight: "bold",
         },
       ]}
     ></StyledText>

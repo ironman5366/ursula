@@ -1,7 +1,7 @@
 import { Send } from "@tamagui/lucide-icons";
 import LLM from "@ursula/shared-types/llm.ts";
-import React, { useEffect, useMemo, useState } from "react";
-import { KeyboardAvoidingView, SafeAreaView, ScrollView } from "react-native";
+import React, { useMemo, useState, useRef, useEffect } from "react";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
 import { Button, XStack, YStack } from "tamagui";
 import { useInvoke } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
@@ -12,6 +12,7 @@ import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
 import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.tsx";
 
 export default function ChatPage() {
+  const scrollViewRef = useRef<ScrollView>(null);
   const [input, setInput] = useState("");
   const { session } = useSession();
   const { data: reviews, isLoading } = useReviews(session.user.id);
@@ -38,8 +39,16 @@ export default function ChatPage() {
     functions: [CHOOSE_BOOK_FUNCTION],
   });
 
+  const scrollToEnd = () => {
+    scrollViewRef.current?.scrollToEnd({
+      animated: true,
+    });
+  };
+
   useEffect(() => {
-    console.log("messages are ", messages);
+    setTimeout(() => {
+      scrollToEnd();
+    }, 500);
   }, [messages]);
 
   if (isLoading) {
@@ -47,19 +56,20 @@ export default function ChatPage() {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      enabled
-      keyboardVerticalOffset={30}
-    >
-      <SafeAreaView>
-        <YStack
-          justifyContent="space-between"
-          alignContent="space-between"
-          height="100%"
-          pb="$11"
-          px="$3"
-        >
+    <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
+      <ScrollView
+        // @ts-ignore
+        ref={scrollViewRef}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "flex-end",
+          paddingBottom: "$20",
+
+          marginHorizontal: "$3",
+        }}
+        style={{}}
+      >
+        <YStack>
           <ScrollView>
             <YStack>
               {messages.map((message, i) => (
@@ -67,28 +77,35 @@ export default function ChatPage() {
               ))}
             </YStack>
           </ScrollView>
-          <XStack gap="$2">
-            <StyledInput
-              value={input}
-              onChangeText={(val) => setInput(val)}
-              placeholder="What is dune about?"
-              autoFocus={false}
-            />
-            <Button
-              flex={1}
-              flexGrow={2}
-              disabled={isInvoking}
-              onPress={() => {
-                addMessage({ content: input, role: "user" });
-              }}
-              circular
-              p="$1"
-              backgroundColor="blue"
-              icon={<Send size={20} color="white" />}
-            />
-          </XStack>
         </YStack>
-      </SafeAreaView>
+      </ScrollView>
+      <XStack
+        gap="$2"
+        position="absolute"
+        bottom={0}
+        mb="$14"
+        width={"100%"}
+        px="$3"
+      >
+        <StyledInput
+          value={input}
+          onChangeText={(val) => setInput(val)}
+          placeholder="Ask me about anything book-related"
+          autoFocus={false}
+        />
+        <Button
+          flex={1}
+          flexGrow={2}
+          disabled={isInvoking}
+          onPress={() => {
+            addMessage({ content: input, role: "user" });
+          }}
+          circular
+          p="$1"
+          backgroundColor="blue"
+          icon={<Send size={20} color="white" />}
+        />
+      </XStack>
     </KeyboardAvoidingView>
   );
 }

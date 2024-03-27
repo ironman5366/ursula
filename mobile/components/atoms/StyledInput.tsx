@@ -28,11 +28,11 @@ function StyledInput({ borderColorName, onBlur, onFocus, style, ...props }: Prop
   return (
     <XStack
       borderWidth={2}
-      backgroundColor="#00000011"
+      backgroundColor="#E5E5E7"
       borderRadius={8}
       flexGrow={10}
       p={8}
-      borderColor={isFocused ?  "#00000044" : "#00000011"}
+      borderColor={isFocused ? "#00000044" : "#00000011"}
     >
       {props.icon &&
         cloneElement(props.icon, {
@@ -59,10 +59,9 @@ function StyledInput({ borderColorName, onBlur, onFocus, style, ...props }: Prop
           onFocus && onFocus(e);
         }}
         unstyled
-        onBlur={
-          (e) => {
-            setIsFocused(false);
-            onBlur && onBlur(e);
+        onBlur={(e) => {
+          setIsFocused(false);
+          onBlur && onBlur(e);
         }}
         backgroundColor="$colorTransparent"
         flexGrow={1}

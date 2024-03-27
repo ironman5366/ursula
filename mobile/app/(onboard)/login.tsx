@@ -81,10 +81,9 @@ export default function LoginSignup() {
         </SafeAreaView>
         <FloatingActionBar>
           <Button
-            width={300}
             unstyled
             alignSelf="center"
-            height={50}
+            flexGrow={1}
             px={10}
             onPress={signInWithEmail}
             fontWeight="bold"

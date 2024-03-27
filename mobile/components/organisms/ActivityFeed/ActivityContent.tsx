@@ -1,13 +1,13 @@
-import React from "react";
-import { Activity, ActivityOf, Profile } from "@ursula/shared-types/derived.ts";
 import {
   ActivityType,
   AddedToListActivity,
   RankedActivity,
   StartedReadingActivity,
 } from "@ursula/shared-types/Activity.ts";
+import { Activity, ActivityOf, Profile } from "@ursula/shared-types/derived.ts";
+import React from "react";
+import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
-import { Link } from "expo-router";
 
 interface Props<T> {
   activity: T;
@@ -20,7 +20,7 @@ function StartedReadingContent({
 }: Props<ActivityOf<StartedReadingActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} started reading{" "}
+      {profile.full_name} started reading {/* @ts-ignore */}
       <StyledLink href={`/bookDetail/${activity.data.book_id}`}>
         {activity.data.book_name}
       </StyledLink>
@@ -34,7 +34,7 @@ function RankedContent({
 }: Props<ActivityOf<RankedActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} ranked{" "}
+      {profile.full_name} ranked {/* @ts-ignore */}
       <StyledLink href={`/bookDetail/${activity.data.book_id}/`}>
         {activity.data.book_name}
       </StyledLink>{" "}
@@ -49,7 +49,7 @@ function AddedToListContent({
 }: Props<ActivityOf<AddedToListActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} added{" "}
+      {profile.full_name} added {/* @ts-ignore */}
       <StyledLink href={`/bookDetail/${activity.data.book_id}/`}>
         {activity.data.book_name}
       </StyledLink>{" "}
@@ -72,26 +72,4 @@ export default function ActivityContent<T extends Activity>({
     default:
       return <StyledText>TODO</StyledText>;
   }
-}
-
-//create a custom link component that uses the expo-router Link component, accepts all the same props, forwards the ref, and adds a style prop
-
-export function StyledLink({
-  style,
-  href,
-  ...props
-}: React.ComponentProps<typeof Link> & { style?: any; href: string }) {
-  return (
-    <Link
-      href={href}
-      {...props}
-      style={[
-        style,
-        {
-          fontWeight: "bold",
-          color: "#035487",
-        },
-      ]}
-    />
-  );
 }
