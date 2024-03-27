@@ -1,14 +1,10 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { PostHogProvider } from "posthog-react-native";
 import React, { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TamaguiProvider } from "tamagui";
 import DismissKeyboardContainer from "../components/containers/DismissKeyboardContainer.tsx";
@@ -74,7 +70,10 @@ function RootLayoutNav() {
                       />
                       <Stack.Screen
                         name="(app)"
-                        options={{ headerShown: false, title: "Home" }}
+                        options={{
+                          headerShown: false,
+                          title: "Ursula",
+                        }}
                       />
                     </Stack>
                   </DismissKeyboardContainer>

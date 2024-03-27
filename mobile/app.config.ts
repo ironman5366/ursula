@@ -2,7 +2,7 @@ module.exports = {
   expo: {
     name: "Ursula",
     slug: "ursula",
-    version: "1.0.6",
+    version: "1.1.0",
     orientation: "portrait",
     icon: "./assets/images/logo-192.png",
     scheme: "ursula",
