@@ -53,8 +53,6 @@ export async function* invoke(
       return finishReason;
     }
   }
-
-  console.log("Done from invoke");
 }
 
 interface InvokeWithParams extends LLM.InvocationParams {

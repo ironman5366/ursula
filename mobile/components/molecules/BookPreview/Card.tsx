@@ -20,7 +20,7 @@ function BookPreviewCard({ book, ...props }: Props, ref) {
       maxWidth={"90%"}
       ref={ref}
     >
-      <YStack>
+      <YStack gap="$4">
         <XStack gap={"$3"}>
           <BookImage book={book} size={75} />
           <YStack maxWidth={"80%"}>
