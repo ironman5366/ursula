@@ -37,6 +37,13 @@ export default function ChatPage() {
     model: LLM.Model.ANTHROPIC_HAIKU,
     systemMessage,
     functions: [CHOOSE_BOOK_FUNCTION],
+    messages: [
+      {
+        role: "assistant",
+        content:
+          "Hi! I'm Ursula, your AI librarian. I know about your reading tastes, so I can help you find a book you'll love. What are you in the mood for?",
+      },
+    ],
   });
 
   const scrollToEnd = () => {

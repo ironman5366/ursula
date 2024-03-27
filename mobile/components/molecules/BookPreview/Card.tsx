@@ -20,22 +20,24 @@ function BookPreviewCard({ book, ...props }: Props, ref) {
       maxWidth={"90%"}
       ref={ref}
     >
-      <XStack gap={"$3"}>
-        <BookImage book={book} size={75} />
-        <YStack maxWidth={"80%"}>
-          <Text>{book.title}</Text>
-          <BookAuthors bookId={book.id} />
-          {book.description && (
-            <Text numberOfLines={1} ellipsizeMode={"middle"}>
-              {book.description}
-            </Text>
-          )}
-          <XStack>
-            <ReadingListButton bookId={book.id} />
-            <ReviewButton bookId={book.id} />
-          </XStack>
-        </YStack>
-      </XStack>
+      <YStack>
+        <XStack gap={"$3"}>
+          <BookImage book={book} size={75} />
+          <YStack maxWidth={"80%"}>
+            <Text>{book.title}</Text>
+            <BookAuthors bookId={book.id} />
+            {book.description && (
+              <Text numberOfLines={1} ellipsizeMode={"middle"}>
+                {book.description}
+              </Text>
+            )}
+          </YStack>
+        </XStack>
+        <XStack gap={"$4"}>
+          <ReadingListButton bookId={book.id} />
+          <ReviewButton bookId={book.id} />
+        </XStack>
+      </YStack>
     </Card>
   );
 }

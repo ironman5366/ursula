@@ -7,6 +7,7 @@ import Message = LLM.Message;
 export async function* invoke(
   params: LLM.InvocationParams
 ): LLM.ResponseStream {
+  console.log("Calling invoke");
   const functionUrl = `${SUPABASE_PROJECT_URL}/functions/v1/invoke-ai/`;
   const eventSource = new EventSource(functionUrl, {
     method: "POST",
@@ -21,6 +22,7 @@ export async function* invoke(
 
   eventSource.addEventListener("error", (event) => {
     console.error(event);
+    eventSource.close();
     throw event;
   });
 
@@ -29,15 +31,16 @@ export async function* invoke(
   });
 
   eventSource.addEventListener("close", (event) => {
-    console.log("got close event");
     // TODO: propagate this
     finishReason = LLM.FinishReason.FINISHED;
+    eventSource.close();
   });
 
   while (true) {
     if (messageQueue.length > 0) {
       const message = messageQueue.shift() as LLM.MessageDelta;
       if (message.role === "finished") {
+        eventSource.close();
         return message.reason;
       }
       yield message;
@@ -109,10 +112,15 @@ function tryMergeMessages(
   }
 }
 
-export function useInvoke(
-  args: Omit<InvokeWithParams, "messages" | "onMessage">
-) {
-  const [messages, setMessages] = useState<LLM.Message[]>([]);
+export function useInvoke({
+  messages: initialMessages,
+  ...args
+}: Omit<InvokeWithParams, "messages" | "onMessage"> & {
+  messages?: LLM.Message[];
+}) {
+  const [messages, setMessages] = useState<LLM.Message[]>(
+    initialMessages || []
+  );
   const [isInvoking, setInvoking] = useState(false);
 
   const addMessage = (message: Message) => {

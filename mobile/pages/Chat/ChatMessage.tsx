@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import LLM from "@ursula/shared-types/llm.ts";
 import { Avatar, Text, XStack, YStack } from "tamagui";
-import { StyledView } from "../../components/organisms/StyledView.tsx";
 import { useCurrentProfile } from "../../hooks/profile.ts";
 import ProfileImage from "../../components/atoms/ProfileImage.tsx";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   FUNCTION_BINDINGS,
   FunctionBinding,

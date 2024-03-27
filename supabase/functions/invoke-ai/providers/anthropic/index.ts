@@ -71,15 +71,11 @@ function llmMessageToAnthropicMessage(
         role: "user",
         content: message.content || "[function returned void response]",
       };
-    case "system": {
-      return {
-        role: "system",
-        content: message.content,
-      };
-    }
   }
   throw new Error(`Invalid message for anthropic: ${message}`);
 }
+
+function mergeSequenetial() {}
 
 export async function* invokeAnthropic({
   model,

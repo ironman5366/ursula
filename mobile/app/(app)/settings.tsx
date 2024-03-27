@@ -34,19 +34,6 @@ function DebugPanel() {
         }}
       />
       {dumpedCache && <Text>{dumpedCache}</Text>}
-      <Button
-        onPress={async () => {
-          for await (const resp of invoke({
-            model: LLM.Model.ANTHROPIC_HAIKU,
-            messages: [{ role: "user", content: "Hello" }],
-            functions: [CHOOSE_BOOK_FUNCTION],
-          })) {
-            console.log("invoke resp", resp);
-          }
-        }}
-      >
-        Try invoke
-      </Button>
     </>
   );
 }
