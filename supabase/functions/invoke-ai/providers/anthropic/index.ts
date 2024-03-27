@@ -2,7 +2,10 @@ import LLM from "@ursula/shared-types/llm.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { Tool } from "./types.ts";
 import { jsonToXml } from "./utils.ts";
-import { FunctionStateMachine } from "./function_adapter.ts";
+import {
+  functionMessageToXml,
+  FunctionStateMachine,
+} from "./function_adapter.ts";
 
 const anthropic = new Anthropic({
   apiKey: Deno.env.get("ANTHROPIC_API_KEY"),
@@ -63,7 +66,7 @@ function llmMessageToAnthropicMessage(
         // The assistant called a function in this message
         return {
           role: "assistant",
-          content: `[called function ${message.function.name}]`,
+          content: functionMessageToXml(message.function),
         };
       }
     case "function":
@@ -75,7 +78,40 @@ function llmMessageToAnthropicMessage(
   throw new Error(`Invalid message for anthropic: ${message}`);
 }
 
-function mergeSequenetial() {}
+function tryMerge(
+  messageOne: Anthropic.MessageParam,
+  messageTwo: Anthropic.MessageParam
+): Anthropic.MessageParam[] {
+  if (messageOne.role === messageTwo.role) {
+    return [
+      {
+        role: messageOne.role,
+        content:
+          (messageOne.content as string) + (messageTwo.content as string),
+      },
+    ];
+  } else {
+    return [messageOne, messageTwo];
+  }
+}
+
+function mergeMessages(
+  messages: Anthropic.MessageParam[]
+): Anthropic.MessageParam[] {
+  let newMessages: Anthropic.MessageParam[] = [];
+
+  for (const message of messages) {
+    if (newMessages.length === 0) {
+      newMessages.push(message);
+    } else {
+      const lastMessage = newMessages[newMessages.length - 1];
+      const maybeMerged = tryMerge(lastMessage, message);
+      newMessages = newMessages.slice(0, -1).concat(maybeMerged);
+    }
+  }
+
+  return newMessages;
+}
 
 export async function* invokeAnthropic({
   model,
@@ -100,12 +136,14 @@ export async function* invokeAnthropic({
     }
   }
 
-  console.log(JSON.stringify(transferredMessages, null, 2));
+  const mergedMessages = mergeMessages(transferredMessages);
+
+  console.log(JSON.stringify(mergedMessages, null, 2));
 
   const stream = anthropic.messages.stream({
     model,
     max_tokens: 4096,
-    messages: transferredMessages,
+    messages: mergedMessages,
     system: systemPrompt,
   });
 

@@ -7,7 +7,7 @@ import Message = LLM.Message;
 export async function* invoke(
   params: LLM.InvocationParams
 ): LLM.ResponseStream {
-  console.log("Calling invoke");
+  console.log("Calling invoke with ", JSON.stringify(params, null, 2));
   const functionUrl = `${SUPABASE_PROJECT_URL}/functions/v1/invoke-ai/`;
   const eventSource = new EventSource(functionUrl, {
     method: "POST",

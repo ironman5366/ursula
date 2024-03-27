@@ -15,18 +15,20 @@ interface Props<M extends LLM.Message> {
 
 function AssistantMessage({ message }: Props<LLM.AssistantMessage>) {
   return (
-    <XStack
-      my={2}
-      alignItems="flex-start"
-      mt="$2"
-      justifyContent="flex-start"
-      gap={4}
-    >
-      <Avatar backgroundColor="green" circular size={30}></Avatar>
-      <YStack backgroundColor="gray" mr="$7" borderRadius="$3" p="$2">
-        <Text color="white">{message.content}</Text>
-      </YStack>
-    </XStack>
+    <>
+      <XStack
+        my={2}
+        alignItems="flex-start"
+        mt="$2"
+        justifyContent="flex-start"
+        gap={4}
+      >
+        <Avatar backgroundColor="green" circular size={30}></Avatar>
+        <YStack backgroundColor="gray" mr="$7" borderRadius="$3" p="$2">
+          {message.content && <Text color="white">{message.content}</Text>}
+        </YStack>
+      </XStack>
+    </>
   );
 }
 
@@ -36,7 +38,7 @@ function UserMessage({ message }: Props<LLM.UserMessage>) {
 
   return (
     <XStack my={2} justifyContent="flex-end" gap={4} ml="$4">
-      <YStack backgroundColor="blue" borderRadius="$3" p="$2">
+      <YStack backgroundColor="$claret" borderRadius="$3" p="$2">
         <Text color="white">{message.content}</Text>
       </YStack>
       <ProfileImage profile={profile} size={30} />
