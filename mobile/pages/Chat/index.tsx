@@ -1,7 +1,7 @@
 import { Send } from "@tamagui/lucide-icons";
 import LLM from "@ursula/shared-types/llm.ts";
 import React, { useEffect, useMemo, useState } from "react";
-import { KeyboardAvoidingView, SafeAreaView } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, ScrollView } from "react-native";
 import { Button, XStack, YStack } from "tamagui";
 import { useInvoke } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
@@ -9,7 +9,7 @@ import ChatMessage from "./ChatMessage";
 import { useReviews } from "../../hooks/reviews.ts";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
-import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.ts";
+import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.tsx";
 
 export default function ChatPage() {
   const [input, setInput] = useState("");
@@ -60,11 +60,13 @@ export default function ChatPage() {
           pb="$11"
           px="$3"
         >
-          <YStack>
-            {messages.map((message, i) => (
-              <ChatMessage message={message} key={i} />
-            ))}
-          </YStack>
+          <ScrollView>
+            <YStack>
+              {messages.map((message, i) => (
+                <ChatMessage message={message} key={i} />
+              ))}
+            </YStack>
+          </ScrollView>
           <XStack gap="$2">
             <StyledInput
               value={input}

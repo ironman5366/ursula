@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList } from "react-native";
 import { Book } from "../../../shared-types/derived";
-import BookPreviewLink from "./BookPreview/Link.tsx";
+import BookPreviewLinkRow from "./BookPreview/Link.tsx";
 
 interface Props {
   books: Book[];
@@ -13,7 +13,7 @@ export default function BookList({ books, replace }: Props) {
     <FlatList
       data={books}
       renderItem={({ item }) => (
-        <BookPreviewLink book={item} replace={replace} />
+        <BookPreviewLinkRow book={item} replace={replace} />
       )}
     />
   );

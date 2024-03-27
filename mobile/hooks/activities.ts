@@ -62,7 +62,8 @@ async function fetchSocialFeed(userId: string): Promise<Activity[]> {
     .rpc("social_feed", {
       for_user_id: userId,
     })
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .limit(100);
 
   if (error) {
     throw error;
