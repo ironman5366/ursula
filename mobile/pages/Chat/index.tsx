@@ -1,62 +1,43 @@
 import { Send } from "@tamagui/lucide-icons";
 import LLM from "@ursula/shared-types/llm.ts";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  ScrollView as ScrollViewRN,
-} from "react-native";
-import { Button, ScrollView, XStack, YStack } from "tamagui";
-import { invokeWith } from "../../ai/invoke.ts";
+import React, { useMemo, useState, useRef, useEffect } from "react";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
+import { Button, XStack, YStack } from "tamagui";
+import { useInvoke } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
-import ChatMessage, { AssistantMessage } from "./ChatMessage";
+import ChatMessage from "./ChatMessage";
+import { useReviews } from "../../hooks/reviews.ts";
+import { useSession } from "../../contexts/SessionContext.ts";
+import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.tsx";
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<LLM.Message[]>([]);
-  const scrollViewRef = useRef<ScrollViewRN>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
   const [input, setInput] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [currResponse, setCurrResponse] = useState<LLM.AssistantMessage | null>(
-    null
-  );
+  const { session } = useSession();
+  const { data: reviews, isLoading } = useReviews(session.user.id);
 
-  const invokeChat = async (chatMessages) => {
-    console.log("invoking chat with ", messages);
-    setIsGenerating(false);
-    invokeWith({
-      onMessage: (delta: LLM.MessageDelta<LLM.AssistantMessage>) => {
-        setCurrResponse((curr) => {
-          if (curr == null) {
-            return {
-              role: "assistant",
-              content: delta.content || "",
-            };
-          } else {
-            return {
-              role: "assistant",
-              content: curr.content + delta.content,
-            };
-          }
-        });
-      },
-      onFinish: (reason) => {
-        if (currResponse) {
-          setMessages((prev) => [
-            ...prev,
-            currResponse as LLM.AssistantMessage,
-          ]);
-        }
-        setCurrResponse((curr) => {
-          setMessages((prev) => [...prev, curr]);
-          setIsGenerating(false);
-          return null;
-        });
-        setIsGenerating(false);
-      },
-      model: LLM.Model.ANTHROPIC_HAIKU,
-      messages: chatMessages,
-    });
-  };
+  const systemMessage = useMemo(() => {
+    let systemReviews = reviews || [];
+    const initialPrompt =
+      "You're a librarian, helping a user choose a book to read.";
+
+    if (systemReviews.length === 0) {
+      return initialPrompt;
+    } else {
+      const books = reviews.map(({ book, review }, i) => {
+        return `#${i + 1}: ${book.title}\n`;
+      });
+      return `${initialPrompt}\nHere are some books they enjoy,
+      in order of how much they enjoyed them\n:${books}`;
+    }
+  }, [reviews]);
+
+  const { messages, isInvoking, addMessage } = useInvoke({
+    model: LLM.Model.ANTHROPIC_HAIKU,
+    systemMessage,
+    functions: [CHOOSE_BOOK_FUNCTION],
+  });
 
   const scrollToEnd = () => {
     scrollViewRef.current?.scrollToEnd({
@@ -68,27 +49,29 @@ export default function ChatPage() {
     setTimeout(() => {
       scrollToEnd();
     }, 500);
-  }, [messages, currResponse]);
+  }, [messages]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <ScrollView
-        // @ts-ignore
         ref={scrollViewRef}
         contentContainerStyle={{
           flexGrow: 1,
           justifyContent: "flex-end",
-          paddingBottom: "$20",
-
-          marginHorizontal: "$3",
         }}
-        style={{}}
       >
-        <YStack>
-          <RenderMessages messages={messages} />
-          {currResponse && (
-            <AssistantMessage message={currResponse as LLM.AssistantMessage} />
-          )}
+        <YStack paddingBottom="$20" marginHorizontal="$3">
+          <ScrollView>
+            <YStack>
+              {messages.map((message, i) => (
+                <ChatMessage message={message} key={i} />
+              ))}
+            </YStack>
+          </ScrollView>
         </YStack>
       </ScrollView>
       <XStack
@@ -108,46 +91,17 @@ export default function ChatPage() {
         <Button
           flex={1}
           flexGrow={2}
-          disabled={isGenerating}
+          disabled={isInvoking}
           onPress={() => {
-            const newMessages: LLM.Message[] = [
-              ...messages,
-              { content: input, role: "user" },
-            ];
-            setMessages(newMessages);
+            addMessage({ content: input, role: "user" });
             setInput("");
-            invokeChat(newMessages);
           }}
           circular
           p="$1"
           backgroundColor="blue"
           icon={<Send size={20} color="white" />}
-        ></Button>
+        />
       </XStack>
     </KeyboardAvoidingView>
-  );
-}
-
-export function RenderMessages({
-  messages,
-}: {
-  messages: (LLM.AssistantMessage | LLM.Message)[];
-}) {
-  return (
-    <YStack>
-      {messages.map((message, i) => {
-        // TODO: check why nulls are being passed
-        if (message?.role === "assistant") {
-          return (
-            <AssistantMessage
-              message={message as LLM.AssistantMessage}
-              key={i}
-            />
-          );
-        } else {
-          return <ChatMessage message={message} key={i} />;
-        }
-      })}
-    </YStack>
   );
 }

@@ -1,6 +1,10 @@
+import React from "react";
 import LLM from "@ursula/shared-types/llm.ts";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { fetchSearchBooksOnly } from "../../hooks/useSearch.ts";
+import { Text } from "react-native";
+import { FunctionRenderProps } from "./bindings.ts";
+import { BookPreviewLinkCard } from "../../components/molecules/BookPreview/Link.tsx";
 
 export const CHOOSE_BOOK_FUNCTION: LLM.Function = {
   name: "choose_book",
@@ -27,5 +31,16 @@ export async function chooseBook({
     return results[0];
   } else {
     return null;
+  }
+}
+
+export function BookChoice({
+  input,
+  result,
+}: FunctionRenderProps<{ book: string }, Book | null>) {
+  if (result) {
+    return <BookPreviewLinkCard book={result} />;
+  } else {
+    return <Text>No book found for {input.book}</Text>;
   }
 }

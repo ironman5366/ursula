@@ -9,7 +9,7 @@ import useSignOut from "../../hooks/useSignOut.ts";
 import { Button } from "tamagui";
 import { invoke } from "../../ai/invoke.ts";
 import LLM from "@ursula/shared-types/llm.ts";
-import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.ts";
+import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.tsx";
 
 function DebugPanel() {
   const queryClient = useQueryClient();
