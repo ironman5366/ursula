@@ -66,7 +66,7 @@ function BoundFunctionMessage<I, R>({
       });
   }, []);
 
-  if (!result) {
+  if (result === undefined) {
     return <ActivityIndicator size={"small"} />;
   }
 

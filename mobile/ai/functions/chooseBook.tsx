@@ -2,9 +2,10 @@ import React from "react";
 import LLM from "@ursula/shared-types/llm.ts";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { fetchSearchBooksOnly } from "../../hooks/useSearch.ts";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { FunctionRenderProps } from "./bindings.ts";
 import { BookPreviewLinkCard } from "../../components/molecules/BookPreview/Link.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 
 export const CHOOSE_BOOK_FUNCTION: LLM.Function = {
   name: "choose_book",
@@ -26,6 +27,11 @@ export async function chooseBook({
 }: {
   book: string;
 }): Promise<Book | null> {
+  let bookName = book;
+  // TODO: when search includes authors we can rm this
+  if (bookName.includes(" by ")) {
+    bookName = bookName.split(" by ")[0];
+  }
   const results = await fetchSearchBooksOnly(book);
   if (results.length > 0) {
     return results[0];
@@ -41,6 +47,15 @@ export function BookChoice({
   if (result) {
     return <BookPreviewLinkCard book={result} />;
   } else {
-    return <Text>No book found for {input.book}</Text>;
+    return (
+      <StyledView
+        style={{
+          alignSelf: "center",
+          maxWidth: "80%",
+        }}
+      >
+        <Text>Not found: "{input.book}"</Text>
+      </StyledView>
+    );
   }
 }

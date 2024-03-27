@@ -32,7 +32,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="chat"
         options={{
-          title: "AI Recommendations",
+          title: "AI Librarian",
           tabBarIcon: ({ color }) => <Bot color={color} />,
         }}
       />
