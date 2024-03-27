@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { useThemeColor } from "../../../theme.ts";
 import { TabBar } from "../../../components/containers/TabBar.tsx";
-import { Home, Book, User, MessageCircle } from "@tamagui/lucide-icons";
+import { Home, Book, User, Bot } from "@tamagui/lucide-icons";
 import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
 
 export default function TabLayout() {
@@ -30,17 +30,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="chat"
+        options={{
+          title: "AI Recommendations",
+          tabBarIcon: ({ color }) => <Bot color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="yourProfile"
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => <User color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="chat"
-        options={{
-          title: "Chat",
-          tabBarIcon: ({ color }) => <MessageCircle color={color} />,
         }}
       />
     </Tabs>
