@@ -2,7 +2,10 @@ import LLM from "@ursula/shared-types/llm.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { Tool } from "./types.ts";
 import { jsonToXml } from "./utils.ts";
-import { FunctionStateMachine } from "./function_adapter.ts";
+import {
+  functionMessageToXml,
+  FunctionStateMachine,
+} from "./function_adapter.ts";
 
 const anthropic = new Anthropic({
   apiKey: Deno.env.get("ANTHROPIC_API_KEY"),
@@ -63,9 +66,7 @@ function llmMessageToAnthropicMessage(
         // The assistant called a function in this message
         return {
           role: "assistant",
-          content: `[called function ${
-            message.function.name
-          } with ${JSON.stringify(message.function.arguments, null, 2)}]`,
+          content: functionMessageToXml(message.function),
         };
       }
     case "function":
@@ -78,7 +79,7 @@ function llmMessageToAnthropicMessage(
 }
 
 function tryMerge(
-  messageOne: Antrhopic.MessageParam,
+  messageOne: Anthropic.MessageParam,
   messageTwo: Anthropic.MessageParam
 ): Anthropic.MessageParam[] {
   if (messageOne.role === messageTwo.role) {

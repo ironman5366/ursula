@@ -1,5 +1,6 @@
 import LLM from "@ursula/shared-types/llm.ts";
 import { parse } from "https://deno.land/x/xml/mod.ts";
+import { jsonToXml } from "./utils.ts";
 
 type WatchingState = {
   type: "watching";
@@ -51,9 +52,7 @@ function parseSingleFunctionCall(
  * }
  */
 function parseFunctionCallXml(rawFunctionCall: string): LLM.FunctionCall[] {
-  console.log("parsing raw function call", rawFunctionCall);
   const data = parse(rawFunctionCall);
-  console.log("parsed data", data);
 
   const functionCalls: {
     invoke: ParsedInvokeFormat[] | ParsedInvokeFormat;
@@ -64,6 +63,18 @@ function parseFunctionCallXml(rawFunctionCall: string): LLM.FunctionCall[] {
   }
 
   return [parseSingleFunctionCall(functionCalls.invoke)];
+}
+
+// Go the other way and turn it back to XML
+export function functionMessageToXml(functionCall: LLM.FunctionCall): string {
+  const functionCalls = {
+    invoke: {
+      tool_name: functionCall.name,
+      parameters: functionCall.arguments,
+    },
+  };
+
+  return jsonToXml(functionCalls, "function_calls");
 }
 
 export class FunctionStateMachine {
@@ -115,7 +126,6 @@ export class FunctionStateMachine {
   }
 
   emitInitial(delta: string): LLM.MessageDelta[] | null {
-    console.log("in emitInitial");
     for (let chIdx = 0; chIdx < delta.length; chIdx++) {
       const ch = delta[chIdx];
       if (ch === this.startTok[0]) {
@@ -168,7 +178,6 @@ export class FunctionStateMachine {
         deltas = [...deltas, ...remainingDeltas];
       }
 
-      console.log("Returning finalized function deltas", deltas);
       return deltas;
     } else {
       return null;
