@@ -58,18 +58,13 @@ export default function ChatPage() {
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <ScrollView
-        // @ts-ignore
         ref={scrollViewRef}
         contentContainerStyle={{
           flexGrow: 1,
           justifyContent: "flex-end",
-          paddingBottom: "$20",
-
-          marginHorizontal: "$3",
         }}
-        style={{}}
       >
-        <YStack>
+        <YStack paddingBottom="$20" marginHorizontal="$3">
           <ScrollView>
             <YStack>
               {messages.map((message, i) => (
@@ -99,6 +94,7 @@ export default function ChatPage() {
           disabled={isInvoking}
           onPress={() => {
             addMessage({ content: input, role: "user" });
+            setInput("");
           }}
           circular
           p="$1"
