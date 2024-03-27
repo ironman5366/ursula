@@ -1,8 +1,8 @@
 import { BlurView } from "expo-blur";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useColorScheme } from "react-native";
-import { Button, XStack, Text, YStack } from "tamagui";
-import StyledInput from "../atoms/StyledInput";
+import Animated, { BounceInDown, BounceOutDown } from "react-native-reanimated";
+import { Button, Text, XStack, YStack } from "tamagui";
 
 const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
   const { options } = descriptors[route.key];
@@ -91,9 +91,10 @@ export function FloatingActionBar({ children, height = 55 , borderRadius = 1000}
   let colorScheme = useColorScheme();
 
   return (
-    <BlurView
-      tint={colorScheme === "dark" ? "light" : "dark"}
-      intensity={60}
+    <Animated.View
+      key="floating-action-bar"
+      entering={BounceInDown.duration(500)}
+      exiting={BounceOutDown.duration(400)}
       style={{
         position: "absolute",
         bottom: 0,
@@ -101,18 +102,30 @@ export function FloatingActionBar({ children, height = 55 , borderRadius = 1000}
         overflow: "hidden",
         paddingHorizontal: 20,
         minWidth: 300,
-        height: height,
         marginBottom: 40,
-        flexDirection: "row",
         alignSelf: "center",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingVertical: 5,
-        borderRadius: borderRadius,
-        borderColor: "transparent",
       }}
     >
-      {children}
-    </BlurView>
+      <BlurView
+        tint={colorScheme === "dark" ? "light" : "dark"}
+        intensity={60}
+        style={{
+          gap: 20,
+          overflow: "hidden",
+          paddingHorizontal: 20,
+          minWidth: 300,
+          height: height,
+          flexDirection: "row",
+          alignSelf: "center",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingVertical: 5,
+          borderRadius: borderRadius,
+          borderColor: "transparent",
+        }}
+      >
+        {children}
+      </BlurView>
+    </Animated.View>
   );
 }

@@ -21,6 +21,7 @@ export default function App() {
         options={{
           title: "Home",
           headerShown: false,
+          animation: "fade",
         }}
       />
       <Stack.Screen name="bookDetail/[id]" options={{ title: "Book" }} />
