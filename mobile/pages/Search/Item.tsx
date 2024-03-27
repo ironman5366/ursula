@@ -10,7 +10,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import useBook from "../../hooks/useBook.ts";
 import { useAuthor } from "../../hooks/authors.ts";
 import { useProfile } from "../../hooks/profile.ts";
-import BookPreviewLinkRow from "../../components/molecules/BookPreview/Link.tsx";
+import { BookPreviewLinkRow } from "../../components/molecules/BookPreview/Link.tsx";
 import AuthorPreviewLink from "../../components/molecules/AuthorPreview/Link.tsx";
 import ProfilePreviewLink from "../../components/molecules/ProfilePreview/Link.tsx";
 

@@ -19,7 +19,7 @@ export function BookPreviewLinkWrapper({
   children,
 }: Props & PropsWithChildren<any>) {
   return (
-    <Link href={`/book/${book.id}`} replace={replace}>
+    <Link href={`/bookDetail/${book.id}`} replace={replace} asChild>
       {children}
     </Link>
   );

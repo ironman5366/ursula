@@ -5,7 +5,7 @@ import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useThemeColor } from "../../theme.ts";
-import BookPreviewLinkRow from "../../components/molecules/BookPreview/Link.tsx";
+import { BookPreviewLinkRow } from "../../components/molecules/BookPreview/Link.tsx";
 import { XStack } from "tamagui";
 import { GripVertical } from "@tamagui/lucide-icons";
 

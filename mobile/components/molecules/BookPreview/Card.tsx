@@ -21,8 +21,8 @@ function BookPreviewCard({ book, ...props }: Props, ref) {
       ref={ref}
     >
       <XStack gap={"$3"}>
-        <BookImage book={book} size={50} />
-        <YStack>
+        <BookImage book={book} size={75} />
+        <YStack maxWidth={"80%"}>
           <Text>{book.title}</Text>
           <BookAuthors bookId={book.id} />
           {book.description && (
