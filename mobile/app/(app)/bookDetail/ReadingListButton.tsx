@@ -1,11 +1,12 @@
+import { MinusCircle, PlusCircle } from "@tamagui/lucide-icons";
 import React from "react";
+import { ActivityIndicator } from "react-native";
+import { Button } from "tamagui";
 import {
   useAddToReadingList,
   useBookInReadingList,
   useRemoveFromReadingList,
 } from "../../../hooks/readingList.ts";
-import CardButton from "../../../components/atoms/CardButton.tsx";
-import { ActivityIndicator } from "react-native";
 
 interface Props {
   bookId: number;
@@ -21,19 +22,8 @@ export default function ReadingListButton({ bookId }: Props) {
 
   const isLoading = isFetchLoading || isRemoveLoading || isAddLoading;
 
-  let buttonProps;
-  if (isLoading) {
-    buttonProps = {
-      children: <ActivityIndicator />,
-    };
-  } else {
-    buttonProps = {
-      title: bookInReadingList ? "Remove from Reading List" : "Want to Read",
-    };
-  }
-
   return (
-    <CardButton
+    <Button
       onPress={() => {
         if (bookInReadingList) {
           removeFromReadingList(bookId);
@@ -42,7 +32,19 @@ export default function ReadingListButton({ bookId }: Props) {
         }
       }}
       disabled={isLoading}
-      {...buttonProps}
-    />
+      backgroundColor={bookInReadingList ? "maroon" : "black"}
+      color="white"
+      icon={
+        isLoading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : bookInReadingList ? (
+          <MinusCircle size={20} color="white" />
+        ) : (
+          <PlusCircle size={20} color="white" />
+        )
+      }
+    >
+      {bookInReadingList ? "Reading List" : "Reading List"}
+    </Button>
   );
 }

@@ -1,10 +1,10 @@
 import { Send } from "@tamagui/lucide-icons";
 import LLM from "@ursula/shared-types/llm.ts";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  Keyboard,
   KeyboardAvoidingView,
-  KeyboardAvoidingViewComponent,
-  SafeAreaView,
+  ScrollView as ScrollViewRN,
 } from "react-native";
 import { Button, ScrollView, XStack, YStack } from "tamagui";
 import { invokeWith } from "../../ai/invoke.ts";
@@ -13,6 +13,7 @@ import ChatMessage, { AssistantMessage } from "./ChatMessage";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<LLM.Message[]>([]);
+  const scrollViewRef = useRef<ScrollViewRN>(null);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [currResponse, setCurrResponse] = useState<LLM.AssistantMessage | null>(
@@ -57,18 +58,23 @@ export default function ChatPage() {
     });
   };
 
+  const scrollToEnd = () => {
+    scrollViewRef.current?.scrollToEnd({
+      animated: true,
+    });
+  };
+
   useEffect(() => {
-    console.log(messages);
-  }, [messages]);
+    setTimeout(() => {
+      scrollToEnd();
+    }, 500);
+  }, [messages, currResponse]);
 
   return (
-    <KeyboardAvoidingView
-      behavior="height"
-      enabled
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={30}
-    >
-      <ScrollView 
+    <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
+      <ScrollView
+        // @ts-ignore
+        ref={scrollViewRef}
         contentContainerStyle={{
           flexGrow: 1,
           justifyContent: "flex-end",
@@ -96,7 +102,7 @@ export default function ChatPage() {
         <StyledInput
           value={input}
           onChangeText={(val) => setInput(val)}
-          placeholder="What is dune about?"
+          placeholder="Ask me about anything book-related"
           autoFocus={false}
         />
         <Button

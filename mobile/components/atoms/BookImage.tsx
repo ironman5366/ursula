@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-import { ActivityIndicator, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Image } from "@tamagui/image";
+import React from "react";
+import { ActivityIndicator } from "react-native";
 import { Book } from "../../../shared-types/derived";
-import { supabase } from "../../utils/supabase.ts";
-import { Book as BookIcon } from "@tamagui/lucide-icons";
 import { BookCovers, useBookCover } from "../../hooks/useBookCover.ts";
 
 export interface Props {
@@ -61,6 +60,7 @@ export default function BookImage({ book, size }: Props) {
             uri: chosenUrl,
           }}
           style={{
+            borderRadius: 10,
             height: size,
             width: size * aspectRatio,
           }}
