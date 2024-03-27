@@ -29,8 +29,8 @@ export default function Onboard() {
                 </Text>
               </XStack>
               <Text mt="$3" textAlign="left" fontSize="$5">
-                Ursula is a platform for book lovers to rank and books. There
-                also happens to be AI feature
+                Ursula is a platform for book lovers to rank, share, and
+                discover new books.
               </Text>
             </YStack>
           </YStack>
