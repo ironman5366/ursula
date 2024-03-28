@@ -1,6 +1,5 @@
 import { BlurView } from "expo-blur";
 import React, { useMemo } from "react";
-import { useColorScheme } from "react-native";
 import Animated, { BounceInDown, BounceOutDown } from "react-native-reanimated";
 import { Button, Text, XStack, YStack } from "tamagui";
 
@@ -57,11 +56,15 @@ const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
   );
 };
 
-export function ReactiveContainerIdkWhy({ state, descriptors, navigation, ...rest }: any) {
-
+export function ReactiveContainerIdkWhy({
+  state,
+  descriptors,
+  navigation,
+  ...rest
+}: any) {
   return (
     <FloatingActionBar>
-      <YStack alignContent='space-between'>
+      <YStack alignContent="space-between">
         <XStack>
           {state.routes.map((route, index) => {
             return (
@@ -81,15 +84,23 @@ export function ReactiveContainerIdkWhy({ state, descriptors, navigation, ...res
   );
 }
 
-// TODO: Strongly type this 
-export function TabBar({ state, descriptors, navigation, ...rest } : any) {
-
-  return <ReactiveContainerIdkWhy state={state} descriptors={descriptors} navigation={navigation} {...rest} />;
+// TODO: Strongly type this
+export function TabBar({ state, descriptors, navigation, ...rest }: any) {
+  return (
+    <ReactiveContainerIdkWhy
+      state={state}
+      descriptors={descriptors}
+      navigation={navigation}
+      {...rest}
+    />
+  );
 }
 
-export function FloatingActionBar({ children, height = 55 , borderRadius = 1000}) {
-  let colorScheme = useColorScheme();
-
+export function FloatingActionBar({
+  children,
+  height = 55,
+  borderRadius = 1000,
+}) {
   return (
     <Animated.View
       key="floating-action-bar"
@@ -107,7 +118,7 @@ export function FloatingActionBar({ children, height = 55 , borderRadius = 1000}
       }}
     >
       <BlurView
-        tint={colorScheme === "dark" ? "light" : "dark"}
+        tint={"dark"}
         intensity={60}
         style={{
           gap: 20,
