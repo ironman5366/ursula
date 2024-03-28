@@ -3,7 +3,6 @@ import { Pressable, StyleSheet } from "react-native";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useThemeColor } from "../../theme.ts";
 import { BookPreviewLinkRow } from "../../components/molecules/BookPreview/Link.tsx";
 import { XStack } from "tamagui";
