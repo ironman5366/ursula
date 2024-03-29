@@ -7,6 +7,7 @@ import { invokeAnthropic } from "./providers/anthropic/index.ts";
 
 const MODEL_MAP: Record<LLM.Model, LLM.InvokeFn> = {
   [LLM.Model.ANTHROPIC_HAIKU]: invokeAnthropic,
+  [LLM.Model.ANTHROPIC_SONNET]: invokeAnthropic,
 };
 
 Deno.serve(async (req) => {
@@ -23,7 +24,6 @@ Deno.serve(async (req) => {
         controller.enqueue(encoder.encode(data));
       }
 
-      console.log("Closing controller");
       controller.close();
     },
   });
