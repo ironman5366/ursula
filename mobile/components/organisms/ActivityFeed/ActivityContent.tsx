@@ -9,7 +9,6 @@ import React from "react";
 import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/book/BookLink.tsx";
-import { Book } from "@tamagui/lucide-icons";
 import ProfileLink from "../../atoms/profile/ProfileLink.tsx";
 
 interface Props<T> {
@@ -37,10 +36,10 @@ function RankedContent({
 }: Props<ActivityOf<RankedActivity>>) {
   return (
     <StyledText>
-      <ProfileLink profile={profile} /> ranked {/* @ts-ignore */}
-      <BookLink book={{ id: activity.data.book_id }}>
-        {activity.data.book_name}
-      </BookLink>
+      <ProfileLink profile={profile} /> ranked{" "}
+      <BookLink
+        book={{ id: activity.data.book_id, title: activity.data.book_name }}
+      />{" "}
       as {activity.data.rank} out of {activity.data.total} books read.
     </StyledText>
   );
@@ -59,6 +58,7 @@ function AddedToListContent({
           title: activity.data.book_name,
         }}
       />
+      {"  "}
       to their reading list.
     </StyledText>
   );
