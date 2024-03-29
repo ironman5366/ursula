@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledLink } from "./StyledLink.tsx";
+import { StyledLink } from "../StyledLink.tsx";
 
 interface Props {
   book: {

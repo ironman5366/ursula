@@ -1,9 +1,9 @@
 import React, { ComponentProps, forwardRef } from "react";
 import { StyleSheet } from "react-native";
-import BookImage from "../../atoms/BookImage.tsx";
+import BookImage from "../../atoms/book/BookImage.tsx";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { TitleText } from "../../atoms/TitleText.tsx";
-import BookAuthors from "../../atoms/BookAuthors.tsx";
+import BookAuthors from "../../atoms/book/BookAuthors.tsx";
 import { StyledView } from "../../organisms/StyledView.tsx";
 import { ListItem, YStack } from "tamagui";
 

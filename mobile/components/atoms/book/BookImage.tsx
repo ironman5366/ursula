@@ -2,8 +2,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "@tamagui/image";
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { Book } from "../../../shared-types/derived";
-import { BookCovers, useBookCover } from "../../hooks/useBookCover.ts";
+import { Book } from "@ursula/shared-types/derived.ts";
+import { BookCovers, useBookCover } from "../../../hooks/useBookCover.ts";
 
 export interface Props {
   book: Book;

@@ -1,6 +1,6 @@
 import React from "react";
-import { useBookAuthors } from "../../hooks/authors.ts";
-import { StyledText } from "./StyledText.tsx";
+import { useBookAuthors } from "../../../hooks/authors.ts";
+import { StyledText } from "../StyledText.tsx";
 
 interface Props {
   bookId: number;

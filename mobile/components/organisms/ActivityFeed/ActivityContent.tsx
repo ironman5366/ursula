@@ -8,7 +8,7 @@ import { Activity, ActivityOf, Profile } from "@ursula/shared-types/derived.ts";
 import React from "react";
 import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
-import { BookLink } from "../../atoms/BookLink.tsx";
+import { BookLink } from "../../atoms/book/BookLink.tsx";
 import { Book } from "@tamagui/lucide-icons";
 
 interface Props<T> {

@@ -1,5 +1,5 @@
 import React from "react";
-import SearchContainer from "../../../components/containers/SearchContainer.tsx";
+import SearchContainer from "../../../components/containers/SearchContainer/SearchContainer.tsx";
 import { Tabs } from "expo-router";
 import { useSocialFeed } from "../../../hooks/activities.ts";
 import ActivityFeed from "../../../components/organisms/ActivityFeed";

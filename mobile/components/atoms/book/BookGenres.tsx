@@ -1,5 +1,5 @@
 import React from "react";
-import { useBookGenres } from "../../hooks/genres.ts";
+import { useBookGenres } from "../../../hooks/genres.ts";
 import { Text } from "tamagui";
 
 interface Props {

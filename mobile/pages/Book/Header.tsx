@@ -1,11 +1,11 @@
 import React from "react";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { YStack } from "tamagui";
-import BookImage from "../../components/atoms/BookImage.tsx";
+import BookImage from "../../components/atoms/book/BookImage.tsx";
 import { BlurView } from "expo-blur";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
-import BookAuthors from "../../components/atoms/BookAuthors.tsx";
-import BookGenres from "../../components/atoms/BookGenres.tsx";
+import BookAuthors from "../../components/atoms/book/BookAuthors.tsx";
+import BookGenres from "../../components/atoms/book/BookGenres.tsx";
 
 export default function BookHeader({ book }: { book: Book }) {
   return (
