@@ -10,7 +10,7 @@ import { StyledView } from "../../components/organisms/StyledView.tsx";
 export const CHOOSE_BOOK_FUNCTION: LLM.Function = {
   name: "choose_book",
   description:
-    "Provide the name of a book, for example choose_book('Gone with the wind')",
+    "Provide the name of a book, for example choose_book('Gone with the wind'). Dont include the author or year or any other details in the function parameter.",
   parameters: {
     type: "object",
     properties: {
