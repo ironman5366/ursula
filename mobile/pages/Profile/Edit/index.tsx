@@ -4,7 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { SafeAreaView, TouchableOpacity } from "react-native";
 import { Button, Input, YStack } from "tamagui";
-import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import ProfileImage from "../../../components/atoms/ProfileImage.tsx";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
 import { FloatingActionBar } from "../../../components/containers/TabBar.tsx";

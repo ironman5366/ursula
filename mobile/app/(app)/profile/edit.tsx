@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import React from "react";
-import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import { useCurrentProfile } from "../../../hooks/profile.ts";
 import EditProfilePage from "../../../pages/Profile/Edit";
 

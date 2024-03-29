@@ -8,7 +8,7 @@ import StyledInput from "../../components/atoms/StyledInput.tsx";
 import ChatMessage from "./ChatMessage";
 import { useReviews } from "../../hooks/reviews.ts";
 import { useSession } from "../../contexts/SessionContext.ts";
-import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.tsx";
 
 export default function ChatPage() {

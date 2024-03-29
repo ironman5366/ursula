@@ -2,7 +2,7 @@ import { Profile } from "@ursula/shared-types/derived.ts";
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { YStack, Text, Button } from "tamagui";
-import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import ProfileImage from "../../../components/atoms/ProfileImage.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import FollowersSection from "../Edit/FollowersSection.tsx";

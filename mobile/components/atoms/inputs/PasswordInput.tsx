@@ -1,5 +1,5 @@
 import React, { ComponentProps } from "react";
-import StyledInput from "./StyledInput";
+import StyledInput from "../StyledInput.tsx";
 import { Input } from "tamagui";
 import { Lock } from "@tamagui/lucide-icons";
 

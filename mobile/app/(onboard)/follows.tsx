@@ -4,7 +4,7 @@ import SearchPage from "../../pages/Search";
 import { WILLS_USER_ID } from "../../constants.ts";
 import { useProfile } from "../../hooks/profile.ts";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import LoaderRow from "../../components/atoms/LoaderRow.tsx";
+import LoaderRow from "../../components/atoms/loaders/LoaderRow.tsx";
 import ProfilePreviewRow from "../../components/molecules/ProfilePreview/Row.tsx";
 import { FloatingActionBar } from "../../components/containers/TabBar.tsx";
 import { Link, router } from "expo-router";
@@ -12,7 +12,7 @@ import { MoveRight } from "@tamagui/lucide-icons";
 import { FlatList, SafeAreaView, StyleSheet } from "react-native";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import { useBulkFollow } from "../../hooks/follows.ts";
-import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 
 interface FollowProfileItemProps {
   profileId: string;
