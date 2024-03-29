@@ -14,6 +14,9 @@ interface Props<M extends LLM.Message> {
 }
 
 function AssistantMessage({ message }: Props<LLM.AssistantMessage>) {
+  if (!message.content.trim()) {
+    return <></>;
+  }
   return (
     <>
       <XStack
@@ -25,7 +28,7 @@ function AssistantMessage({ message }: Props<LLM.AssistantMessage>) {
       >
         <Avatar backgroundColor="green" circular size={30}></Avatar>
         <YStack backgroundColor="gray" mr="$7" borderRadius="$3" p="$2">
-          {message.content && <Text color="white">{message.content}</Text>}
+          {message.content && <Text lineBreakMode="tail" color="white">{message.content.trim()}</Text>}
         </YStack>
       </XStack>
     </>

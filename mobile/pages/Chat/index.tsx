@@ -20,8 +20,7 @@ export default function ChatPage() {
   const systemMessage = useMemo(() => {
     let systemReviews = reviews || [];
     const initialPrompt =
-      "You're a librarian, helping a user choose a book to read.";
-
+      "You're a librarian, helping a user choose a book to read. Be concise and helpful";
     if (systemReviews.length === 0) {
       return initialPrompt;
     } else {
@@ -73,7 +72,7 @@ export default function ChatPage() {
       >
         <YStack paddingBottom="$20" marginHorizontal="$3">
           <ScrollView>
-            <YStack>
+            <YStack gap="$2">
               {messages.map((message, i) => (
                 <ChatMessage message={message} key={i} />
               ))}
