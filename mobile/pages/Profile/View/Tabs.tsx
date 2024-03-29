@@ -9,6 +9,7 @@ import { TabView } from "react-native-tab-view";
 import { Button, Separator, XStack, YStack } from "tamagui";
 import FavoriteBooks from "../../../components/organisms/FavoriteBooks.tsx";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
+import UserActivities from "../../../components/molecules/UserActivities.tsx";
 
 interface TabButtonProps extends ComponentProps<typeof Button> {
   value: string;
@@ -63,7 +64,7 @@ export default function ProfileTabs({ profile }: Props) {
       {currTab === "favoriteBooks" ? (
         <FavoriteBooks profile={profile} />
       ) : (
-        <StyledText>TODO: recent activities here</StyledText>
+        <UserActivities profile={profile} />
       )}
     </YStack>
   );
