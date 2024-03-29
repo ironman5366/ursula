@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import { useReviews } from "../../hooks/reviews.ts";
-import { ActivityIndicator, FlatList } from "react-native";
+import { ActivityIndicator, FlatList, ScrollView } from "react-native";
 import BookRankRow from "../molecules/BookRankRow.tsx";
+import { YStack } from "tamagui";
 
 interface Props {
   profile: Profile;
@@ -16,11 +17,14 @@ export default function FavoriteBooks({ profile }: Props) {
   }
 
   return (
-    <FlatList
-      data={reviews}
-      renderItem={({ item: review, index }) => (
-        <BookRankRow rank={index + 1} review={review} key={index} />
-      )}
-    />
+    <YStack>
+      <FlatList
+        data={reviews}
+        scrollEnabled={false}
+        renderItem={({ item: review, index }) => (
+          <BookRankRow rank={index + 1} review={review} key={index} />
+        )}
+      />
+    </YStack>
   );
 }
