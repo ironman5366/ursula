@@ -61,6 +61,7 @@ namespace LLM {
 
   export enum Model {
     ANTHROPIC_HAIKU = "claude-3-haiku-20240307",
+    ANTHROPIC_SONNET = "claude-3-sonnet-20240229",
   }
 
   export type InvocationParams = {
