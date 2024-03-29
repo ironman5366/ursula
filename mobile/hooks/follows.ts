@@ -1,6 +1,8 @@
 import { supabase } from "../utils/supabase.ts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
+import { Profile } from "@ursula/shared-types/derived.ts";
+import { ProfileWithFollowTime } from "../types/ProfileWithFollowTime.ts";
 
 async function followUser(profile_id: string, followee_id: string) {
   const { error } = await supabase.from("follows").upsert(
@@ -91,17 +93,25 @@ export function useCurrentUserFollowing() {
   return useFollowing(session.user.id);
 }
 
-async function fetchFollowers(profileId: string): Promise<string[]> {
+async function fetchFollowers(
+  profileId: string
+): Promise<ProfileWithFollowTime[]> {
   const { data, error } = await supabase
     .from("follows")
-    .select("follower_id")
-    .eq("followee_id", profileId);
+    .select("created_at,profiles:follower_id(*)")
+    .eq("followee_id", profileId)
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;
   }
 
-  return data.map((f) => f.follower_id);
+  console.log("follow data is ", data);
+
+  return data.map(({ created_at, profiles: profile }) => ({
+    created_at,
+    ...profile,
+  }));
 }
 
 export function useFollowers(profileId: string) {
