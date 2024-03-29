@@ -20,7 +20,7 @@ export default function FavoriteBooks({ profile }: Props) {
     <YStack>
       <FlatList
         data={reviews}
-        scrollEnabled={false}
+        scrollEnabled={true}
         renderItem={({ item: review, index }) => (
           <BookRankRow rank={index + 1} review={review} key={index} />
         )}
