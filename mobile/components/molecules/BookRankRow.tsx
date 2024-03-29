@@ -1,22 +1,19 @@
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
-import { StyledView } from "../../components/organisms/StyledView.tsx";
-import { useThemeColor } from "../../theme.ts";
-import { BookPreviewLinkRow } from "../../components/molecules/BookPreview/Link.tsx";
 import { XStack } from "tamagui";
 import { GripVertical } from "@tamagui/lucide-icons";
+import { StyledView } from "../organisms/StyledView.tsx";
+import { StyledText } from "../atoms/StyledText.tsx";
+import { BookPreviewLinkRow } from "./BookPreview/Link.tsx";
 
 interface Props {
   review: ReviewWithBook;
   rank: number;
-  drag: () => void;
+  drag?: () => void;
 }
 
 export default function BookRankRow({ rank, review, drag }: Props) {
-  const color = useThemeColor("text");
-
   return (
     <Pressable onLongPress={drag}>
       <XStack
@@ -36,9 +33,11 @@ export default function BookRankRow({ rank, review, drag }: Props) {
         <StyledView style={styles.preview}>
           <BookPreviewLinkRow book={review.book} />
         </StyledView>
-        <XStack flex={1} flexGrow={1} py="$2" px="$3" alignItems="center">
-          <GripVertical color="#00000044" />
-        </XStack>
+        {drag && (
+          <XStack flex={1} flexGrow={1} py="$2" px="$3" alignItems="center">
+            <GripVertical color="#00000044" />
+          </XStack>
+        )}
       </XStack>
     </Pressable>
   );
