@@ -1,6 +1,9 @@
 import { supabase } from "../utils/supabase.ts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
+import { Profile } from "@ursula/shared-types/derived.ts";
+import { ProfileWithFollowTime } from "../types/ProfileWithFollowTime.ts";
+import { PostgrestError } from "@supabase/supabase-js";
 
 async function followUser(profile_id: string, followee_id: string) {
   const { error } = await supabase.from("follows").upsert(
@@ -66,17 +69,38 @@ export function useBulkFollow() {
   });
 }
 
-async function fetchFollowing(profileId: string): Promise<string[]> {
-  const { data, error } = await supabase
+async function fetchFollowRelation(
+  profileId: string,
+  fetchCol: "followee_id" | "follower_id",
+  eqCol: "followee_id" | "follower_id"
+): Promise<ProfileWithFollowTime[]> {
+  // We have to type this response because the supabase type integration
+  // isn't smart enough to track the join
+  const { data, error } = (await supabase
     .from("follows")
-    .select("followee_id")
-    .eq("follower_id", profileId);
+    .select(`created_at,profiles:${fetchCol}(*)`)
+    .eq(eqCol, profileId)
+    .order("created_at", { ascending: false })) as {
+    data: { created_at: string; profiles: Profile }[];
+    error?: PostgrestError;
+  };
 
   if (error) {
     throw error;
   }
 
-  return data.map((f) => f.followee_id);
+  return data.map(({ created_at, profiles: profile }) => ({
+    created_at,
+    ...profile,
+  }));
+}
+
+async function fetchFollowing(
+  profileId: string
+): Promise<ProfileWithFollowTime[]> {
+  // We're finding people this profile is following, so rows where
+  // follower_id=profileId
+  return fetchFollowRelation(profileId, "followee_id", "follower_id");
 }
 
 export function useFollowing(profileId: string) {
@@ -91,17 +115,11 @@ export function useCurrentUserFollowing() {
   return useFollowing(session.user.id);
 }
 
-async function fetchFollowers(profileId: string): Promise<string[]> {
-  const { data, error } = await supabase
-    .from("follows")
-    .select("follower_id")
-    .eq("followee_id", profileId);
-
-  if (error) {
-    throw error;
-  }
-
-  return data.map((f) => f.follower_id);
+async function fetchFollowers(
+  profileId: string
+): Promise<ProfileWithFollowTime[]> {
+  // We're finding people who follow profileId, so rows where followee_id=profileId
+  return fetchFollowRelation(profileId, "follower_id", "followee_id");
 }
 
 export function useFollowers(profileId: string) {

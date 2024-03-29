@@ -1,11 +1,16 @@
 import React from "react";
-import { StyledView } from "../../../components/organisms/StyledView.tsx";
-import { StyledText } from "../../../components/atoms/StyledText.tsx";
+import { useStringIdParam } from "../../../hooks/useIdParam.ts";
+import { useFollowing } from "../../../hooks/follows.ts";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
+import ProfilesList from "../../../components/molecules/ProfilesList.tsx";
 
 export default function Following() {
-  return (
-    <StyledView>
-      <StyledText>TODO: List of following for a given profile</StyledText>
-    </StyledView>
-  );
+  const id = useStringIdParam();
+  const { data: followers, isLoading } = useFollowing(id);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  return <ProfilesList profiles={followers} />;
 }
