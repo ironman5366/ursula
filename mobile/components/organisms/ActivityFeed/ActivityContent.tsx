@@ -10,6 +10,7 @@ import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/book/BookLink.tsx";
 import { Book } from "@tamagui/lucide-icons";
+import ProfileLink from "../../atoms/profile/ProfileLink.tsx";
 
 interface Props<T> {
   activity: T;
@@ -22,7 +23,7 @@ function StartedReadingContent({
 }: Props<ActivityOf<StartedReadingActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} started reading {/* @ts-ignore */}
+      <ProfileLink profile={profile} /> started reading
       <StyledLink href={`/bookDetail/${activity.data.book_id}`}>
         {activity.data.book_name}
       </StyledLink>
@@ -36,7 +37,7 @@ function RankedContent({
 }: Props<ActivityOf<RankedActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} ranked {/* @ts-ignore */}
+      <ProfileLink profile={profile} /> ranked {/* @ts-ignore */}
       <BookLink book={{ id: activity.data.book_id }}>
         {activity.data.book_name}
       </BookLink>
@@ -51,7 +52,7 @@ function AddedToListContent({
 }: Props<ActivityOf<AddedToListActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} added{" "}
+      <ProfileLink profile={profile} /> added{" "}
       <BookLink
         book={{
           id: activity.data.book_id,

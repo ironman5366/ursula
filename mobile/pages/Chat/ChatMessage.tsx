@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LLM from "@ursula/shared-types/llm.ts";
 import { Avatar, Text, XStack, YStack } from "tamagui";
 import { useCurrentProfile } from "../../hooks/profile.ts";
-import ProfileImage from "../../components/atoms/ProfileImage.tsx";
+import ProfileImage from "../../components/atoms/profile/ProfileImage.tsx";
 import {
   FUNCTION_BINDINGS,
   FunctionBinding,

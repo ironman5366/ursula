@@ -3,7 +3,7 @@ import React from "react";
 import { SafeAreaView } from "react-native";
 import { YStack, Text, Button } from "tamagui";
 import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
-import ProfileImage from "../../../components/atoms/ProfileImage.tsx";
+import ProfileImage from "../../../components/atoms/profile/ProfileImage.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import FollowersSection from "../Edit/FollowersSection.tsx";
 import { Pencil, AtSign } from "@tamagui/lucide-icons";

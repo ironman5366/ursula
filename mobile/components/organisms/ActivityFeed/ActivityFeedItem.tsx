@@ -3,7 +3,7 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 import { ListItem } from "tamagui";
 import { useProfile } from "../../../hooks/profile.ts";
-import ProfileImage from "../../atoms/ProfileImage.tsx";
+import ProfileImage from "../../atoms/profile/ProfileImage.tsx";
 import ActivityContent from "./ActivityContent.tsx";
 
 interface Props {
