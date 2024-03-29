@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
-import { StyledView } from "../organisms/StyledView.tsx";
+import { StyledView } from "../../organisms/StyledView.tsx";
 
 export default function LoadingScreen() {
   return (

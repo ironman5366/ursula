@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import { ListItem, Text } from "tamagui";
-import ProfileImage from "../../atoms/ProfileImage.tsx";
+import ProfileImage from "../../atoms/profile/ProfileImage.tsx";
 
 interface Props {
   profile: Profile;

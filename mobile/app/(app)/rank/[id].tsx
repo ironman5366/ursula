@@ -1,7 +1,7 @@
 import React from "react";
 import useNumericIdParam from "../../../hooks/useIdParam.ts";
 import { StyleSheet } from "react-native";
-import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import BinaryRank from "./BinaryRank.tsx";
 import { useCurrentProfile } from "../../../hooks/profile.ts";
 import { useCurrentUserReviews, useReview } from "../../../hooks/reviews.ts";

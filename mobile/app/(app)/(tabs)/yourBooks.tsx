@@ -11,10 +11,10 @@ import {
   styled,
   Text,
 } from "tamagui";
-import SearchContainer from "../../../components/containers/SearchContainer.tsx";
 import RankingList from "../../../pages/RankingList";
 import ReadingList from "../../../pages/ReadingList.tsx";
 import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
+import SearchContainer from "../../../components/containers/SearchContainer";
 
 export default function YourBooks() {
   const [tabState, setTabState] = useState<{

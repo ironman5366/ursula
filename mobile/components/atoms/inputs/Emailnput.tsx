@@ -1,5 +1,5 @@
 import React, { ComponentProps, forwardRef } from "react";
-import StyledInput from "./StyledInput";
+import StyledInput from "../StyledInput.tsx";
 import { Input } from "tamagui";
 import { Mail } from "@tamagui/lucide-icons";
 

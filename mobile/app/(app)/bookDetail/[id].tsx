@@ -1,5 +1,5 @@
 import React from "react";
-import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import useBook from "../../../hooks/useBook.ts";
 import useNumericIdParam from "../../../hooks/useIdParam.ts";
 import BookDetailPage from "../../../pages/Book";

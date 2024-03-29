@@ -3,12 +3,12 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Alert, SafeAreaView } from "react-native";
 import { Button, YStack, Text } from "tamagui";
-import LoadingScreen from "../../components/atoms/LoadingScreen";
+import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import DismissKeyboardContainer from "../../components/containers/DismissKeyboardContainer";
 import { FloatingActionBar } from "../../components/containers/TabBar";
 import { supabase } from "../../utils/supabase";
-import PasswordInput from "../../components/atoms/PasswordInput.tsx";
-import EmailInput from "../../components/atoms/Emailnput.tsx";
+import PasswordInput from "../../components/atoms/inputs/PasswordInput.tsx";
+import EmailInput from "../../components/atoms/inputs/Emailnput.tsx";
 
 export default function LoginSignup() {
   const [isLogin, setIsLogin] = useState(false);

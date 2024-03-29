@@ -1,11 +1,8 @@
 import React from "react";
-import SearchContainer from "../../../components/containers/SearchContainer.tsx";
 import { Tabs } from "expo-router";
 import { useSocialFeed } from "../../../hooks/activities.ts";
 import ActivityFeed from "../../../components/organisms/ActivityFeed";
-import { XStack, Text } from "tamagui";
-import { SafeAreaView } from "react-native";
-import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
+import SearchContainer from "../../../components/containers/SearchContainer";
 
 export default function Home() {
   const { data: socialFeed } = useSocialFeed();

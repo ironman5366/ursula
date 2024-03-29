@@ -1,7 +1,7 @@
 import { useSession } from "../../contexts/SessionContext.ts";
 import { Redirect, Stack } from "expo-router";
 import React from "react";
-import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 
 export default function App() {
   const { session, loading } = useSession();

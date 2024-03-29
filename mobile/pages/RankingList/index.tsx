@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
 import { useCurrentUserReviews } from "../../hooks/reviews.ts";
-import BookRankRow from "./BookRankRow.tsx";
-import { StyledView } from "../../components/organisms/StyledView.tsx";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { useUpdateProfile } from "../../hooks/profile.ts";
-import LoadingScreen from "../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import { YStack } from "tamagui";
-import { Review } from "@ursula/shared-types/derived.ts";
 import ReviewWithBook from "../../types/ReviewWithBook.ts";
+import BookRankRow from "../../components/molecules/BookRankRow.tsx";
 
 export default function RankingList() {
   const { data: reviews, isLoading } = useCurrentUserReviews();
@@ -27,9 +24,9 @@ export default function RankingList() {
   }
 
   return (
-    <YStack width="100%"  flexGrow={3} flex={4}>
+    <YStack width="100%" flexGrow={3} flex={4}>
       <DraggableFlatList
-      style={{ height: '100%'}}
+        style={{ height: "100%" }}
         keyExtractor={(item) => item.review.id.toString()}
         data={hotReviews}
         renderItem={({ item: review, getIndex, drag }) => {

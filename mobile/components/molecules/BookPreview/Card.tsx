@@ -1,8 +1,8 @@
 import React, { ComponentProps, forwardRef } from "react";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { Card, Text, XStack, YStack } from "tamagui";
-import BookAuthors from "../../atoms/BookAuthors.tsx";
-import BookImage from "../../atoms/BookImage.tsx";
+import BookAuthors from "../../atoms/book/BookAuthors.tsx";
+import BookImage from "../../atoms/book/BookImage.tsx";
 import ReadingListButton from "../../../app/(app)/bookDetail/ReadingListButton.tsx";
 import ReviewButton from "../../../app/(app)/bookDetail/ReviewButton.tsx";
 

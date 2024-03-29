@@ -1,15 +1,9 @@
 import React from "react";
 import { Activity } from "@ursula/shared-types/derived.ts";
-import {
-  ActivityIndicator,
-  FlatList,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import ActivityFeedItem from "./ActivityFeedItem.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
-import { TitleText } from "../../atoms/TitleText.tsx";
-import { XStack, YStack } from "tamagui";
+import { YStack } from "tamagui";
 import { StyledView } from "../StyledView.tsx";
 
 interface Props {

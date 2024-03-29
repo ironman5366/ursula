@@ -3,7 +3,7 @@ import { Author, Book } from "@ursula/shared-types/derived.ts";
 import { Button, Pressable, StyleSheet } from "react-native";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
 import CardButton from "../../../components/atoms/CardButton.tsx";
-import BookImage from "../../../components/atoms/BookImage.tsx";
+import BookImage from "../../../components/atoms/book/BookImage.tsx";
 import { StyledView } from "../../../components/organisms/StyledView.tsx";
 import StyledButton from "../../../components/organisms/StyledButton.tsx";
 

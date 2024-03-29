@@ -40,7 +40,8 @@ async function fetchUserActivities(userId: string): Promise<Activity[]> {
   const { data, error } = await supabase
     .from("activities")
     .select("*")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;

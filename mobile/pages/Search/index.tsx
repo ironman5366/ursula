@@ -2,13 +2,12 @@ import { XCircle } from "@tamagui/lucide-icons";
 import { Stack, router } from "expo-router";
 import React, { ComponentProps, useEffect, useState } from "react";
 import { ActivityIndicator, SafeAreaView } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { Button, Text, XStack } from "tamagui";
-import SearchContainer from "../../components/containers/SearchContainer.tsx";
 import useDebounce from "../../hooks/useDebounce.ts";
 import useSearch from "../../hooks/useSearch.ts";
 import SearchResultList from "./List.tsx";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
+import SearchContainer from "../../components/containers/SearchContainer";
 
 export function SearchHeader() {
   return (

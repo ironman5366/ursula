@@ -2,12 +2,13 @@ import { Profile } from "@ursula/shared-types/derived.ts";
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { YStack, Text, Button } from "tamagui";
-import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
-import ProfileImage from "../../../components/atoms/ProfileImage.tsx";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
+import ProfileImage from "../../../components/atoms/profile/ProfileImage.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import FollowersSection from "../Edit/FollowersSection.tsx";
-import { Pencil, AtSign } from "@tamagui/lucide-icons";
+import { Pencil } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
+import ProfileTabs from "./Tabs.tsx";
 
 interface Props {
   profile: Profile;
@@ -40,23 +41,26 @@ export default function ViewProfile({ profile }: Props) {
             >
               @{profile.username}
             </Text>
-            <Button
-              size="$3"
-              mt="$5"
-              backgroundColor="black"
-              color="white"
-              borderRadius="$8"
-              icon={isOwnProfile ? Pencil : AtSign}
-              onPress={() => {
-                console.log("Edit profile");
-                router.push("/profile/edit");
-              }}
-            >
-              {isOwnProfile ? "Edit Profile" : "Follow"}
-            </Button>
+            {isOwnProfile && (
+              <Button
+                size="$3"
+                mt="$5"
+                backgroundColor="black"
+                color="white"
+                borderRadius="$8"
+                icon={Pencil}
+                onPress={() => {
+                  console.log("Edit profile");
+                  router.push("/profile/edit");
+                }}
+              >
+                {isOwnProfile ? "Edit Profile" : "Follow"}
+              </Button>
+            )}
           </YStack>
           <FollowersSection profile={profile} />
         </YStack>
+        <ProfileTabs profile={profile} />
       </YStack>
     </SafeAreaView>
   );

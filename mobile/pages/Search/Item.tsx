@@ -5,7 +5,7 @@ import {
   ProfileSearchResult,
   SearchResult,
 } from "@ursula/shared-types/SearchResult.ts";
-import LoaderRow from "../../components/atoms/LoaderRow.tsx";
+import LoaderRow from "../../components/atoms/loaders/LoaderRow.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import useBook from "../../hooks/useBook.ts";
 import { useAuthor } from "../../hooks/authors.ts";

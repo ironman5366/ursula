@@ -6,7 +6,7 @@ import { useCreateReview } from "../../../hooks/reviews.ts";
 import { router, Stack } from "expo-router";
 import StyledButton from "../../../components/organisms/StyledButton.tsx";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
-import LoadingScreen from "../../../components/atoms/LoadingScreen.tsx";
+import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import { StyledView } from "../../../components/organisms/StyledView.tsx";
 import StyledInput from "../../../components/atoms/StyledInput.tsx";
 
