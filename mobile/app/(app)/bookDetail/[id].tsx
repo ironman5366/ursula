@@ -42,6 +42,7 @@ export default function BookDetail() {
           <ReadingListButton bookId={book.id} />
           <ReviewButton bookId={book.id} />
         </XStack>
+        <XStack></XStack>
         <YStack px="$3" py="$3">
           <StyledText>{book.description}</StyledText>
         </YStack>
