@@ -8,6 +8,7 @@ export type ReadingListItem =
   Database["public"]["Tables"]["reading_list_items"]["Row"];
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type Review = Database["public"]["Tables"]["reviews"]["Row"];
+export type Genre = Database["public"]["Tables"]["genres"]["Row"];
 
 // We pull these fields out so we can specify them with better defined types
 export type BaseActivity = Omit<
