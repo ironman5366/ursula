@@ -8,6 +8,7 @@ import { Activity, ActivityOf, Profile } from "@ursula/shared-types/derived.ts";
 import React from "react";
 import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
+import { BookLink } from "../../atoms/BookLink.tsx";
 
 interface Props<T> {
   activity: T;
@@ -35,9 +36,9 @@ function RankedContent({
   return (
     <StyledText>
       {profile.full_name} ranked {/* @ts-ignore */}
-      <StyledLink href={`/bookDetail/${activity.data.book_id}/`}>
+      <BookLink book={{ id: activity.data.book_id }}>
         {activity.data.book_name}
-      </StyledLink>{" "}
+      </BookLink>
       as {activity.data.rank} out of {activity.data.total} books read.
     </StyledText>
   );

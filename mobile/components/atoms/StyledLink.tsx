@@ -4,7 +4,7 @@ export function StyledLink({
   style,
   href,
   ...props
-}: React.ComponentProps<typeof Link> & { style?: any; href: string }) {
+}: React.ComponentProps<typeof Link> & { style?: any }) {
   return (
     <Link
       href={href}
