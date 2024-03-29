@@ -9,6 +9,7 @@ import React from "react";
 import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/BookLink.tsx";
+import { Book } from "@tamagui/lucide-icons";
 
 interface Props<T> {
   activity: T;
@@ -50,10 +51,13 @@ function AddedToListContent({
 }: Props<ActivityOf<AddedToListActivity>>) {
   return (
     <StyledText>
-      {profile.full_name} added {/* @ts-ignore */}
-      <StyledLink href={`/bookDetail/${activity.data.book_id}/`}>
-        {activity.data.book_name}
-      </StyledLink>{" "}
+      {profile.full_name} added{" "}
+      <BookLink
+        book={{
+          id: activity.data.book_id,
+          title: activity.data.book_name,
+        }}
+      />
       to their reading list.
     </StyledText>
   );

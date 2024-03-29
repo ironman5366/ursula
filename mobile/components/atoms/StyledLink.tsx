@@ -1,10 +1,10 @@
-import { Link } from "expo-router";
+import { Link, LinkProps } from "expo-router";
 
-export function StyledLink({
+export function StyledLink<T>({
   style,
   href,
   ...props
-}: React.ComponentProps<typeof Link> & { style?: any }) {
+}: LinkProps<T> & { style?: any }) {
   return (
     <Link
       href={href}
