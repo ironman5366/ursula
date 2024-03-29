@@ -34,7 +34,7 @@ export default function ChatPage() {
   }, [reviews]);
 
   const { messages, isInvoking, addMessage } = useInvoke({
-    model: LLM.Model.ANTHROPIC_HAIKU,
+    model: LLM.Model.ANTHROPIC_SONNET,
     systemMessage,
     functions: [CHOOSE_BOOK_FUNCTION],
     messages: [
