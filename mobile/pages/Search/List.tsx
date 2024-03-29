@@ -9,7 +9,7 @@ import SearchResultItem from "./Item.tsx";
 
 interface Props {
   results: SearchResult[];
-  allowedTypes: SearchResultType[];
+  allowedTypes?: SearchResultType[];
   renderSearchItem?: (result: SearchResult) => ReactElement;
 }
 
@@ -60,7 +60,7 @@ export default function SearchResultList({
             const { title } = MAPPINGS[key];
             const sectionResults = filteredResults
               .filter((result) => result.entity_type === key)
-              .sort((a, b) => a.order_key - b.order_key);
+              .sort((a, b) => b.order_key - a.order_key);
 
             if (sectionResults.length > 0) {
               return (

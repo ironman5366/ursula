@@ -1252,6 +1252,15 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
+      get_book_genres: {
+        Args: {
+          q_book_id: number;
+        };
+        Returns: {
+          id: number;
+          name: string;
+        }[];
+      };
       search_all: {
         Args: {
           search_text: string;

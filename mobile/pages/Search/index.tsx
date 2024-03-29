@@ -8,11 +8,11 @@ import SearchContainer from "../../components/containers/SearchContainer.tsx";
 import useDebounce from "../../hooks/useDebounce.ts";
 import useSearch from "../../hooks/useSearch.ts";
 import SearchResultList from "./List.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
 
 export function SearchHeader() {
   return (
-  
-      <SafeAreaView>
+    <SafeAreaView>
       <XStack
         height="$3"
         px="$3"
@@ -68,11 +68,13 @@ export default function SearchPage(props: Props) {
           animation: "fade",
         }}
       />
-      {showLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <SearchResultList results={data || []} {...props} />
-      )}
+      <StyledView style={{ padding: 10 }}>
+        {showLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <SearchResultList results={data || []} {...props} />
+        )}
+      </StyledView>
     </SearchContainer>
   );
 }
