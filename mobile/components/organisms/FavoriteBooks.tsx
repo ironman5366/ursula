@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import { useReviews } from "../../hooks/reviews.ts";
-import { ActivityIndicator, FlatList, ScrollView } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import BookRankRow from "../molecules/BookRankRow.tsx";
 import { YStack } from "tamagui";
 

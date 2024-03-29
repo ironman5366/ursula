@@ -1,14 +1,14 @@
 import { Profile } from "@ursula/shared-types/derived.ts";
 import React from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native";
 import { YStack, Text, Button } from "tamagui";
 import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import ProfileImage from "../../../components/atoms/profile/ProfileImage.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import FollowersSection from "../Edit/FollowersSection.tsx";
-import { Pencil, Scroll } from "@tamagui/lucide-icons";
+import { Pencil } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
-import FavoriteBooks from "../../../components/organisms/FavoriteBooks.tsx";
+import ProfileTabs from "./Tabs.tsx";
 
 interface Props {
   profile: Profile;
@@ -25,7 +25,7 @@ export default function ViewProfile({ profile }: Props) {
 
   return (
     <SafeAreaView>
-      <YStack height="100%" py="$6" px="$3" justifyContent="space-around">
+      <YStack height="100%" py="$6" px="$3">
         <YStack gap="$3" alignItems="center" width="100%">
           <YStack my="$5" alignItems="center">
             <ProfileImage profile={profile} size={100} />
@@ -60,9 +60,7 @@ export default function ViewProfile({ profile }: Props) {
           </YStack>
           <FollowersSection profile={profile} />
         </YStack>
-        <ScrollView>
-          <FavoriteBooks profile={profile} limit={10} />
-        </ScrollView>
+        <ProfileTabs profile={profile} />
       </YStack>
     </SafeAreaView>
   );
