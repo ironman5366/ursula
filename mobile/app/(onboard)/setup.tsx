@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { SafeAreaView, TextInput } from "react-native";
-import { SizableText, YStack } from "tamagui";
+import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { H3, H5, H6, SizableText, YStack } from "tamagui";
 import PickProfileImage from "../../components/molecules/PickProfileImage.tsx";
 import { useCurrentProfile } from "../../hooks/profile.ts";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import FloatingLinkButton from "../../components/atoms/FloatingLinkButton.tsx";
 import { MoveRight } from "@tamagui/lucide-icons";
 import UsernameInput from "../../components/molecules/UsernameInput.tsx";
+import { StyledView } from "../../components/organisms/StyledView.tsx";
+import { TitleText } from "../../components/atoms/TitleText.tsx";
 
 export default function SetupAccount() {
   const { data: profile } = useCurrentProfile();
@@ -17,17 +19,23 @@ export default function SetupAccount() {
   }
 
   return (
-    <SafeAreaView>
-      <YStack>
+    <SafeAreaView style={styles.container}>
+      <TitleText>Setup your profile</TitleText>
+      <YStack alignItems={"center"} gap={"$5"}>
+        <H6>Pick a profile image (optional):</H6>
         <PickProfileImage profile={profile} />
-        <YStack>
-          <SizableText>Pick a username:</SizableText>
-          <UsernameInput username={username} setUsername={setUsername} />
-        </YStack>
+
+        <H6>Pick a username:</H6>
+        <UsernameInput username={username} setUsername={setUsername} />
       </YStack>
-      <FloatingLinkButton href={"/"} iconAfter={<MoveRight size="$1" />}>
-        Finish
-      </FloatingLinkButton>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    alignItems: "center",
+  },
+});

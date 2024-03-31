@@ -40,8 +40,7 @@ export default function LoginSignup() {
       if (isLogin) {
         router.replace("/(app)/(tabs)");
       } else {
-        console.log("sending to follows screen");
-        router.replace("/(onboard)/follows");
+        router.replace("/(onboard)/setup");
       }
     }
     setLoading(false);

@@ -840,6 +840,7 @@ export type Database = {
           bio: string | null;
           created_at: string;
           full_name: string | null;
+          has_onboarded: boolean | null;
           id: string;
           review_ids: number[];
           updated_at: string | null;
@@ -850,6 +851,7 @@ export type Database = {
           bio?: string | null;
           created_at?: string;
           full_name?: string | null;
+          has_onboarded?: boolean | null;
           id: string;
           review_ids?: number[];
           updated_at?: string | null;
@@ -860,6 +862,7 @@ export type Database = {
           bio?: string | null;
           created_at?: string;
           full_name?: string | null;
+          has_onboarded?: boolean | null;
           id?: string;
           review_ids?: number[];
           updated_at?: string | null;
