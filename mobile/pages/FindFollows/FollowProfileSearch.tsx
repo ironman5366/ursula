@@ -7,6 +7,7 @@ import { FlatList } from "react-native";
 import useDebounce from "../../hooks/useDebounce.ts";
 import useSearch from "../../hooks/useSearch.ts";
 import FollowProfileItem from "./FollowProfileItem.tsx";
+import { useSession } from "../../contexts/SessionContext.ts";
 
 interface Props {
   follows: string[];
@@ -18,6 +19,7 @@ export default function FollowProfileSearch({ follows, setFollows }: Props) {
   const [displayedProfiles, setDisplayedProfiles] = useState<string[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const debounced = useDebounce(searchInput, 500);
+  const { session } = useSession();
 
   const { data: searchResults, isLoading: isSearchLoading } = useSearch({
     query: debounced,
@@ -52,7 +54,10 @@ export default function FollowProfileSearch({ follows, setFollows }: Props) {
         onChangeText={(val) => setSearchInput(val)}
       />
       <FlatList
-        data={displayedProfiles}
+        data={displayedProfiles.filter(
+          (p) => !follows.includes(p) && p !== session.user.id
+        )}
+        scrollEnabled={true}
         renderItem={({ item, index }) => (
           <FollowProfileItem
             profileId={item}

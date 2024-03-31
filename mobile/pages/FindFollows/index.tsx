@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, SizableText } from "tamagui";
+import { Button, SizableText, XStack, YStack } from "tamagui";
 import { WILLS_USER_ID } from "../../constants.ts";
 import { useBulkFollow } from "../../hooks/follows.ts";
 import useDebounce from "../../hooks/useDebounce.ts";
@@ -7,11 +7,12 @@ import { Link, router } from "expo-router";
 import { MoveRight } from "@tamagui/lucide-icons";
 import { FloatingActionBar } from "../../components/containers/TabBar.tsx";
 import SearchPage from "../Search";
-import { FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { FlatList, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import FollowProfileItem from "./FollowProfileItem.tsx";
 import FollowProfileSearch from "./FollowProfileSearch.tsx";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 export default function FindFollowsPage() {
   const [follows, setFollows] = useState<string[]>([WILLS_USER_ID]);
@@ -38,28 +39,21 @@ export default function FindFollowsPage() {
     return <LoadingScreen />;
   }
 
-  console.log("in FindFollows");
+  console.log("Current find follows is ", follows);
 
   return (
     <SafeAreaView style={styles.container}>
       <SizableText>Find people to follow</SizableText>
-      <StyledView
-        style={{
-          flex: 0.2,
-        }}
-      >
-        <FlatList
-          data={follows}
-          renderItem={({ item }) => (
-            <FollowProfileItem
-              profileId={item}
-              key={item}
-              follows={follows}
-              setFollows={setFollows}
-            />
-          )}
-        />
-      </StyledView>
+      <YStack>
+        {follows.map((f, i) => (
+          <FollowProfileItem
+            profileId={f}
+            follows={follows}
+            setFollows={setFollows}
+            key={i}
+          />
+        ))}
+      </YStack>
       <FollowProfileSearch follows={follows} setFollows={setFollows} />
       <FloatingActionBar>
         <Link href="/" asChild>

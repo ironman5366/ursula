@@ -2,6 +2,7 @@ import { Search } from "@tamagui/lucide-icons";
 import React from "react";
 import { TextInput } from "react-native";
 import StyledInput from "../atoms/StyledInput.tsx";
+import { StyledView } from "../organisms/StyledView.tsx";
 
 interface SearchBarProps
   extends Omit<
@@ -19,14 +20,25 @@ export default function SearchBar({ editable, ...props }: SearchBarProps) {
   const onChangeText = props.onChangeText || (() => {});
 
   return (
-    <StyledInput
-      caretHidden={false}
-      placeholder={"Search"}
-      onChangeText={onChangeText}
-      autoFocus={editable}
-      value={value}
-      icon={<Search />}
-      {...props}
-    />
+    <StyledView
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        borderRadius: 5,
+        marginHorizontal: 10,
+        justifyContent: "center",
+      }}
+    >
+      <StyledInput
+        caretHidden={false}
+        placeholder={"Search"}
+        onChangeText={onChangeText}
+        autoFocus={editable}
+        disabled={!editable}
+        value={value}
+        icon={<Search />}
+        {...props}
+      />
+    </StyledView>
   );
 }
