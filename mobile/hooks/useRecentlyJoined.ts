@@ -1,13 +1,12 @@
-import { Profile } from "@ursula/shared-types/derived.ts";
 import { supabase } from "../utils/supabase.ts";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchRecentlyJoined(): Promise<Profile[]> {
+async function fetchRecentlyJoined(): Promise<{ id: string }[]> {
   const { data, error } = await supabase
     .from("profiles")
-    .select("*")
+    .select("id")
     .order("created_at", { ascending: false })
-    .limit(50);
+    .limit(100);
 
   if (error) {
     throw error;

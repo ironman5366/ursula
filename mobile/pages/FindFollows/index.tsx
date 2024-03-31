@@ -11,6 +11,7 @@ import { FlatList, SafeAreaView, StyleSheet } from "react-native";
 import { StyledView } from "../../components/organisms/StyledView.tsx";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import FollowProfileItem from "./FollowProfileItem.tsx";
+import FollowProfileSearch from "./FollowProfileSearch.tsx";
 
 export default function FindFollowsPage() {
   const [follows, setFollows] = useState<string[]>([WILLS_USER_ID]);
@@ -59,19 +60,7 @@ export default function FindFollowsPage() {
           )}
         />
       </StyledView>
-      <SearchPage
-        allowedTypes={["profiles"]}
-        renderSearchItem={(it) => {
-          return (
-            <FollowProfileItem
-              profileId={it.entity_id_uuid}
-              follows={follows}
-              setFollows={setFollows}
-              key={it.entity_id_uuid}
-            />
-          );
-        }}
-      />
+      <FollowProfileSearch follows={follows} setFollows={setFollows} />
       <FloatingActionBar>
         <Link href="/" asChild>
           <Button

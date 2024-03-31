@@ -1,7 +1,7 @@
 import { Search } from "@tamagui/lucide-icons";
 import React from "react";
 import { TextInput } from "react-native";
-import StyledInput from "../../atoms/StyledInput.tsx";
+import StyledInput from "../atoms/StyledInput.tsx";
 
 interface SearchBarProps
   extends Omit<

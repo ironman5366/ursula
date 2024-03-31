@@ -25,7 +25,7 @@ export default function FollowProfileItem({
       elem={profile}
       render={(it) => (
         <ProfilePreviewRow profile={it}>
-          <Text>@{it.username}</Text>
+          <Text fontWeight={"bold"}>@{it.username}</Text>
           {it.bio && <Text>{it.bio}</Text>}
           <Ionicons
             name={isFollowing ? "checkmark" : "add"}
