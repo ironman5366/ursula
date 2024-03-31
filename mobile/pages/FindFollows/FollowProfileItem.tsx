@@ -3,7 +3,7 @@ import { useProfile } from "../../hooks/profile.ts";
 import LoaderRow from "../../components/atoms/loaders/LoaderRow.tsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ProfilePreviewRow from "../../components/molecules/ProfilePreview/Row.tsx";
-import { Text } from "tamagui";
+import { Button, Text } from "tamagui";
 
 interface FollowProfileItemProps {
   profileId: string;
@@ -27,8 +27,7 @@ export default function FollowProfileItem({
         <ProfilePreviewRow profile={it}>
           <Text fontWeight={"bold"}>@{it.username}</Text>
           {it.bio && <Text>{it.bio}</Text>}
-          <Ionicons
-            name={isFollowing ? "checkmark" : "add"}
+          <Button
             onPress={() => {
               if (isFollowing) {
                 setFollows(follows.filter((id) => id !== profileId));
@@ -36,7 +35,9 @@ export default function FollowProfileItem({
                 setFollows([...follows, profileId]);
               }
             }}
-          />
+          >
+            {isFollowing ? "Remove" : "Follow"}
+          </Button>
         </ProfilePreviewRow>
       )}
     />
