@@ -361,17 +361,17 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "currently_reading_items_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-          {
             foreignKeyName: "fk_currently_reading_items_book_id";
             columns: ["legacy_book_id"];
             isOneToOne: false;
             referencedRelation: "legacy_books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "fk_currently_reading_items_user_id";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
@@ -924,6 +924,13 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "fk_reading_list_items_user_id";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "reading_list_items_list_id_fkey";
             columns: ["list_id"];
             isOneToOne: false;
@@ -942,13 +949,6 @@ export type Database = {
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "user_id";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
@@ -1094,6 +1094,13 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "fk_reviews_user_id";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "reviews_book_id_fkey";
             columns: ["book_id"];
             isOneToOne: false;
@@ -1105,13 +1112,6 @@ export type Database = {
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "user_id";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
