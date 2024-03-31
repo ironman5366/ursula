@@ -3,7 +3,7 @@ import { decode } from "base64-arraybuffer";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { SafeAreaView, TouchableOpacity } from "react-native";
-import { Button, Input, YStack } from "tamagui";
+import { Button, Input, TextArea, YStack } from "tamagui";
 import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import ProfileImage from "../../../components/atoms/profile/ProfileImage.tsx";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
@@ -22,6 +22,7 @@ export default function EditProfilePage({ profile }: Props) {
   const { session } = useSession();
   const { mutate: updateProfile, isLoading } = useUpdateProfile();
   const [username, setUsername] = useState(profile.username);
+  const [bio, setBio] = useState(profile.bio || "");
   const [name, setName] = useState(profile.full_name);
 
   if (!profile || isLoading) {
@@ -104,6 +105,14 @@ export default function EditProfilePage({ profile }: Props) {
             ) : (
               <StyledText>@{username}</StyledText>
             )}
+
+            <TextArea
+              value={bio}
+              onChangeText={(val) => setBio(val)}
+              editable={isOwnProfile}
+              placeholder={"Your Bio"}
+              numberOfLines={3}
+            />
 
             <Input
               width="100%"

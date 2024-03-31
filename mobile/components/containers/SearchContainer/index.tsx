@@ -4,13 +4,12 @@ import {
   SafeAreaView,
   StyleProp,
   StyleSheet,
-  View,
   ViewStyle,
 } from "react-native";
 import { StyledView } from "../../organisms/StyledView.tsx";
-import SearchBar from "./SearchBar.tsx";
 import { Link } from "expo-router";
 import { YStack } from "tamagui";
+import SearchBar from "../../molecules/SearchBar.tsx";
 
 function SearchNavigator({
   children,
