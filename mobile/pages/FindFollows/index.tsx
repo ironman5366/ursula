@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, SizableText, YStack } from "tamagui";
+import { SizableText, YStack } from "tamagui";
 import { WILLS_USER_ID } from "../../constants.ts";
 import { useBulkFollow } from "../../hooks/follows.ts";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { MoveRight } from "@tamagui/lucide-icons";
-import { FloatingActionBar } from "../../components/containers/TabBar.tsx";
 import { SafeAreaView, StyleSheet } from "react-native";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import FollowProfileItem from "./FollowProfileItem.tsx";
