@@ -13,8 +13,8 @@ interface Props {
 export default function PickProfileImage({ profile }: Props) {
   const { session } = useSession();
   const isOwnProfile = session.user.id === profile.id;
-
   const pick = usePickProfileImage();
+
   return (
     <YStack my="$5">
       <TouchableOpacity

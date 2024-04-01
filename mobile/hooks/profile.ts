@@ -67,6 +67,7 @@ export function useUpdateProfile() {
       queryClient.setQueryData(["PROFILE", session.user.id], updatedProfile);
       // If the profile image was updated, we need to invalidate the profile image query
       if (variables.avatar_key) {
+        console.log("Invalidating profile image");
         queryClient.invalidateQueries(["PROFILE_IMAGE", session.user.id]);
       }
     },
