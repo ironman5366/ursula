@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { SizableText, YStack } from "tamagui";
 import { WILLS_USER_ID } from "../../constants.ts";
 import { useBulkFollow } from "../../hooks/follows.ts";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { MoveRight } from "@tamagui/lucide-icons";
 import { SafeAreaView, StyleSheet } from "react-native";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import FollowProfileItem from "./FollowProfileItem.tsx";
 import FollowProfileSearch from "./FollowProfileSearch.tsx";
-import FloatingLinkButton from "../../components/atoms/FloatingLinkButton.tsx";
+import FloatingActionBar from "../../components/organisms/FloatingActionBar";
+import FloatingButton from "../../components/organisms/FloatingActionBar/FloatingButton.tsx";
 
 export default function FindFollowsPage() {
   const [follows, setFollows] = useState<string[]>([WILLS_USER_ID]);
@@ -44,18 +45,20 @@ export default function FindFollowsPage() {
         ))}
       </YStack>
       <FollowProfileSearch follows={follows} setFollows={setFollows} />
-      <FloatingLinkButton
-        onPress={() => {
-          if (follows.length > 0) {
-            doFollow(follows);
-          } else {
-            finished();
-          }
-        }}
-        iconAfter={<MoveRight size="$1" />}
-      >
-        {followText}
-      </FloatingLinkButton>
+      <FloatingActionBar>
+        <FloatingButton
+          iconAfter={<MoveRight size="$1" />}
+          onPress={() => {
+            if (follows.length > 0) {
+              doFollow(follows);
+            } else {
+              finished();
+            }
+          }}
+        >
+          {followText}
+        </FloatingButton>
+      </FloatingActionBar>
     </SafeAreaView>
   );
 }

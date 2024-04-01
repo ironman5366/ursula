@@ -4,11 +4,12 @@ import { Input, Text, YStack } from "tamagui";
 import PickProfileImage from "../../components/molecules/PickProfileImage.tsx";
 import { useCurrentProfile, useUpdateProfile } from "../../hooks/profile.ts";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
-import FloatingButton from "../../components/atoms/FloatingLinkButton.tsx";
 import { MoveRight } from "@tamagui/lucide-icons";
 import UsernameInput from "../../components/molecules/UsernameInput.tsx";
 import { TitleText } from "../../components/atoms/TitleText.tsx";
 import { router } from "expo-router";
+import FloatingButton from "../../components/organisms/FloatingActionBar/FloatingButton.tsx";
+import FloatingActionBar from "../../components/organisms/FloatingActionBar";
 
 export default function SetupAccount() {
   const { data: profile } = useCurrentProfile();
@@ -53,12 +54,14 @@ export default function SetupAccount() {
           />
         </YStack>
       </YStack>
-      <FloatingLinkButton
-        onPress={() => updateProfile({ username, full_name: name })}
-        iconAfter={<MoveRight size="$1" />}
-      >
-        Save and Find Friends
-      </FloatingLinkButton>
+      <FloatingActionBar>
+        <FloatingButton
+          onPress={() => updateProfile({ username, full_name: name })}
+          iconAfter={<MoveRight size="$1" />}
+        >
+          Save and Find Friends
+        </FloatingButton>
+      </FloatingActionBar>
     </SafeAreaView>
   );
 }

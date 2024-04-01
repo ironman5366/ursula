@@ -4,13 +4,14 @@ import { SafeAreaView } from "react-native";
 import { Button, Input, SizableText, TextArea, YStack } from "tamagui";
 import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
-import { FloatingActionBar } from "../../../components/containers/TabBar.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import { useUpdateProfile } from "../../../hooks/profile.ts";
 import { Stack } from "expo-router";
 import FollowersSection from "./FollowersSection.tsx";
 import PickProfileImage from "../../../components/molecules/PickProfileImage.tsx";
 import UsernameInput from "../../../components/molecules/UsernameInput.tsx";
+import FloatingActionBar from "../../../components/organisms/FloatingActionBar";
+import FloatingButton from "../../../components/organisms/FloatingActionBar/FloatingButton.tsx";
 
 interface Props {
   profile: Profile;
@@ -71,12 +72,7 @@ export default function EditProfilePage({ profile }: Props) {
       </SafeAreaView>
       {isOwnProfile && (
         <FloatingActionBar>
-          <Button
-            width={300}
-            unstyled
-            alignSelf="center"
-            height={50}
-            px={10}
+          <FloatingButton
             onPress={() => {
               updateProfile({
                 username,
@@ -84,15 +80,9 @@ export default function EditProfilePage({ profile }: Props) {
                 bio,
               });
             }}
-            fontWeight="bold"
-            color="white"
-            flexDirection="row"
-            alignItems="center"
-            alignContent="space-around"
-            justifyContent="space-around"
           >
             Save
-          </Button>
+          </FloatingButton>
         </FloatingActionBar>
       )}
     </YStack>
