@@ -18,7 +18,7 @@ export default function FindFollowsPage() {
   }`;
   const { mutate: doFollow, isLoading, isSuccess } = useBulkFollow();
   const finished = () => {
-    router.replace("/(app)/(tabs)");
+    router.replace("/(onboard)/finish");
   };
 
   useEffect(() => {

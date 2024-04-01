@@ -31,7 +31,7 @@ export default function SetupAccount() {
       if (!username) {
         let initialUsername;
         if (profile.username.includes("@")) {
-          initialUsername = profile.username.split("@")[1];
+          initialUsername = profile.username.split("@")[0];
         } else {
           initialUsername = profile.username;
         }

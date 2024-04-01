@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCurrentProfile, useUpdateProfile } from "../../hooks/profile.ts";
-import { Button, H2, H3, H4, H5, Sheet, Text } from "tamagui";
+import { Button, H2, Sheet, Text } from "tamagui";
+import { Link } from "expo-router";
 
 function SetupBanner() {
   const [open, setOpen] = useState(true);
@@ -39,9 +40,11 @@ function SetupBanner() {
           either means you were an early tester, or you closed the app before
           finishing. Either way, can we help you finish setting up your account?
         </Text>
-        <Button color={"$color.deepSeaGreen"}>
-          Finish setting up (&lt; 1 minute)
-        </Button>
+        <Link href={"/(onboard)/setup"} asChild>
+          <Button color={"$color.deepSeaGreen"}>
+            Finish setting up (&lt; 1 minute)
+          </Button>
+        </Link>
         <Button
           color={"$claret"}
           onPress={() => {
