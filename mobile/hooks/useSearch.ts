@@ -43,12 +43,20 @@ export async function fetchSearchResults(
 interface SearchProps {
   query: string;
   enabled: boolean;
+  filter?: (result: SearchResult) => boolean;
 }
 
-export default function useSearch({ query, enabled }: SearchProps) {
+export default function useSearch({ query, enabled, filter }: SearchProps) {
   return useQuery({
     queryKey: ["SEARCH", query],
-    queryFn: () => fetchSearchResults(query),
+    queryFn: async () => {
+      const results = await fetchSearchResults(query);
+      if (filter) {
+        return results.filter(filter);
+      } else {
+        return results;
+      }
+    },
     enabled,
   });
 }

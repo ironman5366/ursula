@@ -25,6 +25,20 @@ export default function Layout() {
           title: "Find People to Follow",
         }}
       />
+      <Stack.Screen
+        name="setup"
+        options={{
+          headerShown: false,
+          title: "Setup your account",
+        }}
+      />
+      <Stack.Screen
+        name="finish"
+        options={{
+          headerShown: false,
+          title: "Welcome",
+        }}
+      />
     </Stack>
   );
 }

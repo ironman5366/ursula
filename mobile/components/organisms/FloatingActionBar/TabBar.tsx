@@ -1,7 +1,7 @@
-import { BlurView } from "expo-blur";
-import React, { useMemo } from "react";
-import Animated, { BounceInDown, BounceOutDown } from "react-native-reanimated";
+import React, { ComponentProps, useMemo } from "react";
 import { Button, Text, XStack, YStack } from "tamagui";
+import FloatingActionBar from "./index.tsx";
+import { router, Tabs } from "expo-router";
 
 const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
   const { options } = descriptors[route.key];
@@ -56,12 +56,13 @@ const TabBarButton = ({ route, descriptors, index, state, navigation }) => {
   );
 };
 
-export function ReactiveContainerIdkWhy({
+type TabBarProps = ComponentProps<ComponentProps<typeof Tabs>["tabBar"]>;
+
+export default function TabBar({
   state,
   descriptors,
   navigation,
-  ...rest
-}: any) {
+}: TabBarProps) {
   return (
     <FloatingActionBar>
       <YStack alignContent="space-between">
@@ -81,62 +82,5 @@ export function ReactiveContainerIdkWhy({
         </XStack>
       </YStack>
     </FloatingActionBar>
-  );
-}
-
-// TODO: Strongly type this
-export function TabBar({ state, descriptors, navigation, ...rest }: any) {
-  return (
-    <ReactiveContainerIdkWhy
-      state={state}
-      descriptors={descriptors}
-      navigation={navigation}
-      {...rest}
-    />
-  );
-}
-
-export function FloatingActionBar({
-  children,
-  height = 55,
-  borderRadius = 1000,
-}) {
-  return (
-    <Animated.View
-      key="floating-action-bar"
-      entering={BounceInDown.duration(500)}
-      exiting={BounceOutDown.duration(400)}
-      style={{
-        position: "absolute",
-        bottom: 0,
-        gap: 20,
-        overflow: "hidden",
-        paddingHorizontal: 20,
-        minWidth: 300,
-        marginBottom: 40,
-        alignSelf: "center",
-      }}
-    >
-      <BlurView
-        tint={"dark"}
-        intensity={60}
-        style={{
-          gap: 20,
-          overflow: "hidden",
-          paddingHorizontal: 20,
-          minWidth: 300,
-          height: height,
-          flexDirection: "row",
-          alignSelf: "center",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingVertical: 5,
-          borderRadius: borderRadius,
-          borderColor: "transparent",
-        }}
-      >
-        {children}
-      </BlurView>
-    </Animated.View>
   );
 }

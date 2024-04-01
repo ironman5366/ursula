@@ -1,8 +1,8 @@
-import React, { ComponentProps } from "react";
+import React from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import { useProfileImage } from "../../../hooks/profile.ts";
-import { ActivityIndicator, Image, ImageStyle, StyleProp } from "react-native";
-import { Avatar, Circle, SizeTokens } from "tamagui";
+import { ActivityIndicator } from "react-native";
+import { Avatar } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface Props {

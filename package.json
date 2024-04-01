@@ -14,5 +14,7 @@
     "shared-types"
   ],
   "packageManager": "npm@10.4.0",
-  "dependencies": {}
+  "dependencies": {
+    "@tamagui/sheet": "^1.94.0"
+  }
 }

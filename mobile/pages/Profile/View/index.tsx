@@ -7,7 +7,7 @@ import ProfileImage from "../../../components/atoms/profile/ProfileImage.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import FollowersSection from "../Edit/FollowersSection.tsx";
 import { Pencil } from "@tamagui/lucide-icons";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import ProfileTabs from "./Tabs.tsx";
 
 interface Props {
@@ -59,6 +59,11 @@ export default function ViewProfile({ profile }: Props) {
             )}
           </YStack>
           <FollowersSection profile={profile} />
+          {isOwnProfile && (
+            <Link href={"/(onboard)/follows"} asChild>
+              <Button>Find People to Follow</Button>
+            </Link>
+          )}
         </YStack>
         <ProfileTabs profile={profile} />
       </YStack>

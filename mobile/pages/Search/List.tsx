@@ -9,7 +9,6 @@ import SearchResultItem from "./Item.tsx";
 
 interface Props {
   results: SearchResult[];
-  allowedTypes?: SearchResultType[];
   renderSearchItem?: (result: SearchResult) => ReactElement;
 }
 
@@ -39,26 +38,15 @@ const sortedKeys = Object.keys(MAPPINGS).sort(
   (a, b) => MAPPINGS[a].order - MAPPINGS[b].order
 );
 
-export default function SearchResultList({
-  results,
-  allowedTypes,
-  renderSearchItem,
-}: Props) {
-  const filteredResults = results.filter((result) => {
-    if (allowedTypes && allowedTypes.length > 0) {
-      return allowedTypes.includes(result.entity_type);
-    } else {
-      return true;
-    }
-  });
+export default function SearchResultList({ results, renderSearchItem }: Props) {
   return (
     <ScrollView>
       <YStack>
-        {filteredResults &&
-          filteredResults.length > 0 &&
+        {results &&
+          results.length > 0 &&
           sortedKeys.map((key) => {
             const { title } = MAPPINGS[key];
-            const sectionResults = filteredResults
+            const sectionResults = results
               .filter((result) => result.entity_type === key)
               .sort((a, b) => b.order_key - a.order_key);
 

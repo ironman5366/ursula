@@ -1,21 +1,11 @@
 import React, { ComponentProps, PropsWithChildren } from "react";
-import {
-  Pressable,
-  SafeAreaView,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Pressable, SafeAreaView, StyleSheet } from "react-native";
 import { StyledView } from "../../organisms/StyledView.tsx";
-import SearchBar from "./SearchBar.tsx";
 import { Link } from "expo-router";
 import { YStack } from "tamagui";
+import SearchBar from "../../molecules/SearchBar.tsx";
 
-function SearchNavigator({
-  children,
-  style,
-}: PropsWithChildren<{ style: StyleProp<ViewStyle> }>) {
+function SearchNavigator({ children, style }: PropsWithChildren<any>) {
   return (
     <Link href={"/search"} asChild>
       <Pressable>
@@ -43,7 +33,7 @@ export default function SearchContainer({
 
   return (
     <SafeAreaView style={styles.container}>
-      <WrapperComp style={styles.searchBarContainer}>
+      <WrapperComp>
         <SearchBar editable={showSearch} {...props} />
       </WrapperComp>
       <YStack flexGrow={1}>{children}</YStack>
@@ -54,12 +44,5 @@ export default function SearchContainer({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  searchBarContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 5,
-    marginHorizontal: 10,
-    justifyContent: "center",
   },
 });

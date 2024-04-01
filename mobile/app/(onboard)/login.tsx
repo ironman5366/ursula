@@ -5,10 +5,11 @@ import { Alert, SafeAreaView } from "react-native";
 import { Button, YStack, Text } from "tamagui";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import DismissKeyboardContainer from "../../components/containers/DismissKeyboardContainer";
-import { FloatingActionBar } from "../../components/containers/TabBar";
 import { supabase } from "../../utils/supabase";
 import PasswordInput from "../../components/atoms/inputs/PasswordInput.tsx";
 import EmailInput from "../../components/atoms/inputs/Emailnput.tsx";
+import FloatingActionBar from "../../components/organisms/FloatingActionBar";
+import FloatingButton from "../../components/organisms/FloatingActionBar/FloatingButton.tsx";
 
 export default function LoginSignup() {
   const [isLogin, setIsLogin] = useState(false);
@@ -40,7 +41,7 @@ export default function LoginSignup() {
       if (isLogin) {
         router.replace("/(app)/(tabs)");
       } else {
-        router.replace("/(onboard)/follows");
+        router.replace("/(onboard)/setup");
       }
     }
     setLoading(false);
@@ -80,21 +81,9 @@ export default function LoginSignup() {
           </YStack>
         </SafeAreaView>
         <FloatingActionBar>
-          <Button
-            unstyled
-            alignSelf="center"
-            flexGrow={1}
-            px={10}
-            onPress={signInWithEmail}
-            fontWeight="bold"
-            color="white"
-            flexDirection="row"
-            alignItems="center"
-            alignContent="space-around"
-            justifyContent="space-around"
-          >
+          <FloatingButton onPress={signInWithEmail}>
             {isLogin ? "Login" : "Sign Up"}
-          </Button>
+          </FloatingButton>
         </FloatingActionBar>
       </YStack>
     </DismissKeyboardContainer>

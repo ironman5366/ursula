@@ -2,9 +2,10 @@ import { MoveRight } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
 import React from "react";
 import { SafeAreaView } from "react-native";
-import { Button, Image, Text, XStack, YStack } from "tamagui";
+import { Image, Text, XStack, YStack } from "tamagui";
 import DismissKeyboardContainer from "../../components/containers/DismissKeyboardContainer.tsx";
-import { FloatingActionBar } from "../../components/containers/TabBar.tsx";
+import FloatingActionBar from "../../components/organisms/FloatingActionBar";
+import FloatingButton from "../../components/organisms/FloatingActionBar/FloatingButton";
 
 export default function Onboard() {
   return (
@@ -37,22 +38,9 @@ export default function Onboard() {
         </SafeAreaView>
         <FloatingActionBar>
           <Link href="/(onboard)/login" asChild>
-            <Button
-              unstyled
-              alignSelf="center"
-              px={10}
-              fontWeight="bold"
-              flexGrow={1}
-              color="white"
-              href="/(onboard)/signup"
-              flexDirection="row"
-              alignItems="center"
-              alignContent="space-between"
-              justifyContent="space-between"
-              iconAfter={<MoveRight size="$1" />}
-            >
+            <FloatingButton iconAfter={<MoveRight size="$1" />}>
               Get Started
-            </Button>
+            </FloatingButton>
           </Link>
         </FloatingActionBar>
       </YStack>

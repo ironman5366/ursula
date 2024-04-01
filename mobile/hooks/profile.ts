@@ -67,7 +67,10 @@ export function useUpdateProfile() {
       queryClient.setQueryData(["PROFILE", session.user.id], updatedProfile);
       // If the profile image was updated, we need to invalidate the profile image query
       if (variables.avatar_key) {
-        queryClient.invalidateQueries(["PROFILE_IMAGE", session.user.id]);
+        queryClient.setQueryData(
+          ["PROFILE_IMAGE", session.user.id],
+          await getProfileImage(updatedProfile)
+        );
       }
     },
   });
@@ -89,9 +92,9 @@ async function getProfileImage(profile: Profile): Promise<string | null> {
   return null;
 }
 
-export function useProfileImage(profile: Profile | undefined) {
+export function useProfileImage(profile: Profile) {
   return useQuery({
-    queryKey: ["PROFILE_IMAGE", profile?.id],
+    queryKey: ["PROFILE_IMAGE", profile.id],
     queryFn: () => getProfileImage(profile),
     enabled: !!profile,
   });
