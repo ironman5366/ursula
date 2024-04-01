@@ -1,5 +1,4 @@
 import { router, Tabs } from "expo-router";
-import { useThemeColor } from "../../../theme.ts";
 import { Home, Book, User, Bot } from "@tamagui/lucide-icons";
 import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
 import TabBar from "../../../components/organisms/FloatingActionBar/TabBar.tsx";

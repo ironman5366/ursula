@@ -1,4 +1,4 @@
-import React, { ComponentProps, useMemo } from "react";
+import React, { ComponentProps, useMemo, useState } from "react";
 import { Button, Text, XStack, YStack } from "tamagui";
 import FloatingActionBar from "./index.tsx";
 import { router, Tabs } from "expo-router";

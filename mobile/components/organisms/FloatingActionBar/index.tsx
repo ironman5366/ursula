@@ -1,12 +1,19 @@
 import React from "react";
 import Animated, { BounceInDown, BounceOutDown } from "react-native-reanimated";
 import { BlurView } from "expo-blur";
+import { useActionBarContext } from "../../../contexts/ActionBarContext";
 
 export default function FloatingActionBar({
   children,
   height = 55,
   borderRadius = 1000,
 }) {
+  const { actionBarVisible } = useActionBarContext();
+
+  if (!actionBarVisible) {
+    return <></>;
+  }
+
   return (
     <Animated.View
       key="floating-action-bar"

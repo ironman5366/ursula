@@ -9,9 +9,10 @@ import { useSession } from "../../../contexts/SessionContext.ts";
 import StyledButton from "../../../components/organisms/StyledButton.tsx";
 import FollowButton from "./FollowButton.tsx";
 import { XStack } from "tamagui";
+import { ProfileWithFollowTime } from "../../../types/ProfileWithFollowTime.ts";
 
 interface FollowerLinkProps<T> extends Omit<LinkProps<T>, "children"> {
-  list: string[] | undefined;
+  list: ProfileWithFollowTime[] | undefined;
   link_text: string;
 }
 
