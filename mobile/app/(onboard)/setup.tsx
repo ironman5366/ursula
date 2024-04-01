@@ -19,9 +19,32 @@ export default function SetupAccount() {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log("Sending to follows");
       router.replace("/(onboard)/follows");
     }
-  }, []);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    // We might be here from an initialized profile that just needs to setup.
+    // If so, populate accordingly
+    if (profile) {
+      if (!username) {
+        let initialUsername;
+        if (profile.username.includes("@")) {
+          initialUsername = profile.username.split("@")[1];
+        } else {
+          initialUsername = profile.username;
+        }
+        setUsername(initialUsername);
+      }
+
+      if (!name) {
+        if (profile.full_name && !profile.full_name.includes("New Name")) {
+          setName(profile.full_name);
+        }
+      }
+    }
+  }, [profile]);
 
   if (!profile || isLoading) {
     return <LoadingScreen />;
