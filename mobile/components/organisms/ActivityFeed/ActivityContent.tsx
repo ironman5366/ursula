@@ -1,6 +1,8 @@
 import {
   ActivityType,
   AddedToListActivity,
+  FollowedActivity,
+  JoinedActivity,
   RankedActivity,
   StartedReadingActivity,
 } from "@ursula/shared-types/Activity.ts";
@@ -64,6 +66,34 @@ function AddedToListContent({
   );
 }
 
+function JoinedContent({
+  activity,
+  profile,
+}: Props<ActivityOf<JoinedActivity>>) {
+  return (
+    <StyledText>
+      <ProfileLink profile={profile} /> joined Ursula. Say hi!
+    </StyledText>
+  );
+}
+
+function FollowedContent({
+  activity,
+  profile,
+}: Props<ActivityOf<FollowedActivity>>) {
+  return (
+    <StyledText>
+      <ProfileLink profile={profile} /> followed{" "}
+      <ProfileLink
+        profile={{
+          id: activity.data.user_id,
+          full_name: activity.data.full_name,
+        }}
+      />
+    </StyledText>
+  );
+}
+
 export default function ActivityContent<T extends Activity>({
   activity,
   profile,
@@ -75,7 +105,13 @@ export default function ActivityContent<T extends Activity>({
       return <RankedContent activity={activity} profile={profile} />;
     case ActivityType.ADDED_TO_LIST:
       return <AddedToListContent activity={activity} profile={profile} />;
+    case ActivityType.JOINED:
+      return <JoinedContent activity={activity} profile={profile} />;
+    case ActivityType.FOLLOWED:
+      return <FollowedContent activity={activity} profile={profile} />;
+
     default:
-      return <StyledText>TODO</StyledText>;
+      console.warn("Unknown activity type", activity.type, activity);
+      return <></>;
   }
 }

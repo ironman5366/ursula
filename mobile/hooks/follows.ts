@@ -4,6 +4,8 @@ import { useSession } from "../contexts/SessionContext.ts";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import { ProfileWithFollowTime } from "../types/ProfileWithFollowTime.ts";
 import { PostgrestError } from "@supabase/supabase-js";
+import { useRecordActivity } from "./activities.ts";
+import { ActivityType } from "@ursula/shared-types/Activity.ts";
 
 async function followUser(profile_id: string, followee_id: string) {
   const { error } = await supabase.from("follows").upsert(
@@ -22,13 +24,25 @@ async function followUser(profile_id: string, followee_id: string) {
 export function useFollow() {
   const queryClient = useQueryClient();
   const { session } = useSession();
+  const { mutateAsync: recordActivity } = useRecordActivity();
 
   return useMutation({
-    mutationFn: (followee_id: string) =>
-      followUser(session.user.id, followee_id),
-    onSuccess: (_data, followee_id) => {
+    mutationFn: async (profile: Profile) => {
+      await Promise.all([
+        followUser(session.user.id, profile.id),
+        recordActivity({
+          type: ActivityType.FOLLOWED,
+          data: {
+            user_id: profile.id,
+            full_name: profile.full_name,
+            username: profile.username,
+          },
+        }),
+      ]);
+    },
+    onSuccess: (_data, profile) => {
       queryClient.setQueryData(
-        ["FOLLOWING", session.user.id, followee_id],
+        ["FOLLOWING", session.user.id, profile.id],
         true
       );
       queryClient.invalidateQueries(["SOCIAL_FEED"]);
@@ -176,11 +190,11 @@ export function useUnfollow() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (followee_id: string) => unfollow(session.user.id, followee_id),
-    onSuccess: (_data, followee_id: string) => {
+    mutationFn: (profile: Profile) => unfollow(session.user.id, profile.id),
+    onSuccess: (_data, profile: Profile) => {
       queryClient.invalidateQueries(["FOLLOWING", session.user.id]);
       queryClient.setQueryData(
-        ["FOLLOWING", session.user.id, followee_id],
+        ["FOLLOWING", session.user.id, profile.id],
         false
       );
     },
