@@ -1,7 +1,11 @@
 import { Send } from "@tamagui/lucide-icons";
 import LLM from "@ursula/shared-types/llm.ts";
 import React, { useMemo, useState, useRef, useEffect } from "react";
-import { KeyboardAvoidingView, ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { Button, XStack, YStack } from "tamagui";
 import { useInvoke } from "../../ai/invoke.ts";
 import StyledInput from "../../components/atoms/StyledInput.tsx";
@@ -10,6 +14,7 @@ import { useReviews } from "../../hooks/reviews.ts";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.tsx";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 export default function ChatPage() {
   const scrollViewRef = useRef<ScrollView>(null);
@@ -63,51 +68,52 @@ export default function ChatPage() {
 
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
-      <ScrollView
-        ref={scrollViewRef}
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "flex-end",
+      <YStack
+        gap={"$2"}
+        justifyContent={"space-between"}
+        style={{
+          flex: 0.85,
         }}
       >
-        <YStack paddingBottom="$20" marginHorizontal="$3">
-          <ScrollView>
-            <YStack gap="$2">
-              {messages.map((message, i) => (
-                <ChatMessage message={message} key={i} />
-              ))}
-            </YStack>
-          </ScrollView>
-        </YStack>
-      </ScrollView>
-      <XStack
-        gap="$2"
-        position="absolute"
-        bottom={0}
-        mb="$14"
-        width={"100%"}
-        px="$3"
-      >
-        <StyledInput
-          value={input}
-          onChangeText={(val) => setInput(val)}
-          placeholder="Ask me about anything book-related"
-          autoFocus={false}
-        />
-        <Button
-          flex={1}
-          flexGrow={2}
-          disabled={isInvoking}
-          onPress={() => {
-            addMessage({ content: input, role: "user" });
-            setInput("");
-          }}
-          circular
-          p="$1"
-          backgroundColor="blue"
-          icon={<Send size={20} color="white" />}
-        />
-      </XStack>
+        <ScrollView ref={scrollViewRef} contentContainerStyle={{}}>
+          <YStack marginHorizontal="$3">
+            <ScrollView>
+              <YStack gap="$2">
+                {messages.map((message, i) => (
+                  <ChatMessage message={message} key={i} />
+                ))}
+              </YStack>
+            </ScrollView>
+          </YStack>
+        </ScrollView>
+        <XStack gap="$2" width={"100%"} px="$3">
+          <StyledInput
+            value={input}
+            onChangeText={(val) => setInput(val)}
+            placeholder="Ask me about anything book-related"
+            autoFocus={false}
+          />
+          <Button
+            flex={1}
+            flexGrow={2}
+            disabled={isInvoking}
+            onPress={() => {
+              addMessage({ content: input, role: "user" });
+              setInput("");
+            }}
+            circular
+            p="$1"
+            backgroundColor="$cambridgeBlue"
+            icon={
+              isInvoking ? (
+                <ActivityIndicator size={"small"} />
+              ) : (
+                <Send size={20} color="white" />
+              )
+            }
+          />
+        </XStack>
+      </YStack>
     </KeyboardAvoidingView>
   );
 }

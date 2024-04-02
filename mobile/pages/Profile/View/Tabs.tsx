@@ -26,9 +26,9 @@ function ProfileTabButton({
   const active = currTab === value;
   return (
     <Button
-      borderWidth={"0"}
-      borderRadius={"0"}
-      borderBottomWidth={active ? "$1" : "0"}
+      borderWidth={0}
+      borderRadius={0}
+      borderBottomWidth={active ? 1 : 0}
       borderColor={"$claret"}
       onPress={() => setCurrTab(value)}
       {...props}
