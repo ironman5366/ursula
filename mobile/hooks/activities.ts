@@ -28,6 +28,7 @@ async function recordActivity(
 export function useRecordActivity() {
   const { session } = useSession();
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (data: ActivityData) => recordActivity(session?.user.id, data),
     onSuccess: () => {

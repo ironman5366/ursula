@@ -73,7 +73,7 @@ export default function SetupAccount() {
             value={name}
             onChangeText={(val) => setName(val)}
             placeholder={"Jane Austen"}
-            placeholderTextColor={"$claret"}
+            placeholderTextColor={"gray"}
           />
         </YStack>
       </YStack>
