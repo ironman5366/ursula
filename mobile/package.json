@@ -7,7 +7,7 @@
     "start:dev": "./expo_start_with_env.sh dev",
     "build:ios": "EAS_PROJECT_ID=ac90d169-a022-4526-95a5-95e58f0151a4 eas build -p ios --local --output dist/build.ipa",
     "submit:ios": "EAS_PROJECT_ID=ac90d169-a022-4526-95a5-95e58f0151a4 eas submit -p ios --path=dist/build.ipa",
-    "build:android": "EAS_PROJECT_ID=ac90d169-a022-4526-95a5-95e58f0151a4 eas build -p android --local",
+    "build:android": "EAS_PROJECT_ID=ac90d169-a022-4526-95a5-95e58f0151a4 eas build -p android --local --path=dist/build.aab",
     "test": "jest --watchAll",
     "android": "expo run:android",
     "ios": "expo run:ios"
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
-    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@react-navigation/native": "^6.0.2",
     "@supabase/supabase-js": "^2.26.0",
     "@tamagui/babel-plugin": "^1.91.4",
