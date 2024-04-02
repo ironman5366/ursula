@@ -22,6 +22,7 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
       onPress={onPress}
       icon={<BookImage book={book} size={imageHeight} />}
       backgroundColor={"transparent"}
+      textAlign={"left"}
     >
       <YStack style={styles.textContainer}>
         <TitleText fontSize={20}>{book.title}</TitleText>
