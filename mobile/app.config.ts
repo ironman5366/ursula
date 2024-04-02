@@ -14,7 +14,7 @@ module.exports = {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      buildNumber: "1",
+      buildNumber: "2",
       icon: "./assets/images/logo-192.png",
       bundleIdentifier: "com.willbeddow.ursula",
       supportsTablet: true,

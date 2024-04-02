@@ -23,13 +23,11 @@ export default function ActivityFeedItem({ activity }: Props) {
       borderBottomColor="#00000022"
     >
       <YStack>
-        <ListItem.Text>
-          {profile ? (
-            <ActivityContent activity={activity} profile={profile} />
-          ) : (
-            <ActivityIndicator size={"small"} />
-          )}
-        </ListItem.Text>
+        {profile ? (
+          <ActivityContent activity={activity} profile={profile} />
+        ) : (
+          <ActivityIndicator size={"small"} />
+        )}
         <ListItem.Subtitle>
           {new Date(activity.created_at).toLocaleString()}
         </ListItem.Subtitle>
