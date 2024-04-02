@@ -1,6 +1,8 @@
 import {
   ActivityType,
   AddedToListActivity,
+  FollowedActivity,
+  JoinedActivity,
   RankedActivity,
   StartedReadingActivity,
 } from "@ursula/shared-types/Activity.ts";
@@ -10,6 +12,7 @@ import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/book/BookLink.tsx";
 import ProfileLink from "../../atoms/profile/ProfileLink.tsx";
+import { useSession } from "../../../contexts/SessionContext.ts";
 
 interface Props<T> {
   activity: T;
@@ -64,6 +67,48 @@ function AddedToListContent({
   );
 }
 
+function JoinedContent({
+  activity,
+  profile,
+}: Props<ActivityOf<JoinedActivity>>) {
+  const { session } = useSession();
+  const isOwnProfile = session?.user.id === activity.data.user_id;
+
+  if (isOwnProfile) {
+    return <StyledText>You joined Ursula. Welcome to the party!</StyledText>;
+  } else {
+    return (
+      <StyledText>
+        <ProfileLink profile={profile} /> joined Ursula. Say hi!
+      </StyledText>
+    );
+  }
+}
+
+function FollowedContent({
+  activity,
+  profile,
+}: Props<ActivityOf<FollowedActivity>>) {
+  const { session } = useSession();
+  const isOwnProfile = session?.user.id === activity.data.user_id;
+
+  return (
+    <StyledText>
+      <ProfileLink profile={profile} /> followed{" "}
+      {isOwnProfile ? (
+        "you!"
+      ) : (
+        <ProfileLink
+          profile={{
+            id: activity.data.user_id,
+            full_name: activity.data.full_name,
+          }}
+        />
+      )}
+    </StyledText>
+  );
+}
+
 export default function ActivityContent<T extends Activity>({
   activity,
   profile,
@@ -75,7 +120,13 @@ export default function ActivityContent<T extends Activity>({
       return <RankedContent activity={activity} profile={profile} />;
     case ActivityType.ADDED_TO_LIST:
       return <AddedToListContent activity={activity} profile={profile} />;
+    case ActivityType.JOINED:
+      return <JoinedContent activity={activity} profile={profile} />;
+    case ActivityType.FOLLOWED:
+      return <FollowedContent activity={activity} profile={profile} />;
+
     default:
-      return <StyledText>TODO</StyledText>;
+      console.warn("Unknown activity type", activity.type, activity);
+      return <></>;
   }
 }

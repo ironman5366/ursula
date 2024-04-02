@@ -10,7 +10,6 @@ import DismissKeyboardContainer from "../components/containers/DismissKeyboardCo
 import { SessionProvider } from "../contexts/SessionContext.ts";
 import tamaguiConfig from "../tamagui.config.ts";
 import { LIGHT_THEME } from "../theme.ts";
-import { ActionBarProvider } from "../contexts/ActionBarContext.ts";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -60,21 +59,19 @@ function RootLayoutNav() {
                 <QueryClientProvider client={queryClient}>
                   <ThemeProvider value={LIGHT_THEME}>
                     <DismissKeyboardContainer>
-                      <ActionBarProvider>
-                        <Stack>
-                          <Stack.Screen
-                            name="(onboard)"
-                            options={{ headerShown: false, title: "Welcome" }}
-                          />
-                          <Stack.Screen
-                            name="(app)"
-                            options={{
-                              headerShown: false,
-                              title: "Ursula",
-                            }}
-                          />
-                        </Stack>
-                      </ActionBarProvider>
+                      <Stack>
+                        <Stack.Screen
+                          name="(onboard)"
+                          options={{ headerShown: false, title: "Welcome" }}
+                        />
+                        <Stack.Screen
+                          name="(app)"
+                          options={{
+                            headerShown: false,
+                            title: "Ursula",
+                          }}
+                        />
+                      </Stack>
                     </DismissKeyboardContainer>
                   </ThemeProvider>
                 </QueryClientProvider>

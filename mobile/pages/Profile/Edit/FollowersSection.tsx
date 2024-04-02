@@ -60,7 +60,7 @@ export default function FollowersSection({ profile }: Props) {
       />
       {!isOwnProfile && (
         <StyledView>
-          <FollowButton userId={profile.id} />
+          <FollowButton profile={profile} />
         </StyledView>
       )}
     </XStack>

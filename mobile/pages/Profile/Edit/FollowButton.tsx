@@ -1,18 +1,23 @@
 import React from "react";
-import { useFollow, useIsFollowing, useUnfollow } from "../../../hooks/follows.ts";
+import {
+  useFollow,
+  useIsFollowing,
+  useUnfollow,
+} from "../../../hooks/follows.ts";
 import { useSession } from "../../../contexts/SessionContext.ts";
 import StyledButton from "../../../components/organisms/StyledButton.tsx";
 import { ActivityIndicator } from "react-native";
+import { Profile } from "@ursula/shared-types/derived.ts";
 
 interface Props {
-  userId: string;
+  profile: Profile;
 }
 
-export default function FollowButton({ userId }: Props) {
+export default function FollowButton({ profile }: Props) {
   const { session } = useSession();
   const { data: isFollowing } = useIsFollowing({
     follower_id: session.user.id,
-    followee_id: userId,
+    followee_id: profile.id,
   });
   const { mutate: follow } = useFollow();
   const { mutate: unfollow } = useUnfollow();
@@ -26,8 +31,10 @@ export default function FollowButton({ userId }: Props) {
   }
 
   if (isFollowing) {
-    return <StyledButton onPress={() => unfollow(userId)} title={"Unfollow"} />;
+    return (
+      <StyledButton onPress={() => unfollow(profile)} title={"Unfollow"} />
+    );
   } else {
-    return <StyledButton onPress={() => follow(userId)} title={"Follow"} />;
+    return <StyledButton onPress={() => follow(profile)} title={"Follow"} />;
   }
 }

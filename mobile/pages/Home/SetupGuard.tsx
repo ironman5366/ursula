@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCurrentProfile, useUpdateProfile } from "../../hooks/profile.ts";
 import { Button, H2, Sheet, Text } from "tamagui";
 import { Link } from "expo-router";
-import { useActionBarContext } from "../../contexts/ActionBarContext.ts";
 
 function SetupBanner() {
   const [open, setOpen] = useState(true);
   const [position, setPosition] = useState(0);
   const { mutate: updateProfile } = useUpdateProfile();
-  const { setActionBarVisible } = useActionBarContext();
-
-  useEffect(() => {
-    setActionBarVisible(!open);
-  }, [open]);
 
   return (
     <Sheet
