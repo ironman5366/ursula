@@ -12,6 +12,7 @@ import { StyledLink } from "../../atoms/StyledLink.tsx";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/book/BookLink.tsx";
 import ProfileLink from "../../atoms/profile/ProfileLink.tsx";
+import { useSession } from "../../../contexts/SessionContext.ts";
 
 interface Props<T> {
   activity: T;
@@ -70,26 +71,40 @@ function JoinedContent({
   activity,
   profile,
 }: Props<ActivityOf<JoinedActivity>>) {
-  return (
-    <StyledText>
-      <ProfileLink profile={profile} /> joined Ursula. Say hi!
-    </StyledText>
-  );
+  const { session } = useSession();
+  const isOwnProfile = session?.user.id === activity.data.user_id;
+
+  if (isOwnProfile) {
+    return <StyledText>You joined Ursula. Welcome to the party!</StyledText>;
+  } else {
+    return (
+      <StyledText>
+        <ProfileLink profile={profile} /> joined Ursula. Say hi!
+      </StyledText>
+    );
+  }
 }
 
 function FollowedContent({
   activity,
   profile,
 }: Props<ActivityOf<FollowedActivity>>) {
+  const { session } = useSession();
+  const isOwnProfile = session?.user.id === activity.data.user_id;
+
   return (
     <StyledText>
       <ProfileLink profile={profile} /> followed{" "}
-      <ProfileLink
-        profile={{
-          id: activity.data.user_id,
-          full_name: activity.data.full_name,
-        }}
-      />
+      {isOwnProfile ? (
+        "you!"
+      ) : (
+        <ProfileLink
+          profile={{
+            id: activity.data.user_id,
+            full_name: activity.data.full_name,
+          }}
+        />
+      )}
     </StyledText>
   );
 }

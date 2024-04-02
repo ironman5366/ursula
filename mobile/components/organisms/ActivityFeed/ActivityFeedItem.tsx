@@ -1,7 +1,7 @@
 import { Activity } from "@ursula/shared-types/derived.ts";
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { ListItem } from "tamagui";
+import { ListItem, YStack } from "tamagui";
 import { useProfile } from "../../../hooks/profile.ts";
 import ProfileImage from "../../atoms/profile/ProfileImage.tsx";
 import ActivityContent from "./ActivityContent.tsx";
@@ -22,11 +22,18 @@ export default function ActivityFeedItem({ activity }: Props) {
       py="$3"
       borderBottomColor="#00000022"
     >
-      {profile ? (
-        <ActivityContent activity={activity} profile={profile} />
-      ) : (
-        <ActivityIndicator size={"small"} />
-      )}
+      <YStack>
+        <ListItem.Text>
+          {profile ? (
+            <ActivityContent activity={activity} profile={profile} />
+          ) : (
+            <ActivityIndicator size={"small"} />
+          )}
+        </ListItem.Text>
+        <ListItem.Subtitle>
+          {new Date(activity.created_at).toLocaleString()}
+        </ListItem.Subtitle>
+      </YStack>
     </ListItem>
   );
 }
