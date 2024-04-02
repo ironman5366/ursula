@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import React, { useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import {
   AnimatePresence,
   StackProps,
@@ -16,51 +16,29 @@ import ReadingList from "../../../pages/ReadingList.tsx";
 import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
 import SearchContainer from "../../../components/containers/SearchContainer";
 
+function TabWithActiveIndicator({
+  value,
+  currentTab,
+  ...props
+}: ComponentProps<typeof Tabs.Tab> & {
+  currentTab: string;
+}) {
+  const active = currentTab === value;
+  return (
+    <Tabs.Tab
+      {...props}
+      value={value}
+      borderBottomWidth={active ? 2 : 0}
+      borderBottomColor={"$claret"}
+    >
+      {props.children}
+    </Tabs.Tab>
+  );
+}
+
 export default function YourBooks() {
-  const [tabState, setTabState] = useState<{
-    currentTab: string;
-    intentAt: TabLayout | null;
-    activeAt: TabLayout | null;
-    prevActiveAt: TabLayout | null;
-  }>({
-    activeAt: null,
-    currentTab: "tab1",
-    intentAt: null,
-    prevActiveAt: null,
-  });
+  const [currentTab, setCurrentTab] = useState("wantToRead");
 
-  const setCurrentTab = (currentTab: string) =>
-    setTabState({ ...tabState, currentTab });
-  const setIntentIndicator = (intentAt) =>
-    setTabState({ ...tabState, intentAt });
-  const setActiveIndicator = (activeAt) =>
-    setTabState({ ...tabState, prevActiveAt: tabState.activeAt, activeAt });
-  const { activeAt, intentAt, prevActiveAt, currentTab } = tabState;
-
-  /**
-   * -1: from left
-   *  0: n/a
-   *  1: from right
-   */
-  const direction = (() => {
-    if (!activeAt || !prevActiveAt || activeAt.x === prevActiveAt.x) {
-      return 0;
-    }
-    return activeAt.x > prevActiveAt.x ? -1 : 1;
-  })();
-
-  const enterVariant =
-    direction === 1 ? "isLeft" : direction === -1 ? "isRight" : "defaultFade";
-  const exitVariant =
-    direction === 1 ? "isRight" : direction === -1 ? "isLeft" : "defaultFade";
-
-  const handleOnInteraction: TabsTabProps["onInteraction"] = (type, layout) => {
-    if (type === "select") {
-      setActiveIndicator(layout);
-    } else {
-      setIntentIndicator(layout);
-    }
-  };
   return (
     <>
       <Stack.Screen
@@ -81,27 +59,6 @@ export default function YourBooks() {
           height="100%"
         >
           <YStack>
-            <AnimatePresence>
-              {intentAt && (
-                <TabsRovingIndicator
-                  width={intentAt.width}
-                  height="$0.5"
-                  x={intentAt.x}
-                  bottom={0}
-                />
-              )}
-            </AnimatePresence>
-            <AnimatePresence>
-              {activeAt && (
-                <TabsRovingIndicator
-                  active
-                  width={activeAt.width}
-                  height="$0.5"
-                  x={activeAt.x}
-                  bottom={0}
-                />
-              )}
-            </AnimatePresence>
             <Tabs.List
               disablePassBorderRadius
               loop={false}
@@ -110,39 +67,31 @@ export default function YourBooks() {
               paddingBottom="$1.5"
               backgroundColor="transparent"
             >
-              <Tabs.Tab
-                unstyled
+              <TabWithActiveIndicator
                 paddingHorizontal="$3"
                 paddingVertical="$2"
                 flex={1}
                 my="$2"
-                borderBottomWidth="$1"
-                borderBottomColor={currentTab === "tab1" ? "black" : "gray"}
-                value="tab1"
-                onInteraction={handleOnInteraction}
+                value="wantToRead"
+                currentTab={currentTab}
               >
                 <Text>Want to read</Text>
-              </Tabs.Tab>
-              <Tabs.Tab
-                unstyled
+              </TabWithActiveIndicator>
+              <TabWithActiveIndicator
                 paddingHorizontal="$3"
                 paddingVertical="$2"
-                value="tab2"
                 my="$2"
-                borderBottomWidth="$1"
-                borderBottomColor={currentTab === "tab2" ? "black" : "gray"}
+                borderBottomColor={currentTab === "tab2" ? "$claret" : "gray"}
+                value={"alreadyRead"}
                 flex={1}
-                onInteraction={handleOnInteraction}
+                currentTab={currentTab}
               >
                 <Text>Already read</Text>
-              </Tabs.Tab>
+              </TabWithActiveIndicator>
             </Tabs.List>
           </YStack>
 
-          <AnimatePresence
-            exitBeforeEnter
-            custom={{ enterVariant, exitVariant }}
-          >
+          <AnimatePresence exitBeforeEnter>
             <AnimatedYStack
               key={currentTab}
               animation="100ms"
@@ -150,11 +99,11 @@ export default function YourBooks() {
               opacity={1}
               flex={1}
             >
-              <TabsContent value="tab1">
+              <TabsContent value="wantToRead">
                 <ReadingList />
               </TabsContent>
 
-              <TabsContent value="tab2">
+              <TabsContent value="alreadyRead">
                 <RankingList />
               </TabsContent>
             </AnimatedYStack>
