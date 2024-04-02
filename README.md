@@ -15,3 +15,26 @@ https://apple.co/4csWtE0
 - Create a new migration: `npx supabase migration new [name]`
 - Push a migration: `npx supabase db push`
 - Update the types: `npm run write-types`
+
+## Android Builds
+
+Note to build on android you must have an ANDROID_HOME environment variable set to the location of your Android SDK.
+This is usually in `~/Library/Android/sdk` on MacOS. You can follow instructions at
+(https://docs.expo.dev/workflow/android-studio-emulator/) to configure this. For me (mac, ZSH), this meant
+adding
+
+```
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+to my ~/.zshrc.
+
+As of writing (April 2, 2024), **you'll also need a JDK < 21 for react-native-async-storage** because of gradle
+compatibility issues. For me, this meant:
+
+```
+brew install openjdk@17
+sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+```

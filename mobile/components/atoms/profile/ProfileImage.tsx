@@ -15,13 +15,18 @@ export default function ProfileImage({ profile, size }: Props) {
   if (isLoading) {
     return <ActivityIndicator size={"small"} />;
   } else {
-    return (
-      <Avatar circular size={size}>
-        <Avatar.Image src={imageURL} />
-        <Avatar.Fallback>
+    if (imageURL) {
+      return (
+        <Avatar circular size={size}>
+          <Avatar.Image src={imageURL} />
+        </Avatar>
+      );
+    } else {
+      return (
+        <Avatar circular size={size}>
           <Ionicons name={"person"} size={size} />
-        </Avatar.Fallback>
-      </Avatar>
-    );
+        </Avatar>
+      );
+    }
   }
 }

@@ -55,7 +55,7 @@ export default function LoginSignup() {
     <DismissKeyboardContainer>
       <YStack fullscreen display="flex">
         <SafeAreaView>
-          <YStack alignItems="center" py="$8">
+          <YStack alignItems="center" py="$6">
             <Text fontSize="$8" mb="$14">
               Ursula
             </Text>
@@ -75,7 +75,7 @@ export default function LoginSignup() {
                 secureTextEntry
               />
             </YStack>
-            <Button mt="$7" unstyled onPress={() => setIsLogin(!isLogin)}>
+            <Button mt="$3" unstyled onPress={() => setIsLogin(!isLogin)}>
               {isLogin ? "Don't have an account" : "I have an account"}
             </Button>
           </YStack>
