@@ -8,6 +8,7 @@ import {
   FunctionBinding,
 } from "../../ai/functions/bindings.ts";
 import { ActivityIndicator } from "react-native";
+import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 interface Props<M extends LLM.Message> {
   message: M;
@@ -28,7 +29,11 @@ function AssistantMessage({ message }: Props<LLM.AssistantMessage>) {
       >
         <Avatar backgroundColor="green" circular size={30}></Avatar>
         <YStack backgroundColor="gray" mr="$7" borderRadius="$3" p="$2">
-          {message.content && <Text lineBreakMode="tail" color="white">{message.content.trim()}</Text>}
+          {message.content && (
+            <Text lineBreakMode="tail" color="white">
+              {message.content.trim()}
+            </Text>
+          )}
         </YStack>
       </XStack>
     </>

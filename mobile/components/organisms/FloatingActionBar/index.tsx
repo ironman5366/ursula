@@ -1,12 +1,18 @@
 import React from "react";
 import Animated, { BounceInDown, BounceOutDown } from "react-native-reanimated";
 import { BlurView } from "expo-blur";
+import { useKeyboardUp } from "../../../contexts/KeyboardContext.ts";
 
 export default function FloatingActionBar({
   children,
   height = 55,
   borderRadius = 1000,
 }) {
+  const keyboardUp = useKeyboardUp();
+  if (keyboardUp) {
+    return <></>;
+  }
+
   return (
     <Animated.View
       key="floating-action-bar"

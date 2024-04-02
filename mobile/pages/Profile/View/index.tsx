@@ -9,6 +9,7 @@ import FollowersSection from "../Edit/FollowersSection.tsx";
 import { Pencil } from "@tamagui/lucide-icons";
 import { Link, router } from "expo-router";
 import ProfileTabs from "./Tabs.tsx";
+import { StyledText } from "../../../components/atoms/StyledText.tsx";
 
 interface Props {
   profile: Profile;
