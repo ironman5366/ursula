@@ -1,6 +1,6 @@
+import React, { forwardRef, useEffect } from "react";
 import { Search } from "@tamagui/lucide-icons";
-import React from "react";
-import { TextInput } from "react-native";
+import { Pressable, TextInput, TouchableOpacity } from "react-native";
 import StyledInput from "../atoms/StyledInput.tsx";
 import { StyledView } from "../organisms/StyledView.tsx";
 
@@ -15,12 +15,13 @@ interface SearchBarProps
   editable: boolean;
 }
 
-export default function SearchBar({ editable, ...props }: SearchBarProps) {
+export default function SearchBar({ editable, ...props }: SearchBarProps, ref) {
   const value = props.value || "";
   const onChangeText = props.onChangeText || (() => {});
 
   return (
     <StyledView
+      pointerEvents={editable ? "auto" : "none"}
       style={{
         flexDirection: "row",
         alignItems: "center",

@@ -5,16 +5,6 @@ import { Link } from "expo-router";
 import { YStack } from "tamagui";
 import SearchBar from "../../molecules/SearchBar.tsx";
 
-function SearchNavigator({ children, style }: PropsWithChildren<any>) {
-  return (
-    <Link href={"/search"} asChild>
-      <Pressable>
-        <StyledView style={style}>{children}</StyledView>
-      </Pressable>
-    </Link>
-  );
-}
-
 type Props =
   | {
       editable: false;
@@ -29,13 +19,14 @@ export default function SearchContainer({
   ...props
 }: PropsWithChildren<Props>) {
   const showSearch = "editable" in props && props.editable;
-  const WrapperComp = showSearch ? StyledView : SearchNavigator;
 
   return (
     <SafeAreaView style={styles.container}>
-      <WrapperComp>
-        <SearchBar editable={showSearch} {...props} />
-      </WrapperComp>
+      <Link href={"/search"} asChild disabled={showSearch}>
+        <Pressable>
+          <SearchBar editable={showSearch} {...props} />
+        </Pressable>
+      </Link>
       <YStack flexGrow={1}>{children}</YStack>
     </SafeAreaView>
   );
