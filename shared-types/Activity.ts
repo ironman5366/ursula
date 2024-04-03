@@ -5,6 +5,7 @@ export enum ActivityType {
   FOLLOWED = "followed",
   RECOMMENDED = "recommended",
   JOINED = "joined",
+  POSTED_NOTE = "posted_note",
 }
 
 export type StartedReadingActivity = {
@@ -12,6 +13,7 @@ export type StartedReadingActivity = {
   data: {
     book_id: number;
     book_name: string;
+    note?: string;
   };
 };
 
@@ -23,6 +25,7 @@ export type RankedActivity = {
     book_id: number;
     rank: number;
     total: number;
+    note?: string;
   };
 };
 
@@ -47,6 +50,10 @@ export type RecommendedActivity = {
   type: ActivityType.RECOMMENDED;
   data: {
     book_id: number;
+    book_name: string;
+    recipient_id: string;
+    recipient_name: string;
+    note?: string;
   };
 };
 
@@ -59,10 +66,20 @@ export type JoinedActivity = {
   };
 };
 
+export type PostedNoteActivity = {
+  type: ActivityType.POSTED_NOTE;
+  data: {
+    book_id: number;
+    book_name: string;
+    note: string;
+  };
+};
+
 export type ActivityData =
   | StartedReadingActivity
   | RankedActivity
   | AddedToListActivity
   | FollowedActivity
   | RecommendedActivity
-  | JoinedActivity;
+  | JoinedActivity
+  | PostedNoteActivity;
