@@ -4,7 +4,8 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { BookCovers, useBookCover } from "../../../hooks/useBookCover.ts";
-
+import { Book as BookIcon } from "@tamagui/lucide-icons";
+import { StyledView } from "../../organisms/StyledView.tsx";
 export interface Props {
   book: Book;
   size: number;
@@ -50,6 +51,9 @@ export default function BookImage({ book, size }: Props) {
   if (!data) {
     return <ActivityIndicator size={"small"} />;
   } else {
+    const height = size;
+    const width = size * aspectRatio;
+
     // Figure out which, if any url we can use
     let chosenUrl: string | null = chooseImageUrl(data, size);
 
@@ -61,13 +65,22 @@ export default function BookImage({ book, size }: Props) {
           }}
           style={{
             borderRadius: 10,
-            height: size,
-            width: size * aspectRatio,
+            height,
+            width,
           }}
         />
       );
     } else {
-      return <Ionicons name={"image"} size={size} />;
+      return (
+        <StyledView
+          style={{
+            height,
+            width,
+          }}
+        >
+          <BookIcon height={height} width={width} />
+        </StyledView>
+      );
     }
   }
 }
