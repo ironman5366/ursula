@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyledText } from "../../../atoms/StyledText.tsx";
 import { Book } from "@ursula/shared-types/derived.ts";
 import { useMarkReading } from "../../../../hooks/currentlyReading.ts";
-import { Button, Text, TextArea, YStack } from "tamagui";
+import { Button, YStack } from "tamagui";
 import BookPreviewCard from "../../../molecules/BookPreview/Card.tsx";
 import MultilineInput from "../../../atoms/inputs/MultilineInput.tsx";
 import LoadingScreen from "../../../atoms/loaders/LoadingScreen.tsx";
