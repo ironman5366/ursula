@@ -69,7 +69,7 @@ export default function LoginSignup() {
                 onChangeText={setEmail}
               />
               <PasswordInput
-                placeholder="Pick a password"
+                placeholder={isLogin ? "Password" : "Create a password"}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry

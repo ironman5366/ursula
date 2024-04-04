@@ -75,6 +75,7 @@ export default function ChatPage() {
         style={{
           flex: 0.85,
         }}
+        mb={"$5"}
       >
         <ScrollView ref={scrollViewRef} contentContainerStyle={{}}>
           <YStack marginHorizontal="$3">

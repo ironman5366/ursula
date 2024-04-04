@@ -1,69 +1,30 @@
-import React, {
-  ComponentProps,
-  Dispatch,
-  SetStateAction,
-  useState,
-} from "react";
+import React from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
-import { Button, XStack, YStack } from "tamagui";
+import { View, XStack, YStack } from "tamagui";
 import FavoriteBooks from "../../../components/organisms/FavoriteBooks.tsx";
 import UserActivities from "../../../components/molecules/UserActivities.tsx";
-
-interface TabButtonProps extends ComponentProps<typeof Button> {
-  value: string;
-  currTab: string;
-  setCurrTab: Dispatch<SetStateAction<string>>;
-}
-
-function ProfileTabButton({
-  value,
-  currTab,
-  setCurrTab,
-  ...props
-}: TabButtonProps) {
-  const active = currTab === value;
-  return (
-    <Button
-      borderWidth={0}
-      borderRadius={0}
-      borderBottomWidth={active ? 1 : 0}
-      borderColor={"$claret"}
-      onPress={() => setCurrTab(value)}
-      {...props}
-    />
-  );
-}
+import Tabs from "../../../components/organisms/Tabs.tsx";
+import { StyledView } from "../../../components/organisms/StyledView.tsx";
 
 interface Props {
   profile: Profile;
 }
 
 export default function ProfileTabs({ profile }: Props) {
-  const [currTab, setCurrTab] = useState("favoriteBooks");
-
   return (
-    <YStack style={{ height: "100%" }}>
-      <XStack justifyContent="space-between">
-        <ProfileTabButton
-          value={"favoriteBooks"}
-          setCurrTab={setCurrTab}
-          currTab={currTab}
-        >
-          Favorite Books
-        </ProfileTabButton>
-        <ProfileTabButton
-          value={"recentActivity"}
-          setCurrTab={setCurrTab}
-          currTab={currTab}
-        >
-          Recent Activity
-        </ProfileTabButton>
-      </XStack>
-      {currTab === "favoriteBooks" ? (
-        <FavoriteBooks profile={profile} />
-      ) : (
-        <UserActivities profile={profile} />
-      )}
+    <YStack style={{ flex: 1 }}>
+      <Tabs initial={"favoriteBooks"}>
+        <XStack justifyContent="space-between">
+          <Tabs.Button name={"favoriteBooks"}>Favorite Books</Tabs.Button>
+          <Tabs.Button name={"recentActivity"}>Recent Activity</Tabs.Button>
+        </XStack>
+        <Tabs.Content name={"favoriteBooks"}>
+          <FavoriteBooks profile={profile} />
+        </Tabs.Content>
+        <Tabs.Content name={"recentActivity"}>
+          <UserActivities profile={profile} />
+        </Tabs.Content>
+      </Tabs>
     </YStack>
   );
 }

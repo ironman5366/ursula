@@ -4,7 +4,7 @@ import React, {
   ReactElement,
   cloneElement,
   forwardRef,
-  useState
+  useState,
 } from "react";
 import { Button, Input, XStack } from "tamagui";
 import { useThemeColor } from "../../theme.ts";
@@ -15,7 +15,10 @@ interface Props extends ComponentProps<typeof Input> {
   icon?: ReactElement;
 }
 
-function StyledInput({ borderColorName, onBlur, onFocus, style, ...props }: Props, ref) {
+function StyledInput(
+  { borderColorName, onBlur, onFocus, style, ...props }: Props,
+  ref
+) {
   const [isFocused, setIsFocused] = useState(false);
   const tint = "gray";
   const textColor = useThemeColor("text");
@@ -23,7 +26,6 @@ function StyledInput({ borderColorName, onBlur, onFocus, style, ...props }: Prop
 
   const value = props.value || "";
   const onChangeText = props.onChangeText || (() => {});
-
 
   return (
     <XStack
@@ -49,7 +51,6 @@ function StyledInput({ borderColorName, onBlur, onFocus, style, ...props }: Prop
           color: textColor,
           flex: 0.9,
         }}
-        autoFocus={true}
         caretHidden={false}
         ref={ref}
         placeholder={"Search"}

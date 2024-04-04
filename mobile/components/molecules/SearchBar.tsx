@@ -34,7 +34,6 @@ export default function SearchBar({ editable, ...props }: SearchBarProps, ref) {
         caretHidden={false}
         placeholder={"Search"}
         onChangeText={onChangeText}
-        autoFocus={editable}
         disabled={!editable}
         value={value}
         icon={<Search />}

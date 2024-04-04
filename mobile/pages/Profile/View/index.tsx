@@ -10,6 +10,7 @@ import { Pencil } from "@tamagui/lucide-icons";
 import { Link, router } from "expo-router";
 import ProfileTabs from "./Tabs.tsx";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
+import { StyledView } from "../../../components/organisms/StyledView.tsx";
 
 interface Props {
   profile: Profile;
@@ -25,8 +26,8 @@ export default function ViewProfile({ profile }: Props) {
   const isOwnProfile = session?.user.id === profile.id;
 
   return (
-    <SafeAreaView>
-      <YStack height="100%" py="$6" px="$3">
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack py="$6" px="$3" style={{ flex: 1 }}>
         <YStack gap="$3" alignItems="center" width="100%">
           <YStack my="$5" alignItems="center">
             <ProfileImage profile={profile} size={100} />

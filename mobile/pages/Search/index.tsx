@@ -61,6 +61,7 @@ export default function SearchPage({ initialQuery, ...props }: Props) {
       editable
       onChangeText={(text) => setQuery(text)}
       value={query}
+      autoFocus={true}
     >
       <Stack.Screen
         options={{
