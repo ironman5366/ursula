@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledText } from "../../atoms/StyledText.tsx";
+import { StyledText } from "./StyledText.tsx";
 
 export default function Note({ note }: { note: string }) {
   return (

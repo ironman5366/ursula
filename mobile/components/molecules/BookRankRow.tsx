@@ -6,6 +6,7 @@ import { GripVertical } from "@tamagui/lucide-icons";
 import { StyledView } from "../organisms/StyledView.tsx";
 import { StyledText } from "../atoms/StyledText.tsx";
 import { BookPreviewLinkRow } from "./BookPreview/Link.tsx";
+import Note from "../atoms/Note.tsx";
 
 interface Props {
   review: ReviewWithBook;
@@ -32,6 +33,7 @@ export default function BookRankRow({ rank, review, drag }: Props) {
         </StyledView>
         <StyledView style={styles.preview}>
           <BookPreviewLinkRow book={review.book} />
+          {review.review.note && <Note note={review.review.note} />}
         </StyledView>
         {drag && (
           <XStack flex={1} flexGrow={1} py="$2" px="$3" alignItems="center">

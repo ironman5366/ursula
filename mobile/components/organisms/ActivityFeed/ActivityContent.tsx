@@ -15,8 +15,7 @@ import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/book/BookLink.tsx";
 import ProfileLink from "../../atoms/profile/ProfileLink.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
-import { Quote, TextQuote } from "@tamagui/lucide-icons";
-import Note from "./Note.tsx";
+import Note from "../../atoms/Note.tsx";
 
 interface Props<T> {
   activity: T;

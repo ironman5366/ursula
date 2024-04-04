@@ -17,14 +17,13 @@ export default function FavoriteBooks({ profile }: Props) {
   }
 
   return (
-    <YStack>
-      <FlatList
-        data={reviews}
-        scrollEnabled={true}
-        renderItem={({ item: review, index }) => (
-          <BookRankRow rank={index + 1} review={review} key={index} />
-        )}
-      />
-    </YStack>
+    <FlatList
+      data={reviews}
+      scrollEnabled={true}
+      showsVerticalScrollIndicator={true}
+      renderItem={({ item: review, index }) => (
+        <BookRankRow rank={index + 1} review={review} key={index} />
+      )}
+    />
   );
 }
