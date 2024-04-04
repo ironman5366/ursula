@@ -43,4 +43,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT cron.schedule('update-book-counts', '0 0 * * 0', 'SET statement_timeout = 0; SELECT update_book_counts();');
+SELECT cron.schedule('update-book-counts', '30 20 * * 4', 'SET statement_timeout = 0; SELECT update_book_counts();');
