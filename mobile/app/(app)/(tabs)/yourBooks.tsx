@@ -3,10 +3,8 @@ import React, { ComponentProps, useState } from "react";
 import {
   AnimatePresence,
   StackProps,
-  TabLayout,
   Tabs,
   TabsContentProps,
-  TabsTabProps,
   YStack,
   styled,
   Text,

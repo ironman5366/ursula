@@ -12,11 +12,9 @@ interface Props {
 
 export function FindAddBook({ selectBook, onOpenChange }: Props) {
   return (
-    <ScrollView>
-      <YStack gap={"$3"}>
-        <AddBookSearch selectBook={selectBook} onOpenChange={onOpenChange} />
-        <AddBookFromReadingList />
-      </YStack>
-    </ScrollView>
+    <YStack gap={"$3"}>
+      <AddBookSearch selectBook={selectBook} onOpenChange={onOpenChange} />
+      <AddBookFromReadingList selectBook={selectBook} />
+    </YStack>
   );
 }

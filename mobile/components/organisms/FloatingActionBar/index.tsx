@@ -16,8 +16,6 @@ export default function FloatingActionBar({
   return (
     <Animated.View
       key="floating-action-bar"
-      entering={BounceInDown.duration(500)}
-      exiting={BounceOutDown.duration(400)}
       style={{
         position: "absolute",
         bottom: 0,

@@ -1,17 +1,15 @@
-import React, { ComponentProps } from "react";
+import React, { forwardRef, ComponentProps } from "react";
 import { Button } from "tamagui";
 
 type Props = Pick<
   ComponentProps<typeof Button>,
   "iconAfter" | "onPress" | "children"
 >;
-export default function FloatingButton({
-  iconAfter,
-  onPress,
-  children,
-}: Props) {
+
+function FloatingButton({ iconAfter, onPress, children }: Props, ref) {
   return (
     <Button
+      ref={ref}
       width={300}
       unstyled
       alignSelf="center"
@@ -30,3 +28,5 @@ export default function FloatingButton({
     </Button>
   );
 }
+
+export default forwardRef(FloatingButton);
