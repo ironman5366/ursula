@@ -1,5 +1,5 @@
 import React from "react";
-import { SizableText, XStack, YStack } from "tamagui";
+import { SizableText, Text, XStack, YStack } from "tamagui";
 import { useReadingList } from "../../../../hooks/readingList.ts";
 import { useSession } from "../../../../contexts/SessionContext.ts";
 import { ActivityIndicator, ScrollView } from "react-native";
@@ -10,8 +10,10 @@ export default function AddBookFromReadingList() {
   const { data: readingListItems, isLoading } = useReadingList(session.user.id);
 
   return (
-    <YStack>
-      <SizableText>From Your Reading List</SizableText>
+    <YStack gap={"$3"}>
+      <Text textAlign={"center"} fontWeight={"600"} fontSize={"$5"}>
+        From Your Reading List
+      </Text>
       {isLoading ? (
         <ActivityIndicator />
       ) : (

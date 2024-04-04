@@ -29,10 +29,12 @@ export function SearchHeader() {
 }
 
 interface Props
-  extends Omit<ComponentProps<typeof SearchResultList>, "results"> {}
+  extends Omit<ComponentProps<typeof SearchResultList>, "results"> {
+  initialQuery?: string;
+}
 
-export default function SearchPage(props: Props) {
-  const [query, setQuery] = useState("");
+export default function SearchPage({ initialQuery, ...props }: Props) {
+  const [query, setQuery] = useState(initialQuery || "");
   const debounced = useDebounce(query, 500);
   const [dirty, setDirty] = useState(false);
 
