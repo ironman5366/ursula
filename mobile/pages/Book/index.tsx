@@ -6,6 +6,7 @@ import ReadingListButton from "../../app/(app)/bookDetail/ReadingListButton.tsx"
 import ReviewButton from "../../app/(app)/bookDetail/ReviewButton.tsx";
 import { StyledText } from "../../components/atoms/StyledText.tsx";
 import BookHeader from "./Header.tsx";
+import { ScrollView } from "react-native";
 
 interface Props {
   book: Book;
@@ -20,7 +21,7 @@ export default function BookDetailPage({ book }: Props) {
           headerTransparent: true,
         }}
       />
-      <YStack>
+      <YStack style={{ flex: 1 }}>
         <BookHeader book={book} />
         <XStack
           mx="auto"
@@ -32,10 +33,11 @@ export default function BookDetailPage({ book }: Props) {
           <ReadingListButton bookId={book.id} />
           <ReviewButton bookId={book.id} />
         </XStack>
-        <XStack></XStack>
-        <YStack px="$3" py="$3">
-          <StyledText>{book.description}</StyledText>
-        </YStack>
+        <ScrollView>
+          <YStack px="$3" py="$3">
+            <StyledText>{book.description}</StyledText>
+          </YStack>
+        </ScrollView>
       </YStack>
     </>
   );
