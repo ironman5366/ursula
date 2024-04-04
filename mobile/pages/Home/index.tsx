@@ -15,7 +15,7 @@ export default function HomePage() {
         // This will pop up a sheet if the user hasn't completed their account
       }
       <SetupGuard />
-      <YStack gap={"$3"}>
+      <YStack gap={"$3"} style={{ flex: 1 }}>
         <CurrentlyReading />
         <ActivityFeed activities={socialFeed} />
       </YStack>

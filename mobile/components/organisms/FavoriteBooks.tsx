@@ -20,7 +20,6 @@ export default function FavoriteBooks({ profile }: Props) {
     <FlatList
       data={reviews}
       scrollEnabled={true}
-      showsVerticalScrollIndicator={true}
       renderItem={({ item: review, index }) => (
         <BookRankRow rank={index + 1} review={review} key={index} />
       )}

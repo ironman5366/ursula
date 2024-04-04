@@ -11,11 +11,10 @@ export default function BannerCard({
       width={"$12"}
       alignItems={"center"}
       justifyContent={"center"}
+      height={"$8"}
       {...props}
     >
-      <BlurView intensity={95} tint="extraLight">
-        {children}
-      </BlurView>
+      {children}
     </Card>
   );
 }

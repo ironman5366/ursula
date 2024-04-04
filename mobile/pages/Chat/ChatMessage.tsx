@@ -45,7 +45,7 @@ function UserMessage({ message }: Props<LLM.UserMessage>) {
   const { data: profile } = useCurrentProfile();
 
   return (
-    <XStack my={2} justifyContent="flex-end" gap={4} ml="$4">
+    <XStack my={2} justifyContent="flex-end" gap={4} ml={"$9"}>
       <YStack backgroundColor="$claret" borderRadius="$3" p="$2">
         <Text color="white">{message.content}</Text>
       </YStack>

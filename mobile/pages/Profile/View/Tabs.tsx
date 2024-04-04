@@ -42,7 +42,7 @@ export default function ProfileTabs({ profile }: Props) {
   const [currTab, setCurrTab] = useState("favoriteBooks");
 
   return (
-    <YStack style={{ flex: 1 }}>
+    <YStack style={{ height: "100%" }}>
       <XStack justifyContent="space-between">
         <ProfileTabButton
           value={"favoriteBooks"}
