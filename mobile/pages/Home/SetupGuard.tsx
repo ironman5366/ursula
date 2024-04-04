@@ -16,6 +16,8 @@ function SetupBanner() {
       position={position}
       onPositionChange={setPosition}
       onOpenChange={setOpen}
+      justifyContent="center"
+      alignItems="center"
     >
       <H2 color="white">Your Account is Incomplete</H2>
       <Text color={"white"} fontSize={"$4"} textAlign={"center"}>

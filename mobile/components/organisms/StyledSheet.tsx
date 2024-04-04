@@ -28,15 +28,14 @@ export default function StyledSheet({
       onPositionChange={onPositionChange}
       modal
     >
-      <Sheet.Overlay animation="lazy" opacity={0.5} />
-      <Sheet.Handle backgroundColor={"$cambridgeBlue"} />
-      <Sheet.Frame
-        padding="$4"
-        justifyContent="center"
-        alignItems="center"
-        space="$5"
-        {...props}
+      <Sheet.Overlay
+        opacity={0.5}
+        exitStyle={{
+          opacity: 0,
+        }}
       />
+      <Sheet.Handle backgroundColor={"$cambridgeBlue"} />
+      <Sheet.Frame padding="$4" space="$5" {...props} />
     </Sheet>
   );
 }
