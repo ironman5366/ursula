@@ -15,7 +15,8 @@ import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/book/BookLink.tsx";
 import ProfileLink from "../../atoms/profile/ProfileLink.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
-import { Quote } from "@tamagui/lucide-icons";
+import { Quote, TextQuote } from "@tamagui/lucide-icons";
+import Note from "./Note.tsx";
 
 interface Props<T> {
   activity: T;
@@ -41,25 +42,16 @@ function RankedContent({
   profile,
 }: Props<ActivityOf<RankedActivity>>) {
   return (
-    <StyledText>
-      <ProfileLink profile={profile} /> ranked{" "}
-      <BookLink
-        book={{ id: activity.data.book_id, title: activity.data.book_name }}
-      />{" "}
-      as {activity.data.rank} out of {activity.data.total} books read.
-      {activity.data.note && (
-        <>
-          <Quote />
-          <StyledText
-            style={{
-              fontStyle: "italic",
-            }}
-          >
-            {activity.data.note}
-          </StyledText>
-        </>
-      )}
-    </StyledText>
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> ranked{" "}
+        <BookLink
+          book={{ id: activity.data.book_id, title: activity.data.book_name }}
+        />{" "}
+        as {activity.data.rank} out of {activity.data.total} books read.
+      </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
   );
 }
 
@@ -129,23 +121,18 @@ function PostedNoteContent({
   profile,
 }: Props<ActivityOf<PostedNoteActivity>>) {
   return (
-    <StyledText>
-      <ProfileLink profile={profile} /> posted a note about{" "}
-      <BookLink
-        book={{
-          id: activity.data.book_id,
-          title: activity.data.book_name,
-        }}
-      />
-      <Quote />
-      <StyledText
-        style={{
-          fontStyle: "italic",
-        }}
-      >
-        {activity.data.note}
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> posted a note about{" "}
+        <BookLink
+          book={{
+            id: activity.data.book_id,
+            title: activity.data.book_name,
+          }}
+        />
       </StyledText>
-    </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
   );
 }
 
@@ -157,38 +144,29 @@ function RecommendedContent({
   const isOwnProfile = session?.user.id === activity.data.recipient_id;
 
   return (
-    <StyledText>
-      <ProfileLink profile={profile} /> recommended{" "}
-      <BookLink
-        book={{
-          id: activity.data.book_id,
-          title: activity.data.book_name,
-        }}
-      />{" "}
-      to{" "}
-      {isOwnProfile ? (
-        "you"
-      ) : (
-        <ProfileLink
-          profile={{
-            id: activity.data.recipient_id,
-            full_name: activity.data.recipient_name,
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> recommended{" "}
+        <BookLink
+          book={{
+            id: activity.data.book_id,
+            title: activity.data.book_name,
           }}
-        />
-      )}
-      {activity.data.note && (
-        <>
-          <Quote />
-          <StyledText
-            style={{
-              fontStyle: "italic",
+        />{" "}
+        to{" "}
+        {isOwnProfile ? (
+          "you"
+        ) : (
+          <ProfileLink
+            profile={{
+              id: activity.data.recipient_id,
+              full_name: activity.data.recipient_name,
             }}
-          >
-            {activity.data.note}
-          </StyledText>
-        </>
-      )}
-    </StyledText>
+          />
+        )}
+      </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
   );
 }
 

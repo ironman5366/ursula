@@ -9,6 +9,8 @@ import { StyledText } from "../../../components/atoms/StyledText.tsx";
 import LoadingScreen from "../../../components/atoms/loaders/LoadingScreen.tsx";
 import { StyledView } from "../../../components/organisms/StyledView.tsx";
 import StyledInput from "../../../components/atoms/StyledInput.tsx";
+import { YStack } from "tamagui";
+import BookPreviewCard from "../../../components/molecules/BookPreview/Card.tsx";
 
 export default function Review() {
   const id = useNumericIdParam();
@@ -35,22 +37,35 @@ export default function Review() {
         }}
       />
       <StyledView style={styles.container}>
-        <StyledText>What did you think about {book.title}?</StyledText>
-        <StyledInput
-          style={{
-            minWidth: "80%",
-          }}
-          multiline={true}
-          value={note}
-          placeholder={"Leave a note (optional)"}
-          onChangeText={(text) => setNote(text)}
-        />
-        <StyledButton
-          title={"Submit"}
-          onPress={() => {
-            mutate({ bookId: book.id, note });
-          }}
-        />
+        <YStack gap={"$3"}>
+          <StyledText>
+            What did you think about{" "}
+            <StyledText
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              {book.title}
+            </StyledText>
+            ?
+          </StyledText>
+          <BookPreviewCard book={book} />
+          <StyledInput
+            style={{
+              minWidth: "80%",
+            }}
+            multiline={true}
+            value={note}
+            placeholder={"Leave a note (optional)"}
+            onChangeText={(text) => setNote(text)}
+          />
+          <StyledButton
+            title={"Submit"}
+            onPress={() => {
+              mutate({ bookId: book.id, note });
+            }}
+          />
+        </YStack>
       </StyledView>
     </>
   );
