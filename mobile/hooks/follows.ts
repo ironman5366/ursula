@@ -2,10 +2,10 @@ import { supabase } from "../utils/supabase.ts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "../contexts/SessionContext.ts";
 import { Profile } from "@ursula/shared-types/derived.ts";
-import { ProfileWithFollowTime } from "../types/ProfileWithFollowTime.ts";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useRecordActivity } from "./activities.ts";
 import { ActivityType } from "@ursula/shared-types/Activity.ts";
+import { WithTime } from "../types/WithTime.ts";
 
 async function followUser(profile_id: string, followee_id: string) {
   const { error } = await supabase.from("follows").upsert(
@@ -87,7 +87,7 @@ async function fetchFollowRelation(
   profileId: string,
   fetchCol: "followee_id" | "follower_id",
   eqCol: "followee_id" | "follower_id"
-): Promise<ProfileWithFollowTime[]> {
+): Promise<WithTime<Profile>[]> {
   // We have to type this response because the supabase type integration
   // isn't smart enough to track the join
   const { data, error } = (await supabase
@@ -109,9 +109,7 @@ async function fetchFollowRelation(
   }));
 }
 
-async function fetchFollowing(
-  profileId: string
-): Promise<ProfileWithFollowTime[]> {
+async function fetchFollowing(profileId: string): Promise<WithTime<Profile>[]> {
   // We're finding people this profile is following, so rows where
   // follower_id=profileId
   return fetchFollowRelation(profileId, "followee_id", "follower_id");
@@ -129,9 +127,7 @@ export function useCurrentUserFollowing() {
   return useFollowing(session.user.id);
 }
 
-async function fetchFollowers(
-  profileId: string
-): Promise<ProfileWithFollowTime[]> {
+async function fetchFollowers(profileId: string): Promise<WithTime<Profile>[]> {
   // We're finding people who follow profileId, so rows where followee_id=profileId
   return fetchFollowRelation(profileId, "follower_id", "followee_id");
 }

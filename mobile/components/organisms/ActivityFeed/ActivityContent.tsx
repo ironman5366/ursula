@@ -209,8 +209,7 @@ export default function ActivityContent<T extends Activity>({
       return <FollowedContent activity={activity} profile={profile} />;
     case ActivityType.POSTED_NOTE:
       return <PostedNoteContent activity={activity} profile={profile} />;
-    default:
-      console.warn("Unknown activity type", activity.type, activity);
-      return <></>;
+    case ActivityType.RECOMMENDED:
+      return <RecommendedContent activity={activity} profile={profile} />;
   }
 }
