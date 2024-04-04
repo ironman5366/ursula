@@ -27,12 +27,15 @@ function StartedReadingContent({
   profile,
 }: Props<ActivityOf<StartedReadingActivity>>) {
   return (
-    <StyledText>
-      <ProfileLink profile={profile} /> started reading
-      <StyledLink href={`/bookDetail/${activity.data.book_id}`}>
-        {activity.data.book_name}
-      </StyledLink>
-    </StyledText>
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> started reading{" "}
+        <StyledLink href={`/bookDetail/${activity.data.book_id}`}>
+          {activity.data.book_name}
+        </StyledLink>
+      </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
   );
 }
 

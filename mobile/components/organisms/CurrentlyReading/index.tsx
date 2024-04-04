@@ -5,6 +5,7 @@ import WhatAreYouReadingCard from "./WhatAreYouReadingCard.tsx";
 import { useCurrentUserCurrentlyReading } from "../../../hooks/currentlyReading.ts";
 import CurrentBookCard from "./CurrentBookCard.tsx";
 import { StyledView } from "../StyledView.tsx";
+import BookPreviewCard from "../../molecules/BookPreview/Card.tsx";
 
 export default function CurrentlyReading() {
   const { data: currentBooks } = useCurrentUserCurrentlyReading();
@@ -15,7 +16,7 @@ export default function CurrentlyReading() {
         <XStack gap={"$3"} m={"$3"}>
           <WhatAreYouReadingCard />
           {currentBooks?.map((book) => (
-            <CurrentBookCard key={book.id} book={book} />
+            <BookPreviewCard key={book.id} book={book} maxWidth={"$20"} />
           ))}
         </XStack>
       </ScrollView>

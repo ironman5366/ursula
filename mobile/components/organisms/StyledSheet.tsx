@@ -16,7 +16,7 @@ export default function StyledSheet({
 }: Props) {
   return (
     <Sheet
-      snapPoints={[70, 35]}
+      snapPoints={[80, 35]}
       snapPointsMode={"percent"}
       dismissOnSnapToBottom
       position={position}

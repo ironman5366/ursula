@@ -49,6 +49,7 @@ export function AddBookSearch({ selectBook, onOpenChange }: Props) {
   return (
     <YStack gap={"$3"}>
       <SearchBar editable value={query} onChangeText={(val) => setQuery(val)} />
+      {isLoading && !!query && <ActivityIndicator />}
       {showSearch && (
         <YStack gap={"$3"}>
           {results.map((result: BookSearchResult) => (

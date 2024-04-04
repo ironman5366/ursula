@@ -10,16 +10,17 @@ import { Link, router } from "expo-router";
 
 interface Props extends ComponentProps<typeof Card> {
   book: Book;
+  withDescription?: boolean;
 }
 
-function BookPreviewCard({ book, ...props }: Props, ref) {
+function BookPreviewCard({ book, withDescription, ...props }: Props, ref) {
   return (
     <Card
       ref={ref}
       position="relative"
       borderWidth={2}
       borderColor="#00000044"
-      maxHeight={"$15"}
+      overflow={"hidden"}
       {...props}
     >
       <YStack
@@ -40,6 +41,7 @@ function BookPreviewCard({ book, ...props }: Props, ref) {
         tint="extraLight"
         style={{
           zIndex: 3,
+          overflow: "hidden",
         }}
       >
         <YStack gap="$4" p="$2">
@@ -50,7 +52,7 @@ function BookPreviewCard({ book, ...props }: Props, ref) {
                 {book.title}
               </Text>
               <BookAuthors bookId={book.id} />
-              {book.description && (
+              {withDescription && book.description && (
                 <Text numberOfLines={1} ellipsizeMode={"middle"}>
                   {book.description}
                 </Text>

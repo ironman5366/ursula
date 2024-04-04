@@ -11,7 +11,6 @@ export default function BannerCard({
       width={"$12"}
       alignItems={"center"}
       justifyContent={"center"}
-      height={"$8"}
       {...props}
     >
       {children}
