@@ -11,6 +11,7 @@ import { StyledView } from "../../../components/organisms/StyledView.tsx";
 import StyledInput from "../../../components/atoms/StyledInput.tsx";
 import { YStack } from "tamagui";
 import BookPreviewCard from "../../../components/molecules/BookPreview/Card.tsx";
+import MultilineInput from "../../../components/atoms/inputs/MultilineInput.tsx";
 
 export default function Review() {
   const id = useNumericIdParam();
@@ -50,11 +51,7 @@ export default function Review() {
             ?
           </StyledText>
           <BookPreviewCard book={book} />
-          <StyledInput
-            style={{
-              minWidth: "80%",
-            }}
-            multiline={true}
+          <MultilineInput
             value={note}
             placeholder={"Leave a note (optional)"}
             onChangeText={(text) => setNote(text)}

@@ -9,6 +9,20 @@ export default function AddBookFromReadingList() {
   const { session } = useSession();
   const { data: readingListItems, isLoading } = useReadingList(session.user.id);
 
+  if (isLoading) {
+    return <></>;
+  }
+
+  if (Array.isArray(readingListItems) && readingListItems.length === 0) {
+    return (
+      <>
+        <SizableText size={"$5"} textAlign={"center"}>
+          Your reading list is empty
+        </SizableText>
+      </>
+    );
+  }
+
   return (
     <YStack gap={"$3"}>
       <Text textAlign={"center"} fontWeight={"600"} fontSize={"$5"}>

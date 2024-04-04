@@ -1,11 +1,10 @@
 import { useUnrank, useUserBookReview } from "../../../hooks/reviews.ts";
-import CardButton from "../../../components/atoms/CardButton.tsx";
 import { ActivityIndicator } from "react-native";
 import React from "react";
 import { router } from "expo-router";
 import { useCurrentProfile } from "../../../hooks/profile.ts";
 import { Button } from "tamagui";
-import { PlusCircle, Star, StarOff } from "@tamagui/lucide-icons";
+import { Star, StarOff } from "@tamagui/lucide-icons";
 
 interface Props {
   bookId: number;
@@ -38,9 +37,7 @@ export default function ReviewButton({ bookId }: Props) {
           <Star size={20} color="white" />
         )
       }
-      backgroundColor={
-        review ? "maroon" : "black"
-      }
+      backgroundColor={review ? "maroon" : "black"}
       color="white"
     >
       {review ? "Remove Review" : " Review"}
