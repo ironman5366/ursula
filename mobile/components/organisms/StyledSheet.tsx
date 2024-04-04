@@ -26,12 +26,9 @@ export default function StyledSheet({
       onOpenChange={onOpenChange}
       forceRemoveScrollEnabled={open}
       onPositionChange={onPositionChange}
+      modal
     >
-      <Sheet.Overlay
-        animation="lazy"
-        enterStyle={{ opacity: 0 }}
-        exitStyle={{ opacity: 0 }}
-      />
+      <Sheet.Overlay animation="lazy" opacity={0.5} />
       <Sheet.Handle backgroundColor={"$cambridgeBlue"} />
       <Sheet.Frame
         padding="$4"

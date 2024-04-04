@@ -3,7 +3,7 @@ import { Card } from "tamagui";
 import { StyledText } from "../../atoms/StyledText.tsx";
 import BannerCard from "./BannerCard.tsx";
 import { Pressable } from "react-native";
-import StyledSheet from "../StyledSheet.tsx";
+import AddBookSheet from "./AddBookSheet.tsx";
 
 export default function WhatAreYouReadingCard() {
   const [open, setOpen] = useState(false);
@@ -18,14 +18,12 @@ export default function WhatAreYouReadingCard() {
           </Card.Header>
         </BannerCard>
       </Pressable>
-      <StyledSheet
+      <AddBookSheet
         open={open}
         onOpenChange={setOpen}
         position={position}
         onPositionChange={setPosition}
-      >
-        <StyledText>TODO: Implement the rest of the card</StyledText>
-      </StyledSheet>
+      />
     </>
   );
 }
