@@ -29,7 +29,7 @@ export default function ActivityFeedItem({ activity }: Props) {
           <ActivityIndicator size={"small"} />
         )}
         <ListItem.Subtitle>
-          {new Date(activity.created_at).toLocaleString()}
+          {new Date(activity.created_at).toLocaleDateString()}
         </ListItem.Subtitle>
       </YStack>
     </ListItem>

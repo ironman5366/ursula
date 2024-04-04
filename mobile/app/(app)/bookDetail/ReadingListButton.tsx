@@ -44,7 +44,7 @@ export default function ReadingListButton({ bookId }: Props) {
         )
       }
     >
-      {bookInReadingList ? "Reading List" : "Reading List"}
+      {bookInReadingList ? "Remove from Want to Read" : "Want to Read"}
     </Button>
   );
 }

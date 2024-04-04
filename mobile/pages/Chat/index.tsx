@@ -25,7 +25,8 @@ export default function ChatPage() {
   const systemMessage = useMemo(() => {
     let systemReviews = reviews || [];
     const initialPrompt =
-      "You're a librarian, helping a user choose a book to read. Be concise and helpful";
+      "You're a librarian, helping a user choose a book to read. Be concise and helpful. " +
+      "Don't recommend any books they've already read, but use their list to understand their taste.";
     if (systemReviews.length === 0) {
       return initialPrompt;
     } else {

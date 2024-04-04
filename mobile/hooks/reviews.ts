@@ -198,6 +198,7 @@ export function useRank() {
           book_name: book.title,
           book_id: book.id,
           total: profile.review_ids.length,
+          note: review.note,
         },
       });
     },

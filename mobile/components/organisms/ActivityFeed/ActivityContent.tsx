@@ -3,7 +3,9 @@ import {
   AddedToListActivity,
   FollowedActivity,
   JoinedActivity,
+  PostedNoteActivity,
   RankedActivity,
+  RecommendedActivity,
   StartedReadingActivity,
 } from "@ursula/shared-types/Activity.ts";
 import { Activity, ActivityOf, Profile } from "@ursula/shared-types/derived.ts";
@@ -13,6 +15,7 @@ import { StyledText } from "../../atoms/StyledText.tsx";
 import { BookLink } from "../../atoms/book/BookLink.tsx";
 import ProfileLink from "../../atoms/profile/ProfileLink.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
+import Note from "../../atoms/Note.tsx";
 
 interface Props<T> {
   activity: T;
@@ -24,12 +27,15 @@ function StartedReadingContent({
   profile,
 }: Props<ActivityOf<StartedReadingActivity>>) {
   return (
-    <StyledText>
-      <ProfileLink profile={profile} /> started reading
-      <StyledLink href={`/bookDetail/${activity.data.book_id}`}>
-        {activity.data.book_name}
-      </StyledLink>
-    </StyledText>
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> started reading{" "}
+        <StyledLink href={`/bookDetail/${activity.data.book_id}`}>
+          {activity.data.book_name}
+        </StyledLink>
+      </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
   );
 }
 
@@ -38,13 +44,16 @@ function RankedContent({
   profile,
 }: Props<ActivityOf<RankedActivity>>) {
   return (
-    <StyledText>
-      <ProfileLink profile={profile} /> ranked{" "}
-      <BookLink
-        book={{ id: activity.data.book_id, title: activity.data.book_name }}
-      />{" "}
-      as {activity.data.rank} out of {activity.data.total} books read.
-    </StyledText>
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> ranked{" "}
+        <BookLink
+          book={{ id: activity.data.book_id, title: activity.data.book_name }}
+        />{" "}
+        as {activity.data.rank} out of {activity.data.total} books read.
+      </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
   );
 }
 
@@ -109,6 +118,60 @@ function FollowedContent({
   );
 }
 
+function PostedNoteContent({
+  activity,
+  profile,
+}: Props<ActivityOf<PostedNoteActivity>>) {
+  return (
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> posted a note about{" "}
+        <BookLink
+          book={{
+            id: activity.data.book_id,
+            title: activity.data.book_name,
+          }}
+        />
+      </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
+  );
+}
+
+function RecommendedContent({
+  activity,
+  profile,
+}: Props<ActivityOf<RecommendedActivity>>) {
+  const { session } = useSession();
+  const isOwnProfile = session?.user.id === activity.data.recipient_id;
+
+  return (
+    <>
+      <StyledText>
+        <ProfileLink profile={profile} /> recommended{" "}
+        <BookLink
+          book={{
+            id: activity.data.book_id,
+            title: activity.data.book_name,
+          }}
+        />{" "}
+        to{" "}
+        {isOwnProfile ? (
+          "you"
+        ) : (
+          <ProfileLink
+            profile={{
+              id: activity.data.recipient_id,
+              full_name: activity.data.recipient_name,
+            }}
+          />
+        )}
+      </StyledText>
+      {activity.data.note && <Note note={activity.data.note} />}
+    </>
+  );
+}
+
 export default function ActivityContent<T extends Activity>({
   activity,
   profile,
@@ -124,9 +187,9 @@ export default function ActivityContent<T extends Activity>({
       return <JoinedContent activity={activity} profile={profile} />;
     case ActivityType.FOLLOWED:
       return <FollowedContent activity={activity} profile={profile} />;
-
-    default:
-      console.warn("Unknown activity type", activity.type, activity);
-      return <></>;
+    case ActivityType.POSTED_NOTE:
+      return <PostedNoteContent activity={activity} profile={profile} />;
+    case ActivityType.RECOMMENDED:
+      return <RecommendedContent activity={activity} profile={profile} />;
   }
 }

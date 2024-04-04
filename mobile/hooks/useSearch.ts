@@ -18,13 +18,14 @@ export async function fetchSearchBooksOnly(query: string): Promise<Book[]> {
 }
 
 export async function fetchSearchResults(
-  query: string
+  query: string,
+  limit?: number
 ): Promise<SearchResult[]> {
   const { data, error } = await supabase
     .rpc("search_all", {
       search_text: query,
     })
-    .limit(30);
+    .limit(limit || 30);
 
   if (error) {
     throw error;
@@ -44,13 +45,19 @@ interface SearchProps {
   query: string;
   enabled: boolean;
   filter?: (result: SearchResult) => boolean;
+  limit?: number;
 }
 
-export default function useSearch({ query, enabled, filter }: SearchProps) {
+export default function useSearch({
+  query,
+  enabled,
+  filter,
+  limit,
+}: SearchProps) {
   return useQuery({
-    queryKey: ["SEARCH", query],
+    queryKey: ["SEARCH", query, limit],
     queryFn: async () => {
-      const results = await fetchSearchResults(query);
+      const results = await fetchSearchResults(query, limit);
       if (filter) {
         return results.filter(filter);
       } else {

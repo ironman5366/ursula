@@ -24,17 +24,18 @@ export default function BookHeader({ book }: { book: Book }) {
         zIndex={0}
         overflow="hidden"
       >
-        <BookImage book={book} size={350} />
+        <BookImage book={book} size={250} />
       </YStack>
 
       <BlurView
         intensity={85}
+        tint="light"
         style={{
           zIndex: 3,
         }}
       >
         <YStack alignItems="center" pt="$10" pb="$3" mt="$10">
-          <BookImage book={book} size={300} />
+          <BookImage book={book} size={200} />
           <TitleText
             fontSize={30}
             style={{

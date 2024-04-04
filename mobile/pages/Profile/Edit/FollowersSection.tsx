@@ -1,18 +1,17 @@
-import React, { ComponentProps } from "react";
+import React from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
 import { useFollowers, useFollowing } from "../../../hooks/follows.ts";
 import { StyledView } from "../../../components/organisms/StyledView.tsx";
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { Link, LinkProps } from "expo-router";
 import { StyledText } from "../../../components/atoms/StyledText.tsx";
 import { useSession } from "../../../contexts/SessionContext.ts";
-import StyledButton from "../../../components/organisms/StyledButton.tsx";
 import FollowButton from "./FollowButton.tsx";
 import { XStack } from "tamagui";
-import { ProfileWithFollowTime } from "../../../types/ProfileWithFollowTime.ts";
+import { WithTime } from "../../../types/WithTime.ts";
 
 interface FollowerLinkProps<T> extends Omit<LinkProps<T>, "children"> {
-  list: ProfileWithFollowTime[] | undefined;
+  list: WithTime<Profile>[] | undefined;
   link_text: string;
 }
 

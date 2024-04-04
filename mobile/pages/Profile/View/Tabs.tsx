@@ -5,10 +5,8 @@ import React, {
   useState,
 } from "react";
 import { Profile } from "@ursula/shared-types/derived.ts";
-import { TabView } from "react-native-tab-view";
-import { Button, Separator, XStack, YStack } from "tamagui";
+import { Button, XStack, YStack } from "tamagui";
 import FavoriteBooks from "../../../components/organisms/FavoriteBooks.tsx";
-import { StyledText } from "../../../components/atoms/StyledText.tsx";
 import UserActivities from "../../../components/molecules/UserActivities.tsx";
 
 interface TabButtonProps extends ComponentProps<typeof Button> {
@@ -44,7 +42,7 @@ export default function ProfileTabs({ profile }: Props) {
   const [currTab, setCurrTab] = useState("favoriteBooks");
 
   return (
-    <YStack>
+    <YStack style={{ height: "100%" }}>
       <XStack justifyContent="space-between">
         <ProfileTabButton
           value={"favoriteBooks"}

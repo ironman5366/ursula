@@ -12,6 +12,9 @@ https://apple.co/4csWtE0
 
 ## Reference:
 
+- Run local (if you have supabase running locally, in `mobile`): `npm run start:local`
+- Run against prod (in `mobile`): `npm run start:dev`
+- Build: `npm run build:ios`, `npm run build:android`
 - Create a new migration: `npx supabase migration new [name]`
 - Push a migration: `npx supabase db push`
 - Update the types: `npm run write-types`
