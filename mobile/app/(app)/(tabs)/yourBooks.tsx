@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
-import React, { ComponentProps, useState } from "react";
-import { YStack, Text, XStack } from "tamagui";
+import React from "react";
+import { Text, XStack } from "tamagui";
 import RankingList from "../../../pages/RankingList";
 import ReadingList from "../../../pages/ReadingList.tsx";
 import { DefaultHeader } from "../../../components/atoms/DefaultHeader.tsx";
