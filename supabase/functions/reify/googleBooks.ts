@@ -56,7 +56,7 @@ export interface VolumeSearchResponse {
   items: Volume[];
 }
 
-export function findVolume(isbn: number): Promise<VolumeSearchResponse> {
+export function findVolume(isbn: string): Promise<VolumeSearchResponse> {
   return new Promise((resolve, reject) => {
     fetch(`${GOOGLE_BOOKS_API_URL}/?q=isbn:${isbn}`)
       .then(async (resp) => {
