@@ -1,10 +1,7 @@
-ALTER TABLE books RENAME popularity TO popularity_old;
-ALTER TABLE books RENAME popularity_new TO popularity;
-
 CREATE OR REPLACE FUNCTION search_only_books(search_text text) RETURNS SETOF books AS $$
     SELECT * FROM books WHERE plainto_tsquery('english', search_text) @@ to_tsvector('english', extended_search_name)
                         OR plainto_tsquery('english', search_text) @@ to_tsvector('english', title)
-                        ORDER BY popularity DESC
+                        ORDER BY popularity, editions_count DESC
 $$ LANGUAGE sql;
 
 
