@@ -7,11 +7,16 @@ import {
   SupabaseClient,
 } from "https://esm.sh/@supabase/supabase-js";
 import { Database } from "@ursula/shared-types/Database.ts";
+import { Book } from "@ursula/shared-types/derived.ts";
 
 console.log("Hello from Functions!");
 
 interface RequestParams {
   bookId: number;
+}
+
+function checkGoogleBooksData(book: Book) {
+  // Check whether google books has better data with
 }
 
 Deno.serve(async (req) => {
@@ -34,13 +39,12 @@ Deno.serve(async (req) => {
   }
 
   // Fetch the book from the database
-  const { data: book, error } = await supabase
-    .from("books")
-    .select("*")
-    .eq("id", bookId)
-    .single();
+  const { data: editions, error } = await supabase
+    .from("editions")
+    .select("*, books(*)")
+    .eq("book_id", bookId);
 
-  if (error || !book) {
+  if (error || !editions) {
     console.error(error);
     return new Response(JSON.stringify({ error: "Failed to fetch book" }), {
       status: 500,
