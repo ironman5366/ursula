@@ -91,7 +91,7 @@ async function checkGoogleBooksData(
     Array.from(isbns).map((isbn) => findVolume(isbn))
   );
 
-  // Try to fix the book authors and
+  // TODO: finish this
 
   return updatedBook;
 }
