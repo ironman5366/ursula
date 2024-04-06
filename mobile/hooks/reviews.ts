@@ -8,6 +8,7 @@ import { useRemoveFromReadingList } from "./readingList.ts";
 import { useRecordActivity } from "./activities.ts";
 import { ActivityType } from "@ursula/shared-types/Activity.ts";
 import { fetchBook } from "./useBook.ts";
+import { useMarkNotReading } from "./currentlyReading.ts";
 
 interface CreateReviewParams {
   userId: string;
@@ -156,6 +157,7 @@ export function useRank() {
   // and one to remove the book from the reading list
   const profileMutation = useUpdateProfile();
   const readingListMutation = useRemoveFromReadingList();
+  const currentlyReadingMutation = useMarkNotReading();
   const queryClient = useQueryClient();
   const { mutate: recordActivity } = useRecordActivity();
 
@@ -181,6 +183,7 @@ export function useRank() {
           review_ids: newReviews,
         }),
         readingListMutation.mutateAsync(review.book_id),
+        currentlyReadingMutation.mutateAsync(review.book_id),
       ]);
 
       return profile;
