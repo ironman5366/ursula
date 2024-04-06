@@ -19,7 +19,6 @@ interface Props {
 export default function BookDetailPage({ book }: Props) {
   const { data: review } = useUserBookReview(book.id);
   const { data: activities, isLoading } = useBookSocialFeed(book.id);
-  console.log("activities are ", activities);
 
   return (
     <>

@@ -23,6 +23,9 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
       icon={<BookImage book={book} size={imageHeight} />}
       backgroundColor={"transparent"}
       textAlign={"left"}
+      style={{
+        textAlign: "left",
+      }}
     >
       <YStack style={styles.textContainer}>
         <TitleText fontSize={20}>{book.title}</TitleText>
@@ -35,6 +38,7 @@ function BookPreviewRow({ book, imageSize, onPress }: Props, ref) {
 const styles = StyleSheet.create({
   textContainer: {
     flexDirection: "column",
+    textAlign: "left",
     flex: 4,
   },
 });

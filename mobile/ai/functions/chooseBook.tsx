@@ -10,11 +10,15 @@ import { StyledView } from "../../components/organisms/StyledView.tsx";
 export const CHOOSE_BOOK_FUNCTION: LLM.Function = {
   name: "choose_book",
   description:
-    "Provide the name of a book, for example choose_book('Gone with the wind'). Dont include the author or year or any other details in the function parameter.",
+    "Provide the name of a book, optionall including its author. For example " +
+    "choose_book(book='The Great Gatsby') or choose_book(book='The Great Gatsby', author='F. Scott Fitzgerald')",
   parameters: {
     type: "object",
     properties: {
       book: {
+        type: "string",
+      },
+      author: {
         type: "string",
       },
       required: ["book"],
@@ -24,15 +28,18 @@ export const CHOOSE_BOOK_FUNCTION: LLM.Function = {
 
 export async function chooseBook({
   book,
+  author,
 }: {
   book: string;
+  author?: string;
 }): Promise<Book | null> {
-  let bookName = book;
-  // TODO: when search includes authors we can rm this
-  if (bookName.includes(" by ")) {
-    bookName = bookName.split(" by ")[0];
+  console.log(book, author);
+  let query = book;
+  if (author) {
+    query += " " + author;
   }
-  const results = await fetchSearchBooksOnly(book);
+  console.log("Choosing book", query);
+  const results = await fetchSearchBooksOnly(query);
   if (results.length > 0) {
     return results[0];
   } else {
