@@ -8,12 +8,17 @@ import { StyledText } from "../../components/atoms/StyledText.tsx";
 import BookHeader from "./Header.tsx";
 import { ScrollView } from "react-native";
 import MarkReadingButton from "../../app/(app)/bookDetail/MarkReadingButton.tsx";
+import { useUserBookReview } from "../../hooks/reviews.ts";
 
 interface Props {
   book: Book;
 }
 
 export default function BookDetailPage({ book }: Props) {
+  const { data: review, isLoading: isReviewLoading } = useUserBookReview(
+    book.id
+  );
+
   return (
     <>
       <Stack.Screen
@@ -32,9 +37,9 @@ export default function BookDetailPage({ book }: Props) {
           gap="$3"
           flexWrap={"wrap"}
         >
-          <ReadingListButton bookId={book.id} />
+          {!review && <ReadingListButton bookId={book.id} />}
           <ReviewButton bookId={book.id} />
-          <MarkReadingButton book={book} />
+          {!review && <MarkReadingButton book={book} />}
         </XStack>
         <ScrollView>
           <YStack px="$3" py="$3">
