@@ -2,7 +2,7 @@ module.exports = {
   expo: {
     name: "Ursula",
     slug: "ursula",
-    version: "1.1.1",
+    version: "1.2.0",
     orientation: "portrait",
     icon: "./assets/images/logo-192.png",
     scheme: "ursula",
@@ -14,7 +14,7 @@ module.exports = {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      buildNumber: "2",
+      buildNumber: "1",
       icon: "./assets/images/logo-192.png",
       bundleIdentifier: "com.willbeddow.ursula",
       supportsTablet: true,
