@@ -138,8 +138,6 @@ export async function* invokeAnthropic({
 
   const mergedMessages = mergeMessages(transferredMessages);
 
-  console.log(JSON.stringify(mergedMessages, null, 2));
-
   const stream = anthropic.messages.stream({
     model,
     max_tokens: 4096,
