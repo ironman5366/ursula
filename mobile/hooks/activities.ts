@@ -82,3 +82,30 @@ export function useSocialFeed() {
     enabled: !!session?.user.id,
   });
 }
+
+async function fetchBookSocialFeed(
+  userId: string,
+  bookId: number
+): Promise<Activity[]> {
+  const { data, error } = await supabase
+    .rpc("book_social_feed", {
+      for_user_id: userId,
+      for_book_id: bookId,
+    })
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    throw error;
+  }
+
+  return data as Activity[];
+}
+
+export function useBookSocialFeed(bookId: number) {
+  const { session } = useSession();
+  return useQuery({
+    queryFn: () => fetchBookSocialFeed(session.user.id, bookId),
+    queryKey: ["BOOK_SOCIAL_FEED", bookId],
+  });
+}

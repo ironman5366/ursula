@@ -1251,6 +1251,19 @@ export type Database = {
       };
     };
     Functions: {
+      book_social_feed: {
+        Args: {
+          for_user_id: string;
+          for_book_id: number;
+        };
+        Returns: {
+          created_at: string;
+          data: Json;
+          id: number;
+          type: string;
+          user_id: string;
+        }[];
+      };
       delete_bs_author: {
         Args: {
           delete_ol_id: string;
