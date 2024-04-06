@@ -1,5 +1,5 @@
 import { supabase } from "../utils/supabase";
-import { Author } from "../../shared-types/derived";
+import { Author, Book } from "../../shared-types/derived";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchBookAuthors(bookId: number): Promise<Author[]> {
@@ -41,5 +41,25 @@ export function useAuthor(authorId: number) {
   return useQuery({
     queryKey: ["AUTHOR", authorId],
     queryFn: () => fetchAuthor(authorId),
+  });
+}
+
+async function fetchAuthorBooks(authorId: number): Promise<Book[]> {
+  const { data, error } = await supabase
+    .from("book_authors")
+    .select("*, books(*)")
+    .eq("author_id", authorId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.map((d) => d.books);
+}
+
+export function useAuthorBooks(authorId: number) {
+  return useQuery({
+    queryFn: () => fetchAuthorBooks(authorId),
+    queryKey: ["AUTHOR_BOOKS", authorId],
   });
 }

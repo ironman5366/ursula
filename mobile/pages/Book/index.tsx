@@ -23,7 +23,7 @@ export default function BookDetailPage({ book }: Props) {
     <>
       <Stack.Screen
         options={{
-          title: "",
+          title: book.title,
           headerTransparent: true,
         }}
       />
