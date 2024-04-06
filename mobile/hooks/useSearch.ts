@@ -5,7 +5,7 @@ import { Book } from "@ursula/shared-types/derived.ts";
 
 export async function fetchSearchBooksOnly(query: string): Promise<Book[]> {
   const { data, error } = await supabase
-    .rpc("search_only_books", {
+    .rpc("search_only_books_materialized", {
       search_text: query,
     })
     .limit(30);
@@ -14,7 +14,7 @@ export async function fetchSearchBooksOnly(query: string): Promise<Book[]> {
     throw error;
   }
 
-  return data;
+  return data as Book[];
 }
 
 export async function fetchSearchResults(
@@ -22,7 +22,7 @@ export async function fetchSearchResults(
   limit?: number
 ): Promise<SearchResult[]> {
   const { data, error } = await supabase
-    .rpc("search_all", {
+    .rpc("search_all_materialized", {
       search_text: query,
     })
     .limit(limit || 30);

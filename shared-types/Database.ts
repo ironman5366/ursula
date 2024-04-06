@@ -163,6 +163,20 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_authors_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_authors_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -246,6 +260,20 @@ export type Database = {
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_subjects_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "book_subjects_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
             referencedColumns: ["id"];
           },
           {
@@ -373,6 +401,20 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "currently_reading_items_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "currently_reading_items_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "fk_currently_reading_items_book_id";
             columns: ["legacy_book_id"];
             isOneToOne: false;
@@ -492,6 +534,20 @@ export type Database = {
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "editions_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "editions_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
             referencedColumns: ["id"];
           }
         ];
@@ -636,6 +692,20 @@ export type Database = {
             columns: ["ol_book_id"];
             isOneToOne: false;
             referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "legacy_book_mappings_book_id_fkey";
+            columns: ["ol_book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "legacy_book_mappings_book_id_fkey";
+            columns: ["ol_book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
             referencedColumns: ["id"];
           },
           {
@@ -786,6 +856,20 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "ol_ratings_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_ratings_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "ol_ratings_edition_id_fkey";
             columns: ["edition_id"];
             isOneToOne: false;
@@ -835,6 +919,20 @@ export type Database = {
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_reading_log_items_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ol_reading_log_items_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
             referencedColumns: ["id"];
           },
           {
@@ -965,6 +1063,20 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reading_list_items_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reading_list_items_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -1069,6 +1181,20 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "books";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "recommendations_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "recommendations_ol_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -1127,6 +1253,20 @@ export type Database = {
             columns: ["book_id"];
             isOneToOne: false;
             referencedRelation: "books";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_books_search";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_book_id_fkey";
+            columns: ["book_id"];
+            isOneToOne: false;
+            referencedRelation: "v_materialized_books_search";
             referencedColumns: ["id"];
           }
         ];
@@ -1249,6 +1389,56 @@ export type Database = {
         };
         Relationships: [];
       };
+      v_books_search: {
+        Row: {
+          id: number | null;
+          subtitle: string | null;
+          title: string | null;
+          v_extended_search_name: string | null;
+        };
+        Insert: {
+          id?: number | null;
+          subtitle?: string | null;
+          title?: string | null;
+          v_extended_search_name?: never;
+        };
+        Update: {
+          id?: number | null;
+          subtitle?: string | null;
+          title?: string | null;
+          v_extended_search_name?: never;
+        };
+        Relationships: [];
+      };
+      v_materialized_books_search: {
+        Row: {
+          alternate_titles: string[] | null;
+          book_key: string | null;
+          covers: number[] | null;
+          description: string | null;
+          dewey_numbers: string[] | null;
+          editions_count: number | null;
+          excerpts: string[] | null;
+          extended_search_name: string | null;
+          id: number | null;
+          large_cover_key: string | null;
+          last_cover_update: string | null;
+          last_reified_at: string | null;
+          lc_classifications: string[] | null;
+          links: Json | null;
+          medium_cover_key: string | null;
+          ol_id: string | null;
+          popularity: number | null;
+          popularity_new: number | null;
+          rating_count: number | null;
+          reading_count: number | null;
+          small_cover_key: string | null;
+          subtitle: string | null;
+          title: string | null;
+          v_extended_search_name: string | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       book_social_feed: {
@@ -1290,6 +1480,19 @@ export type Database = {
         }[];
       };
       search_all: {
+        Args: {
+          search_text: string;
+        };
+        Returns: {
+          entity_id_numeric: number;
+          entity_id_uuid: string;
+          entity_type: string;
+          result_field: string;
+          search_field: string;
+          order_key: number;
+        }[];
+      };
+      search_all_materialized: {
         Args: {
           search_text: string;
         };
@@ -1361,6 +1564,12 @@ export type Database = {
           subtitle: string | null;
           title: string;
         }[];
+      };
+      search_only_books_materialized: {
+        Args: {
+          search_text: string;
+        };
+        Returns: unknown[];
       };
       social_feed: {
         Args: {
