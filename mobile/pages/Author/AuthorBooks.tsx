@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function AuthorBooks({ authorId }: Props) {
-  console.log("authorId", authorId);
   const { data: books, isLoading } = useAuthorBooks(authorId);
 
   if (isLoading) {
