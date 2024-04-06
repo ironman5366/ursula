@@ -82,3 +82,5 @@ export function useSocialFeed() {
     enabled: !!session?.user.id,
   });
 }
+
+export function useBookSocialFeed() {}
