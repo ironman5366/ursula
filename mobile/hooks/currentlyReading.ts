@@ -104,3 +104,27 @@ export function useMarkNotReading() {
     },
   });
 }
+
+async function fetchBookIsCurrentlyBeingRead(userId: string, bookId: number) {
+  const { data, error } = await supabase
+    .from("currently_reading_items")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("book_id", bookId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return !!data;
+}
+
+export function useBookIsCurrentlyBeingRead(bookId: number) {
+  const { session } = useSession();
+
+  return useQuery({
+    queryFn: () => fetchBookIsCurrentlyBeingRead(session.user.id, bookId),
+    queryKey: ["CURRENTLY_READING", session.user.id, bookId],
+  });
+}
