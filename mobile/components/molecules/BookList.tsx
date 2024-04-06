@@ -11,6 +11,9 @@ interface Props {
 export default function BookList({ books, replace }: Props) {
   return (
     <FlatList
+      style={{
+        width: "100%",
+      }}
       data={books}
       renderItem={({ item }) => (
         <BookPreviewLinkRow book={item} replace={replace} />

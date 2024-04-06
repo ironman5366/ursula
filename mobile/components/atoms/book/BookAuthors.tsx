@@ -12,7 +12,7 @@ export default function BookAuthors({ bookId }: Props) {
   const { data: authors, isSuccess } = useBookAuthors(bookId);
   if (isSuccess) {
     return (
-      <XStack>
+      <XStack gap={"$2"}>
         {authors?.map((author) => (
           <AuthorLink author={author} key={author.id} />
         ))}

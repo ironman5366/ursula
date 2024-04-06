@@ -54,7 +54,7 @@ async function fetchAuthorBooks(authorId: number): Promise<Book[]> {
     throw error;
   }
 
-  return data.map((d) => d.books);
+  return data.map((d) => d.books).sort((a, b) => b.popularity - a.popularity);
 }
 
 export function useAuthorBooks(authorId: number) {
