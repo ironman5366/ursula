@@ -3,6 +3,7 @@ import LLM from "@ursula/shared-types/llm.ts";
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
@@ -14,7 +15,6 @@ import { useReviews } from "../../hooks/reviews.ts";
 import { useSession } from "../../contexts/SessionContext.ts";
 import LoadingScreen from "../../components/atoms/loaders/LoadingScreen.tsx";
 import { CHOOSE_BOOK_FUNCTION } from "../../ai/functions/chooseBook.tsx";
-import { StyledText } from "../../components/atoms/StyledText.tsx";
 
 export default function ChatPage() {
   const scrollViewRef = useRef<ScrollView>(null);
@@ -75,7 +75,7 @@ export default function ChatPage() {
         style={{
           flex: 0.85,
         }}
-        mb={"$5"}
+        mb={"$6"}
       >
         <ScrollView ref={scrollViewRef} contentContainerStyle={{}}>
           <YStack marginHorizontal="$3">
@@ -102,6 +102,7 @@ export default function ChatPage() {
             onPress={() => {
               addMessage({ content: input, role: "user" });
               setInput("");
+              Keyboard.dismiss();
             }}
             circular
             p="$1"

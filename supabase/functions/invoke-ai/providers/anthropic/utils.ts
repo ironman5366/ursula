@@ -1,22 +1,11 @@
 import { create } from "npm:xmlbuilder2@^3.1.1";
-import { FunctionCalls } from "./types.ts";
 
 export function jsonToXml(jsonObj: any, rootName: string = "root"): string {
-  const xml = create({ version: "1.0" })
-    .ele(rootName)
-    .ele(jsonObj)
-    .end({ prettyPrint: true });
-
-  return xml;
+  const str = create().ele(rootName).ele(jsonObj).end({ prettyPrint: true });
+  // Strip the <xml> tags from the beginning and end.
+  // We shouldn't have to do this, but I can't get the headless flag to
+  // play nice
+  const afterFirst = str.split(">").splice(1).join(">");
+  const remaining = afterFirst.split("<");
+  return remaining.splice(0, remaining.length - 1).join("<");
 }
-
-// export function genFunctionXml(tool_name: string, parameters:  Parameter | Parameter[]) {
-//   const functionCalls: FunctionCalls = {
-//     invoke: {
-//       tool_name,
-//       parameters: parameters,
-//     },
-//   };
-
-//   return jsonToXml(functionCalls, 'function_calls');
-// }
