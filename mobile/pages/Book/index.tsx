@@ -19,6 +19,7 @@ interface Props {
 export default function BookDetailPage({ book }: Props) {
   const { data: review } = useUserBookReview(book.id);
   const { data: activities, isLoading } = useBookSocialFeed(book.id);
+  console.log("activities are ", activities);
 
   return (
     <>
@@ -43,13 +44,13 @@ export default function BookDetailPage({ book }: Props) {
           {!review && <MarkReadingButton book={book} />}
         </XStack>
         <ScrollView>
-          <YStack px="$3" py="$3" gap={"$5"} alignItems={"center"}>
+          <YStack px="$3" py="$3" gap={"$2"} alignItems={"center"}>
             <StyledText>{book.description}</StyledText>
             {isLoading && <ActivityIndicator size={"small"} />}
-            {Array.isArray(activities) && activities.length > 1 && (
+            {Array.isArray(activities) && activities.length >= 1 && (
               <>
                 <Text fontSize={"$5"} fontWeight={"bold"}>
-                  What Your Friends Are Saying
+                  Your Friends
                 </Text>
                 <ActivityFeed activities={activities} />
               </>
